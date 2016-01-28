@@ -1,0 +1,10 @@
+# BIG Browser
+An offline and graphical implementation of genome viewer.
+
+
+Clone the repo:
+
+        git clone git@github.com:BIG-Tools/BigBrowser
+
+
+
