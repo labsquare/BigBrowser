@@ -4,26 +4,45 @@
 #include <QFile>
 #include "region.h"
 namespace big {
+
+class RegionQuery {
+public:
+    QString chromosom;
+    int start;
+    int end;
+};
+
 class AbstractRegionReader
 {
 
 public:
     AbstractRegionReader(const QString& filename);
+    AbstractRegionReader(QIODevice * device);
 
-    virtual Region region(int row) = 0;
-    virtual int count() = 0;
+    // Get next region. Use region() to get it
+    virtual bool next() = 0;
 
-    bool open(QIODevice::OpenMode mode);
-    void close();
+    // Set Query. Get range from this query
+    void setQuery(const QString& chromosom, int start, int end);
+    void setQuery(const RegionQuery& query);
 
-    QFile * device();
+    // Get current region. Use next, to get the next one iteratively.
+   const Region& region();
+
+
+protected:
+    QIODevice * device();
+    const RegionQuery& query() const;
+    void setRegion(const Region& region);
+
 
 
 
 
 private:
-    QFile mFile;
-
+    QIODevice * mDevice;
+    Region mRegion;
+    RegionQuery mQuery;
 
 
 

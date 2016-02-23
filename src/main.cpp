@@ -10,13 +10,14 @@ int main(int argc, char *argv[])
 
 
 
-    big::BedReader reader("/home/bioinfo/Dev/BigBrowser/knownGene.hg18.chr21.bed");
+    big::BedReader reader("file.bed");
 
-    if (reader.open(QIODevice::ReadOnly))
+    reader.setQuery("chr3", 10, 1000);
+
+    while (reader.next())
     {
-        reader.region(0);
+        qDebug()<<reader.region().chromosom();
     }
-
 
 
 

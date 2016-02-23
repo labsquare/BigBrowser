@@ -8,19 +8,15 @@ BedReader::BedReader(const QString &filename)
     :AbstractRegionReader(filename)
 {
 
-    mStream.setDevice(device());
 
 }
 
-Region BedReader::region(int row)
+bool BedReader::next()
 {
 
 
+    return false;
 
-}
-
-int BedReader::count()
-{
 
 }
 

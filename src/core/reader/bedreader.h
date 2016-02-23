@@ -11,9 +11,10 @@ class BedReader : public AbstractRegionReader
 public:
     BedReader(const QString& filename);
 
+    virtual bool next() Q_DECL_OVERRIDE;
 
-     Region region(int row)  Q_DECL_OVERRIDE ;
-     int count()   Q_DECL_OVERRIDE;
+
+
 
 private:
      QTextStream mStream;
