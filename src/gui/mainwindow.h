@@ -3,8 +3,11 @@
 
 #include <QMainWindow>
 #include <QtWidgets>
+#include <QSplitter>
 #include "maintoolbar.h"
-
+#include "statusbar.h"
+#include "tracklistwidget.h"
+#include "chromosomwidget.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,6 +21,10 @@ protected:
 private:
     QMenuBar * mMenuBar;
     MainToolBar * mMainToolBar;
+    StatusBar * mStatusBar;
+    ChromosomWidget * mchromosomWidget;
+    TrackListWidget * mTrackListWidget;
+
 
 
 };
