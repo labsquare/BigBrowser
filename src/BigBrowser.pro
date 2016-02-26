@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT     += core gui
 CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,4 +15,5 @@ SOURCES += main.cpp
 
 
 
-include("core/reader/reader.pri")
+include("core/core.pri")
+include("gui/gui.pri")
