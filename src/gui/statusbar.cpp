@@ -1,5 +1,7 @@
 #include "statusbar.h"
 #include <QSpacerItem>
+
+namespace big {
 StatusBar::StatusBar(QWidget * parent):
     QStatusBar(parent)
 {
@@ -9,7 +11,8 @@ StatusBar::StatusBar(QWidget * parent):
     mSlider->setMaximumWidth(200);
 
 
-  addPermanentWidget(mSlider);
+    addPermanentWidget(mSlider);
 
 
+}
 }

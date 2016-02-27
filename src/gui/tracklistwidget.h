@@ -2,7 +2,7 @@
 #define TRACKLISTWIDGET_H
 
 #include <QWidget>
-
+namespace big {
 class TrackListWidget : public QWidget
 {
     Q_OBJECT
@@ -14,4 +14,5 @@ signals:
 public slots:
 };
 
+}
 #endif // TRACKLISTWIDGET_H

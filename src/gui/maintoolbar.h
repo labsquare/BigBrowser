@@ -4,6 +4,7 @@
 #include <QToolButton>
 #include <QComboBox>
 #include <QLineEdit>
+namespace big {
 class MainToolBar : public QToolBar
 {
     Q_OBJECT
@@ -17,5 +18,5 @@ private:
 
 
 };
-
+}
 #endif // MAINTOOLBAR_H

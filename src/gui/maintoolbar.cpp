@@ -1,6 +1,6 @@
 #include "maintoolbar.h"
 #include <QSpacerItem>
-
+namespace big {
 MainToolBar::MainToolBar(QWidget * parent):
     QToolBar(parent)
 {
@@ -25,4 +25,5 @@ MainToolBar::MainToolBar(QWidget * parent):
     mLocationEdit->setPlaceholderText("chr4:102344342-24234234234");
 
 
+}
 }

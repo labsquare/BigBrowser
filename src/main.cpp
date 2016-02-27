@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
     App::i()->setCurrentGenom("hg19");
 
 
-    QString cytbandPath  = App::i()->currentGenomFilePath("hg19.cytoBand");
-
+    MainWindow w;
+    w.show();
 
     return a.exec();
 }

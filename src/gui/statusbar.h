@@ -2,6 +2,8 @@
 #define STATUSBAR_H
 #include <QStatusBar>
 #include <QSlider>
+
+namespace big {
 class StatusBar : public QStatusBar
 {
     Q_OBJECT
@@ -14,5 +16,6 @@ private:
 
 
 };
+}
 
 #endif // STATUSBAR_H

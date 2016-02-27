@@ -8,6 +8,9 @@
 #include "statusbar.h"
 #include "tracklistwidget.h"
 #include "chromosomwidget.h"
+
+namespace big {
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,8 +28,8 @@ private:
     ChromosomWidget * mchromosomWidget;
     TrackListWidget * mTrackListWidget;
 
-
-
 };
+
+}
 
 #endif // MAINWINDOW_H

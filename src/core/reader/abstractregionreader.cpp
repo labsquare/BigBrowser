@@ -24,12 +24,29 @@ qint64 AbstractRegionReader::currentLine() const
 void AbstractRegionReader::reset()
 {
     setCurrentLine(0);
-    mDevice->seek(0);
+    if (mDevice->isOpen())
+        mDevice->seek(0);
 }
 
 const Region &AbstractRegionReader::region() const
 {
     return  mRegion;
+}
+
+RegionList AbstractRegionReader::regions()
+{
+
+    if (!device()->isOpen())
+        device()->open(QIODevice::ReadOnly);
+
+    RegionList list;
+    while (next())
+    {
+        list.append(region());
+    }
+
+    device()->close();
+    return list;
 }
 
 

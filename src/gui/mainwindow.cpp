@@ -1,5 +1,6 @@
 #include "mainwindow.h"
-
+#include "app.h"
+namespace big {
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 
@@ -20,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     setCentralWidget(centralSplitter);
 
+    mchromosomWidget->loadCytoBand(App::i()->currentGenomFilePath("hg19.cytoBand"));
+
+
 
     resize(1000,600);
 
@@ -33,5 +37,5 @@ void MainWindow::setupMenuBar()
 
 
 }
-
+}
 

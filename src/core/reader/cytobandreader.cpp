@@ -19,10 +19,6 @@ bool CytobandReader::next()
         device()->open(QIODevice::ReadOnly);
 
 
-    if (mStream.atEnd()){
-        device()->close();
-        return false;
-    }
 
 
     QStringList items = mStream.readLine().split("\t");
@@ -30,12 +26,18 @@ bool CytobandReader::next()
     Region region;
     region.setChromosom(items.at(0));
     region.setPos(items.at(1).toInt());
-    region.setLength(items.at(2).toInt());
+    region.setLength(items.at(2).toInt() - region.pos());
     region.setName(items.at(3));
+    region.addData("stain",items.at(4));
     region.addData("stain",items.at(4));
 
     setRegion(region);
     setCurrentLine(currentLine()+1);
+
+    if (mStream.atEnd()){
+        device()->close();
+        return false;
+    }
 
     return true;
 
