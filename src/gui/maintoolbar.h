@@ -14,6 +14,7 @@ public:
 
 private:
     QComboBox * mGenomComboBox;
+    QComboBox * mChromosomComboBox;
     QLineEdit * mLocationEdit;
 
 
