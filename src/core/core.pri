@@ -4,8 +4,8 @@ INCLUDEPATH += $$PWD
 include("reader/reader.pri")
 
 HEADERS += \
-    $$PWD/bigbrowser.h
+    $$PWD/app.h
 
 SOURCES += \
-    $$PWD/bigbrowser.cpp
+    $$PWD/app.cpp
 

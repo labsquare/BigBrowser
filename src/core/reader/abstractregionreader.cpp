@@ -2,52 +2,52 @@
 
 namespace big {
 
-AbstractRegionReader::AbstractRegionReader(const QString& filename)
-{
 
-    mDevice = new QFile(filename);
-    setQuery("",0,0);
-
-}
 
 AbstractRegionReader::AbstractRegionReader(QIODevice *device)
+    :mCurrentLine(0), mDevice(device)
 {
-    mDevice = device;
-    setQuery("",0,0);
+
 }
 
-void AbstractRegionReader::setQuery(const QString &chromosom, int start, int end)
+AbstractRegionReader::AbstractRegionReader(const QString &filename)
+    :mCurrentLine(0), mDevice(new QFile(filename))
 {
-    RegionQuery q;
-    q.chromosom = chromosom;
-    q.start = start;
-    q.end = end;
-    setQuery(q);
+
 }
 
-void AbstractRegionReader::setQuery(const RegionQuery &query)
+qint64 AbstractRegionReader::currentLine() const
 {
-    mQuery = query;
+    return mCurrentLine;
 }
 
-const Region &AbstractRegionReader::region()
+void AbstractRegionReader::reset()
+{
+    setCurrentLine(0);
+    mDevice->seek(0);
+}
+
+const Region &AbstractRegionReader::region() const
 {
     return  mRegion;
 }
+
+
 
 QIODevice *AbstractRegionReader::device()
 {
     return mDevice;
 }
 
-const RegionQuery &AbstractRegionReader::query() const
-{
-    return mQuery;
-}
 
 void AbstractRegionReader::setRegion(const Region &region)
 {
     mRegion = region;
+}
+
+void AbstractRegionReader::setCurrentLine(qint64 line)
+{
+    mCurrentLine = line;
 }
 
 }

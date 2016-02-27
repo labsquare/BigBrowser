@@ -9,25 +9,19 @@ Region::Region()
 
 }
 
-Region::Region(const QString &chromosom, int start, int end)
+Region::Region(const QString &chromosom, qint64 pos, qint64 length)
 {
     setChromosom(chromosom);
-    setRange(start, end);
+
+
 }
 
-Region::Region(const QString &expression)
+const QString &Region::name() const
 {
-    QRegularExpression re("(\\d+):(\\d+)-(\\d+)");
-    QRegularExpressionMatch match = re.match(expression);
-
-    if (match.isValid())
-    {
-        setChromosom(match.captured(1));
-        setRange(match.captured(2).toInt(),  match.captured(3).toInt());
-    }
-    else {
-        qDebug()<<Q_FUNC_INFO<<"bad expression";
-    }
+    if (mName.isEmpty())
+        return mChrom;
+    else
+        return mName;
 }
 
 const QString &Region::chromosom() const
@@ -35,24 +29,29 @@ const QString &Region::chromosom() const
     return mChrom;
 }
 
-int Region::pos() const
+qint64 Region::pos() const
 {
     return mPos;
 }
 
-int Region::length() const
+qint64 Region::length() const
 {
     return mLength;
 }
 
-int Region::start() const
+qint64 Region::first() const
 {
     return pos();
 }
 
-int Region::end() const
+qint64 Region::last() const
 {
-    return pos() + length();
+    return pos() + length() - 1;
+}
+
+void Region::setName(const QString &name)
+{
+    mName = name;
 }
 
 void Region::setChromosom(const QString &chromosom)
@@ -60,24 +59,14 @@ void Region::setChromosom(const QString &chromosom)
     mChrom = chromosom;
 }
 
-void Region::setPos(int pos)
+void Region::setPos(qint64 pos)
 {
     mPos = pos;
 }
 
-void Region::setLength(int length)
+void Region::setLength(qint64 length)
 {
     mLength = length;
-}
-
-void Region::setRange(int start, int end)
-{
-    // Correct if order are wrong ...
-    int s = qMin(start, end);
-    int e = qMax(start,end);
-
-    setPos(s);
-    setLength(e-s);
 }
 
 
@@ -95,6 +84,34 @@ void Region::clearData()
 {
 
     mDatas.clear();
+}
+
+Region Region::fromBed(const QString &chrom, qint64 chromStart, qint64 chromEnd)
+{
+    Region region;
+    region.setChromosom(chrom);
+    region.setPos(chromStart);
+    region.setLength(chromEnd - chromStart);
+    return region;
+}
+
+Region Region::fromBed(const QString &expression)
+{
+    QRegularExpression re("(\\d+):(\\d+)-(\\d+)");
+    QRegularExpressionMatch match = re.match(expression);
+    Region region;
+
+    if (match.isValid())
+    {
+        region.setChromosom(match.captured(1));
+        region.setPos(match.captured(2).toInt());
+        region.setLength(region.pos() - match.captured(3).toInt());
+    }
+    else {
+        qDebug()<<Q_FUNC_INFO<<"bad expression";
+    }
+
+    return region;
 }
 
 }

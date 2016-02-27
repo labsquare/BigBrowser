@@ -1,37 +1,51 @@
 #ifndef ABSTRACTREGIONREADER_H
 #define ABSTRACTREGIONREADER_H
 #include <QObject>
-#include <QFile>
+#include <QIODevice>
 #include "region.h"
 namespace big {
 
-class RegionQuery {
-public:
-    QString chromosom;
-    int start;
-    int end;
-};
 
 class AbstractRegionReader
 {
 
 public:
-    AbstractRegionReader(const QString& filename);
     AbstractRegionReader(QIODevice * device);
+    AbstractRegionReader(const QString& filename);
 
-    virtual bool next() = 0;
+    /*!
+     * \brief currentLine
+     * \return the current line number of reader
+     */
+    qint64 currentLine() const;
 
-    void setQuery(const QString& chromosom, int start, int end);
-    void setQuery(const RegionQuery& query);
+    /*!
+     * \brief reset
+     *
+     * Reset current internal state to 0. Current Line will be set to 0
+     */
+    virtual void reset();
 
-   const Region& region();
+
+    /*!
+    * \brief region
+    * \return current Region according to the current line
+    */
+   const Region &region() const;
+
+   /*!
+    * \brief next
+    *
+    * iter to the next line and set the new region
+    * \return True if success. If the end of file is reach , return false
+    */
+   virtual bool next() = 0;
 
 
 protected:
     QIODevice * device();
-    const RegionQuery& query() const;
     void setRegion(const Region& region);
-
+    void setCurrentLine(qint64 line);
 
 
 
@@ -39,7 +53,7 @@ protected:
 private:
     QIODevice * mDevice;
     Region mRegion;
-    RegionQuery mQuery;
+    qint64 mCurrentLine;
 
 
 
