@@ -17,6 +17,10 @@ ChromosomWidget::ChromosomWidget(QWidget * parent)
     mStains["gvar"] = Qt::red;
     mStains["acen"] = Qt::red;
 
+     mSelectorMin = 200;
+     mSelectorMax = 600;
+
+
 
 
 
@@ -42,6 +46,18 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
     painter.drawRect(rect());
 
     drawChromosom(&painter);
+
+
+    QBrush areaBrush(QColor(255,0,0,200));
+    areaBrush.setStyle(Qt::Dense6Pattern);
+    painter.setBrush(areaBrush);
+
+    QRect selector;
+    selector.setLeft(mSelectorMin);
+    selector.setRight(mSelectorMax);
+    selector.setHeight(height());
+
+    painter.drawRect(selector);
 
 
 

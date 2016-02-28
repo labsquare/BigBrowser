@@ -20,6 +20,8 @@ public:
     ChromosomWidget(QWidget * parent = 0);
 
 
+
+
 public Q_SLOTS:
 void loadCytoBand(const QString& filename);
 
@@ -34,6 +36,10 @@ private:
     RegionList mRegionList;
     QHash<QString, QList<Region> > mChromosoms;
     QHash<QString, QColor> mStains;
+
+    int mSelectorMin;
+    int mSelectorMax;
+
 
 
 };

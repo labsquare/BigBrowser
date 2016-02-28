@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
     qDebug()<<genom.filename()<<" "<<genom.name();
 
 
+    MainWindow win ;
+    win.show();
 
 
     return a.exec();

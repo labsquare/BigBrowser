@@ -5,7 +5,16 @@ namespace big {
 namespace core {
 Sequence::Sequence(const QByteArray &seq)
 {
+    setSequence(seq);
+}
 
+Sequence::Sequence()
+{
+}
+
+void Sequence::setSequence(const QByteArray &seq)
+{
+    mSeq(seq)
 }
 
 QString Sequence::toString() const
@@ -37,16 +46,16 @@ Sequence Sequence::backTranscribe() const
 
 Sequence Sequence::fromFasta(const QString &filename)
 {
-       QFile file(filename);
+    QFile file(filename);
 
-       if ( file.open(QIODevice::ReadOnly))
-       {
-            QTextStream stream(&file);
+    if ( file.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file);
 
-            // Process fasta
-       }
+        // Process fasta
+    }
 
-       // Return Sequence
+    // Return Sequence
 }
 
 }}
