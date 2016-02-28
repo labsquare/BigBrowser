@@ -12,6 +12,10 @@ class Sequence
 {
 public:
     Sequence(const QByteArray& seq);
+    Sequence();
+
+    void setSequence(const QByteArray& seq);
+
     QString toString() const;
 
     /*!

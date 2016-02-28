@@ -14,7 +14,7 @@ Sequence::Sequence()
 
 void Sequence::setSequence(const QByteArray &seq)
 {
-    mSeq(seq)
+    mSeq = seq;
 }
 
 QString Sequence::toString() const
