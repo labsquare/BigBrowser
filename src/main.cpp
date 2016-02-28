@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "cytobandreader.h"
 #include "sequence.h"
+#include "genom.h"
 using namespace big;
 
 int main(int argc, char *argv[])
@@ -14,11 +15,12 @@ int main(int argc, char *argv[])
     App::i()->setCurrentGenom("hg19");
 
 
-    Sequence seq("ACGTGGCT");
+    Genom genom(App::i()->currentGenomFilePath("hg19.fa"));
+
+    qDebug()<<genom.filename()<<" "<<genom.name();
 
 
-//    MainWindow w;
-//    w.show();
+
 
     return a.exec();
 }
