@@ -3,6 +3,7 @@
 #include "app.h"
 #include "mainwindow.h"
 #include "cytobandreader.h"
+#include "sequence.h"
 using namespace big;
 
 int main(int argc, char *argv[])
@@ -13,8 +14,11 @@ int main(int argc, char *argv[])
     App::i()->setCurrentGenom("hg19");
 
 
-    MainWindow w;
-    w.show();
+    Sequence seq("ACGTGGCT");
+
+
+//    MainWindow w;
+//    w.show();
 
     return a.exec();
 }
