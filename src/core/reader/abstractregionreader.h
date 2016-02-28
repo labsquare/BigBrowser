@@ -7,7 +7,9 @@
 namespace big {
 namespace core {
 
-
+/*!
+ * \brief Base class of all file Region Reader
+ */
 class AbstractRegionReader
 {
 

@@ -5,6 +5,9 @@
 
 namespace big {
 namespace core {
+/*!
+ * \brief Contains DNA sequence in IUPAC Format
+ */
 class Sequence
 {
 public:

@@ -4,6 +4,10 @@
 #include <QObject>
 namespace big {
 namespace core {
+
+/*!
+ * \brief Singleton class containing database path acccessor and settings of the application
+ */
 class App : public QObject
 {
     Q_OBJECT

@@ -4,6 +4,9 @@
 #include "sequence.h"
 namespace big {
 namespace core {
+/*!
+ * \brief Describe a genom
+ */
 class Genom
 {
 public:

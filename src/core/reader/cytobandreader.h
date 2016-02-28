@@ -4,6 +4,10 @@
 #include <QTextStream>
 namespace big {
 namespace core {
+
+/*!
+ * \brief Region reader for Cytoband file
+ */
 class CytobandReader: public AbstractRegionReader
 {
 public:

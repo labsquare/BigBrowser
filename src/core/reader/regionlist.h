@@ -4,6 +4,10 @@
 #include "region.h"
 namespace big {
 namespace core {
+
+/*!
+ * \brief List of Region
+ */
 class RegionList : public QList<Region>
 {
 public:
