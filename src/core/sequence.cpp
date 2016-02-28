@@ -48,11 +48,14 @@ Sequence Sequence::fromFasta(const QString &filename)
 {
     QFile file(filename);
 
+    // Do not load big fasta file
+
     if ( file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);
 
         // Process fasta
+        // setSequence
     }
 
     // Return Sequence
