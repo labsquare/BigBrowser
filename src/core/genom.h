@@ -3,6 +3,7 @@
 #include <QtCore>
 #include "sequence.h"
 namespace big {
+namespace core {
 class Genom
 {
 public:
@@ -64,5 +65,5 @@ private:
 
 
 };
-}
+}}
 #endif // GENOM_H

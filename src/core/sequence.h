@@ -4,6 +4,7 @@
 #include <QtCore>
 
 namespace big {
+namespace core {
 class Sequence
 {
 public:
@@ -48,6 +49,6 @@ private:
     QByteArray mSeq;
 };
 
-}
+}}
 
 #endif // SEQUENCE_H

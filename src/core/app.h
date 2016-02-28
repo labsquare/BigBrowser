@@ -3,6 +3,7 @@
 
 #include <QObject>
 namespace big {
+namespace core {
 class App : public QObject
 {
     Q_OBJECT
@@ -52,5 +53,5 @@ private:
 
 
 };
-}
+}}
 #endif // BIGBROWSER_H

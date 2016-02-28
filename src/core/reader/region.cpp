@@ -2,7 +2,7 @@
 #include <QRegularExpression>
 #include <QDebug>
 namespace big {
-
+namespace core {
 Region::Region()
     :mPos(0),mLength(0)
 {
@@ -114,4 +114,4 @@ Region Region::fromBed(const QString &expression)
     return region;
 }
 
-}
+}}

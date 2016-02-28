@@ -5,7 +5,7 @@
 #include "region.h"
 #include "regionlist.h"
 namespace big {
-
+namespace core {
 
 
 class AbstractRegionReader
@@ -73,7 +73,7 @@ private:
 
 
 };
-}
+}}
 
 
 #endif // ABSTRACTREGIONREADER_H

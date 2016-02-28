@@ -1,6 +1,7 @@
 #include "maintoolbar.h"
 #include <QSpacerItem>
 namespace big {
+namespace gui {
 MainToolBar::MainToolBar(QWidget * parent):
     QToolBar(parent)
 {
@@ -29,4 +30,4 @@ MainToolBar::MainToolBar(QWidget * parent):
 
 
 }
-}
+}}

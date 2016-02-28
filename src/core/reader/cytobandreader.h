@@ -3,6 +3,7 @@
 #include "abstractregionreader.h"
 #include <QTextStream>
 namespace big {
+namespace core {
 class CytobandReader: public AbstractRegionReader
 {
 public:
@@ -16,5 +17,5 @@ private:
 
 };
 
-}
+}}
 #endif // CYTOBANDREADER_H

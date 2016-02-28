@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QTextStream>
 namespace big {
+namespace core {
 Sequence::Sequence(const QByteArray &seq)
 {
 
@@ -48,4 +49,4 @@ Sequence Sequence::fromFasta(const QString &filename)
        // Return Sequence
 }
 
-}
+}}

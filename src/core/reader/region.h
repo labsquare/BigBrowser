@@ -3,7 +3,7 @@
 #include <QtCore>
 
 namespace big {
-
+namespace core {
 /*! \class Region
  * \brief Describe a region of dna delimited by chromosom:pos-length
  *
@@ -111,6 +111,6 @@ private:
     QHash<QString, QVariant> mDatas;
 
 };
-}
+}}
 
 #endif // REGION_H

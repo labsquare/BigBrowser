@@ -1,6 +1,7 @@
 #include "genom.h"
 
 namespace big {
+namespace core {
 Genom::Genom(const QString &filename)
     :mFilename(filename)
 {
@@ -46,4 +47,4 @@ void Genom::createIndex()
 
 }
 
-}
+}}

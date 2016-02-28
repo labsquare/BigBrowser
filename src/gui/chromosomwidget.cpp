@@ -2,7 +2,7 @@
 #include "app.h"
 
 namespace big {
-
+namespace gui {
 ChromosomWidget::ChromosomWidget(QWidget * parent)
     :QWidget(parent)
 {
@@ -95,4 +95,4 @@ void ChromosomWidget::drawChromosom(QPainter *painter)
 
 
 
-}
+}}

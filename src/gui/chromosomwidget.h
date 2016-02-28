@@ -9,7 +9,9 @@
 #include <QHash>
 
 namespace big {
+using namespace core;
 
+namespace gui {
 class ChromosomWidget : public QWidget
 {
 
@@ -36,6 +38,6 @@ private:
 
 };
 
-}
+}}
 
 #endif // CHROMOSOMWIDGET_H

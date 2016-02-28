@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QStandardPaths>
 namespace big {
+namespace core {
 App* App::mInstance = nullptr;
 
 App* App::i()
@@ -69,4 +70,4 @@ App::App(QObject *parent) : QObject(parent)
 
 }
 
-}
+}}

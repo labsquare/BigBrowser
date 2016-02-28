@@ -2,6 +2,7 @@
 #include <QSpacerItem>
 
 namespace big {
+namespace gui {
 StatusBar::StatusBar(QWidget * parent):
     QStatusBar(parent)
 {
@@ -15,4 +16,4 @@ StatusBar::StatusBar(QWidget * parent):
 
 
 }
-}
+}}

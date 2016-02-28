@@ -10,7 +10,7 @@
 #include "chromosomwidget.h"
 
 namespace big {
-
+namespace gui {
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -30,6 +30,6 @@ private:
 
 };
 
-}
+}}
 
 #endif // MAINWINDOW_H

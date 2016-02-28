@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "app.h"
 namespace big {
+namespace gui {
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 
@@ -37,5 +38,5 @@ void MainWindow::setupMenuBar()
 
 
 }
-}
+}}
 

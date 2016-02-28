@@ -1,7 +1,7 @@
 #include "abstractregionreader.h"
 
 namespace big {
-
+namespace core {
 
 
 AbstractRegionReader::AbstractRegionReader(QIODevice *device)
@@ -67,4 +67,4 @@ void AbstractRegionReader::setCurrentLine(qint64 line)
     mCurrentLine = line;
 }
 
-}
+}}

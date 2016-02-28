@@ -1,7 +1,7 @@
 #include "cytobandreader.h"
 
 namespace big {
-
+namespace core {
 CytobandReader::CytobandReader(const QString &filename):
     AbstractRegionReader(filename)
 {
@@ -45,4 +45,4 @@ bool CytobandReader::next()
 
 
 
-}
+}}

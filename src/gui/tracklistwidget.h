@@ -3,6 +3,7 @@
 
 #include <QWidget>
 namespace big {
+namespace gui {
 class TrackListWidget : public QWidget
 {
     Q_OBJECT
@@ -14,5 +15,5 @@ signals:
 public slots:
 };
 
-}
+}}
 #endif // TRACKLISTWIDGET_H
