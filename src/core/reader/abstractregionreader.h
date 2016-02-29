@@ -55,6 +55,9 @@ public:
    virtual bool next() = 0;
 
 
+   bool isValid();
+
+
 
 
 protected:

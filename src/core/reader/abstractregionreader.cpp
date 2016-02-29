@@ -49,6 +49,11 @@ RegionList AbstractRegionReader::regions()
     return list;
 }
 
+bool AbstractRegionReader::isValid()
+{
+    return device()->isOpen();
+}
+
 
 
 QIODevice *AbstractRegionReader::device()

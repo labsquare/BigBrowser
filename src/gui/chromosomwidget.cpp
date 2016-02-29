@@ -17,8 +17,8 @@ ChromosomWidget::ChromosomWidget(QWidget * parent)
     mStains["gvar"] = Qt::red;
     mStains["acen"] = Qt::red;
 
-     mSelectorMin = 200;
-     mSelectorMax = 600;
+    mSelectorMin = 200;
+    mSelectorMax = 600;
 
 
 
@@ -29,11 +29,13 @@ ChromosomWidget::ChromosomWidget(QWidget * parent)
 void ChromosomWidget::loadCytoBand(const QString &filename)
 {
     CytobandReader mReader(filename);
-    while (mReader.next())
-    {
-        mChromosoms[mReader.region().chromosom()].append(mReader.region());
-    }
+    if (mReader.isValid()) {
+        while (mReader.next())
+        {
+            mChromosoms[mReader.region().chromosom()].append(mReader.region());
+        }
 
+    }
 
 }
 
@@ -44,6 +46,7 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
     painter.setBrush(Qt::white);
     painter.setPen(Qt::NoPen);
     painter.drawRect(rect());
+
 
     drawChromosom(&painter);
 
@@ -66,45 +69,48 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
 void ChromosomWidget::drawChromosom(QPainter *painter)
 {
 
-    painter->setBrush(Qt::red);
-    qint64 max = mChromosoms["chr1"].last().pos();
+    if (mChromosoms.isEmpty())
+        return;
 
-    int x = 50;
-    int up= 50;
-    foreach ( Region region, mChromosoms["chr1"])
-    {
+        painter->setBrush(Qt::red);
+        qint64 max = mChromosoms["chr1"].last().pos();
 
-        QString stain = region.data("stain").toString();
-        QRect fragment;
-        int w = region.length() * width() / max;
-        int h = 50;
-        if (stain == "acen" || stain == "gvar"){
+        int x = 50;
+        int up= 50;
+        foreach ( Region region, mChromosoms["chr1"])
+        {
 
-            fragment.setTopLeft(QPoint(x,h/2 - 5+up));
-            fragment.setWidth(w);
-            fragment.setHeight(10);
-            x+=1;
+            QString stain = region.data("stain").toString();
+            QRect fragment;
+            int w = region.length() * width() / max;
+            int h = 50;
+            if (stain == "acen" || stain == "gvar"){
+
+                fragment.setTopLeft(QPoint(x,h/2 - 5+up));
+                fragment.setWidth(w);
+                fragment.setHeight(10);
+                x+=1;
+
+            }
+
+            else {
+                fragment.setTopLeft(QPoint(x,up));
+                fragment.setWidth(w);
+                fragment.setHeight(h);
+                x+=w;
+
+            }
+
+
+            painter->setBrush(mStains.value(region.data("stain").toString(),Qt::green));
+            painter->setPen(QPen(Qt::transparent));
+            painter->drawRect(fragment);
+
+            painter->setPen(QPen(Qt::white));
+
+            painter->drawText(fragment, Qt::AlignCenter,region.name());
 
         }
-
-        else {
-            fragment.setTopLeft(QPoint(x,up));
-            fragment.setWidth(w);
-            fragment.setHeight(h);
-            x+=w;
-
-        }
-
-
-        painter->setBrush(mStains.value(region.data("stain").toString(),Qt::green));
-        painter->setPen(QPen(Qt::transparent));
-        painter->drawRect(fragment);
-
-        painter->setPen(QPen(Qt::white));
-
-        painter->drawText(fragment, Qt::AlignCenter,region.name());
-
-    }
 
 
 }
