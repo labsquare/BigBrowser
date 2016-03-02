@@ -8,11 +8,14 @@ AbstractRegionReader::AbstractRegionReader(QIODevice *device)
     :mCurrentLine(0), mDevice(device)
 {
 
+
 }
 
 AbstractRegionReader::AbstractRegionReader(const QString &filename)
     :mCurrentLine(0), mDevice(new QFile(filename))
 {
+
+
 
 }
 

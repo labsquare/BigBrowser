@@ -19,8 +19,6 @@ int main(int argc, char *argv[])
 
     Genom genom(App::i()->currentGenomFilePath("hg19.fa"));
 
-    qDebug()<<genom.filename()<<" "<<genom.name();
-
 
     MainWindow win ;
     win.show();

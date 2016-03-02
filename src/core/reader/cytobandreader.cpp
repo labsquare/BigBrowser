@@ -10,15 +10,16 @@ CytobandReader::CytobandReader(const QString &filename):
     mStream.setDevice(device());
 
 
+
 }
 
 bool CytobandReader::next()
 {
 
-    if (!device()->isOpen())
+    if (!device()->isOpen()){
         device()->open(QIODevice::ReadOnly);
-
-
+        qDebug()<<"success";
+    }
 
 
     QStringList items = mStream.readLine().split("\t");

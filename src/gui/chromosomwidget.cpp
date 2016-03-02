@@ -28,14 +28,17 @@ ChromosomWidget::ChromosomWidget(QWidget * parent)
 
 void ChromosomWidget::loadCytoBand(const QString &filename)
 {
+
     CytobandReader mReader(filename);
-    if (mReader.isValid()) {
+
+
+
         while (mReader.next())
         {
             mChromosoms[mReader.region().chromosom()].append(mReader.region());
         }
 
-    }
+
 
 }
 
