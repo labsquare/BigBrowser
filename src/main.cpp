@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 
     genom.createIndex();
 
+    qDebug()<<genom.sequence("chr1",100, 10).toString();
 
     MainWindow win ;
     win.show();

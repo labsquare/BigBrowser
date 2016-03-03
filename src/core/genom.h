@@ -58,15 +58,22 @@ public:
     /*!
      * \brief createIndex
      *
-     * Create the faidx for the genom. Il may takes some time
+     * Create the faidx for the genom.
+     *
+     * Please read this page, to understand the purpose of this methodes
+     * http://www.htslib.org/doc/faidx.html
      * \todo Threading the process ?
      */
     bool createIndex();
+
+    bool loadIndex();
 
 
 private:
     QString mFilename;
     QString mName;
+
+
 
 
 };
