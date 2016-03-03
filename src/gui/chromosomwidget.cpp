@@ -3,10 +3,14 @@
 
 namespace big {
 namespace gui {
-ChromosomWidget::ChromosomWidget(QWidget * parent)
-    :QWidget(parent)
+ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
+    :QWidget(parent), mCytoBandFileName(filename)
 {
 
+
+
+
+    // Create color map
     QColor base = Qt::lightGray;
 
     mStains["gneg"] = base;
@@ -17,8 +21,7 @@ ChromosomWidget::ChromosomWidget(QWidget * parent)
     mStains["gvar"] = Qt::red;
     mStains["acen"] = Qt::red;
 
-    mSelectorMin = 200;
-    mSelectorMax = 600;
+
 
 
 
@@ -26,21 +29,36 @@ ChromosomWidget::ChromosomWidget(QWidget * parent)
 
 }
 
-void ChromosomWidget::loadCytoBand(const QString &filename)
+void ChromosomWidget::setChromosom(const QString &chromosom)
 {
+    CytobandReader mReader(mCytoBandFileName);
 
-    CytobandReader mReader(filename);
-
-
+    if (mReader.open())
+    {
+        mChromosoms.clear();
 
         while (mReader.next())
         {
-            mChromosoms[mReader.region().chromosom()].append(mReader.region());
+            if (mReader.region().chromosom() == chromosom )
+                mChromosoms.append(mReader.region());
         }
 
+        mRegionSelector.setChromosom(chromosom);
+
+    }
+
+
+    qDebug()<<chromosom<<" "<<mChromosoms.count();
+    update();
 
 
 }
+
+void ChromosomWidget::setRange(qint64 start, qint64 end)
+{
+    mRegionSelector.setRange(start, end);
+}
+
 
 void ChromosomWidget::paintEvent(QPaintEvent *)
 {
@@ -54,16 +72,16 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
     drawChromosom(&painter);
 
 
-    QBrush areaBrush(QColor(255,0,0,200));
-    areaBrush.setStyle(Qt::Dense6Pattern);
-    painter.setBrush(areaBrush);
+    //    QBrush areaBrush(QColor(255,0,0,200));
+    //    areaBrush.setStyle(Qt::Dense6Pattern);
+    //    painter.setBrush(areaBrush);
 
-    QRect selector;
-    selector.setLeft(mSelectorMin);
-    selector.setRight(mSelectorMax);
-    selector.setHeight(height());
+    //    QRect selector;
+    //    selector.setLeft(mSelectorMin);
+    //    selector.setRight(mSelectorMax);
+    //    selector.setHeight(height());
 
-    painter.drawRect(selector);
+    //    painter.drawRect(selector);
 
 
 
@@ -72,15 +90,15 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
 void ChromosomWidget::drawChromosom(QPainter *painter)
 {
 
-    if (mChromosoms.isEmpty())
-        return;
+        if (mChromosoms.isEmpty())
+            return;
 
         painter->setBrush(Qt::red);
-        qint64 max = mChromosoms["chr1"].last().pos();
+        qint64 max = mChromosoms.last().pos();
 
         int x = 50;
         int up= 50;
-        foreach ( Region region, mChromosoms["chr1"])
+        foreach ( Region region, mChromosoms)
         {
 
             QString stain = region.data("stain").toString();

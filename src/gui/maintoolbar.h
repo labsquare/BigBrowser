@@ -12,6 +12,9 @@ class MainToolBar : public QToolBar
 public:
     MainToolBar(QWidget * parent = 0);
 
+Q_SIGNALS:
+    void chromosomeChanged(const QString& chromosom);
+
 
 private:
     QComboBox * mGenomComboBox;

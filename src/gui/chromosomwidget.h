@@ -15,15 +15,19 @@ namespace gui {
 class ChromosomWidget : public QWidget
 {
 
+    Q_OBJECT
 public:
 
-    ChromosomWidget(QWidget * parent = 0);
-
-
-
+    ChromosomWidget(const QString& filename, QWidget * parent = 0);
 
 public Q_SLOTS:
-void loadCytoBand(const QString& filename);
+    void setChromosom(const QString& chromosom);
+    void setRange(qint64 start, qint64 end);
+
+
+
+
+
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -33,12 +37,13 @@ protected:
 
 
 private:
+    QString mCytoBandFileName;
     RegionList mRegionList;
-    QHash<QString, QList<Region> > mChromosoms;
+    QList <Region> mChromosoms;
     QHash<QString, QColor> mStains;
 
-    int mSelectorMin;
-    int mSelectorMax;
+    Region mRegionSelector;
+
 
 
 

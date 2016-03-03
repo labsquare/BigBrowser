@@ -23,6 +23,9 @@ public:
      */
     qint64 currentLine() const;
 
+
+    bool open(QIODevice::OpenMode mode = QIODevice::ReadOnly);
+
     /*!
      * \brief reset
      *

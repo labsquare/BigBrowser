@@ -24,6 +24,11 @@ qint64 AbstractRegionReader::currentLine() const
     return mCurrentLine;
 }
 
+bool AbstractRegionReader::open(QIODevice::OpenMode mode)
+{
+    return mDevice->open(mode);
+}
+
 void AbstractRegionReader::reset()
 {
     setCurrentLine(0);
