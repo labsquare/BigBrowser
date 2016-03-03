@@ -17,7 +17,12 @@ int main(int argc, char *argv[])
     App::i()->setCurrentGenom("hg19");
 
 
-    Genom genom(App::i()->currentGenomFilePath("hg19.fa"));
+    Genom genom(App::i()->currentGenomFilePath("test.fa"));
+
+    qDebug()<<"valid "<<genom.isValid();
+    qDebug()<<"has index "<<genom.hasIndex();
+
+    genom.createIndex();
 
 
     MainWindow win ;

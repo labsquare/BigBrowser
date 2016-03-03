@@ -45,6 +45,8 @@ public:
     const QString& name() const;
     const QString& filename() const;
 
+    bool isValid();
+
     /*!
      * \brief hasIndex
      *
@@ -59,7 +61,7 @@ public:
      * Create the faidx for the genom. Il may takes some time
      * \todo Threading the process ?
      */
-    void createIndex();
+    bool createIndex();
 
 
 private:

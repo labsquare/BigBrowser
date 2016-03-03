@@ -32,6 +32,7 @@ bool CytobandReader::next()
     region.addData("stain",items.at(4));
     region.addData("stain",items.at(4));
 
+
     setRegion(region);
     setCurrentLine(currentLine()+1);
 
