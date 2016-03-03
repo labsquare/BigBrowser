@@ -75,7 +75,7 @@ void ChromosomWidget::drawChromosom(QPainter *painter)
     if (mChromosoms.isEmpty())
         return;
 
-    // Define canvas boudaries
+    // Define some constant & canvas boudaries
     int offsetX = 30;
     int offsetY = 30;
     int chromosomHeight = 50;
