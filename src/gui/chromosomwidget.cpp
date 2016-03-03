@@ -3,10 +3,14 @@
 
 namespace big {
 namespace gui {
-ChromosomWidget::ChromosomWidget(QWidget * parent)
-    :QWidget(parent)
+ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
+    :QWidget(parent), mCytoBandFileName(filename)
 {
 
+
+
+
+    // Create color map
     QColor base = Qt::lightGray;
 
     mStains["gneg"] = base;
@@ -17,8 +21,7 @@ ChromosomWidget::ChromosomWidget(QWidget * parent)
     mStains["gvar"] = Qt::red;
     mStains["acen"] = Qt::red;
 
-    mSelectorMin = 200;
-    mSelectorMax = 600;
+
 
 
 
@@ -26,21 +29,36 @@ ChromosomWidget::ChromosomWidget(QWidget * parent)
 
 }
 
-void ChromosomWidget::loadCytoBand(const QString &filename)
+void ChromosomWidget::setChromosom(const QString &chromosom)
 {
+    CytobandReader mReader(mCytoBandFileName);
 
-    CytobandReader mReader(filename);
-
-
+    if (mReader.open())
+    {
+        mChromosoms.clear();
 
         while (mReader.next())
         {
-            mChromosoms[mReader.region().chromosom()].append(mReader.region());
+            if (mReader.region().chromosom() == chromosom )
+                mChromosoms.append(mReader.region());
         }
 
+        mRegionSelector.setChromosom(chromosom);
+
+    }
+
+
+    qDebug()<<chromosom<<" "<<mChromosoms.count();
+    update();
 
 
 }
+
+void ChromosomWidget::setRange(qint64 start, qint64 end)
+{
+    mRegionSelector.setRange(start, end);
+}
+
 
 void ChromosomWidget::paintEvent(QPaintEvent *)
 {
@@ -54,16 +72,16 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
     drawChromosom(&painter);
 
 
-    QBrush areaBrush(QColor(255,0,0,200));
-    areaBrush.setStyle(Qt::Dense6Pattern);
-    painter.setBrush(areaBrush);
+    //    QBrush areaBrush(QColor(255,0,0,200));
+    //    areaBrush.setStyle(Qt::Dense6Pattern);
+    //    painter.setBrush(areaBrush);
 
-    QRect selector;
-    selector.setLeft(mSelectorMin);
-    selector.setRight(mSelectorMax);
-    selector.setHeight(height());
+    //    QRect selector;
+    //    selector.setLeft(mSelectorMin);
+    //    selector.setRight(mSelectorMax);
+    //    selector.setHeight(height());
 
-    painter.drawRect(selector);
+    //    painter.drawRect(selector);
 
 
 
@@ -76,52 +94,51 @@ void ChromosomWidget::drawChromosom(QPainter *painter)
         return;
 
     // Define canvas boudaries
-    int offsetX = 30;
-    int offsetY = 30;
-    int chromosomHeight = 50;
-    int centromereWidth = 50;
-    float drawCoeff = 0;
+    float offsetX = 30;
+    float offsetY = 30;
+    float chromosomHeight = 50;
+
+    float chromosomWidth = rect().width() - offsetX * 2;
+    qint64 maxBase = mChromosoms.last().last();
+    float drawCoeff = chromosomWidth / maxBase;
+
+    // Init paint objects
+    painter->setBrush(Qt::black);
 
 
-        painter->setBrush(Qt::red);
-        qint64 max = mChromosoms["chr1"].last().pos();
+    foreach ( Region region, mChromosoms)
+    {
+        // Define region
+        QString stain = region.data("stain").toString();
+        QRect fragment;
 
-        int x = 50;
-        int up= 50;
-        foreach ( Region region, mChromosoms["chr1"])
+        float regionWidth = region.length() * drawCoeff;
+        float regionStart = offsetX + region.first() * drawCoeff;
+
+        // Drawing centromere
+        if (stain == "acen" || stain == "gvar")
         {
-
-            QString stain = region.data("stain").toString();
-            QRect fragment;
-            int w = region.length() * width() / max;
-            int h = 50;
-            if (stain == "acen" || stain == "gvar"){
-
-                fragment.setTopLeft(QPoint(x,h/2 - 5+up));
-                fragment.setWidth(w);
-                fragment.setHeight(10);
-                x+=1;
-
-            }
-
-            else {
-                fragment.setTopLeft(QPoint(x,up));
-                fragment.setWidth(w);
-                fragment.setHeight(h);
-                x+=w;
-
-            }
-
-
-            painter->setBrush(mStains.value(region.data("stain").toString(),Qt::green));
-            painter->setPen(QPen(Qt::transparent));
-            painter->drawRect(fragment);
-
-            painter->setPen(QPen(Qt::white));
-
-            painter->drawText(fragment, Qt::AlignCenter,region.name());
-
+            fragment.setTopLeft(QPoint(regionStart, offsetY + chromosomHeight / 2 - 5));
+            fragment.setWidth(regionWidth);
+            fragment.setHeight(10);
         }
+        // Drawing region
+        else
+        {
+            fragment.setTopLeft(QPoint(regionStart,offsetY));
+            fragment.setWidth(regionWidth);
+            fragment.setHeight(chromosomHeight);
+        }
+
+        // Draw region label
+        painter->setBrush(mStains.value(region.data("stain").toString(),Qt::green));
+        painter->setPen(QPen(Qt::transparent));
+        painter->drawRect(fragment);
+
+        painter->setPen(QPen(Qt::white));
+        painter->drawText(fragment, Qt::AlignCenter,region.name());
+
+    }
 
 
 }

@@ -49,6 +49,12 @@ qint64 Region::last() const
     return pos() + length() - 1;
 }
 
+void Region::setRange(qint64 start, qint64 end)
+{
+    setPos(start);
+    setLength(end - start);
+}
+
 void Region::setName(const QString &name)
 {
     mName = name;

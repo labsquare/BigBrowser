@@ -60,6 +60,8 @@ public:
      */
     qint64 last() const;
 
+    void setRange(qint64 start, qint64 end);
+
     void setName(const QString& name);
 
     /*!

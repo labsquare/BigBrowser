@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mMenuBar         = new QMenuBar();
     mMainToolBar     = new MainToolBar();
     mStatusBar       = new StatusBar();
-    mchromosomWidget = new ChromosomWidget();
+    mchromosomWidget = new ChromosomWidget(App::i()->currentGenomFilePath("hg19.cytoBand"));
     mTrackListWidget = new TrackListWidget();
 
     setMenuBar(mMenuBar);
@@ -22,13 +22,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     setCentralWidget(centralSplitter);
 
-    mchromosomWidget->loadCytoBand(App::i()->currentGenomFilePath("hg19.cytoBand"));
-
+    mchromosomWidget->setChromosom("chr1");
 
 
     resize(1000,600);
 
     setupMenuBar();
+
+    connect(mMainToolBar,SIGNAL(chromosomeChanged(QString)),mchromosomWidget,SLOT(setChromosom(QString)));
 }
 
 void MainWindow::setupMenuBar()
