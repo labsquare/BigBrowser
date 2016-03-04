@@ -4,6 +4,7 @@
 #include <QToolButton>
 #include <QComboBox>
 #include <QLineEdit>
+
 namespace big {
 namespace gui {
 class MainToolBar : public QToolBar
@@ -14,6 +15,10 @@ public:
 
 Q_SIGNALS:
     void chromosomeChanged(const QString& chromosom);
+
+protected:
+    void createActions();
+    void loadChromosom();
 
 
 private:

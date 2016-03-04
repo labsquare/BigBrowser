@@ -5,9 +5,9 @@ namespace gui {
 MainToolBar::MainToolBar(QWidget * parent):
     QToolBar(parent)
 {
-    mGenomComboBox = new QComboBox();
+    mGenomComboBox     = new QComboBox();
     mChromosomComboBox = new QComboBox();
-    mLocationEdit= new QLineEdit();
+    mLocationEdit      = new QLineEdit();
 
     mGenomComboBox->addItem("Hg19");
     mChromosomComboBox->addItem("chr1");
@@ -39,8 +39,6 @@ MainToolBar::MainToolBar(QWidget * parent):
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 
-    addAction("test");
-
     addWidget(spacer);
     addWidget(mGenomComboBox);
     addWidget(mChromosomComboBox);
@@ -53,6 +51,17 @@ MainToolBar::MainToolBar(QWidget * parent):
 
     connect(mChromosomComboBox,SIGNAL(activated(QString)), this,SIGNAL(chromosomeChanged(QString)));
 
+
+}
+
+void MainToolBar::createActions()
+{
+    QAction * showChromosomAction = addAction("show chrom");
+
+}
+
+void MainToolBar::loadChromosom()
+{
 
 }
 }}

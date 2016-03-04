@@ -2,6 +2,9 @@
 #define GENOM_H
 #include <QtCore>
 #include "sequence.h"
+#include "region.h"
+#include "cytobandreader.h"
+
 namespace big {
 namespace core {
 /*!
@@ -10,7 +13,20 @@ namespace core {
 class Genom
 {
 public:
+    /*!
+     * \brief The FileType enum contains 3 kind of file to work with genom
+     * GenomFile is the fasta file. hg19.fa
+     * IndexFile is the fasta index file .  hg19.fa.fai
+     * CytobandFile contains band regions. hg19.cytoBand
+     */
+    enum FileType {
+        GenomFile    = 0x0000,
+        IndexFile    = 0x0001,
+        CytobandFile = 0x0002,
+    };
+
     Genom(const QString& filename);
+
 
     /*!
      * \brief chromosomCount
@@ -24,6 +40,14 @@ public:
      * \return the length of chromosom
      */
     int chromosomLength(const QString& chromosom);
+
+    /*!
+     * \brief cytoBand
+     * Return cytoband according chromosom name
+     * \param chromosom
+     * \return list of Region
+     */
+    RegionList cytoBand(const QString& chromosom);
 
 
     /*!
@@ -43,7 +67,8 @@ public:
      * \return the genom name
      */
     const QString& name() const;
-    const QString& filename() const;
+    const QString& filename(FileType type = Genom::GenomFile) const;
+
 
     bool isValid();
 
@@ -56,6 +81,12 @@ public:
     bool hasIndex();
 
     /*!
+     * \brief hasCytoband
+     * \return if cytoband file exists
+     */
+    bool hasCytoband();
+
+    /*!
      * \brief createIndex
      *
      * Create the faidx for the genom.
@@ -66,12 +97,17 @@ public:
      */
     bool createIndex();
 
-    bool loadIndex();
+protected:
+    void loadChromosoms();
 
 
 private:
     QString mFilename;
+    QString mIndexFilename;
+    QString mCytobandFilename;
     QString mName;
+    // each chromosom have name and size
+    QHash<QByteArray, qint64> mChromosoms;
 
 
 

@@ -8,17 +8,46 @@ Genom::Genom(const QString &filename)
     :mFilename(filename)
 {
     QFileInfo info(filename);
-    mName = info.baseName();
+
+    mName             = info.baseName();
+    mIndexFilename    = mFilename+".fai";
+    mCytobandFilename = info.absoluteDir().filePath(mName+".cytoBand");
+
+    loadChromosoms();
+
 }
 
 int Genom::chromosomCount()
 {
-
+    return mChromosoms.count();
 }
 
 int Genom::chromosomLength(const QString &chromosom)
 {
+    // return chromosom length . -1 if name is wrong
+    return mChromosoms.value(chromosom.toUtf8(), -1);
 
+}
+
+RegionList Genom::cytoBand(const QString &chromosom)
+{
+    // create cytoband region list according chromosom name
+    RegionList regions;
+
+    if (hasCytoband())
+    {
+        CytobandReader reader(filename(CytobandFile));
+
+        if (reader.open(QIODevice::ReadOnly)){
+            while (reader.next())
+            {
+                if (reader.region().chromosom() == chromosom)
+                    regions.append(reader.region());
+            }
+        }
+    }
+
+    return regions;
 }
 
 Sequence Genom::sequence(const QString &chromosom, qint64 pos, qint64 length)
@@ -39,7 +68,7 @@ Sequence Genom::sequence(const QString &chromosom, qint64 pos, qint64 length)
     qint64 lineBaseSize;
     qint64 lineSize ;
 
-    QFile file(mFilename+".fai");
+    QFile file(filename(IndexFile));
     if (file.open(QIODevice::ReadOnly))
     {
         // loop over index file and get params
@@ -63,7 +92,7 @@ Sequence Genom::sequence(const QString &chromosom, qint64 pos, qint64 length)
         file.close();
         // Now read Original file and make random access memory
 
-        QFile file(mFilename);
+        QFile file(filename(GenomFile));
         if (file.open(QIODevice::ReadOnly))
         {
             int lineCount = pos / lineBaseSize;
@@ -77,12 +106,9 @@ Sequence Genom::sequence(const QString &chromosom, qint64 pos, qint64 length)
 
         }
 
-
     }
 
     return Sequence();
-
-
 }
 
 const QString &Genom::name() const
@@ -90,19 +116,37 @@ const QString &Genom::name() const
     return mName;
 }
 
-const QString &Genom::filename() const
+const QString &Genom::filename(Genom::FileType type) const
 {
-    return mFilename;
+    if (type == GenomFile)
+        return mFilename;
+
+    if (type == IndexFile)
+        return mIndexFilename;
+
+    if ( type == CytobandFile)
+        return mCytobandFilename;
+
+    return QString();
 }
 
 bool Genom::isValid()
 {
-    return QFile::exists(mFilename);
+    // Genom is valid if genom, index and cytoband exists
+    return hasIndex() &&
+            hasCytoband() &&
+            QFile::exists(filename(GenomFile));
 }
 
 bool Genom::hasIndex()
 {
-    return QFile::exists(mFilename+".fai");
+    qDebug()<<filename(IndexFile);
+    return QFile::exists(filename(IndexFile));
+}
+
+bool Genom::hasCytoband()
+{
+    return QFile::exists(filename(CytobandFile));
 
 }
 
@@ -112,10 +156,10 @@ bool Genom::createIndex()
     // from http://www.htslib.org/doc/faidx.html
 
     // This is the genome file
-    QFile file(mFilename);
+    QFile file(filename(GenomFile));
 
     // This is the index file to be generated
-    QFile outputFile(mFilename+".fai");
+    QFile outputFile(filename(IndexFile));
 
     // Create a text stream to easily read inside the genome file
     QTextStream stream(&outputFile);
@@ -175,10 +219,6 @@ bool Genom::createIndex()
         }
         // last line ...
         stream<<name<<"\t"<<baseCount<<"\t"<<firstOffset<<"\t"<<lineBaseSize<<"\t"<<lineSize<<"\n";
-
-
-
-
     }
     file.close();
 
@@ -190,6 +230,24 @@ bool Genom::createIndex()
 
     }
     return true;
+}
+
+void Genom::loadChromosoms()
+{
+    if (isValid())
+    {
+        QFile file(filename(IndexFile));
+        if (file.open(QIODevice::ReadOnly))
+        {
+            mChromosoms.clear();
+            while (!file.atEnd())
+            {
+                QByteArrayList list =  file.readLine().split('\t');
+                // get chromosom name at 0 , and chromosome size at 1
+                mChromosoms[list.at(0)] = list.at(1).toInt();
+            }
+        }
+    }
 }
 
 }}
