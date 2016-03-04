@@ -2,6 +2,8 @@
 #define TRACKLISTWIDGET_H
 
 #include <QWidget>
+#include <QSplitter>
+#include <QVBoxLayout>
 namespace big {
 namespace gui {
 class TrackListWidget : public QWidget
@@ -10,9 +12,12 @@ class TrackListWidget : public QWidget
 public:
     explicit TrackListWidget(QWidget *parent = 0);
 
-signals:
 
-public slots:
+private:
+    QFrame * mLeftFrame;
+    QFrame * mRightFrame;
+
+
 };
 
 }}

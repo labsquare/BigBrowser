@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mchromosomWidget->setChromosom("chr1");
 
 
+    mchromosomWidget->setMaximumHeight(130);
+
     resize(1000,600);
 
     setupMenuBar();
