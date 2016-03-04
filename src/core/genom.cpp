@@ -95,19 +95,28 @@ Sequence Genom::sequence(const QString &chromosom, qint64 pos, qint64 length)
         QFile file(filename(GenomFile));
         if (file.open(QIODevice::ReadOnly))
         {
-            int lineCount = pos / lineBaseSize;
-            // Formule pour récupérer la position ... Fausse! Faut corriger ca !
 
-            file.seek((firstOffset + lineCount * lineSize) - lineCount);
+            // Get lineNumber of position. They are lineNumber "\n" to avoid
+            int lineNumber = pos / lineBaseSize;
 
-            // y a encore des truc qui font chier.. les \n j'arrive faut bien les prendre en compte
-            QByteArray seq = file.read(length).simplified();
+            // from the first offset, go to pos and avoid \n by adding lineNumber
+            file.seek(firstOffset + pos + lineNumber);
+            // Now lets start to read base per base !
+            int count = 0;
+            QByteArray seq;
+            while (count < length)
+            {
+                char base;
+                file.read(&base,1);
+                // avoid \n when reading
+                if (base != '\n'){
+                    ++count;
+                    seq.append(base);
+                }
+            }
             return Sequence(seq);
-
         }
-
     }
-
     return Sequence();
 }
 

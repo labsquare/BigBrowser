@@ -17,8 +17,13 @@ int main(int argc, char *argv[])
     App::i()->setCurrentGenom("hg19");
 
 
+//   Genom genom(App::i()->currentGenomFilePath("hg19.fa"));
+
     Genom genom(App::i()->currentGenomFilePath("hg19.fa"));
 
+    qDebug()<<genom.hasIndex();
+
+    qDebug()<<genom.sequence("chr1",1000000,20).toString();
 
 
 

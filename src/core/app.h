@@ -2,6 +2,8 @@
 #define BIGBROWSER_H
 
 #include <QObject>
+#include "genom.h"
+
 namespace big {
 namespace core {
 
@@ -51,9 +53,9 @@ protected:
 private:
     explicit App(QObject *parent = 0);
     static App * mInstance;
-
     QString mDatabasePath;
     QString mCurrentGenom;
+    Genom * mGenom;
 
 
 };
