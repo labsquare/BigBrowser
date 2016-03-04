@@ -8,6 +8,7 @@
 #include "statusbar.h"
 #include "tracklistwidget.h"
 #include "chromosomwidget.h"
+#include "settingsdialog.h"
 
 namespace big {
 namespace gui {
@@ -16,6 +17,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = 0);
+
+
+public Q_SLOTS:
+void showSettings();
 
 protected:
     void setupMenuBar();

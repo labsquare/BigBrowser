@@ -14,3 +14,5 @@ SOURCES += \
     $$PWD/tracklistwidget.cpp \
     $$PWD/statusbar.cpp
 
+
+include(settings/settings.pri)

@@ -34,10 +34,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(mMainToolBar,SIGNAL(chromosomeChanged(QString)),mchromosomWidget,SLOT(setChromosom(QString)));
 }
 
+void MainWindow::showSettings()
+{
+    SettingsDialog dialog(this);
+    dialog.exec();
+
+
+}
+
 void MainWindow::setupMenuBar()
 {
 
-    menuBar()->addMenu("File");
+    QMenu * fileMenu = menuBar()->addMenu("File");
+    QAction * preferenceAction = fileMenu->addAction("Preference",this,SLOT(showSettings()));
+    QAction * closeAction      = fileMenu->addAction("Close", this,SLOT(close()));
+
+
+
 
 
 }
