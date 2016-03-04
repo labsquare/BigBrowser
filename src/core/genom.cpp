@@ -104,10 +104,17 @@ Sequence Genom::sequence(const QString &chromosom, qint64 pos, qint64 length)
             // Now lets start to read base per base !
             int count = 0;
             QByteArray seq;
-            while (count < length)
+            while (count < length )
             {
                 char base;
                 file.read(&base,1);
+
+                // detect out of range
+                if (pos + count >= baseCount){
+                 qDebug()<<Q_FUNC_INFO<<QString("Feature (%1-%2) out of range").arg(pos).arg(pos+length);
+                    break;
+                }
+
                 // avoid \n when reading
                 if (base != '\n'){
                     ++count;

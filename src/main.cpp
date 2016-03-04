@@ -19,11 +19,11 @@ int main(int argc, char *argv[])
 
 //   Genom genom(App::i()->currentGenomFilePath("hg19.fa"));
 
-//    Genom genom(App::i()->currentGenomFilePath("hg19.fa"));
+//    Genom genom("/tmp/genom/test.fa");
 
 //    qDebug()<<genom.hasIndex();
 
-//    qDebug()<<genom.sequence("chr1",1000000,20).toString();
+//    qDebug()<<genom.sequence("chr1",842,11).toString();
 
 
 
