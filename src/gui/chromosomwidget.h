@@ -33,6 +33,7 @@ protected:
     void paintEvent(QPaintEvent*);
 
     void drawChromosom(QPainter * painter);
+    void drawChromosomWrapper(QPainter * painter);
 
 
 
