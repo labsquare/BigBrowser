@@ -26,20 +26,24 @@ QString Sequence::toString() const
 Sequence Sequence::complement() const
 {
 
+    return Sequence();
 }
 
 Sequence Sequence::reverseComplement() const
 {
+    return Sequence();
 
 }
 
 Sequence Sequence::transcribe() const
 {
+    return Sequence();
 
 }
 
 Sequence Sequence::backTranscribe() const
 {
+    return Sequence();
 
 }
 

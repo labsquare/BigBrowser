@@ -1,13 +1,17 @@
 #include "chromosomwidget.h"
 #include "app.h"
 #include <QGraphicsDropShadowEffect>
-#include <QMouseEvent>
 
 namespace big {
 namespace gui {
 ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
     :QWidget(parent), mCytoBandFileName(filename)
 {
+    // Init constant
+    mOffsetX = 30;
+    mOffsetY = 30;
+    mChromosomHeight = 30;
+
     // Create color map
     QColor base = QColor(200,200,200);
 
@@ -55,8 +59,6 @@ void ChromosomWidget::setRange(qint64 start, qint64 end)
 
 
 
-
-
 void ChromosomWidget::paintEvent(QPaintEvent *)
 {
     // Is there something to draw ?
@@ -65,7 +67,6 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         // Todo draw empty screen error : something like the genome of the "anthropopitheque" ;)
         return;
     }
-
 
 
     // When resize, need to (re)compute the background
@@ -80,7 +81,6 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         QImage img1(size(), QImage::Format_ARGB32_Premultiplied);
         QPainter img1Painter;
         img1.fill(0);
-
         img1Painter.begin(&img1);
         img1Painter.setRenderHint(QPainter::Antialiasing);
         img1Painter.setBrush(QColor(250,250,250));
@@ -93,7 +93,6 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         QImage img2(size(), QImage::Format_ARGB32_Premultiplied);
         QPainter img2Painter;
         img2.fill(0);
-
         img2Painter.begin(&img2);
         img2Painter.setRenderHint(QPainter::Antialiasing);
         img2Painter.setClipPath(getChromosomWrapperShape(1, 5));
@@ -104,12 +103,9 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         QImage img3(size(), QImage::Format_ARGB32_Premultiplied);
         QPainter img3Painter;
         img3.fill(0);
-
         img3Painter.begin(&img3);
         drawLabels(&img3Painter);
         img3Painter.end();
-
-
 
 
         // Now merge the parts into background img
@@ -214,8 +210,9 @@ void ChromosomWidget::drawRegions(QPainter *painter)
         // Define region
         QRect fragment;
         fragment.setTopLeft(QPoint(regionStart, mOffsetY));
-        fragment.setWidth(regionWidth + 1); // +1 to compensate bad rounded performed sometime by cast : float->int
+        fragment.setWidth(regionWidth + 1); // +1 to offset rounded performed by cast : float->int
         fragment.setHeight(mChromosomHeight);
+
 
         // Define brush accoding to thge region stain
         QColor base = mStains.value(region.data("stain").toString(),Qt::red);
@@ -247,9 +244,14 @@ void ChromosomWidget::drawLabels(QPainter *painter)
         float regionWidth = region.length() * mB2PCoeff;
         float regionStart = mOffsetX + region.first() * mB2PCoeff;
 
+
+
         // Draw bounds lines
+        //painter->drawLine(regionStart, mOffsetY, regionStart, offsetY + 50);
+        //painter->drawLine(regionStart + regionWidth, mOffsetY, regionStart + regionWidth, offsetY + 50);
         if (region.data("stain").toString() != "acen")
         painter->drawLine(regionStart, mOffsetY, regionStart, offsetY );
+
 
         // Draw region label
         int deltaX =  regionWidth / 2 - 4 ;

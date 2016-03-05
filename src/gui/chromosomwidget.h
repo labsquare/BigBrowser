@@ -12,25 +12,16 @@ namespace big {
 using namespace core;
 
 namespace gui {
-
-/*!
- * \brief ChromosomWidget is a widget dedicated to the navigation and the selection of a region in a provided chromosome. It's like a minimap for the application.
- */
 class ChromosomWidget : public QWidget
 {
 
     Q_OBJECT
 public:
 
-    /*!
-     * \brief Default constructor
-     */
     ChromosomWidget(const QString& filename, QWidget * parent = 0);
 
 public Q_SLOTS:
-
     void setChromosom(const QString& chromosom);
-
     void setRange(qint64 start, qint64 end);
 
 
@@ -58,6 +49,7 @@ protected:
     inline int baseToPixel(qint64 base) {return base * mB2PCoeff;}
 
 
+
 private:
     QString mCytoBandFileName;
     RegionList mRegionList;
@@ -82,15 +74,14 @@ private:
 
 
     // Define chromosome offset (canvas inner margin)
-    const float mOffsetX = 30;
-    const float mOffsetY = 30;
-    const float mChromosomHeight = 30;
+    float mOffsetX = 30;
+    float mOffsetY = 30;
+    float mChromosomHeight = 30;
     float mChromosomWidth = 0;
     float mB2PCoeff = 0;
 
     // Keeping background in memory to avoid to redraw it too often
     QImage mBackgroundLayer;
-
 };
 
 }}
