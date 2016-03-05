@@ -2,10 +2,10 @@
 #define STATUSBAR_H
 #include <QStatusBar>
 #include <QSlider>
-
+#include <QFrame>
 namespace big {
 namespace gui {
-class StatusBar : public QStatusBar
+class StatusBar : public QFrame
 {
     Q_OBJECT
 public:

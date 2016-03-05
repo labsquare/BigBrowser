@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mTrackListWidget = new TrackListWidget();
 
     setMenuBar(mMenuBar);
-    setStatusBar(mStatusBar);
     addToolBar(mMainToolBar);
 
     QSplitter * centralSplitter = new QSplitter(Qt::Vertical);
@@ -20,7 +19,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralSplitter->addWidget(mTrackListWidget);
 
 
-    setCentralWidget(centralSplitter);
+    QVBoxLayout * centralLayout = new QVBoxLayout;
+    centralLayout->addWidget(centralSplitter);
+    centralLayout->addWidget(mStatusBar);
+    centralLayout->setContentsMargins(0,0,0,0);
+
+    QWidget * cWidget = new QWidget;
+    cWidget->setLayout(centralLayout);
+
+
+    setCentralWidget(cWidget);
 
     mchromosomWidget->setChromosom("chr1");
 

@@ -1,18 +1,36 @@
 #include "statusbar.h"
 #include <QSpacerItem>
-
+#include <QHBoxLayout>
+#include <QPushButton>
 namespace big {
 namespace gui {
 StatusBar::StatusBar(QWidget * parent):
-    QStatusBar(parent)
+    QFrame(parent)
 {
     mSlider = new QSlider(Qt::Horizontal);
 
+    QWidget * leftWidget = new QWidget();
+    leftWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    mSlider->setMaximumWidth(200);
+    QWidget * rightWidget = new QWidget();
+    rightWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 
-    addPermanentWidget(mSlider);
+    QHBoxLayout * hLayout = new QHBoxLayout;
+    hLayout->addWidget(leftWidget);
+    hLayout->addWidget(mSlider);
+    hLayout->addWidget(rightWidget);
+    hLayout->setContentsMargins(0,0,0,0);
+
+    setLayout(hLayout);
+
+
+   setMaximumHeight(20);
+
+   setStyleSheet("{background-color:red}");
+
+
+
 
 
 }
