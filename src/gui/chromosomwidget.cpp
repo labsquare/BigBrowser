@@ -54,7 +54,7 @@ void ChromosomWidget::setChromosom(const QString &chromosom)
 }
 
 
-void ChromosomWidget::setRange(qint64 start, qint64 end)
+void ChromosomWidget::setRange(quint64 start, quint64 end)
 {
     qDebug() << "ChromosomWidget::setRange USED ?";
     mRegionSelector.setRange(start, end);

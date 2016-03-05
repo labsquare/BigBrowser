@@ -21,7 +21,7 @@ public:
      * \brief currentLine
      * \return the current line number of reader
      */
-    qint64 currentLine() const;
+    quint64 currentLine() const;
 
 
     bool open(QIODevice::OpenMode mode = QIODevice::ReadOnly);
@@ -66,7 +66,7 @@ public:
 protected:
     QIODevice * device();
     void setRegion(const Region& region);
-    void setCurrentLine(qint64 line);
+    void setCurrentLine(quint64 line);
 
 
 
@@ -74,7 +74,7 @@ protected:
 private:
     QIODevice * mDevice;
     Region mRegion;
-    qint64 mCurrentLine;
+    quint64 mCurrentLine;
 
 
 

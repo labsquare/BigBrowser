@@ -50,7 +50,7 @@ RegionList Genom::cytoBand(const QString &chromosom)
     return regions;
 }
 
-Sequence Genom::sequence(const QString &chromosom, qint64 pos, qint64 length)
+Sequence Genom::sequence(const QString &chromosom, quint64 pos, quint64 length)
 {
     // This function generate a Sequence object using a fai index file
 
@@ -63,10 +63,10 @@ Sequence Genom::sequence(const QString &chromosom, qint64 pos, qint64 length)
     // Load index
     // Read Index file and get param. see createIndex()
     QByteArray name;
-    qint64 baseCount;
-    qint64 firstOffset;
-    qint64 lineBaseSize;
-    qint64 lineSize ;
+    quint64 baseCount;
+    quint64 firstOffset;
+    quint64 lineBaseSize;
+    quint64 lineSize ;
 
     QFile file(filename(IndexFile));
     if (file.open(QIODevice::ReadOnly))
@@ -183,10 +183,10 @@ bool Genom::createIndex()
     if (file.open(QIODevice::ReadOnly))
     {
         // How many line of seq for chromosom X
-        qint64 lineNumber = 0;
+        quint64 lineNumber = 0;
 
         // How many base of seq for chromosom x
-        qint64 baseCount  = 0;
+        quint64 baseCount  = 0;
 
         // The name of chromosome x : eg  chr3
         QByteArray name;

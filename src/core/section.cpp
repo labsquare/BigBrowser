@@ -8,7 +8,7 @@ Section::Section(QObject * parent)
 
 }
 
-Section::Section(const QString &chromosom, qint64 pos, qint64 end, QObject * parent)
+Section::Section(const QString &chromosom, quint64 pos, quint64 end, QObject * parent)
     :QObject(parent),mChromosom(chromosom), mStart(pos), mEnd(pos)
 {
 
@@ -16,7 +16,7 @@ Section::Section(const QString &chromosom, qint64 pos, qint64 end, QObject * par
 
 }
 
-qint64 Section::length() const
+quint64 Section::length() const
 {
     return end()-start();
 
@@ -33,23 +33,23 @@ void Section::setChromosom(const QString &chromosom)
     emit changed();
 }
 
-qint64 Section::start() const
+quint64 Section::start() const
 {
     return mStart;
 }
 
-void Section::setStart(const qint64 &pos)
+void Section::setStart(const quint64 &pos)
 {
     mStart = pos;
     emit changed();
 }
 
-qint64 Section::end() const
+quint64 Section::end() const
 {
     return mEnd;
 }
 
-void Section::setEnd(const qint64 &end)
+void Section::setEnd(const quint64 &end)
 {
     mEnd = end;
     emit changed();
@@ -70,9 +70,9 @@ void Section::scale(qint64 baseCount)
     emit changed();
 }
 
-qint64 Section::middle() const
+quint64 Section::middle() const
 {
-    qint64 m = length()/2;
+    quint64 m = length()/2;
     return start() + m ;
 }
 

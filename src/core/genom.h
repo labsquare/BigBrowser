@@ -60,7 +60,7 @@ public:
      * \param length
      * \return a dna sequence according param location
      */
-    Sequence sequence(const QString& chromosom, qint64 pos, qint64 length);
+    Sequence sequence(const QString& chromosom, quint64 pos, quint64 length);
 
     /*!
      * \brief name
@@ -107,7 +107,7 @@ private:
     QString mCytobandFilename;
     QString mName;
     // each chromosom have name and size
-    QHash<QByteArray, qint64> mChromosoms;
+    QHash<QByteArray, quint64> mChromosoms;
 
 
 

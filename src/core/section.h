@@ -9,18 +9,18 @@ namespace core {
 class Section: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(qint64 start READ start WRITE setStart NOTIFY changed)
-    Q_PROPERTY(qint64 end READ end WRITE setEnd NOTIFY changed)
+    Q_PROPERTY(quint64 start READ start WRITE setStart NOTIFY changed)
+    Q_PROPERTY(quint64 end READ end WRITE setEnd NOTIFY changed)
 
 public:
     Section(QObject * parent = 0);
-    Section(const QString& chromosom, qint64 start, qint64 end, QObject * parent = 0);
+    Section(const QString& chromosom, quint64 start, quint64 end, QObject * parent = 0);
 
     /*!
      * \brief length
      * \return the length of the section
      */
-    qint64 length() const;
+    quint64 length() const;
 
 
     /*!
@@ -33,13 +33,13 @@ public:
      * \brief start
      * \return position of the first base in sequence bed format ( 0 - n  )
      */
-    qint64 start() const;
+    quint64 start() const;
 
     /*!
      * \brief end
      * \return position of the last-1 base in sequence bed format ( 0 - n  )
      */
-    qint64 end() const;
+    quint64 end() const;
 
 
 
@@ -47,7 +47,7 @@ public:
      * \brief middle
      * \return the middle position. If length() is an odds, return the position of the left side
      */
-    qint64 middle() const;
+    quint64 middle() const;
 
     /*!
      * \brief operator +=
@@ -67,8 +67,8 @@ public:
 
 public Q_SLOTS:
     void setChromosom(const QString &chromosom);
-    void setStart(const qint64 &start);
-    void setEnd(const qint64 &end);
+    void setStart(const quint64 &start);
+    void setEnd(const quint64 &end);
 
     /*!
      * \brief translate
@@ -92,8 +92,8 @@ Q_SIGNALS:
 
 private:
     QString mChromosom;
-    qint64 mStart;
-    qint64 mEnd;
+    quint64 mStart;
+    quint64 mEnd;
 };
 
 

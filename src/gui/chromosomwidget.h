@@ -26,7 +26,7 @@ public:
 
 public Q_SLOTS:
     void setChromosom(const QString& chromosom);
-    void setRange(qint64 start, qint64 end);
+    void setRange(quint64 start, quint64 end);
 
 
 
@@ -50,8 +50,8 @@ protected:
     QPainterPath getChromosomWrapperShape(int wrapperPadding, int wrc) const;
 
     // Helper
-    inline qint64 pixelToBase(int pixel) {return (pixel-mOffsetX) / mB2PCoeff;}
-    inline int baseToPixel(qint64 base) {return base * mB2PCoeff + mOffsetX;}
+    inline quint64 pixelToBase(int pixel) {return (pixel-mOffsetX) / mB2PCoeff;}
+    inline int baseToPixel(quint64 base) {return base * mB2PCoeff + mOffsetX;}
     Region getRegionAtPixel(int pixelPos);
 
 
@@ -67,7 +67,7 @@ private:
     QPoint mCursorPosition;
     bool mCursorActive = false;
     bool mCursorClicked = false;
-    qint64 mCursorBasePosition = 0;
+    quint64 mCursorBasePosition = 0;
     Region mCursorRegion;
 
     // Frame management

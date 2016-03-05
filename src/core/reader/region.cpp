@@ -9,7 +9,7 @@ Region::Region()
 
 }
 
-Region::Region(const QString &chromosom, qint64 pos, qint64 length)
+Region::Region(const QString &chromosom, quint64 pos, quint64 length)
 {
     setChromosom(chromosom);
 
@@ -29,27 +29,27 @@ const QString &Region::chromosom() const
     return mChrom;
 }
 
-qint64 Region::pos() const
+quint64 Region::pos() const
 {
     return mPos;
 }
 
-qint64 Region::length() const
+quint64 Region::length() const
 {
     return mLength;
 }
 
-qint64 Region::first() const
+quint64 Region::first() const
 {
     return pos();
 }
 
-qint64 Region::last() const
+quint64 Region::last() const
 {
     return pos() + length() - 1;
 }
 
-void Region::setRange(qint64 start, qint64 end)
+void Region::setRange(quint64 start, quint64 end)
 {
     setPos(start);
     setLength(end - start);
@@ -65,12 +65,12 @@ void Region::setChromosom(const QString &chromosom)
     mChrom = chromosom;
 }
 
-void Region::setPos(qint64 pos)
+void Region::setPos(quint64 pos)
 {
     mPos = pos;
 }
 
-void Region::setLength(qint64 length)
+void Region::setLength(quint64 length)
 {
     mLength = length;
 }
@@ -92,7 +92,7 @@ void Region::clearData()
     mDatas.clear();
 }
 
-Region Region::fromBed(const QString &chrom, qint64 chromStart, qint64 chromEnd)
+Region Region::fromBed(const QString &chrom, quint64 chromStart, quint64 chromEnd)
 {
     Region region;
     region.setChromosom(chrom);

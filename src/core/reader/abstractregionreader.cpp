@@ -19,7 +19,7 @@ AbstractRegionReader::AbstractRegionReader(const QString &filename)
 
 }
 
-qint64 AbstractRegionReader::currentLine() const
+quint64 AbstractRegionReader::currentLine() const
 {
     return mCurrentLine;
 }
@@ -75,7 +75,7 @@ void AbstractRegionReader::setRegion(const Region &region)
     mRegion = region;
 }
 
-void AbstractRegionReader::setCurrentLine(qint64 line)
+void AbstractRegionReader::setCurrentLine(quint64 line)
 {
     mCurrentLine = line;
 }

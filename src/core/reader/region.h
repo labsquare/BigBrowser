@@ -23,7 +23,7 @@ public:
      * \param start: position start in 0 based
      * \param length: the length of region
      */
-    Region(const QString& chromosom, qint64 pos, qint64 length);
+    Region(const QString& chromosom, quint64 pos, quint64 length);
     /*!
      * \brief Region Constructor
      * \param expression: expression in format <chromosom>:<pos>-<end>: "chr4:1000-20000"
@@ -43,24 +43,24 @@ public:
      * \brief pos
      * \return the position. equivalent to start()
      */
-    qint64 pos() const;
+    quint64 pos() const;
     /*!
      * \brief length
      * \return the length of region.
      */
-    qint64 length() const;
+    quint64 length() const;
     /*!
      * \brief start
      * \return the position start of region
      */
-    qint64 first() const;
+    quint64 first() const;
     /*!
      * \brief end
      * \return the position end of region
      */
-    qint64 last() const;
+    quint64 last() const;
 
-    void setRange(qint64 start, qint64 end);
+    void setRange(quint64 start, quint64 end);
 
     void setName(const QString& name);
 
@@ -73,12 +73,12 @@ public:
      * \brief setPos
      * \param pos
      */
-    void setPos(qint64 pos);
+    void setPos(quint64 pos);
     /*!
      * \brief setLength
      * \param length
      */
-    void setLength(qint64 length);
+    void setLength(quint64 length);
     /*!
      * \brief setRange
      * \param start
@@ -101,15 +101,15 @@ public:
     void clearData();
 
 
-    static Region fromBed(const QString& chrom, qint64 chromStart, qint64 chromEnd);
+    static Region fromBed(const QString& chrom, quint64 chromStart, quint64 chromEnd);
     static Region fromBed(const QString& expression);
 
 
 private:
     QString mChrom;
     QString mName;
-    qint64 mPos;
-    qint64 mLength;
+    quint64 mPos;
+    quint64 mLength;
     QHash<QString, QVariant> mDatas;
 
 };
