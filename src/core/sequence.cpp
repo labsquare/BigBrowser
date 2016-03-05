@@ -62,7 +62,7 @@ Sequence Sequence::fromFasta(const QString &filename)
         // setSequence
     }
 
-    // Return Sequence
+     return Sequence();
 }
 
 }}
