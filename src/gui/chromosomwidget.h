@@ -31,12 +31,13 @@ public Q_SLOTS:
 
 protected:
     // Override Qt event handler
-    void paintEvent(QPaintEvent*);
+    void paintEvent(QPaintEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
     void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
     void leaveEvent(QEvent * event);
     void enterEvent(QEvent * event);
+    //void keyPressEvent(QKeyEvent * event);
 
     // Drawing
     void drawRegions(QPainter * painter);
@@ -44,9 +45,14 @@ protected:
     void drawFrameLayer(QPainter *painter);
     QPainterPath getChromosomWrapperShape(int wrapperPadding, int wrc) const;
 
+    // Frame management
+    void updateFrame();
+    void saveFrame(bool updateSelection, bool onDoubleClick);
+
     // Helper
     inline qint64 pixelToBase(int pixel) {return pixel / mB2PCoeff;}
     inline int baseToPixel(qint64 base) {return base * mB2PCoeff;}
+    Region getRegionAtPixel(int pixelPos);
 
 
 
@@ -66,8 +72,8 @@ private:
 
     // Frame management
     QRect mFrame;
-    QPoint mPoint1;
-    QPoint mPoint2;
+    QRect mFrameGhost;
+    QPoint mFrameFirstPoint;
     qint64 mFrameStartBasePosition = 0;
     qint64 mFrameEndBasePosition = 0;
 

@@ -272,14 +272,38 @@ void ChromosomWidget::drawLabels(QPainter *painter)
 
 void ChromosomWidget::drawFrameLayer(QPainter *painter)
 {
-    QColor cursorCol = (!mCursorClicked) ? Qt::red : QColor(240,140,0);
+    // Define colors
+    // Todo : settable via parameter ?
+    QColor sectionColor = QColor(240,140,0);
+    QColor selectionColor = Qt::red;
+
+    // Draw section frame if exist
+    if (!mFrame.isNull())
+    {
+        painter->setPen(QPen(sectionColor, 1, Qt::SolidLine));
+        QColor bg = sectionColor.lighter(150);
+        bg.setAlpha(100);
+        painter->setBrush(bg);
+        painter->drawRect(mFrame);
+    }
+    if (!mFrameGhost.isNull() && mCursorClicked)
+    {
+        painter->setPen(Qt::NoPen);
+        QBrush bg = sectionColor;
+        bg.setStyle(Qt::Dense6Pattern);
+        painter->setBrush(bg);
+        painter->drawRect(mFrameGhost);
+    }
+
+
+
+    QColor cursorCol = (!mCursorClicked) ? selectionColor : sectionColor;
 
     if (mCursorActive)
     {
         // Draw the cursor
         painter->setPen(QPen(cursorCol, 1, Qt::DashLine));
         painter->drawLine(mCursorPosition.x() , 0, mCursorPosition.x(), rect().height());
-
 
 
         // Draw additional data if enough space
@@ -313,12 +337,8 @@ void ChromosomWidget::drawFrameLayer(QPainter *painter)
     }
 }
 
-
-void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
+Region ChromosomWidget::getRegionAtPixel(int pixelPos)
 {
-    // save cursor position
-    mCursorPosition = event->pos();
-
     // Retrieve position in the genom
     Region region;
     float regionWidth, regionStart;
@@ -329,13 +349,61 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
         regionWidth = region.length() * mB2PCoeff;
         regionStart = mOffsetX + region.first() * mB2PCoeff;
 
-        if (mCursorPosition.x() < regionStart + regionWidth)
+        if (pixelPos < regionStart + regionWidth)
         {
             break;
         }
     }
 
-    // 2) Control cursor position and find position in the region
+    return region;
+}
+
+
+void ChromosomWidget::updateFrame()
+{
+
+}
+
+
+void ChromosomWidget::saveFrame(bool updateSelection, bool onDoubleClick)
+{
+    if (onDoubleClick)
+    {
+        // Reset frame : select region and center frame on it
+        Region region = getRegionAtPixel(mCursorPosition.x());
+        mFrame = QRect(baseToPixel(region.first()), 0, baseToPixel(region.last()),0);
+    }
+    else if (updateSelection)
+    {
+        mFrame = mFrameGhost;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
+{
+    // save cursor position
+    mCursorPosition = event->pos();
+
+    // Update cursor according to the region
+
+    // Retrieve position in the genom
+    Region region = getRegionAtPixel(mCursorPosition.x());
+
+    // Control cursor position and find position in the region
     if (mCursorPosition.x() < mOffsetX) mCursorPosition.setX(mOffsetX);
 
     if (mCursorPosition.x() > mOffsetX + mChromosomWidth)
@@ -350,9 +418,11 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
         mCursorRegion = region;
     }
 
-    // 3) Save information
-
-
+    // Need to update selected region
+    if (mCursorClicked)
+    {
+        mFrameGhost = QRect(qMin(mFrameFirstPoint.x(), mCursorPosition.x()), 0, qAbs(mFrameFirstPoint.x()- mCursorPosition.x()), rect().height()-1);
+    }
 
 
     // Redraw browser frame layer
@@ -376,13 +446,38 @@ void ChromosomWidget::enterEvent(QEvent *)
 void ChromosomWidget::mousePressEvent(QMouseEvent * event)
 {
     mCursorClicked = event->button() == Qt::LeftButton;
+    mFrameFirstPoint = event->pos();
+
+    // Constraint on the FrameFirstPoint coord
+    if (mFrameFirstPoint.x() < mOffsetX) mFrameFirstPoint.setX(mOffsetX);
+    if (mFrameFirstPoint.x() > mOffsetX + mChromosomWidth) mFrameFirstPoint.setX(mOffsetX + mChromosomWidth);
+
+
+    if (mFrame.contains(event->pos()))
+    {
+        setCursor(Qt::SizeAllCursor);
+    }
+
+
     update();
 }
 void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
 {
+    saveFrame(mCursorClicked, false);
     mCursorClicked = false;
     update();
 }
 
+/*
+void ChromosomWidget::keyPressEvent(QKeyEvent * event)
+{
+
+    if (mCursorClicked && event->key() == Qt::Key_Escape)
+    {
+        mCursorClicked = false;
+        update();
+    }
+}
+*/
 
 }}
