@@ -204,6 +204,19 @@ void ChromosomWidget::drawRegions(QPainter *painter)
     qint64 maxBase = mChromosoms.last().last();
     float drawCoeff = chromosomWidth / maxBase;
 
+    /*
+    mStains["stalk"] = Qt::darkCyan;
+    mStains["gneg"] = base;
+    mStains["gpos25"]  = base.darker(100);
+    mStains["gpos50"]  = base.darker(150);
+    mStains["gpos75"]  = base.darker(200);
+    mStains["gpos100"] = base.darker(250);
+    mStains["gvar"] = QColor(144, 195, 212);
+    mStains["acen"] = QColor(80, 144, 212);
+    */
+
+
+
 
     // Loop to draw regions
     foreach ( Region region, mChromosoms)
@@ -214,15 +227,22 @@ void ChromosomWidget::drawRegions(QPainter *painter)
         // Define region
         QRect fragment;
         fragment.setTopLeft(QPoint(regionStart, mOffsetY));
-        fragment.setWidth(regionWidth);
+        fragment.setWidth(regionWidth + 1); // +1 to offset rounded performed by cast : float->int
         fragment.setHeight(mChromosomHeight);
 
 
+        // Define brush accoding to thge region stain
+        QColor base = mStains.value(region.data("stain").toString(),Qt::red);
+        QLinearGradient lgrad(fragment.topLeft(), fragment.bottomLeft());
+        lgrad.setColorAt(0.0, base.lighter(200));
+        lgrad.setColorAt(0.4, base);
+        lgrad.setColorAt(0.8, base);
+        lgrad.setColorAt(1.0, base.darker(150));
+
         // Draw the region
-        painter->setBrush(mStains.value(region.data("stain").toString(),Qt::red));
+        painter->setBrush(lgrad);
         painter->setPen(QPen(Qt::NoPen));
         painter->drawRect(fragment);
-
     }
 }
 
