@@ -4,9 +4,10 @@
 #include <QWidget>
 #include <QSplitter>
 #include <QVBoxLayout>
+#include <QGraphicsView>
 namespace big {
 namespace gui {
-class TrackListWidget : public QWidget
+class TrackListWidget : public QGraphicsView
 {
     Q_OBJECT
 public:
@@ -14,8 +15,7 @@ public:
 
 
 private:
-    QFrame * mLeftFrame;
-    QFrame * mRightFrame;
+
 
 
 };
