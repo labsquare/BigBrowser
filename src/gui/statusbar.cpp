@@ -27,7 +27,6 @@ StatusBar::StatusBar(QWidget * parent):
 
    setMaximumHeight(20);
 
-   setStyleSheet("{background-color:red}");
 
 
 
