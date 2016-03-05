@@ -51,6 +51,8 @@ bool SettingsDialog::save()
     foreach ( AbstractSettingsWidget * widget , mWidgets)
         widget->save();
 
+    return false;
+
 }
 
 bool SettingsDialog::load()
@@ -58,6 +60,8 @@ bool SettingsDialog::load()
 
     foreach ( AbstractSettingsWidget * widget , mWidgets)
         widget->load();
+
+    return false;
 }
 
 }}
