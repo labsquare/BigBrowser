@@ -4,14 +4,13 @@
 #include <QRegularExpression>
 namespace big {
 namespace core {
-Genom::Genom(const QString &filename)
-    :mFilename(filename)
+Genom::Genom(const QString &path)
+    :mDir(path)
 {
-    QFileInfo info(filename);
-
-    mName             = info.baseName();
-    mIndexFilename    = mFilename+".fai";
-    mCytobandFilename = info.absoluteDir().filePath(mName+".cytoBand");
+    mName             = mDir.dirName();
+    mSeqFilename      = mDir.filePath(mName+".fa");
+    mIndexFilename    = mDir.filePath(mName+".fa.fai");
+    mCytobandFilename = mDir.filePath(mName+".cytoBand");
 
     loadChromosoms();
 
@@ -92,7 +91,7 @@ Sequence Genom::sequence(const QString &chromosom, quint64 pos, quint64 length)
         file.close();
         // Now read Original file and make random access memory
 
-        QFile file(filename(GenomFile));
+        QFile file(filename(SequenceFile));
         if (file.open(QIODevice::ReadOnly))
         {
 
@@ -134,8 +133,8 @@ const QString &Genom::name() const
 
 const QString &Genom::filename(Genom::FileType type) const
 {
-    if (type == GenomFile)
-        return mFilename;
+    if (type == SequenceFile)
+        return mSeqFilename;
 
     if (type == IndexFile)
         return mIndexFilename;
@@ -151,7 +150,7 @@ bool Genom::isValid()
     // Genom is valid if genom, index and cytoband exists
     return hasIndex() &&
             hasCytoband() &&
-            QFile::exists(filename(GenomFile));
+            QFile::exists(filename(SequenceFile));
 }
 
 bool Genom::hasIndex()
@@ -172,7 +171,7 @@ bool Genom::createIndex()
     // from http://www.htslib.org/doc/faidx.html
 
     // This is the genome file
-    QFile file(filename(GenomFile));
+    QFile file(filename(SequenceFile));
 
     // This is the index file to be generated
     QFile outputFile(filename(IndexFile));

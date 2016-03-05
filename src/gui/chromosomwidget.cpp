@@ -4,11 +4,10 @@
 
 namespace big {
 namespace gui {
-ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
+ChromosomWidget::ChromosomWidget(Genom * genom, QWidget * parent)
     :QWidget(parent),
-      mCytoBandFileName(filename)
+      mGenom(genom)
 {
-
     // Define chromosome offset (canvas inner margin)
     mOffsetX         = 30;
     mOffsetY         = 30;
@@ -38,36 +37,29 @@ ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
 
 }
 
+ChromosomWidget::~ChromosomWidget()
+{
+    // Do not delete genom or selection
+}
+
 Selection *ChromosomWidget::selection()
 {
     return mSelection;
 }
 
+Genom *ChromosomWidget::genom()
+{
+    return mGenom;
+}
 
 void ChromosomWidget::setChromosom(const QString &chromosom)
 {
-    CytobandReader mReader(mCytoBandFileName);
-
-    if (mReader.open())
-    {
-        mChromosoms.clear();
-
-        while (mReader.next())
-        {
-            if (mReader.region().chromosom() == chromosom )
-                mChromosoms.append(mReader.region());
-        }
-
-    }
-
-    mSelection = new Selection(chromosom,0,0);
-
+    mChromosoms = genom()->cytoBand(chromosom);
+    mSelection  = new Selection(chromosom,0,0);
     // Force the redraw of the background
     mBackgroundLayer = QImage();
     update();
 }
-
-
 
 
 

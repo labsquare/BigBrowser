@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mMenuBar         = new QMenuBar();
     mMainToolBar     = new MainToolBar();
     mStatusBar       = new StatusBar();
-    mchromosomWidget = new ChromosomWidget(App::i()->currentGenomFilePath("hg19.cytoBand"));
+    mchromosomWidget = new ChromosomWidget(App::i()->currentGenom());
     mTrackListWidget = new TrackListWidget();
 
     setMenuBar(mMenuBar);

@@ -20,12 +20,12 @@ public:
      * CytobandFile contains band regions. hg19.cytoBand
      */
     enum FileType {
-        GenomFile    = 0x0000,
+        SequenceFile = 0x0000,
         IndexFile    = 0x0001,
         CytobandFile = 0x0002,
     };
 
-    Genom(const QString& filename);
+    Genom(const QString& path);
 
 
     /*!
@@ -67,7 +67,7 @@ public:
      * \return the genom name
      */
     const QString& name() const;
-    const QString& filename(FileType type = Genom::GenomFile) const;
+    const QString& filename(FileType type = Genom::SequenceFile) const;
 
 
     bool isValid();
@@ -102,7 +102,8 @@ protected:
 
 
 private:
-    QString mFilename;
+    QDir mDir;
+    QString mSeqFilename;
     QString mIndexFilename;
     QString mCytobandFilename;
     QString mName;

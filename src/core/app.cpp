@@ -42,25 +42,22 @@ void App::setDefaultDatabasePath()
     setDatabasePath(QDir::homePath() + QDir::separator() + ".bigbrowser");
 }
 
-void App::setCurrentGenom(const QString &genom)
+void App::setCurrentGenom(Genom *genom)
 {
-    mCurrentGenom = genom;
+    mGenom = genom;
 }
 
-const QString &App::currentGenom() const
+void App::setCurrentGenom(const QString &name)
 {
-    return mCurrentGenom;
+    mGenom = new Genom(databasePath()+QDir::separator()+"genom"+QDir::separator()+name);
+
 }
 
-QString App::currentGenomPath() const
+Genom *App::currentGenom()
 {
-return databasePath()+QDir::separator()+"genom"+QDir::separator()+currentGenom();
+    return mGenom;
 }
 
-QString App::currentGenomFilePath(const QString &filename)
-{
-    return currentGenomPath()+QDir::separator()+filename;
-}
 
 
 

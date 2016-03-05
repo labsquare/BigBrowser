@@ -5,6 +5,7 @@
 #include <QPainter>
 #include "cytobandreader.h"
 #include "region.h"
+#include "genom.h"
 #include "regionlist.h"
 #include "selection.h"
 #include <QHash>
@@ -19,16 +20,15 @@ class ChromosomWidget : public QWidget
     Q_OBJECT
 public:
 
-    ChromosomWidget(const QString& filename, QWidget * parent = 0);
+    ChromosomWidget(Genom * genom, QWidget * parent = 0);
+    ~ChromosomWidget();
     Selection * selection();
+    Genom * genom();
 
 
 
 public Q_SLOTS:
     void setChromosom(const QString& chromosom);
-
-
-
 
 
 protected:
@@ -53,12 +53,11 @@ protected:
     inline int baseToPixel(quint64 base) {return base * mB2PCoeff + mOffsetX;}
     Region getRegionAtPixel(int pixelPos);
 
-
-
 private:
+    Genom * mGenom;
     QString mCytoBandFileName;
     RegionList mRegionList;
-    QList <Region> mChromosoms;
+    RegionList mChromosoms;
     QHash<QString, QColor> mStains;
     Selection * mSelection;
 

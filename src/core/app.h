@@ -35,18 +35,11 @@ public:
      * Set the current genom path according genom name and databasePath
      * \param genom is the folder name of genom from <DATABASE_PATH>/genom/
      */
-    void setCurrentGenom(const QString& genom);
-    const QString& currentGenom() const;
-    QString currentGenomPath() const;
+    void setCurrentGenom(Genom * genom);
+    void setCurrentGenom(const QString& name);
+    Genom * currentGenom();
 
-    /*!
-     * \brief currentGenomFilePath
-     *
-     * Return full path of filename from genom folder
-     * \param filename
-     * \return
-     */
-    QString currentGenomFilePath(const QString& filename);
+
 
 protected:
 
