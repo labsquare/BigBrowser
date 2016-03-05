@@ -48,9 +48,9 @@ private:
 
 
     // Define chromosome offset (canvas inner margin)
-    float mOffsetX = 30;
-    float mOffsetY = 30;
-    float mChromosomHeight = 30;
+    float mOffsetX ;
+    float mOffsetY ;
+    float mChromosomHeight;
 
 
 };
