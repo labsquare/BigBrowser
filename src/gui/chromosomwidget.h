@@ -6,6 +6,7 @@
 #include "cytobandreader.h"
 #include "region.h"
 #include "regionlist.h"
+#include "section.h"
 #include <QHash>
 
 namespace big {
@@ -19,11 +20,13 @@ class ChromosomWidget : public QWidget
 public:
 
     ChromosomWidget(const QString& filename, QWidget * parent = 0);
+    Section * selection;
+
+
 
 public Q_SLOTS:
     void setChromosom(const QString& chromosom);
     void setRange(qint64 start, qint64 end);
-
 
 
 
@@ -35,6 +38,7 @@ protected:
     void mouseMoveEvent(QMouseEvent * event);
     void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event);
     void leaveEvent(QEvent * event);
     void enterEvent(QEvent * event);
     //void keyPressEvent(QKeyEvent * event);
@@ -45,13 +49,9 @@ protected:
     void drawFrameLayer(QPainter *painter);
     QPainterPath getChromosomWrapperShape(int wrapperPadding, int wrc) const;
 
-    // Frame management
-    void updateFrame();
-    void saveFrame(bool updateSelection, bool onDoubleClick);
-
     // Helper
-    inline qint64 pixelToBase(int pixel) {return pixel / mB2PCoeff;}
-    inline int baseToPixel(qint64 base) {return base * mB2PCoeff;}
+    inline qint64 pixelToBase(int pixel) {return (pixel-mOffsetX) / mB2PCoeff;}
+    inline int baseToPixel(qint64 base) {return base * mB2PCoeff + mOffsetX;}
     Region getRegionAtPixel(int pixelPos);
 
 
@@ -74,8 +74,6 @@ private:
     QRect mFrame;
     QRect mFrameGhost;
     QPoint mFrameFirstPoint;
-    qint64 mFrameStartBasePosition = 0;
-    qint64 mFrameEndBasePosition = 0;
 
 
 

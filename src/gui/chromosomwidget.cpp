@@ -45,6 +45,8 @@ void ChromosomWidget::setChromosom(const QString &chromosom)
 
     }
 
+    selection = new Section(chromosom,0,0);
+
     // Force the redraw of the background
     mBackgroundLayer = QImage();
     update();
@@ -121,6 +123,13 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         bgPainter.drawImage(rect(), img2);
         bgPainter.drawImage(rect(), img3);
         bgPainter.end();
+
+        // Recompute Frame is exists
+        if (!mFrame.isNull())
+        {
+            mFrame = QRect(baseToPixel(selection->start()), 0, baseToPixel(selection->end()) - baseToPixel(selection->start()),rect().height()-1);
+            qDebug() << mFrame;
+        }
     }
 
     // Display on screen
@@ -359,25 +368,7 @@ Region ChromosomWidget::getRegionAtPixel(int pixelPos)
 }
 
 
-void ChromosomWidget::updateFrame()
-{
 
-}
-
-
-void ChromosomWidget::saveFrame(bool updateSelection, bool onDoubleClick)
-{
-    if (onDoubleClick)
-    {
-        // Reset frame : select region and center frame on it
-        Region region = getRegionAtPixel(mCursorPosition.x());
-        mFrame = QRect(baseToPixel(region.first()), 0, baseToPixel(region.last()),0);
-    }
-    else if (updateSelection)
-    {
-        mFrame = mFrameGhost;
-    }
-}
 
 
 
@@ -425,7 +416,64 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
     }
 
 
-    // Redraw browser frame layer
+    // Refresh UI
+    update();
+}
+
+
+void ChromosomWidget::mousePressEvent(QMouseEvent * event)
+{
+    mCursorClicked = event->button() == Qt::LeftButton;
+    mFrameFirstPoint = event->pos();
+
+    // Constraint on the FrameFirstPoint coord
+    if (mFrameFirstPoint.x() < mOffsetX) mFrameFirstPoint.setX(mOffsetX);
+    if (mFrameFirstPoint.x() > mOffsetX + mChromosomWidth) mFrameFirstPoint.setX(mOffsetX + mChromosomWidth);
+
+    // Also update the GhostFrame
+    mFrameGhost = QRect(qMin(mFrameFirstPoint.x(), mCursorPosition.x()), 0, qAbs(mFrameFirstPoint.x()- mCursorPosition.x()), rect().height()-1);
+
+    // Todo : handle to move the Frame
+    /*
+    if (mFrame.contains(event->pos()))
+    {
+        setCursor(Qt::SizeAllCursor);
+    }
+    */
+
+    // Refresh UI
+    update();
+}
+
+void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
+{
+    // Save frame if action have not been canceled before (by ESC keyboard)
+    if (mCursorClicked)
+    {
+        mFrame = mFrameGhost;
+
+        // update section property
+        selection->setStart(pixelToBase(mFrame.x()));
+        selection->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
+    }
+    mCursorClicked = false;
+
+    // Refresh UI
+    update();
+}
+
+void ChromosomWidget::mouseDoubleClickEvent(QMouseEvent * )
+{
+    // Save frame : select region and center frame on it
+    Region region = getRegionAtPixel(mCursorPosition.x());
+    mFrame = QRect(baseToPixel(region.first()), 0, baseToPixel(region.last()) - baseToPixel(region.first()),rect().height()-1);
+
+    // update section property
+    selection->setStart(region.first());
+    selection->setEnd(region.last());
+
+
+    // Refresh UI
     update();
 }
 
@@ -440,31 +488,6 @@ void ChromosomWidget::enterEvent(QEvent *)
 {
     mCursorActive = true;
     setCursor(Qt::BlankCursor);
-    update();
-}
-
-void ChromosomWidget::mousePressEvent(QMouseEvent * event)
-{
-    mCursorClicked = event->button() == Qt::LeftButton;
-    mFrameFirstPoint = event->pos();
-
-    // Constraint on the FrameFirstPoint coord
-    if (mFrameFirstPoint.x() < mOffsetX) mFrameFirstPoint.setX(mOffsetX);
-    if (mFrameFirstPoint.x() > mOffsetX + mChromosomWidth) mFrameFirstPoint.setX(mOffsetX + mChromosomWidth);
-
-
-    if (mFrame.contains(event->pos()))
-    {
-        setCursor(Qt::SizeAllCursor);
-    }
-
-
-    update();
-}
-void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
-{
-    saveFrame(mCursorClicked, false);
-    mCursorClicked = false;
     update();
 }
 
