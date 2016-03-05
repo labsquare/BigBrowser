@@ -1,5 +1,6 @@
 #include "abstracttrack.h"
 #include <QPainter>
+#include <QGraphicsScene>
 namespace big {
 namespace gui {
 
@@ -11,7 +12,7 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
 
 QRectF AbstractTrack::boundingRect() const
 {
-   return QRect(10,10,100,100);
+   return QRect(0,0,100,100);
 
 }
 
