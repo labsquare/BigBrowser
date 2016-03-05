@@ -5,27 +5,42 @@
 namespace big {
 namespace gui {
 ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
-    :QWidget(parent), mCytoBandFileName(filename)
+    :QWidget(parent),
+      mCytoBandFileName(filename)
 {
-    // Init constant
-    mOffsetX = 30;
-    mOffsetY = 30;
+
+    // Define chromosome offset (canvas inner margin)
+    mOffsetX         = 30;
+    mOffsetY         = 30;
     mChromosomHeight = 30;
+    mChromosomWidth  = 0;
+    mB2PCoeff        = 0;
+
+    // Cursor management
+    mCursorActive       = false;
+    mCursorClicked      = false;
+    mCursorBasePosition = 0;
+
 
     // Create color map
     QColor base = QColor(200,200,200);
 
-    mStains["stalk"] = Qt::darkCyan;
-    mStains["gneg"] = base;
+    mStains["stalk"]   = Qt::darkCyan;
+    mStains["gneg"]    = base;
     mStains["gpos25"]  = base.darker(100);
     mStains["gpos50"]  = base.darker(150);
     mStains["gpos75"]  = base.darker(200);
     mStains["gpos100"] = base.darker(250);
-    mStains["gvar"] = QColor(144, 195, 212);
-    mStains["acen"] = QColor(80, 144, 212);
+    mStains["gvar"]    = QColor(144, 195, 212);
+    mStains["acen"]    = QColor(80, 144, 212);
 
     setMouseTracking(true);
 
+}
+
+Selection *ChromosomWidget::selection()
+{
+    return mSelection;
 }
 
 
@@ -42,11 +57,10 @@ void ChromosomWidget::setChromosom(const QString &chromosom)
             if (mReader.region().chromosom() == chromosom )
                 mChromosoms.append(mReader.region());
         }
-//        mRegionSelector.setChromosom(chromosom);
 
     }
 
-    selection = new Selection(chromosom,0,0);
+    mSelection = new Selection(chromosom,0,0);
 
     // Force the redraw of the background
     mBackgroundLayer = QImage();
@@ -123,7 +137,7 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         // Recompute Frame is exists
         if (!mFrame.isNull())
         {
-            mFrame = QRect(baseToPixel(selection->start()), 0, baseToPixel(selection->end()) - baseToPixel(selection->start()),rect().height()-1);
+            mFrame = QRect(baseToPixel(selection()->start()), 0, baseToPixel(selection()->end()) - baseToPixel(selection()->start()),rect().height()-1);
         }
     }
 
@@ -254,7 +268,7 @@ void ChromosomWidget::drawLabels(QPainter *painter)
         //painter->drawLine(regionStart, mOffsetY, regionStart, offsetY + 50);
         //painter->drawLine(regionStart + regionWidth, mOffsetY, regionStart + regionWidth, offsetY + 50);
         if (region.data("stain").toString() != "acen")
-        painter->drawLine(regionStart, mOffsetY, regionStart, offsetY );
+            painter->drawLine(regionStart, mOffsetY, regionStart, offsetY );
 
 
         // Draw region label
@@ -451,8 +465,8 @@ void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
         mFrame = mFrameGhost;
 
         // update section property
-        selection->setStart(pixelToBase(mFrame.x()));
-        selection->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
+        selection()->setStart(pixelToBase(mFrame.x()));
+        selection()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
     }
     mCursorClicked = false;
 
@@ -467,8 +481,8 @@ void ChromosomWidget::mouseDoubleClickEvent(QMouseEvent * )
     mFrame = QRect(baseToPixel(region.first()), 0, baseToPixel(region.last()) - baseToPixel(region.first()),rect().height()-1);
 
     // update section property
-    selection->setStart(region.first());
-    selection->setEnd(region.last());
+    selection()->setStart(region.first());
+    selection()->setEnd(region.last());
 
 
     // Refresh UI

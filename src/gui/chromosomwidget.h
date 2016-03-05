@@ -20,7 +20,7 @@ class ChromosomWidget : public QWidget
 public:
 
     ChromosomWidget(const QString& filename, QWidget * parent = 0);
-    Selection * selection;
+    Selection * selection();
 
 
 
@@ -33,14 +33,14 @@ public Q_SLOTS:
 
 protected:
     // Override Qt event handler
-    void paintEvent(QPaintEvent * event);
-    void mouseMoveEvent(QMouseEvent * event);
-    void mousePressEvent(QMouseEvent * event);
+    void paintEvent(QPaintEvent * event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent * event)Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent * event)Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent * event);
-    void mouseDoubleClickEvent(QMouseEvent * event);
-    void leaveEvent(QEvent * event);
-    void enterEvent(QEvent * event);
-    void keyPressEvent(QKeyEvent * event);
+    void mouseDoubleClickEvent(QMouseEvent * event)Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent * event)Q_DECL_OVERRIDE;
+    void enterEvent(QEvent * event)Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent * event)Q_DECL_OVERRIDE;
 
     // Drawing
     void drawRegions(QPainter * painter);
@@ -60,15 +60,13 @@ private:
     RegionList mRegionList;
     QList <Region> mChromosoms;
     QHash<QString, QColor> mStains;
-    Selection * mSection;
-
-
+    Selection * mSelection;
 
     // Cursor management
     QPoint mCursorPosition;
-    bool mCursorActive = false;
-    bool mCursorClicked = false;
-    quint64 mCursorBasePosition = 0;
+    bool mCursorActive;
+    bool mCursorClicked ;
+    quint64 mCursorBasePosition ;
     Region mCursorRegion;
 
     // Frame management
@@ -79,11 +77,11 @@ private:
 
 
     // Define chromosome offset (canvas inner margin)
-    float mOffsetX = 30;
-    float mOffsetY = 30;
-    float mChromosomHeight = 30;
-    float mChromosomWidth = 0;
-    float mB2PCoeff = 0;
+    float mOffsetX;
+    float mOffsetY;
+    float mChromosomHeight;
+    float mChromosomWidth;
+    float mB2PCoeff;
 
     // Keeping background in memory to avoid to redraw it too often
     QImage mBackgroundLayer;
