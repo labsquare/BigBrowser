@@ -10,8 +10,8 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 
 void TrackListWidget::addTrack(AbstractTrack *track)
 {
-//    mTracks.append(track);
-//    scene()->addItem(track);
+    mTracks.append(track);
+    scene()->addItem(track);
 
 
 }
