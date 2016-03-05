@@ -8,10 +8,6 @@ namespace gui {
 ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
     :QWidget(parent), mCytoBandFileName(filename)
 {
-
-
-
-
     // Create color map
     QColor base = QColor(200,200,200);
 
@@ -25,8 +21,8 @@ ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
     mStains["acen"] = QColor(80, 144, 212);
 
     setMouseTracking(true);
-
 }
+
 
 void ChromosomWidget::setChromosom(const QString &chromosom)
 {
@@ -41,20 +37,19 @@ void ChromosomWidget::setChromosom(const QString &chromosom)
             if (mReader.region().chromosom() == chromosom )
                 mChromosoms.append(mReader.region());
         }
-
         mRegionSelector.setChromosom(chromosom);
 
     }
 
-
-    qDebug()<<chromosom<<" "<<mChromosoms.count();
+    // Force the redraw of the background
+    mBackgroundLayer = QImage();
     update();
-
-
 }
+
 
 void ChromosomWidget::setRange(qint64 start, qint64 end)
 {
+    qDebug() << "ChromosomWidget::setRange USED ?";
     mRegionSelector.setRange(start, end);
 }
 
@@ -62,7 +57,7 @@ void ChromosomWidget::setRange(qint64 start, qint64 end)
 
 
 
-void ChromosomWidget::paintEvent(QPaintEvent * event)
+void ChromosomWidget::paintEvent(QPaintEvent *)
 {
     // Is there something to draw ?
     if (mChromosoms.isEmpty())
@@ -76,6 +71,11 @@ void ChromosomWidget::paintEvent(QPaintEvent * event)
     // When resize, need to (re)compute the background
     if (mBackgroundLayer.isNull() || mBackgroundLayer.rect() != rect())
     {
+        // Recompute main drawing variables
+        mChromosomWidth = rect().width() - mOffsetX * 2;
+        mB2PCoeff = mChromosomWidth / mChromosoms.last().last();
+
+
         // 1st part : the wrapper
         QImage img1(size(), QImage::Format_ARGB32_Premultiplied);
         QPainter img1Painter;
@@ -139,10 +139,6 @@ void ChromosomWidget::paintEvent(QPaintEvent * event)
 //int wrc = 5; // wrapperRoundCoeff : pixel distance used by spline anchores
 QPainterPath ChromosomWidget::getChromosomWrapperShape(int wrapperPadding, int wrc) const
 {
-    float chromosomWidth = rect().width() - mOffsetX * 2;
-    qint64 maxBase = mChromosoms.last().last();
-    float drawCoeff = chromosomWidth / maxBase;
-
     // Chromosom wrapper parameters
     float endPart1 = 0;
     float startPart2 = 0;
@@ -155,12 +151,12 @@ QPainterPath ChromosomWidget::getChromosomWrapperShape(int wrapperPadding, int w
 
         if(stain == "acen" && endPart1 == 0)
         {
-            endPart1 = region.first() * drawCoeff;
-            centX = region.last() * drawCoeff;
+            endPart1 = region.first() * mB2PCoeff;
+            centX = region.last() * mB2PCoeff;
         }
         else if (endPart1 > 0  && stain != "acen" && startPart2 == 0)
         {
-            startPart2 = region.first() * drawCoeff;
+            startPart2 = region.first() * mB2PCoeff;
         }
     }
 
@@ -174,10 +170,10 @@ QPainterPath ChromosomWidget::getChromosomWrapperShape(int wrapperPadding, int w
     QPoint B(offsetX + endPart1 + 2* wrapperPadding, offsetY);
     QPoint C(offsetX + centX, offsetY + mChromosomHeight / 2 - 5 );
     QPoint D(offsetX + startPart2, offsetY);
-    QPoint E(offsetX + chromosomWidth + 2* wrapperPadding , offsetY);
+    QPoint E(offsetX + mChromosomWidth + 2* wrapperPadding , offsetY);
 
     offsetY += 2 * wrapperPadding + mChromosomHeight;
-    QPoint F(offsetX + chromosomWidth + 2* wrapperPadding, offsetY);
+    QPoint F(offsetX + mChromosomWidth + 2* wrapperPadding, offsetY);
     QPoint G(offsetX + startPart2, offsetY);
     QPoint H(offsetX + centX, offsetY - mChromosomHeight / 2 + 5);
     QPoint I(offsetX + endPart1 + 2* wrapperPadding, offsetY);
@@ -209,16 +205,11 @@ QPainterPath ChromosomWidget::getChromosomWrapperShape(int wrapperPadding, int w
 
 void ChromosomWidget::drawRegions(QPainter *painter)
 {
-    // Define canvas boudaries
-    float chromosomWidth = rect().width() - mOffsetX * 2;
-    qint64 maxBase = mChromosoms.last().last();
-    float drawCoeff = chromosomWidth / maxBase;
-
     // Loop to draw regions
     foreach ( Region region, mChromosoms)
     {
-        float regionWidth = region.length() * drawCoeff;
-        float regionStart = mOffsetX + region.first() * drawCoeff;
+        float regionWidth = region.length() * mB2PCoeff;
+        float regionStart = mOffsetX + region.first() * mB2PCoeff;
 
         // Define region
         QRect fragment;
@@ -245,9 +236,6 @@ void ChromosomWidget::drawRegions(QPainter *painter)
 void ChromosomWidget::drawLabels(QPainter *painter)
 {
     // Define canvas boudaries
-    float chromosomWidth = rect().width() - mOffsetX * 2;
-    qint64 maxBase = mChromosoms.last().last();
-    float drawCoeff = chromosomWidth / maxBase;
     int offsetY = mOffsetY + mChromosomHeight - 1 ;
 
     painter->setPen(QPen(QColor(50,50,50)));
@@ -256,8 +244,8 @@ void ChromosomWidget::drawLabels(QPainter *painter)
     // Loop to draw labels
     foreach ( Region region, mChromosoms)
     {
-        float regionWidth = region.length() * drawCoeff;
-        float regionStart = mOffsetX + region.first() * drawCoeff;
+        float regionWidth = region.length() * mB2PCoeff;
+        float regionStart = mOffsetX + region.first() * mB2PCoeff;
 
         // Draw bounds lines
         if (region.data("stain").toString() != "acen")
@@ -276,21 +264,13 @@ void ChromosomWidget::drawLabels(QPainter *painter)
 
     }
     // And the last line
-    painter->drawLine(mOffsetX + chromosomWidth, mOffsetY, mOffsetX + chromosomWidth, offsetY );
+    painter->drawLine(mOffsetX + mChromosomWidth, mOffsetY, mOffsetX + mChromosomWidth, offsetY );
 }
 
 
 void ChromosomWidget::drawFrameLayer(QPainter *painter)
 {
-    /*
-    // Define canvas boudaries
-    float chromosomWidth = rect().width() - mOffsetX * 2;
-    qint64 maxBase = mChromosoms.last().last();
-    float drawCoeff = chromosomWidth / maxBase;
-    int offsetY = mOffsetY + mChromosomHeight - 1 ;
-    */
-
-    QColor cursorCol = (!mCursorClicked) ? Qt::red : QColor(255,166,0);
+    QColor cursorCol = (!mCursorClicked) ? Qt::red : QColor(240,140,0);
 
     if (mCursorActive)
     {
@@ -337,11 +317,6 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
     // save cursor position
     mCursorPosition = event->pos();
 
-    // Retrieve canvas boudaries
-    float chromosomWidth = rect().width() - mOffsetX * 2;
-    qint64 maxBase = mChromosoms.last().last();
-    float drawCoeff = chromosomWidth / maxBase;
-
     // Retrieve position in the genom
     Region region;
     float regionWidth, regionStart;
@@ -349,8 +324,8 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
     // 1) Find the region (be human friendly with first and last regions)
     foreach (region, mChromosoms)
     {
-        regionWidth = region.length() * drawCoeff;
-        regionStart = mOffsetX + region.first() * drawCoeff;
+        regionWidth = region.length() * mB2PCoeff;
+        regionStart = mOffsetX + region.first() * mB2PCoeff;
 
         if (mCursorPosition.x() < regionStart + regionWidth)
         {
@@ -361,15 +336,15 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
     // 2) Control cursor position and find position in the region
     if (mCursorPosition.x() < mOffsetX) mCursorPosition.setX(mOffsetX);
 
-    if (mCursorPosition.x() > mOffsetX + chromosomWidth)
+    if (mCursorPosition.x() > mOffsetX + mChromosomWidth)
     {
-        mCursorPosition.setX(mOffsetX + chromosomWidth);
+        mCursorPosition.setX(mOffsetX + mChromosomWidth);
         mCursorBasePosition = region.last();
         mCursorRegion = region;
     }
     else
     {
-        mCursorBasePosition = (mCursorPosition.x() - mOffsetX) / drawCoeff;
+        mCursorBasePosition = (mCursorPosition.x() - mOffsetX) / mB2PCoeff;
         mCursorRegion = region;
     }
 

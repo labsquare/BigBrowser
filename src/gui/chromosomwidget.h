@@ -51,9 +51,11 @@ protected:
     void drawRegions(QPainter * painter);
     void drawLabels(QPainter *painter);
     void drawFrameLayer(QPainter *painter);
+    QPainterPath getChromosomWrapperShape(int wrapperPadding, int wrc) const;
 
     // Helper
-    QPainterPath getChromosomWrapperShape(int wrapperPadding, int wrc) const;
+    inline qint64 pixelToBase(int pixel) {return pixel / mB2PCoeff;}
+    inline int baseToPixel(qint64 base) {return base * mB2PCoeff;}
 
 
 private:
@@ -61,21 +63,30 @@ private:
     RegionList mRegionList;
     QList <Region> mChromosoms;
     QHash<QString, QColor> mStains;
-
     Region mRegionSelector;
 
-
+    // Cursor management
     QPoint mCursorPosition;
     bool mCursorActive = false;
     bool mCursorClicked = false;
     qint64 mCursorBasePosition = 0;
     Region mCursorRegion;
 
+    // Frame management
+    QRect mFrame;
+    QPoint mPoint1;
+    QPoint mPoint2;
+    qint64 mFrameStartBasePosition = 0;
+    qint64 mFrameEndBasePosition = 0;
+
+
 
     // Define chromosome offset (canvas inner margin)
     const float mOffsetX = 30;
     const float mOffsetY = 30;
     const float mChromosomHeight = 30;
+    float mChromosomWidth = 0;
+    float mB2PCoeff = 0;
 
     // Keeping background in memory to avoid to redraw it too often
     QImage mBackgroundLayer;
