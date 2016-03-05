@@ -1,7 +1,6 @@
 #include "chromosomwidget.h"
 #include "app.h"
 #include <QGraphicsDropShadowEffect>
-#include <QMouseEvent>
 
 namespace big {
 namespace gui {
@@ -10,7 +9,9 @@ ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
 {
 
 
-
+    mOffsetX = 30;
+    mOffsetY = 30;
+    mChromosomHeight = 30;
 
     // Create color map
     QColor base = QColor(200,200,200);
@@ -24,7 +25,12 @@ ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
     mStains["gvar"] = QColor(144, 195, 212);
     mStains["acen"] = QColor(80, 144, 212);
 
-    setMouseTracking(true);
+
+
+
+
+
+
 
 }
 
@@ -59,10 +65,7 @@ void ChromosomWidget::setRange(qint64 start, qint64 end)
 }
 
 
-
-
-
-void ChromosomWidget::paintEvent(QPaintEvent * event)
+void ChromosomWidget::paintEvent(QPaintEvent *)
 {
     // Is there something to draw ?
     if (mChromosoms.isEmpty())
@@ -72,65 +75,54 @@ void ChromosomWidget::paintEvent(QPaintEvent * event)
     }
 
 
+    // 1st part : the wrapper
+    QImage img1(size(), QImage::Format_ARGB32_Premultiplied);
+    QPainter img1Painter;
+    img1.fill(0);
 
-    // When resize, need to (re)compute the background
-    if (mBackgroundLayer.isNull() || mBackgroundLayer.rect() != rect())
-    {
-        // 1st part : the wrapper
-        QImage img1(size(), QImage::Format_ARGB32_Premultiplied);
-        QPainter img1Painter;
-        img1.fill(0);
+    img1Painter.begin(&img1);
+    img1Painter.setRenderHint(QPainter::Antialiasing);
+    img1Painter.setBrush(QColor(250,250,250));
+    img1Painter.setPen(QColor(100,100,100));
+    img1Painter.drawPath(getChromosomWrapperShape(2, 5));
+    // Todo : apply dropshadow to this image ?
+    img1Painter.end();
 
-        img1Painter.begin(&img1);
-        img1Painter.setRenderHint(QPainter::Antialiasing);
-        img1Painter.setBrush(QColor(250,250,250));
-        img1Painter.setPen(QColor(100,100,100));
-        img1Painter.drawPath(getChromosomWrapperShape(2, 5));
-        // Todo : apply dropshadow to this image ?
-        img1Painter.end();
+    // 2nd part : the regions
+    QImage img2(size(), QImage::Format_ARGB32_Premultiplied);
+    QPainter img2Painter;
+    img2.fill(0);
 
-        // 2nd part : the regions
-        QImage img2(size(), QImage::Format_ARGB32_Premultiplied);
-        QPainter img2Painter;
-        img2.fill(0);
+    img2Painter.begin(&img2);
+    img2Painter.setRenderHint(QPainter::Antialiasing);
+    img2Painter.setClipPath(getChromosomWrapperShape(1, 5));
+    drawRegions(&img2Painter);
+    img2Painter.end();
 
-        img2Painter.begin(&img2);
-        img2Painter.setRenderHint(QPainter::Antialiasing);
-        img2Painter.setClipPath(getChromosomWrapperShape(1, 5));
-        drawRegions(&img2Painter);
-        img2Painter.end();
+    // 3rd part : the labels
+    QImage img3(size(), QImage::Format_ARGB32_Premultiplied);
+    QPainter img3Painter;
+    img3.fill(0);
 
-        // 3rd part : the labels
-        QImage img3(size(), QImage::Format_ARGB32_Premultiplied);
-        QPainter img3Painter;
-        img3.fill(0);
-
-        img3Painter.begin(&img3);
-        drawLabels(&img3Painter);
-        img3Painter.end();
+    img3Painter.begin(&img3);
+    drawLabels(&img3Painter);
+    img3Painter.end();
 
 
 
 
-        // Now merge the parts into background img
-        mBackgroundLayer = QImage(size(), QImage::Format_ARGB32_Premultiplied);
-
-        QPainter bgPainter(&mBackgroundLayer);
-        bgPainter.setBrush(Qt::white);
-        bgPainter.setPen(Qt::NoPen);
-        bgPainter.drawRect(rect());
-
-        bgPainter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        bgPainter.drawImage(rect(), img1);
-        bgPainter.drawImage(rect(), img2);
-        bgPainter.drawImage(rect(), img3);
-        bgPainter.end();
-    }
-
-    // Display on screen
+    // Now merge the parts
     QPainter painter(this);
-    painter.drawImage(rect(), mBackgroundLayer);
-    drawFrameLayer(&painter);
+    painter.setBrush(Qt::white);
+    painter.setPen(Qt::NoPen);
+    painter.drawRect(rect());
+
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    painter.drawImage(rect(), img1);
+    painter.drawImage(rect(), img2);
+    painter.drawImage(rect(), img3);
+
+
 }
 
 
@@ -214,6 +206,20 @@ void ChromosomWidget::drawRegions(QPainter *painter)
     qint64 maxBase = mChromosoms.last().last();
     float drawCoeff = chromosomWidth / maxBase;
 
+    /*
+    mStains["stalk"] = Qt::darkCyan;
+    mStains["gneg"] = base;
+    mStains["gpos25"]  = base.darker(100);
+    mStains["gpos50"]  = base.darker(150);
+    mStains["gpos75"]  = base.darker(200);
+    mStains["gpos100"] = base.darker(250);
+    mStains["gvar"] = QColor(144, 195, 212);
+    mStains["acen"] = QColor(80, 144, 212);
+    */
+
+
+
+
     // Loop to draw regions
     foreach ( Region region, mChromosoms)
     {
@@ -223,8 +229,9 @@ void ChromosomWidget::drawRegions(QPainter *painter)
         // Define region
         QRect fragment;
         fragment.setTopLeft(QPoint(regionStart, mOffsetY));
-        fragment.setWidth(regionWidth + 1); // +1 to compensate bad rounded performed sometime by cast : float->int
+        fragment.setWidth(regionWidth + 1); // +1 to offset rounded performed by cast : float->int
         fragment.setHeight(mChromosomHeight);
+
 
         // Define brush accoding to thge region stain
         QColor base = mStains.value(region.data("stain").toString(),Qt::red);
@@ -259,9 +266,14 @@ void ChromosomWidget::drawLabels(QPainter *painter)
         float regionWidth = region.length() * drawCoeff;
         float regionStart = mOffsetX + region.first() * drawCoeff;
 
+
+
         // Draw bounds lines
+        //painter->drawLine(regionStart, mOffsetY, regionStart, offsetY + 50);
+        //painter->drawLine(regionStart + regionWidth, mOffsetY, regionStart + regionWidth, offsetY + 50);
         if (region.data("stain").toString() != "acen")
         painter->drawLine(regionStart, mOffsetY, regionStart, offsetY );
+
 
         // Draw region label
         int deltaX =  regionWidth / 2 - 4 ;
@@ -275,137 +287,9 @@ void ChromosomWidget::drawLabels(QPainter *painter)
         painter->restore();
 
     }
-    // And the last line
     painter->drawLine(mOffsetX + chromosomWidth, mOffsetY, mOffsetX + chromosomWidth, offsetY );
 }
 
-
-void ChromosomWidget::drawFrameLayer(QPainter *painter)
-{
-    /*
-    // Define canvas boudaries
-    float chromosomWidth = rect().width() - mOffsetX * 2;
-    qint64 maxBase = mChromosoms.last().last();
-    float drawCoeff = chromosomWidth / maxBase;
-    int offsetY = mOffsetY + mChromosomHeight - 1 ;
-    */
-
-    QColor cursorCol = (!mCursorClicked) ? Qt::red : QColor(255,166,0);
-
-    if (mCursorActive)
-    {
-        // Draw the cursor
-        painter->setPen(QPen(cursorCol, 1, Qt::DashLine));
-        painter->drawLine(mCursorPosition.x() , 0, mCursorPosition.x(), rect().height());
-
-
-
-        // Draw additional data if enough space
-        int width = 200;
-        int height = 15;
-        if(rect().width() > width * 2)
-        {
-            painter->setPen(QPen(cursorCol, 1, Qt::SolidLine));
-            painter->setBrush(cursorCol.lighter(170));
-
-            int startX = mCursorPosition.x() - (width / 2);
-            if (startX < 0)
-            {
-                startX = 0;
-            }
-            else if (startX + width > rect().width())
-            {
-                startX = rect().width() - width;
-            }
-
-            QRect labelRect(startX, rect().height() - height - 2, width, height);
-            painter->drawRect(labelRect);
-
-            const QLocale & cLocale = QLocale::c();
-            QString ss = cLocale.toString(mCursorBasePosition);
-            ss.replace(cLocale.groupSeparator(), ' ');
-
-            QString label = mCursorRegion.chromosom().toUpper() + "    " + mCursorRegion.name() + "    " + ss;
-            painter->drawText(labelRect,label, QTextOption(Qt::AlignHCenter | Qt::AlignVCenter));
-        }
-    }
-}
-
-
-void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
-{
-    // save cursor position
-    mCursorPosition = event->pos();
-
-    // Retrieve canvas boudaries
-    float chromosomWidth = rect().width() - mOffsetX * 2;
-    qint64 maxBase = mChromosoms.last().last();
-    float drawCoeff = chromosomWidth / maxBase;
-
-    // Retrieve position in the genom
-    Region region;
-    float regionWidth, regionStart;
-
-    // 1) Find the region (be human friendly with first and last regions)
-    foreach (region, mChromosoms)
-    {
-        regionWidth = region.length() * drawCoeff;
-        regionStart = mOffsetX + region.first() * drawCoeff;
-
-        if (mCursorPosition.x() < regionStart + regionWidth)
-        {
-            break;
-        }
-    }
-
-    // 2) Control cursor position and find position in the region
-    if (mCursorPosition.x() < mOffsetX) mCursorPosition.setX(mOffsetX);
-
-    if (mCursorPosition.x() > mOffsetX + chromosomWidth)
-    {
-        mCursorPosition.setX(mOffsetX + chromosomWidth);
-        mCursorBasePosition = region.last();
-        mCursorRegion = region;
-    }
-    else
-    {
-        mCursorBasePosition = (mCursorPosition.x() - mOffsetX) / drawCoeff;
-        mCursorRegion = region;
-    }
-
-    // 3) Save information
-
-
-
-
-    // Redraw browser frame layer
-    update();
-}
-
-void ChromosomWidget::leaveEvent(QEvent *)
-{
-    mCursorActive = false;
-    setCursor(Qt::ArrowCursor);
-    update();
-}
-
-void ChromosomWidget::enterEvent(QEvent *)
-{
-    mCursorActive = true;
-    setCursor(Qt::BlankCursor);
-    update();
-}
-
-void ChromosomWidget::mousePressEvent(QMouseEvent * event)
-{
-    mCursorClicked = event->button() == Qt::LeftButton;
-    update();
-}
-void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
-{
-    mCursorClicked = false;
-    update();
-}
 
 
 }}
