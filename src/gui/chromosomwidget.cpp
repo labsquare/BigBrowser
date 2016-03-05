@@ -42,11 +42,11 @@ void ChromosomWidget::setChromosom(const QString &chromosom)
             if (mReader.region().chromosom() == chromosom )
                 mChromosoms.append(mReader.region());
         }
-        mRegionSelector.setChromosom(chromosom);
+//        mRegionSelector.setChromosom(chromosom);
 
     }
 
-    selection = new Section(chromosom,0,0);
+    selection = new Selection(chromosom,0,0);
 
     // Force the redraw of the background
     mBackgroundLayer = QImage();
@@ -54,11 +54,6 @@ void ChromosomWidget::setChromosom(const QString &chromosom)
 }
 
 
-void ChromosomWidget::setRange(quint64 start, quint64 end)
-{
-    qDebug() << "ChromosomWidget::setRange USED ?";
-    mRegionSelector.setRange(start, end);
-}
 
 
 

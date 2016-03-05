@@ -6,7 +6,7 @@
 #include "cytobandreader.h"
 #include "region.h"
 #include "regionlist.h"
-#include "section.h"
+#include "selection.h"
 #include <QHash>
 
 namespace big {
@@ -20,13 +20,12 @@ class ChromosomWidget : public QWidget
 public:
 
     ChromosomWidget(const QString& filename, QWidget * parent = 0);
-    Section * selection;
+    Selection * selection;
 
 
 
 public Q_SLOTS:
     void setChromosom(const QString& chromosom);
-    void setRange(quint64 start, quint64 end);
 
 
 
@@ -61,7 +60,9 @@ private:
     RegionList mRegionList;
     QList <Region> mChromosoms;
     QHash<QString, QColor> mStains;
-    Region mRegionSelector;
+    Selection * mSection;
+
+
 
     // Cursor management
     QPoint mCursorPosition;

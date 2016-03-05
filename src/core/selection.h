@@ -6,15 +6,15 @@ namespace big {
 namespace core {
 
 
-class Section: public QObject
+class Selection: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(quint64 start READ start WRITE setStart NOTIFY changed)
     Q_PROPERTY(quint64 end READ end WRITE setEnd NOTIFY changed)
 
 public:
-    Section(QObject * parent = 0);
-    Section(const QString& chromosom, quint64 start, quint64 end, QObject * parent = 0);
+    Selection(QObject * parent = 0);
+    Selection(const QString& chromosom, quint64 start, quint64 end, QObject * parent = 0);
 
     /*!
      * \brief length
