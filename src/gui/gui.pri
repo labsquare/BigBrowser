@@ -16,3 +16,5 @@ SOURCES += \
 
 
 include(settings/settings.pri)
+include(tracks/tracks.pri)
+
