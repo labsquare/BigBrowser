@@ -32,8 +32,9 @@ public Q_SLOTS:
 protected:
     void paintEvent(QPaintEvent*);
 
-    void drawChromosom(QPainter * painter);
-    void drawChromosomWrapper(QPainter * painter);
+    void drawRegions(QPainter * painter);
+    void drawLabels(QPainter *painter);
+    QPainterPath getChromosomWrapperShape(int wrapperPadding, int wrc) const;
 
 
 
@@ -46,6 +47,10 @@ private:
     Region mRegionSelector;
 
 
+    // Define chromosome offset (canvas inner margin)
+    const float mOffsetX = 30;
+    const float mOffsetY = 30;
+    const float mChromosomHeight = 30;
 
 
 };
