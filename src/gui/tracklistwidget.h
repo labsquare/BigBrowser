@@ -5,6 +5,8 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 #include <QGraphicsView>
+#include <QGraphicsScene>
+#include "abstracttrack.h"
 namespace big {
 namespace gui {
 class TrackListWidget : public QGraphicsView
@@ -13,9 +15,12 @@ class TrackListWidget : public QGraphicsView
 public:
     explicit TrackListWidget(QWidget *parent = 0);
 
+    void addTrack(AbstractTrack * track);
+
 
 private:
-
+QList<AbstractTrack*> mTracks;
+QGraphicsScene * mScene;
 
 
 };
