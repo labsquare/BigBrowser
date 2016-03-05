@@ -25,6 +25,7 @@ ChromosomWidget::ChromosomWidget(const QString &filename, QWidget * parent)
     mStains["acen"] = QColor(80, 144, 212);
 
     setMouseTracking(true);
+
 }
 
 
@@ -128,7 +129,6 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         if (!mFrame.isNull())
         {
             mFrame = QRect(baseToPixel(selection->start()), 0, baseToPixel(selection->end()) - baseToPixel(selection->start()),rect().height()-1);
-            qDebug() << mFrame;
         }
     }
 
@@ -441,6 +441,9 @@ void ChromosomWidget::mousePressEvent(QMouseEvent * event)
     }
     */
 
+    // Take focus to recieve keyboard event
+    setFocus();
+
     // Refresh UI
     update();
 }
@@ -491,16 +494,14 @@ void ChromosomWidget::enterEvent(QEvent *)
     update();
 }
 
-/*
 void ChromosomWidget::keyPressEvent(QKeyEvent * event)
 {
-
+    qDebug() << event->key();
     if (mCursorClicked && event->key() == Qt::Key_Escape)
     {
         mCursorClicked = false;
         update();
     }
 }
-*/
 
 }}

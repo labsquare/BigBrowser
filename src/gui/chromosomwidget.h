@@ -41,7 +41,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent * event);
     void leaveEvent(QEvent * event);
     void enterEvent(QEvent * event);
-    //void keyPressEvent(QKeyEvent * event);
+    void keyPressEvent(QKeyEvent * event);
 
     // Drawing
     void drawRegions(QPainter * painter);
