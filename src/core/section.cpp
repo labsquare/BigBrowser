@@ -2,14 +2,14 @@
 namespace big {
 namespace core {
 
-Section::Section()
-    :mChromosom(), mStart(0), mEnd(0)
+Section::Section(QObject * parent)
+    :QObject(parent),mChromosom(), mStart(0), mEnd(0)
 {
 
 }
 
-Section::Section(const QString &chromosom, qint64 pos, qint64 end)
-    :mChromosom(chromosom), mStart(pos), mEnd(pos)
+Section::Section(const QString &chromosom, qint64 pos, qint64 end, QObject * parent)
+    :QObject(parent),mChromosom(chromosom), mStart(pos), mEnd(pos)
 {
 
 
@@ -30,6 +30,7 @@ QString Section::chromosom() const
 void Section::setChromosom(const QString &chromosom)
 {
     mChromosom = chromosom;
+    emit changed();
 }
 
 qint64 Section::start() const
@@ -40,6 +41,7 @@ qint64 Section::start() const
 void Section::setStart(const qint64 &pos)
 {
     mStart = pos;
+    emit changed();
 }
 
 qint64 Section::end() const
@@ -50,12 +52,14 @@ qint64 Section::end() const
 void Section::setEnd(const qint64 &end)
 {
     mEnd = end;
+    emit changed();
 }
 
 void Section::translate(qint64 baseCount)
 {
     mStart += baseCount;
     mEnd += baseCount;
+    emit changed();
 
 }
 
@@ -63,6 +67,7 @@ void Section::scale(qint64 baseCount)
 {
     mStart += baseCount;
     mEnd -= baseCount;
+    emit changed();
 }
 
 qint64 Section::middle() const
