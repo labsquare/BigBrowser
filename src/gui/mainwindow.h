@@ -9,6 +9,7 @@
 #include "tracklistwidget.h"
 #include "chromosomwidget.h"
 #include "settingsdialog.h"
+#include "genom.h"
 
 namespace big {
 namespace gui {
@@ -34,6 +35,7 @@ private:
     StatusBar * mStatusBar;
     ChromosomWidget * mchromosomWidget;
     TrackListWidget * mTrackListWidget;
+    Genom * mGenom;
 
 
 };

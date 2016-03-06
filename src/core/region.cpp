@@ -15,6 +15,47 @@ Region::Region(const QString &chromosom, quint64 start, quint64 end)
     setRegion(chromosom,start,end);
 }
 
+Region::Region(const QString &pattern)
+{
+    setRegion(pattern);
+}
+
+void Region::setRegion(const QString &chromosom, quint64 start, quint64 end)
+{
+    mChrom  = chromosom;
+    mStart  = start;
+    mEnd    = end;
+}
+
+void Region::setRegion(const QString &pattern)
+{
+    // chr3:10-2324234
+    QRegularExpression expression("(chr\\w):(\\d+)-(\\d+)");
+
+    QRegularExpressionMatch match = expression.match(pattern);
+    if (match.hasMatch())
+    {
+        QString chromosom = match.captured(1);
+        quint64 start     = match.captured(2).toInt();
+        quint64 end       = match.captured(3).toInt();
+        setRegion(chromosom, start, end);
+        return;
+    }
+
+    // chr3 only
+    expression.setPattern("(chr\\w)");
+    match = expression.match(pattern);
+    if (match.hasMatch())
+    {
+        QString chromosom = match.captured(1);
+        setRegion(chromosom, 0, 0);
+
+        return;
+    }
+
+
+}
+
 const QString &Region::name() const
 {
     if (mName.isEmpty())
@@ -51,13 +92,6 @@ quint64 Region::end() const
 void Region::setEnd(const quint64 &end)
 {
     mEnd = end;
-}
-
-void Region::setRegion(const QString &chromosom, quint64 start, quint64 end)
-{
-    setChromosom(chromosom);
-    setStart(start);
-    setEnd(end);
 }
 
 void Region::setName(const QString &name)

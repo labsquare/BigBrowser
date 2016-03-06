@@ -13,9 +13,6 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     App::i()->setDefaultDatabasePath();
 
-    qDebug()<<App::i()->avaibleGenoms();
-
-
     MainWindow win ;
     win.show();
 

@@ -42,11 +42,19 @@ QStringList Genom::chromosoms()
     qDebug()<<mChromosoms.count();
 
     QStringList list;
-    if (hasCytoband())
+    if (hasIndex())
     {
-        foreach ( QByteArray chromosom, mChromosoms.keys())
-            list.append(QString::fromUtf8(chromosom));
+        foreach ( QByteArray chromosom, mChromosoms.keys()){
+            QRegularExpression expression("chr\\d+$");
+            if (expression.match(chromosom).hasMatch())
+                list.append(QString::fromUtf8(chromosom));
+
+        }
     }
+    else
+        qDebug()<<Q_FUNC_INFO<<"you do not have genom index";
+
+    qSort(list.begin(), list.end());
     return list;
 
 }

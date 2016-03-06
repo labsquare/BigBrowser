@@ -18,6 +18,9 @@ public:
     //    void setSelector(Selector * selector);
 
 
+public Q_SLOTS:
+    void setGenom(Genom * genom);
+
     //protected Q_SLOTS:
     //void locationChanged();
     //void updateLocation();

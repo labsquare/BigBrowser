@@ -11,11 +11,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mStatusBar       = new StatusBar();
     mchromosomWidget = new ChromosomWidget();
     mTrackListWidget = new TrackListWidget();
-
-
-    mchromosomWidget->setGenom(App::i()->currentGenom());
-
-
+    mGenom           = new Genom();
 
     setMenuBar(mMenuBar);
     addToolBar(mMainToolBar);
@@ -23,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QSplitter * centralSplitter = new QSplitter(Qt::Vertical);
     centralSplitter->addWidget(mchromosomWidget);
     centralSplitter->addWidget(mTrackListWidget);
-
 
     mTrackListWidget->addTrack(new SequenceTrack());
 
@@ -41,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 //    mchromosomWidget->updateChromosom();
 
     mchromosomWidget->setMaximumHeight(130);
-
     resize(1000,600);
 
     setupMenuBar();
@@ -60,8 +54,10 @@ void MainWindow::showSettings()
 
 void MainWindow::setGenom(const QString &name)
 {
-    App::i()->setCurrentGenom(name);
+    mGenom->load(App::i()->genomPath(name));
 
+    mMainToolBar->setGenom(mGenom);
+    mchromosomWidget->setGenom(mGenom);
 }
 
 void MainWindow::setupMenuBar()

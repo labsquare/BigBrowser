@@ -54,19 +54,10 @@ QStringList App::avaibleGenoms() const
     return list;
 }
 
-void App::setCurrentGenom(Genom *genom)
+QString App::genomPath(const QString &name)
 {
-    mGenom = genom;
-}
+    return databasePath()+QDir::separator()+"genom"+QDir::separator()+name;
 
-void App::setCurrentGenom(const QString &name)
-{
-    mGenom->load(databasePath()+QDir::separator()+"genom"+QDir::separator()+name);
-}
-
-Genom *App::currentGenom()
-{
-    return mGenom;
 }
 
 App::App(QObject *parent) :

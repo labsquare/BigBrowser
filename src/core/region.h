@@ -27,7 +27,11 @@ public:
      * \brief Region Constructor
      * \param expression: expression in format <chromosom>:<pos>-<end>: "chr4:1000-20000"
      */
-    Region(const QString& expression);
+    Region(const QString& pattern);
+
+    void setRegion(const QString& chromosom,quint64 start, quint64 end);
+    void setRegion(const QString& patern);
+
 
     const QString& name() const;
     void setName(const QString& name);
@@ -62,7 +66,6 @@ public:
      */
     quint64 middle() const;
 
-    void setRegion(const QString& chromosom,quint64 start, quint64 end);
 
 
     /*!

@@ -31,15 +31,9 @@ public:
 
     QStringList avaibleGenoms() const;
 
-    /*!
-     * \brief setCurrentGenom
-     *
-     * Set the current genom path according genom name and databasePath
-     * \param genom is the folder name of genom from <DATABASE_PATH>/genom/
-     */
-    void setCurrentGenom(Genom * genom);
-    void setCurrentGenom(const QString& name);
-    Genom * currentGenom();
+    QString genomPath(const QString& name);
+
+
 
 
 

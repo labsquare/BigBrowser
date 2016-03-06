@@ -5,7 +5,7 @@
 namespace big {
 namespace gui {
 ChromosomWidget::ChromosomWidget( QWidget * parent)
-    :QWidget(parent), mGenom(0), mSelector(0)
+    :QWidget(parent), mGenom(0)
 {
     // Define chromosome offset (canvas inner margin)
     mOffsetX         = 30;
@@ -13,6 +13,8 @@ ChromosomWidget::ChromosomWidget( QWidget * parent)
     mChromosomHeight = 30;
     mChromosomWidth  = 0;
     mB2PCoeff        = 0;
+
+    mSelector = new Region("chr1");
 
     // Cursor management
     mCursorActive       = false;
@@ -49,6 +51,10 @@ Genom *ChromosomWidget::genom()
 void ChromosomWidget::setGenom(Genom *genom)
 {
     mGenom = genom;
+    if (mGenom){
+        selector()->setChromosom(mGenom->chromosoms().first());
+        updateChromosom();
+    }
 }
 
 Region * ChromosomWidget::selector()

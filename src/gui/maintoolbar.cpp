@@ -18,7 +18,7 @@ MainToolBar::MainToolBar(QWidget * parent):
 
     addWidget(spacer);
     addWidget(mGenomComboBox);
-    //    addWidget(mChromosomComboBox);
+    addWidget(mChromosomComboBox);
     addWidget(mLocationEdit);
 
     mGenomComboBox->setMinimumWidth(100);
@@ -30,6 +30,15 @@ MainToolBar::MainToolBar(QWidget * parent):
 
 
 
+
+}
+
+void MainToolBar::setGenom(Genom *genom)
+{
+    if (genom){
+        mChromosomComboBox->clear();
+        mChromosomComboBox->addItems(genom->chromosoms());
+       }
 }
 
 
