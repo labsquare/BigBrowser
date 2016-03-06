@@ -43,7 +43,7 @@ void Region::setRegion(const QString &pattern)
     }
 
     // chr3 only
-    expression.setPattern("(chr\\w)");
+    expression.setPattern("(chr\\w+)");
     match = expression.match(pattern);
     if (match.hasMatch())
     {
