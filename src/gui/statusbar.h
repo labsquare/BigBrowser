@@ -3,8 +3,9 @@
 #include <QStatusBar>
 #include <QSlider>
 #include <QFrame>
-#include "selector.h"
+#include "genom.h"
 namespace big {
+using namespace core;
 namespace gui {
 class StatusBar : public QFrame
 {
@@ -12,13 +13,14 @@ class StatusBar : public QFrame
 public:
     StatusBar(QWidget * parent = 0);
 
-public Q_SLOTS:
-    void setSelection(int v);
 
+public Q_SLOTS:
+    void updateSlider();
+    void sliderChanged();
 
 private:
     QSlider * mSlider;
-    core::Selector * select;
+    Genom   * mGenom;
 
 
 };

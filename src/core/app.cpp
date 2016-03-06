@@ -42,6 +42,18 @@ void App::setDefaultDatabasePath()
     setDatabasePath(QDir::homePath() + QDir::separator() + ".bigbrowser");
 }
 
+QStringList App::avaibleGenoms() const
+{
+    QStringList list;
+    QDir dir(databasePath()+QDir::separator()+"genom");
+    foreach (QFileInfo info, dir.entryList(QDir::AllDirs|QDir::NoDotAndDotDot))
+    {
+        list.append(info.baseName());
+    }
+
+    return list;
+}
+
 void App::setCurrentGenom(Genom *genom)
 {
     mGenom = genom;
@@ -49,8 +61,7 @@ void App::setCurrentGenom(Genom *genom)
 
 void App::setCurrentGenom(const QString &name)
 {
-    mGenom = new Genom(databasePath()+QDir::separator()+"genom"+QDir::separator()+name);
-
+    mGenom->load(databasePath()+QDir::separator()+"genom"+QDir::separator()+name);
 }
 
 Genom *App::currentGenom()
@@ -58,13 +69,10 @@ Genom *App::currentGenom()
     return mGenom;
 }
 
-
-
-
-
-App::App(QObject *parent) : QObject(parent)
+App::App(QObject *parent) :
+    QObject(parent)
 {
-
+    mGenom = new Genom();
 }
 
 }}

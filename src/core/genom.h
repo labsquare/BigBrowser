@@ -3,6 +3,7 @@
 #include <QtCore>
 #include "sequence.h"
 #include "region.h"
+#include "regionlist.h"
 #include "cytobandreader.h"
 
 namespace big {
@@ -25,7 +26,10 @@ public:
         CytobandFile = 0x0002,
     };
 
+    Genom();
     Genom(const QString& path);
+
+    void load(const QString& path);
 
 
     /*!

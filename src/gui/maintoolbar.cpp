@@ -1,6 +1,7 @@
 #include "maintoolbar.h"
 #include <QSpacerItem>
 #include <QRegExpValidator>
+#include "app.h"
 namespace big {
 namespace gui {
 MainToolBar::MainToolBar(QWidget * parent):
@@ -25,64 +26,66 @@ MainToolBar::MainToolBar(QWidget * parent):
 
     mLocationEdit->setPlaceholderText("chr4:102344342-24234234234");
 
-    connect(mLocationEdit,SIGNAL(returnPressed()),this,SLOT(locationChanged()));
-
-
-}
-
-void MainToolBar::setGenom(Genom *genom)
-{
-    mGenom = genom;
-
-    mGenomComboBox->addItem(mGenom->name());
-    mChromosomComboBox->addItem("chr1");
-    mChromosomComboBox->addItem("chr2");
-    mChromosomComboBox->addItem("chr3");
-    mChromosomComboBox->addItem("chr4");
-    mChromosomComboBox->addItem("chr5");
-    mChromosomComboBox->addItem("chr6");
-    mChromosomComboBox->addItem("chr7");
-    mChromosomComboBox->addItem("chr8");
-    mChromosomComboBox->addItem("chr9");
-    mChromosomComboBox->addItem("chr10");
-    mChromosomComboBox->addItem("chr11");
-    mChromosomComboBox->addItem("chr12");
-    mChromosomComboBox->addItem("chr13");
-    mChromosomComboBox->addItem("chr14");
-    mChromosomComboBox->addItem("chr15");
-    mChromosomComboBox->addItem("chr16");
-    mChromosomComboBox->addItem("chr17");
-    mChromosomComboBox->addItem("chr18");
-    mChromosomComboBox->addItem("chr19");
-    mChromosomComboBox->addItem("chr20");
-    mChromosomComboBox->addItem("chr21");
-    mChromosomComboBox->addItem("chr22");
-    mChromosomComboBox->addItem("chrX");
-    mChromosomComboBox->addItem("chrY");
+    mGenomComboBox->addItems(App::i()->avaibleGenoms());
 
 
 
 }
 
-void MainToolBar::setSelector(Selector *selector)
-{
-    mSelector = selector;
-    connect(mSelector,SIGNAL(changed()),this,SLOT(updateLocation()));
-}
 
-void MainToolBar::locationChanged()
-{
+//void MainToolBar::setGenom(Genom *genom)
+//{
+//    mGenom = genom;
 
-    mSelector->setSelection(mLocationEdit->text());
+//    mGenomComboBox->addItem(mGenom->name());
+//    mChromosomComboBox->addItem("chr1");
+//    mChromosomComboBox->addItem("chr2");
+//    mChromosomComboBox->addItem("chr3");
+//    mChromosomComboBox->addItem("chr4");
+//    mChromosomComboBox->addItem("chr5");
+//    mChromosomComboBox->addItem("chr6");
+//    mChromosomComboBox->addItem("chr7");
+//    mChromosomComboBox->addItem("chr8");
+//    mChromosomComboBox->addItem("chr9");
+//    mChromosomComboBox->addItem("chr10");
+//    mChromosomComboBox->addItem("chr11");
+//    mChromosomComboBox->addItem("chr12");
+//    mChromosomComboBox->addItem("chr13");
+//    mChromosomComboBox->addItem("chr14");
+//    mChromosomComboBox->addItem("chr15");
+//    mChromosomComboBox->addItem("chr16");
+//    mChromosomComboBox->addItem("chr17");
+//    mChromosomComboBox->addItem("chr18");
+//    mChromosomComboBox->addItem("chr19");
+//    mChromosomComboBox->addItem("chr20");
+//    mChromosomComboBox->addItem("chr21");
+//    mChromosomComboBox->addItem("chr22");
+//    mChromosomComboBox->addItem("chrX");
+//    mChromosomComboBox->addItem("chrY");
 
 
 
-}
+//}
 
-void MainToolBar::updateLocation()
-{
-    mLocationEdit->setText(mSelector->toString());
-}
+//void MainToolBar::setSelector(Selector *selector)
+//{
+//    mSelector = selector;
+//    connect(mSelector,SIGNAL(changed()),this,SLOT(updateLocation()));
+//}
+
+//void MainToolBar::locationChanged()
+//{
+
+//    mSelector->setSelection(mLocationEdit->text());
+
+
+
+//}
+
+//void MainToolBar::updateLocation()
+//{
+//    mLocationEdit->setText(mSelector->toString());
+//}
 
 
 void MainToolBar::createActions()

@@ -2,7 +2,6 @@
 #include <QDebug>
 #include "app.h"
 #include "mainwindow.h"
-#include "cytobandreader.h"
 #include "sequence.h"
 #include "genom.h"
 using namespace big::core;
@@ -12,9 +11,10 @@ using namespace big::gui;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
     App::i()->setDefaultDatabasePath();
-    App::i()->setCurrentGenom("hg19");
+
+    qDebug()<<App::i()->avaibleGenoms();
+
 
     MainWindow win ;
     win.show();

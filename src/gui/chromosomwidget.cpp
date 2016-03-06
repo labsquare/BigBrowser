@@ -5,7 +5,7 @@
 namespace big {
 namespace gui {
 ChromosomWidget::ChromosomWidget( QWidget * parent)
-    :QWidget(parent), mGenom(0)
+    :QWidget(parent), mGenom(0), mSelector(0)
 {
     // Define chromosome offset (canvas inner margin)
     mOffsetX         = 30;
@@ -41,17 +41,6 @@ ChromosomWidget::~ChromosomWidget()
     // Do not delete genom or selection
 }
 
-Selector *ChromosomWidget::selector()
-{
-    return mSelector;
-}
-
-void ChromosomWidget::setSelector(Selector *selector)
-{
-    mSelector = selector;
-    connect(mSelector,SIGNAL(changed()),this,SLOT(updateChromosom()));
-}
-
 Genom *ChromosomWidget::genom()
 {
     return mGenom;
@@ -60,6 +49,11 @@ Genom *ChromosomWidget::genom()
 void ChromosomWidget::setGenom(Genom *genom)
 {
     mGenom = genom;
+}
+
+Region * ChromosomWidget::selector()
+{
+    return mSelector;
 }
 
 void ChromosomWidget::updateChromosom()
@@ -89,7 +83,7 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
     {
         // Recompute main drawing variables
         mChromosomWidth = rect().width() - mOffsetX * 2;
-        mB2PCoeff = mChromosomWidth / mChromosoms.last().last();
+        mB2PCoeff = mChromosomWidth / mChromosoms.last().end();
 
 
         // 1st part : the wrapper
@@ -169,12 +163,12 @@ QPainterPath ChromosomWidget::getChromosomWrapperShape(int wrapperPadding, int w
 
         if(stain == "acen" && endPart1 == 0)
         {
-            endPart1 = region.first() * mB2PCoeff;
-            centX = region.last() * mB2PCoeff;
+            endPart1 = region.start() * mB2PCoeff;
+            centX = region.end() * mB2PCoeff;
         }
         else if (endPart1 > 0  && stain != "acen" && startPart2 == 0)
         {
-            startPart2 = region.first() * mB2PCoeff;
+            startPart2 = region.start() * mB2PCoeff;
         }
     }
 
@@ -227,7 +221,7 @@ void ChromosomWidget::drawRegions(QPainter *painter)
     foreach ( Region region, mChromosoms)
     {
         float regionWidth = region.length() * mB2PCoeff;
-        float regionStart = mOffsetX + region.first() * mB2PCoeff;
+        float regionStart = mOffsetX + region.start() * mB2PCoeff;
 
         // Define region
         QRect fragment;
@@ -264,7 +258,7 @@ void ChromosomWidget::drawLabels(QPainter *painter)
     foreach ( Region region, mChromosoms)
     {
         float regionWidth = region.length() * mB2PCoeff;
-        float regionStart = mOffsetX + region.first() * mB2PCoeff;
+        float regionStart = mOffsetX + region.start() * mB2PCoeff;
 
 
 
@@ -369,7 +363,7 @@ Region ChromosomWidget::getRegionAtPixel(int pixelPos)
     foreach (region, mChromosoms)
     {
         regionWidth = region.length() * mB2PCoeff;
-        regionStart = mOffsetX + region.first() * mB2PCoeff;
+        regionStart = mOffsetX + region.start() * mB2PCoeff;
 
         if (pixelPos < regionStart + regionWidth)
         {
@@ -413,7 +407,7 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
     if (mCursorPosition.x() > mOffsetX + mChromosomWidth)
     {
         mCursorPosition.setX(mOffsetX + mChromosomWidth);
-        mCursorBasePosition = region.last();
+        mCursorBasePosition = region.end();
         mCursorRegion = region;
     }
     else
@@ -482,11 +476,11 @@ void ChromosomWidget::mouseDoubleClickEvent(QMouseEvent * )
 {
     // Save frame : select region and center frame on it
     Region region = getRegionAtPixel(mCursorPosition.x());
-    mFrame = QRect(baseToPixel(region.first()), 0, baseToPixel(region.last()) - baseToPixel(region.first()),rect().height()-1);
+    mFrame = QRect(baseToPixel(region.start()), 0, baseToPixel(region.end()) - baseToPixel(region.start()),rect().height()-1);
 
     // update section property
-    selector()->setStart(region.first());
-    selector()->setEnd(region.last());
+    selector()->setStart(region.start());
+    selector()->setEnd(region.end());
 
 
     // Refresh UI

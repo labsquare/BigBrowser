@@ -19,8 +19,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
 
+
 public Q_SLOTS:
 void showSettings();
+void setGenom(const QString& name);
 
 protected:
     void setupMenuBar();
@@ -33,7 +35,6 @@ private:
     ChromosomWidget * mchromosomWidget;
     TrackListWidget * mTrackListWidget;
 
-    core::Selector * mSelection;
 
 };
 

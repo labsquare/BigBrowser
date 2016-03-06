@@ -2,11 +2,10 @@
 #include <QSpacerItem>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include "selector.h"
 namespace big {
 namespace gui {
 StatusBar::StatusBar(QWidget * parent):
-    QFrame(parent)
+    QFrame(parent),mGenom(0)
 {
     mSlider = new QSlider(Qt::Horizontal);
 
@@ -24,21 +23,29 @@ StatusBar::StatusBar(QWidget * parent):
     hLayout->setContentsMargins(0,0,0,0);
 
     setLayout(hLayout);
+    setMaximumHeight(20);
 
+    connect(mSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderChanged()));
 
-   setMaximumHeight(20);
-
-
-select =  new core::Selector;
-
-
-connect(mSlider,SIGNAL(valueChanged(int)),this,SLOT(setSelection(int)));
 
 
 }
 
-void StatusBar::setSelection(int v)
+
+void StatusBar::updateSlider()
 {
-    select->setStart(v);
+//    quint64 max = mGenom->chromosomLength(mSelector->chromosom());
+//    mSlider->setRange(0,max);
+//    mSlider->setValue(mSelector->length());
+
 }
+
+void StatusBar::sliderChanged()
+{
+
+
+
+}
+
+
 }}

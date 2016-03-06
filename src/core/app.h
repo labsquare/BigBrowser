@@ -29,6 +29,8 @@ public:
     void setDatabasePath(const QString& path);
     void setDefaultDatabasePath();
 
+    QStringList avaibleGenoms() const;
+
     /*!
      * \brief setCurrentGenom
      *

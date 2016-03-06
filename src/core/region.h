@@ -8,7 +8,6 @@ namespace core {
  * \brief Describe a region of dna delimited by chromosom:pos-length
  *
  */
-
 class Region
 {
 public:
@@ -23,16 +22,15 @@ public:
      * \param start: position start in 0 based
      * \param length: the length of region
      */
-    Region(const QString& chromosom, quint64 pos, quint64 length);
+    Region(const QString& chromosom, quint64 start, quint64 end);
     /*!
      * \brief Region Constructor
      * \param expression: expression in format <chromosom>:<pos>-<end>: "chr4:1000-20000"
      */
     Region(const QString& expression);
 
-
     const QString& name() const;
-
+    void setName(const QString& name);
 
     /*!
      * \brief chromosom
@@ -40,40 +38,33 @@ public:
      */
     const QString& chromosom() const;
     /*!
-     * \brief pos
-     * \return the position. equivalent to start()
+     * \brief setChromosom
+     * \param chromosom
      */
-    quint64 pos() const;
-    /*!
-     * \brief length
-     * \return the length of region.
-     */
+    void setChromosom(const QString& chromosom);
+
     quint64 length() const;
     /*!
      * \brief start
      * \return the position start of region
      */
-    quint64 first() const;
-    /*!
+    quint64 start() const;
+    void setStart(const quint64 &start);
+      /*!
      * \brief end
      * \return the position end of region
      */
-    quint64 last() const;
-
-    void setRange(quint64 start, quint64 end);
-
-    void setName(const QString& name);
-
+    quint64 end() const;
+    void setEnd(const quint64 &end);
     /*!
-     * \brief setChromosom
-     * \param chromosom
+     * \brief middle
+     * \return the middle position. If length() is an odds, return the position of the left side
      */
-    void setChromosom(const QString& chromosom);
-    /*!
-     * \brief setPos
-     * \param pos
-     */
-    void setPos(quint64 pos);
+    quint64 middle() const;
+
+    void setRegion(const QString& chromosom,quint64 start, quint64 end);
+
+
     /*!
      * \brief setLength
      * \param length
@@ -99,17 +90,46 @@ public:
      */
 
     void clearData();
+    /*!
+     * \brief operator +=
+     * shortcut for translate methods
+     * \param baseCount
+     */
+    void operator+=(qint64 baseCount);
+
+    /*!
+     * \brief operator *=
+     * shortcut for scale method
+     * \param baseCount
+     */
+    void operator*=(qint64 baseCount);
+
+//    bool isValid(Genom *genom);
+
+    /*!
+     * \brief translate
+     * Translate the section of basecount. Could be negatif or positif
+     * \param baseCount
+     */
+    void translate(qint64 baseCount);
+
+    /*!
+     * \brief scale
+     * Scale or zoom the section. Add baseCount from each side of the section
+     * \param baseCount
+     */
+    void scale(qint64 baseCount);
+
+    QString toString() const;
 
 
-    static Region fromBed(const QString& chrom, quint64 chromStart, quint64 chromEnd);
-    static Region fromBed(const QString& expression);
 
 
 private:
     QString mChrom;
+    quint64 mStart;
+    quint64 mEnd;
     QString mName;
-    quint64 mPos;
-    quint64 mLength;
     QHash<QString, QVariant> mDatas;
 
 };

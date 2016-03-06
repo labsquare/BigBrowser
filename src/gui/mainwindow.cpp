@@ -11,14 +11,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mStatusBar       = new StatusBar();
     mchromosomWidget = new ChromosomWidget();
     mTrackListWidget = new TrackListWidget();
-    mSelection       = new core::Selector;
 
 
     mchromosomWidget->setGenom(App::i()->currentGenom());
-    mchromosomWidget->setSelector(mSelection);
 
-    mMainToolBar->setGenom(App::i()->currentGenom());
-    mMainToolBar->setSelector(mSelection);
 
 
     setMenuBar(mMenuBar);
@@ -42,14 +38,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     setCentralWidget(cWidget);
 
-    mSelection->setChromosom("chr1");
-    mchromosomWidget->updateChromosom();
+//    mchromosomWidget->updateChromosom();
 
     mchromosomWidget->setMaximumHeight(130);
 
     resize(1000,600);
 
     setupMenuBar();
+
+    setGenom("hg19");
 
 }
 
@@ -58,6 +55,12 @@ void MainWindow::showSettings()
     SettingsDialog dialog(this);
     dialog.exec();
 
+
+}
+
+void MainWindow::setGenom(const QString &name)
+{
+    App::i()->setCurrentGenom(name);
 
 }
 
