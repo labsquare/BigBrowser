@@ -11,10 +11,8 @@ MainToolBar::MainToolBar(QWidget * parent):
     mChromosomComboBox = new QComboBox();
     mLocationEdit      = new QLineEdit();
 
-
     QWidget * spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
 
     addWidget(spacer);
     addWidget(mGenomComboBox);
@@ -23,13 +21,11 @@ MainToolBar::MainToolBar(QWidget * parent):
 
     mGenomComboBox->setMinimumWidth(100);
     mLocationEdit->setMaximumWidth(400);
-
     mLocationEdit->setPlaceholderText("chr4:102344342-24234234234");
-
     mGenomComboBox->addItems(App::i()->avaibleGenoms());
 
-
-
+    connect(mLocationEdit,SIGNAL(returnPressed()),this,SLOT(locationEditChanged()));
+    connect(mChromosomComboBox,SIGNAL(currentTextChanged(QString)),this,SLOT(chromosomChanged()));
 
 }
 
@@ -38,64 +34,14 @@ void MainToolBar::setGenom(Genom *genom)
     if (genom){
         mChromosomComboBox->clear();
         mChromosomComboBox->addItems(genom->chromosoms());
-       }
+    }
 }
 
-
-//void MainToolBar::setGenom(Genom *genom)
-//{
-//    mGenom = genom;
-
-//    mGenomComboBox->addItem(mGenom->name());
-//    mChromosomComboBox->addItem("chr1");
-//    mChromosomComboBox->addItem("chr2");
-//    mChromosomComboBox->addItem("chr3");
-//    mChromosomComboBox->addItem("chr4");
-//    mChromosomComboBox->addItem("chr5");
-//    mChromosomComboBox->addItem("chr6");
-//    mChromosomComboBox->addItem("chr7");
-//    mChromosomComboBox->addItem("chr8");
-//    mChromosomComboBox->addItem("chr9");
-//    mChromosomComboBox->addItem("chr10");
-//    mChromosomComboBox->addItem("chr11");
-//    mChromosomComboBox->addItem("chr12");
-//    mChromosomComboBox->addItem("chr13");
-//    mChromosomComboBox->addItem("chr14");
-//    mChromosomComboBox->addItem("chr15");
-//    mChromosomComboBox->addItem("chr16");
-//    mChromosomComboBox->addItem("chr17");
-//    mChromosomComboBox->addItem("chr18");
-//    mChromosomComboBox->addItem("chr19");
-//    mChromosomComboBox->addItem("chr20");
-//    mChromosomComboBox->addItem("chr21");
-//    mChromosomComboBox->addItem("chr22");
-//    mChromosomComboBox->addItem("chrX");
-//    mChromosomComboBox->addItem("chrY");
-
-
-
-//}
-
-//void MainToolBar::setSelector(Selector *selector)
-//{
-//    mSelector = selector;
-//    connect(mSelector,SIGNAL(changed()),this,SLOT(updateLocation()));
-//}
-
-//void MainToolBar::locationChanged()
-//{
-
-//    mSelector->setSelection(mLocationEdit->text());
-
-
-
-//}
-
-//void MainToolBar::updateLocation()
-//{
-//    mLocationEdit->setText(mSelector->toString());
-//}
-
+void MainToolBar::setSelection(const QString &chromosom, quint64 start, quint64 end)
+{
+    Region region(chromosom,start, end);
+    mLocationEdit->setText(region.toString());
+}
 
 void MainToolBar::createActions()
 {
@@ -103,10 +49,16 @@ void MainToolBar::createActions()
 
 }
 
-void MainToolBar::loadChromosom()
+
+
+void MainToolBar::locationEditChanged()
 {
+    Region region(mLocationEdit->text());
+    emit selectionChanged(region.chromosom(),region.start(),region.end());
+}
 
-
-
+void MainToolBar::chromosomChanged()
+{
+    emit selectionChanged(mChromosomComboBox->currentText(),0,0);
 }
 }}

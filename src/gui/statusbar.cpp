@@ -31,21 +31,39 @@ StatusBar::StatusBar(QWidget * parent):
 
 }
 
-
-void StatusBar::updateSlider()
+void StatusBar::setGenom(Genom *genom)
 {
-//    quint64 max = mGenom->chromosomLength(mSelector->chromosom());
-//    mSlider->setRange(0,max);
-//    mSlider->setValue(mSelector->length());
-
+    mGenom = genom;
 }
+
 
 void StatusBar::sliderChanged()
 {
+    // WARNING
+    ///TODO warning.. conversion int to quint64
+    ///
+//    quint64 value= mSlider->value();
 
+//    mCurrentRegion*=1000;
+
+//    emit selectionChanged(mCurrentRegion.chromosom(),
+//                          mCurrentRegion.start(),
+//                          mCurrentRegion.end());
+
+    qDebug()<<"test";
 
 
 }
 
+void StatusBar::setSelection(const QString &chromosom, quint64 start, quint64 end)
+{
+    mCurrentRegion = Region(chromosom,start,end);
+    if (mGenom)
+    {
+        quint64 max = mGenom->chromosomLength(chromosom);
+        mSlider->setRange(0,max);
+        mSlider->setValue(end-start);
+    }
+}
 
 }}

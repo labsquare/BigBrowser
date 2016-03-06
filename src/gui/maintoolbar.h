@@ -20,18 +20,20 @@ public:
 
 public Q_SLOTS:
     void setGenom(Genom * genom);
+    void setSelection(const QString& chromosom, quint64 start, quint64 end);
 
-    //protected Q_SLOTS:
-    //void locationChanged();
-    //void updateLocation();
 
-    //Q_SIGNALS:
-    //    void chromosomeChanged(const QString& chromosom);
+
+
+Q_SIGNALS:
+    void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
 
 protected:
     void createActions();
-    void loadChromosom();
 
+protected Q_SLOTS:
+    void locationEditChanged();
+    void chromosomChanged();
 
 
 

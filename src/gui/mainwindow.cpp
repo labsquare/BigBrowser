@@ -33,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     setCentralWidget(cWidget);
 
-//    mchromosomWidget->updateChromosom();
 
     mchromosomWidget->setMaximumHeight(130);
     resize(1000,600);
@@ -41,6 +40,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setupMenuBar();
 
     setGenom("hg19");
+    setSelection("chr21",1,100000);
+
+
+    connect(mMainToolBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
+            this,SLOT(setSelection(QString,quint64,quint64)));
+
+    connect(mStatusBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
+            this,SLOT(setSelection(QString,quint64,quint64)));
+
+
+    connect(mchromosomWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
+            this,SLOT(setSelection(QString,quint64,quint64)));
+
 
 }
 
@@ -58,6 +70,19 @@ void MainWindow::setGenom(const QString &name)
 
     mMainToolBar->setGenom(mGenom);
     mchromosomWidget->setGenom(mGenom);
+    mStatusBar->setGenom(mGenom);
+}
+
+void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 end)
+{
+    if (sender() != mchromosomWidget)
+        mchromosomWidget->setSelection(chromosom,start,end);
+
+    if (sender() != mMainToolBar)
+        mMainToolBar->setSelection(chromosom,start,end);
+
+    if (sender() != mStatusBar)
+        mStatusBar->setSelection(chromosom,start,end);
 }
 
 void MainWindow::setupMenuBar()

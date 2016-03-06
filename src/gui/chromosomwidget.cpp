@@ -73,6 +73,12 @@ void ChromosomWidget::updateChromosom()
     }
 }
 
+void ChromosomWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
+{
+    selector()->setRegion(chromosom,start,end);
+    updateChromosom();
+}
+
 
 void ChromosomWidget::paintEvent(QPaintEvent *)
 {
@@ -471,6 +477,7 @@ void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
         // update section property
         selector()->setStart(pixelToBase(mFrame.x()));
         selector()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
+        emit selectionChanged(selector()->chromosom(),selector()->start(),selector()->end());
     }
     mCursorClicked = false;
 

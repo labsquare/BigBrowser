@@ -29,8 +29,13 @@ public:
     Region *selector();
 
 
-
 public Q_SLOTS:
+    void setSelection(const QString& chromosom, quint64 start, quint64 end);
+
+Q_SIGNALS:
+    void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+
+protected Q_SLOTS:
     void updateChromosom();
 
 protected:
