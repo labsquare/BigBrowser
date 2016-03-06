@@ -47,11 +47,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(mMainToolBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
 
-    connect(mStatusBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
-            this,SLOT(setSelection(QString,quint64,quint64)));
 
     connect(mchromosomWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
+
+    connect(mStatusBar,SIGNAL(zoomChanged(int)),mchromosomWidget,SLOT(setZoom(int)));
+
 
 
 }

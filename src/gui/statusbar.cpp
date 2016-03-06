@@ -25,7 +25,7 @@ StatusBar::StatusBar(QWidget * parent):
     setLayout(hLayout);
     setMaximumHeight(20);
 
-    connect(mSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderChanged()));
+    connect(mSlider,SIGNAL(sliderMoved(int)),this,SLOT(sliderChanged()));
 
 
 
@@ -50,8 +50,9 @@ void StatusBar::sliderChanged()
 //                          mCurrentRegion.start(),
 //                          mCurrentRegion.end());
 
-    qDebug()<<"test";
 
+
+    emit zoomChanged(mSlider->value());
 
 }
 

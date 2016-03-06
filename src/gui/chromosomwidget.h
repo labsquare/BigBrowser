@@ -31,6 +31,7 @@ public:
 
 public Q_SLOTS:
     void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    void setZoom(int factor);
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);

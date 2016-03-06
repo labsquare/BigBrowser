@@ -82,6 +82,19 @@ void ChromosomWidget::setSelection(const QString &chromosom, quint64 start, quin
     updateChromosom();
 }
 
+void ChromosomWidget::setZoom(int factor)
+{
+
+   quint64 middle = selector()->middle();
+
+   selector()->setStart(middle - factor/2 );
+   selector()->setEnd(middle + factor/2 );
+
+   updateChromosom();
+
+}
+
+
 
 void ChromosomWidget::paintEvent(QPaintEvent *)
 {

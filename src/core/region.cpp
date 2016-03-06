@@ -94,6 +94,11 @@ void Region::setEnd(const quint64 &end)
     mEnd = end;
 }
 
+quint64 Region::middle() const
+{
+    return start() + length()/2;
+}
+
 void Region::setName(const QString &name)
 {
     mName = name;
