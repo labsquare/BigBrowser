@@ -28,6 +28,18 @@ int Genom::chromosomLength(const QString &chromosom)
 
 }
 
+QStringList Genom::chromosoms()
+{
+    QStringList list;
+    if (hasCytoband())
+    {
+       foreach ( QByteArray chromosom, mChromosoms.keys())
+           list.append(chromosom);
+    }
+    return list;
+
+}
+
 RegionList Genom::cytoBand(const QString &chromosom)
 {
     // create cytoband region list according chromosom name

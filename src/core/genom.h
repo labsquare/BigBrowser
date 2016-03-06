@@ -41,6 +41,8 @@ public:
      */
     int chromosomLength(const QString& chromosom);
 
+    QStringList chromosoms();
+
     /*!
      * \brief cytoBand
      * Return cytoband according chromosom name

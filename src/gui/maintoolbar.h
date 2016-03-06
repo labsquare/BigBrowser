@@ -4,14 +4,19 @@
 #include <QToolButton>
 #include <QComboBox>
 #include <QLineEdit>
+#include "genom.h"
 
 namespace big {
+using namespace core;
+
 namespace gui {
 class MainToolBar : public QToolBar
 {
     Q_OBJECT
 public:
     MainToolBar(QWidget * parent = 0);
+
+
 
 Q_SIGNALS:
     void chromosomeChanged(const QString& chromosom);
