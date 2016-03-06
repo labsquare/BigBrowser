@@ -130,6 +130,9 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         if (!mFrame.isNull())
         {
             mFrame = QRect(baseToPixel(selection()->start()), 0, baseToPixel(selection()->end()) - baseToPixel(selection()->start()),rect().height()-1);
+            mFrameHandleM = QRect(mFrame.left(), mFrame.top(), mFrame.width(), 15);
+            mFrameHandleL = QRect(mFrame.left()-5, mFrame.top(), mFrame.left(), rect().height());
+            mFrameHandleR = QRect(mFrame.right(), mFrame.top(), mFrame.right()+5, rect().height());
         }
     }
 
@@ -287,6 +290,9 @@ void ChromosomWidget::drawFrameLayer(QPainter *painter)
     QColor sectionColor = QColor(240,140,0);
     QColor selectionColor = Qt::red;
 
+    bool hideCursor = false;
+
+
     // Draw section frame if exist
     if (!mFrame.isNull())
     {
@@ -295,7 +301,28 @@ void ChromosomWidget::drawFrameLayer(QPainter *painter)
         bg.setAlpha(100);
         painter->setBrush(bg);
         painter->drawRect(mFrame);
+
+        if (mFrame.contains(mCursorPosition))
+        {
+            QBrush bgHandles = sectionColor;
+            bgHandles.setStyle(Qt::Dense5Pattern);
+            painter->setBrush(bgHandles);
+            painter->drawRect(mFrameHandleM);
+        }
+        // if cursor over the handles, we display them
+        if (mFrameHandleM.contains(mCursorPosition))
+        {
+            hideCursor = true;
+            setCursor(Qt::SizeAllCursor);
+        }
+        else
+        {
+            setCursor(Qt::BlankCursor);
+        }
+
     }
+
+
     if (!mFrameGhost.isNull() && mCursorClicked)
     {
         painter->setPen(Qt::NoPen);
@@ -309,7 +336,7 @@ void ChromosomWidget::drawFrameLayer(QPainter *painter)
 
     QColor cursorCol = (!mCursorClicked) ? selectionColor : sectionColor;
 
-    if (mCursorActive)
+    if (mCursorActive && !hideCursor)
     {
         // Draw the cursor
         painter->setPen(QPen(cursorCol, 1, Qt::DashLine));
@@ -455,6 +482,9 @@ void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
     if (mCursorClicked)
     {
         mFrame = mFrameGhost;
+        mFrameHandleM = QRect(mFrame.left(), mFrame.top(), mFrame.width(), 15);
+        mFrameHandleL = QRect(mFrame.left()-5, mFrame.top(), mFrame.left(), rect().height());
+        mFrameHandleR = QRect(mFrame.right(), mFrame.top(), mFrame.right()+5, rect().height());
 
         // update section property
         selection()->setStart(pixelToBase(mFrame.x()));
@@ -471,6 +501,9 @@ void ChromosomWidget::mouseDoubleClickEvent(QMouseEvent * )
     // Save frame : select region and center frame on it
     Region region = getRegionAtPixel(mCursorPosition.x());
     mFrame = QRect(baseToPixel(region.first()), 0, baseToPixel(region.last()) - baseToPixel(region.first()),rect().height()-1);
+    mFrameHandleM = QRect(mFrame.left(), mFrame.top(), mFrame.width(), 15);
+    mFrameHandleL = QRect(mFrame.left()-5, mFrame.top(), mFrame.left(), rect().height());
+    mFrameHandleR = QRect(mFrame.right(), mFrame.top(), mFrame.right()+5, rect().height());
 
     // update section property
     selection()->setStart(region.first());

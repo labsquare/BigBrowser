@@ -72,6 +72,9 @@ private:
     QRect mFrame;
     QRect mFrameGhost;
     QPoint mFrameFirstPoint;
+    QRect mFrameHandleL;
+    QRect mFrameHandleM;
+    QRect mFrameHandleR;
 
 
 
