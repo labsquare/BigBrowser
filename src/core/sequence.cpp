@@ -1,68 +1,87 @@
 #include "sequence.h"
 #include <QFile>
 #include <QTextStream>
+
 namespace big {
-namespace core {
-Sequence::Sequence(const QByteArray &seq)
-{
-    setSequence(seq);
-}
 
-Sequence::Sequence()
-{
-}
+    namespace core {
 
-void Sequence::setSequence(const QByteArray &seq)
-{
-    mSeq = seq;
-}
+	Sequence::Sequence(const QByteArray &seq)
+	{
+	    setSequence(seq);
+	}
 
-QString Sequence::toString() const
-{
+	Sequence::Sequence()
+	{
+	}
 
-    return QString::fromUtf8(mSeq);
-}
+	void Sequence::setSequence(const QByteArray &seq)
+	{
+	    mSeq = seq;
+	}
 
-Sequence Sequence::complement() const
-{
+	QString Sequence::toString() const
+	{
 
-    return Sequence();
-}
+	    return QString::fromUtf8(mSeq);
+	}
 
-Sequence Sequence::reverseComplement() const
-{
-    return Sequence();
+	Sequence Sequence::complement() const
+	{
+	    
+	    
+	    return Sequence();
+	}
 
-}
+	Sequence Sequence::reverseComplement() const
+	{
+	    return Sequence();
+	}
 
-Sequence Sequence::transcribe() const
-{
-    return Sequence();
+	Sequence Sequence::transcribe() const
+	{
+	    return Sequence();
 
-}
+	}
 
-Sequence Sequence::backTranscribe() const
-{
-    return Sequence();
+	Sequence Sequence::backTranscribe() const
+	{
+	    return Sequence();
 
-}
+	}
 
 
-Sequence Sequence::fromFasta(const QString &filename)
-{
-    QFile file(filename);
+	Sequence Sequence::fromFasta(const QString &filename)
+	{
+	    QFile file(filename);
 
-    // Do not load big fasta file
+	    // Do not load big fasta file
 
-    if ( file.open(QIODevice::ReadOnly))
-    {
-        QTextStream stream(&file);
+	    if ( file.open(QIODevice::ReadOnly))
+	    {
+		QTextStream stream(&file);
 
-        // Process fasta
-        // setSequence
-    }
+		// Process fasta
+		// setSequence
+	    }
 
-     return Sequence();
-}
+	    return Sequence();
+	}
 
-}}
+	char Sequence::getComplement(char nuc)
+	{
+	    return this->mComplement[nuc];
+	}
+	
+    } // end of namespace core
+} // end of namespace big
+
+
+
+
+
+
+
+
+
+
