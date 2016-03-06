@@ -2,6 +2,7 @@
 #include <QSpacerItem>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include "selector.h"
 namespace big {
 namespace gui {
 StatusBar::StatusBar(QWidget * parent):
@@ -28,9 +29,16 @@ StatusBar::StatusBar(QWidget * parent):
    setMaximumHeight(20);
 
 
+select =  new core::Selector;
 
 
+connect(mSlider,SIGNAL(valueChanged(int)),this,SLOT(setSelection(int)));
 
 
+}
+
+void StatusBar::setSelection(int v)
+{
+    select->setStart(v);
 }
 }}

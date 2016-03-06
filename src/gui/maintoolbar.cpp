@@ -1,5 +1,6 @@
 #include "maintoolbar.h"
 #include <QSpacerItem>
+#include <QRegExpValidator>
 namespace big {
 namespace gui {
 MainToolBar::MainToolBar(QWidget * parent):
@@ -9,7 +10,31 @@ MainToolBar::MainToolBar(QWidget * parent):
     mChromosomComboBox = new QComboBox();
     mLocationEdit      = new QLineEdit();
 
-    mGenomComboBox->addItem("Hg19");
+
+    QWidget * spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+
+    addWidget(spacer);
+    addWidget(mGenomComboBox);
+    //    addWidget(mChromosomComboBox);
+    addWidget(mLocationEdit);
+
+    mGenomComboBox->setMinimumWidth(100);
+    mLocationEdit->setMaximumWidth(400);
+
+    mLocationEdit->setPlaceholderText("chr4:102344342-24234234234");
+
+    connect(mLocationEdit,SIGNAL(returnPressed()),this,SLOT(locationChanged()));
+
+
+}
+
+void MainToolBar::setGenom(Genom *genom)
+{
+    mGenom = genom;
+
+    mGenomComboBox->addItem(mGenom->name());
     mChromosomComboBox->addItem("chr1");
     mChromosomComboBox->addItem("chr2");
     mChromosomComboBox->addItem("chr3");
@@ -35,24 +60,30 @@ MainToolBar::MainToolBar(QWidget * parent):
     mChromosomComboBox->addItem("chrX");
     mChromosomComboBox->addItem("chrY");
 
-    QWidget * spacer = new QWidget();
-    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-
-    addWidget(spacer);
-    addWidget(mGenomComboBox);
-    addWidget(mChromosomComboBox);
-    addWidget(mLocationEdit);
-
-    mGenomComboBox->setMinimumWidth(100);
-    mLocationEdit->setMaximumWidth(400);
-
-    mLocationEdit->setPlaceholderText("chr4:102344342-24234234234");
-
-    connect(mChromosomComboBox,SIGNAL(activated(QString)), this,SIGNAL(chromosomeChanged(QString)));
 
 
 }
+
+void MainToolBar::setSelector(Selector *selector)
+{
+    mSelector = selector;
+    connect(mSelector,SIGNAL(changed()),this,SLOT(updateLocation()));
+}
+
+void MainToolBar::locationChanged()
+{
+
+    mSelector->setSelection(mLocationEdit->text());
+
+
+
+}
+
+void MainToolBar::updateLocation()
+{
+    mLocationEdit->setText(mSelector->toString());
+}
+
 
 void MainToolBar::createActions()
 {
@@ -62,6 +93,8 @@ void MainToolBar::createActions()
 
 void MainToolBar::loadChromosom()
 {
+
+
 
 }
 }}

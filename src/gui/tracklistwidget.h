@@ -17,6 +17,8 @@ public:
 
     void addTrack(AbstractTrack * track);
 
+public Q_SLOTS:
+
 
 private:
 QList<AbstractTrack*> mTracks;

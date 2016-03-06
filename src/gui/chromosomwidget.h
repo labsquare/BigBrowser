@@ -7,7 +7,7 @@
 #include "region.h"
 #include "genom.h"
 #include "regionlist.h"
-#include "selection.h"
+#include "selector.h"
 #include <QHash>
 
 namespace big {
@@ -20,16 +20,19 @@ class ChromosomWidget : public QWidget
     Q_OBJECT
 public:
 
-    ChromosomWidget(Genom * genom, QWidget * parent = 0);
+    ChromosomWidget(QWidget * parent = 0);
     ~ChromosomWidget();
-    Selection * selection();
+
+    Selector * selector();
+    void setSelector(Selector * selector);
+
     Genom * genom();
+    void setGenom(Genom * genom);
 
 
 
 public Q_SLOTS:
-    void setChromosom(const QString& chromosom);
-
+    void updateChromosom();
 
 protected:
     // Override Qt event handler
@@ -55,11 +58,12 @@ protected:
 
 private:
     Genom * mGenom;
+    Selector * mSelector;
+
     QString mCytoBandFileName;
     RegionList mRegionList;
     RegionList mChromosoms;
     QHash<QString, QColor> mStains;
-    Selection * mSelection;
 
     // Cursor management
     QPoint mCursorPosition;

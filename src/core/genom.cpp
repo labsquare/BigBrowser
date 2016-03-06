@@ -30,11 +30,13 @@ int Genom::chromosomLength(const QString &chromosom)
 
 QStringList Genom::chromosoms()
 {
+    qDebug()<<mChromosoms.count();
+
     QStringList list;
     if (hasCytoband())
     {
        foreach ( QByteArray chromosom, mChromosoms.keys())
-           list.append(chromosom);
+           list.append(QString::fromUtf8(chromosom));
     }
     return list;
 
@@ -261,7 +263,7 @@ bool Genom::createIndex()
 
 void Genom::loadChromosoms()
 {
-    if (isValid())
+    if (hasIndex())
     {
         QFile file(filename(IndexFile));
         if (file.open(QIODevice::ReadOnly))
@@ -272,9 +274,12 @@ void Genom::loadChromosoms()
                 QByteArrayList list =  file.readLine().split('\t');
                 // get chromosom name at 0 , and chromosome size at 1
                 mChromosoms[list.at(0)] = list.at(1).toInt();
+
             }
         }
     }
+
+
 }
 
 }}

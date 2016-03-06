@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include "genom.h"
+#include "selector.h"
 
 namespace big {
 using namespace core;
@@ -16,20 +17,30 @@ class MainToolBar : public QToolBar
 public:
     MainToolBar(QWidget * parent = 0);
 
+    void setGenom(Genom * genom);
+    void setSelector(Selector * selector);
 
 
-Q_SIGNALS:
-    void chromosomeChanged(const QString& chromosom);
+protected Q_SLOTS:
+void locationChanged();
+void updateLocation();
+
+//Q_SIGNALS:
+//    void chromosomeChanged(const QString& chromosom);
 
 protected:
     void createActions();
     void loadChromosom();
 
 
+
+
 private:
     QComboBox * mGenomComboBox;
     QComboBox * mChromosomComboBox;
     QLineEdit * mLocationEdit;
+    Genom * mGenom;
+    Selector * mSelector;
 
 
 };
