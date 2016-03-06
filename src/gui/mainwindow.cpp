@@ -11,15 +11,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mStatusBar       = new StatusBar();
     mchromosomWidget = new ChromosomWidget();
     mTrackListWidget = new TrackListWidget();
-    mSelection       = new core::Selector;
-
-
-    mchromosomWidget->setGenom(App::i()->currentGenom());
-    mchromosomWidget->setSelector(mSelection);
-
-    mMainToolBar->setGenom(App::i()->currentGenom());
-    mMainToolBar->setSelector(mSelection);
-
+    mGenom           = new Genom();
 
     setMenuBar(mMenuBar);
     addToolBar(mMainToolBar);
@@ -27,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QSplitter * centralSplitter = new QSplitter(Qt::Vertical);
     centralSplitter->addWidget(mchromosomWidget);
     centralSplitter->addWidget(mTrackListWidget);
-
 
     mTrackListWidget->addTrack(new SequenceTrack());
 
@@ -42,14 +33,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     setCentralWidget(cWidget);
 
-    mSelection->setChromosom("chr1");
-    mchromosomWidget->updateChromosom();
 
     mchromosomWidget->setMaximumHeight(130);
-
     resize(1000,600);
 
     setupMenuBar();
+
+    setGenom("hg19");
+    setSelection("chr1",1,100000);
+
+
+    // Connect signals and slots
+    connect(mMainToolBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
+            this,SLOT(setSelection(QString,quint64,quint64)));
+
+    connect(mStatusBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
+            this,SLOT(setSelection(QString,quint64,quint64)));
+
+    connect(mchromosomWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
+            this,SLOT(setSelection(QString,quint64,quint64)));
+
 
 }
 
@@ -61,14 +64,33 @@ void MainWindow::showSettings()
 
 }
 
+void MainWindow::setGenom(const QString &name)
+{
+    mGenom->load(App::i()->genomPath(name));
+
+    mMainToolBar->setGenom(mGenom);
+    mchromosomWidget->setGenom(mGenom);
+    mStatusBar->setGenom(mGenom);
+}
+
+void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 end)
+{
+    if (sender() != mchromosomWidget)
+        mchromosomWidget->setSelection(chromosom,start,end);
+
+    if (sender() != mMainToolBar)
+        mMainToolBar->setSelection(chromosom,start,end);
+
+    if (sender() != mStatusBar)
+        mStatusBar->setSelection(chromosom,start,end);
+}
+
 void MainWindow::setupMenuBar()
 {
 
     QMenu * fileMenu = menuBar()->addMenu("File");
     QAction * preferenceAction = fileMenu->addAction("Preference",this,SLOT(showSettings()));
     QAction * closeAction      = fileMenu->addAction("Close", this,SLOT(close()));
-
-
 
 
 

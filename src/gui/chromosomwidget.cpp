@@ -14,6 +14,9 @@ ChromosomWidget::ChromosomWidget( QWidget * parent)
     mChromosomWidth  = 0;
     mB2PCoeff        = 0;
 
+    // Create an empty selector
+    mSelector = new Region();
+
     // Cursor management
     mCursorActive       = false;
     mCursorClicked      = false;
@@ -38,18 +41,8 @@ ChromosomWidget::ChromosomWidget( QWidget * parent)
 
 ChromosomWidget::~ChromosomWidget()
 {
-    // Do not delete genom or selection
-}
-
-Selector *ChromosomWidget::selector()
-{
-    return mSelector;
-}
-
-void ChromosomWidget::setSelector(Selector *selector)
-{
-    mSelector = selector;
-    connect(mSelector,SIGNAL(changed()),this,SLOT(updateChromosom()));
+    // Do not delete genom
+    delete mSelector;
 }
 
 Genom *ChromosomWidget::genom()
@@ -60,17 +53,33 @@ Genom *ChromosomWidget::genom()
 void ChromosomWidget::setGenom(Genom *genom)
 {
     mGenom = genom;
+    if (mGenom){
+        // When genom changed, load new set of chromosom and show the first one
+        selector()->setChromosom(mGenom->chromosoms().first());
+        updateChromosom();
+    }
+}
+
+Region * ChromosomWidget::selector()
+{
+    return mSelector;
 }
 
 void ChromosomWidget::updateChromosom()
 {
-    if (genom() && selector() )
+    if (genom())
     {
         mChromosoms = genom()->cytoBand(selector()->chromosom());
         // Force the redraw of the background
         mBackgroundLayer = QImage();
         update();
     }
+}
+
+void ChromosomWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
+{
+    selector()->setRegion(chromosom,start,end);
+    updateChromosom();
 }
 
 
@@ -89,7 +98,7 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
     {
         // Recompute main drawing variables
         mChromosomWidth = rect().width() - mOffsetX * 2;
-        mB2PCoeff = mChromosomWidth / mChromosoms.last().last();
+        mB2PCoeff = mChromosomWidth / mChromosoms.last().end();
 
 
         // 1st part : the wrapper
@@ -172,12 +181,12 @@ QPainterPath ChromosomWidget::getChromosomWrapperShape(int wrapperPadding, int w
 
         if(stain == "acen" && endPart1 == 0)
         {
-            endPart1 = region.first() * mB2PCoeff;
-            centX = region.last() * mB2PCoeff;
+            endPart1 = region.start() * mB2PCoeff;
+            centX = region.end() * mB2PCoeff;
         }
         else if (endPart1 > 0  && stain != "acen" && startPart2 == 0)
         {
-            startPart2 = region.first() * mB2PCoeff;
+            startPart2 = region.start() * mB2PCoeff;
         }
     }
 
@@ -230,7 +239,7 @@ void ChromosomWidget::drawRegions(QPainter *painter)
     foreach ( Region region, mChromosoms)
     {
         float regionWidth = region.length() * mB2PCoeff;
-        float regionStart = mOffsetX + region.first() * mB2PCoeff;
+        float regionStart = mOffsetX + region.start() * mB2PCoeff;
 
         // Define region
         QRect fragment;
@@ -267,7 +276,7 @@ void ChromosomWidget::drawLabels(QPainter *painter)
     foreach ( Region region, mChromosoms)
     {
         float regionWidth = region.length() * mB2PCoeff;
-        float regionStart = mOffsetX + region.first() * mB2PCoeff;
+        float regionStart = mOffsetX + region.start() * mB2PCoeff;
 
 
 
@@ -396,7 +405,7 @@ Region ChromosomWidget::getRegionAtPixel(int pixelPos)
     foreach (region, mChromosoms)
     {
         regionWidth = region.length() * mB2PCoeff;
-        regionStart = mOffsetX + region.first() * mB2PCoeff;
+        regionStart = mOffsetX + region.start() * mB2PCoeff;
 
         if (pixelPos < regionStart + regionWidth)
         {
@@ -440,7 +449,7 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
     if (mCursorPosition.x() > mOffsetX + mChromosomWidth)
     {
         mCursorPosition.setX(mOffsetX + mChromosomWidth);
-        mCursorBasePosition = region.last();
+        mCursorBasePosition = region.end();
         mCursorRegion = region;
     }
     else
@@ -501,6 +510,7 @@ void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
         // update section property
         selector()->setStart(pixelToBase(mFrame.x()));
         selector()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
+        emit selectionChanged(selector()->chromosom(),selector()->start(),selector()->end());
     }
     mCursorClicked = false;
 
@@ -512,14 +522,15 @@ void ChromosomWidget::mouseDoubleClickEvent(QMouseEvent * )
 {
     // Save frame : select region and center frame on it
     Region region = getRegionAtPixel(mCursorPosition.x());
-    mFrame = QRect(baseToPixel(region.first()), 0, baseToPixel(region.last()) - baseToPixel(region.first()),rect().height()-1);
+    mFrame = QRect(baseToPixel(region.start()), 0, baseToPixel(region.end()) - baseToPixel(region.start()),rect().height()-1);
     mFrameHandleM = QRect(mFrame.left(), mFrame.top(), mFrame.width(), 15);
     mFrameHandleL = QRect(mFrame.left()-5, mFrame.top(), mFrame.left(), rect().height());
     mFrameHandleR = QRect(mFrame.right(), mFrame.top(), mFrame.right()+5, rect().height());
 
+
     // update section property
-    selector()->setStart(region.first());
-    selector()->setEnd(region.last());
+    selector()->setStart(region.start());
+    selector()->setEnd(region.end());
 
 
     // Refresh UI

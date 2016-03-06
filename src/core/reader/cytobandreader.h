@@ -19,7 +19,7 @@ class CytobandReader: public AbstractRegionReader
 {
 public:
     CytobandReader(const QString& filename);
-    virtual bool next() Q_DECL_OVERRIDE;
+    virtual bool next();
 
 
 

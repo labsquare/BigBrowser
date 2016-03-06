@@ -7,7 +7,6 @@
 #include "region.h"
 #include "genom.h"
 #include "regionlist.h"
-#include "selector.h"
 #include <QHash>
 
 namespace big {
@@ -23,15 +22,20 @@ public:
     ChromosomWidget(QWidget * parent = 0);
     ~ChromosomWidget();
 
-    Selector * selector();
-    void setSelector(Selector * selector);
 
     Genom * genom();
     void setGenom(Genom * genom);
 
+    Region *selector();
 
 
 public Q_SLOTS:
+    void setSelection(const QString& chromosom, quint64 start, quint64 end);
+
+Q_SIGNALS:
+    void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+
+protected Q_SLOTS:
     void updateChromosom();
 
 protected:
@@ -58,7 +62,7 @@ protected:
 
 private:
     Genom * mGenom;
-    Selector * mSelector;
+    Region * mSelector;
 
     QString mCytoBandFileName;
     RegionList mRegionList;

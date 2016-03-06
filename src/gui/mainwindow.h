@@ -9,6 +9,7 @@
 #include "tracklistwidget.h"
 #include "chromosomwidget.h"
 #include "settingsdialog.h"
+#include "genom.h"
 
 namespace big {
 namespace gui {
@@ -19,8 +20,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
 
+
 public Q_SLOTS:
 void showSettings();
+void setGenom(const QString& name);
+void setSelection(const QString& chromosom, quint64 start, quint64 end);
 
 protected:
     void setupMenuBar();
@@ -32,8 +36,8 @@ private:
     StatusBar * mStatusBar;
     ChromosomWidget * mchromosomWidget;
     TrackListWidget * mTrackListWidget;
+    Genom * mGenom;
 
-    core::Selector * mSelection;
 
 };
 

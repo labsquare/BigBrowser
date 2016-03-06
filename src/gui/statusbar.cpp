@@ -2,11 +2,10 @@
 #include <QSpacerItem>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include "selector.h"
 namespace big {
 namespace gui {
 StatusBar::StatusBar(QWidget * parent):
-    QFrame(parent)
+    QFrame(parent),mGenom(0)
 {
     mSlider = new QSlider(Qt::Horizontal);
 
@@ -24,21 +23,47 @@ StatusBar::StatusBar(QWidget * parent):
     hLayout->setContentsMargins(0,0,0,0);
 
     setLayout(hLayout);
+    setMaximumHeight(20);
 
+    connect(mSlider,SIGNAL(valueChanged(int)),this,SLOT(sliderChanged()));
 
-   setMaximumHeight(20);
-
-
-select =  new core::Selector;
-
-
-connect(mSlider,SIGNAL(valueChanged(int)),this,SLOT(setSelection(int)));
 
 
 }
 
-void StatusBar::setSelection(int v)
+void StatusBar::setGenom(Genom *genom)
 {
-    select->setStart(v);
+    mGenom = genom;
 }
+
+
+void StatusBar::sliderChanged()
+{
+    // WARNING
+    ///TODO warning.. conversion int to quint64
+    ///
+//    quint64 value= mSlider->value();
+
+//    mCurrentRegion*=1000;
+
+//    emit selectionChanged(mCurrentRegion.chromosom(),
+//                          mCurrentRegion.start(),
+//                          mCurrentRegion.end());
+
+    qDebug()<<"test";
+
+
+}
+
+void StatusBar::setSelection(const QString &chromosom, quint64 start, quint64 end)
+{
+    mCurrentRegion = Region(chromosom,start,end);
+    if (mGenom)
+    {
+        quint64 max = mGenom->chromosomLength(chromosom);
+        mSlider->setRange(0,max);
+        mSlider->setValue(end-start);
+    }
+}
+
 }}

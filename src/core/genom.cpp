@@ -4,16 +4,25 @@
 #include <QRegularExpression>
 namespace big {
 namespace core {
-Genom::Genom(const QString &path)
-    :mDir(path)
+Genom::Genom()
 {
+
+}
+
+Genom::Genom(const QString &path)
+{
+    load(path);
+}
+
+void Genom::load(const QString &path)
+{
+    mDir              = QDir(path);
     mName             = mDir.dirName();
     mSeqFilename      = mDir.filePath(mName+".fa");
     mIndexFilename    = mDir.filePath(mName+".fa.fai");
     mCytobandFilename = mDir.filePath(mName+".cytoBand");
 
     loadChromosoms();
-
 }
 
 int Genom::chromosomCount()
@@ -33,11 +42,19 @@ QStringList Genom::chromosoms()
     qDebug()<<mChromosoms.count();
 
     QStringList list;
-    if (hasCytoband())
+    if (hasIndex())
     {
-       foreach ( QByteArray chromosom, mChromosoms.keys())
-           list.append(QString::fromUtf8(chromosom));
+        foreach ( QByteArray chromosom, mChromosoms.keys()){
+            QRegularExpression expression("chr\\d+$");
+            if (expression.match(chromosom).hasMatch())
+                list.append(QString::fromUtf8(chromosom));
+
+        }
     }
+    else
+        qDebug()<<Q_FUNC_INFO<<"you do not have genom index";
+
+    qSort(list.begin(), list.end());
     return list;
 
 }
@@ -124,7 +141,7 @@ Sequence Genom::sequence(const QString &chromosom, quint64 pos, quint64 length)
 
                 // detect out of range
                 if (pos + count >= baseCount){
-                 qDebug()<<Q_FUNC_INFO<<QString("Feature (%1-%2) out of range").arg(pos).arg(pos+length);
+                    qDebug()<<Q_FUNC_INFO<<QString("Feature (%1-%2) out of range").arg(pos).arg(pos+length);
                     break;
                 }
 

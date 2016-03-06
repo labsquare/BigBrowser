@@ -26,10 +26,9 @@ bool CytobandReader::next()
 
     Region region;
     region.setChromosom(items.at(0));
-    region.setPos(items.at(1).toInt());
-    region.setLength(items.at(2).toInt() - region.pos());
+    region.setStart(items.at(1).toInt());
+    region.setEnd(items.at(2).toInt());
     region.setName(items.at(3));
-    region.addData("stain",items.at(4));
     region.addData("stain",items.at(4));
 
 

@@ -3,22 +3,32 @@
 #include <QStatusBar>
 #include <QSlider>
 #include <QFrame>
-#include "selector.h"
+#include "genom.h"
 namespace big {
+using namespace core;
 namespace gui {
 class StatusBar : public QFrame
 {
     Q_OBJECT
 public:
     StatusBar(QWidget * parent = 0);
+    void setGenom(Genom * genom);
+
 
 public Q_SLOTS:
-    void setSelection(int v);
+    void setSelection(const QString& chromosom, quint64 start, quint64 end);
+
+Q_SIGNALS:
+    void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+
+protected Q_SLOTS:
+    void sliderChanged();
 
 
 private:
     QSlider * mSlider;
-    core::Selector * select;
+    Genom   * mGenom;
+    Region mCurrentRegion;
 
 
 };
