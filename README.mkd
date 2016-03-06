@@ -1,10 +1,23 @@
 # BIG Browser
+
 An offline and graphical implementation of genome viewer.
 
+## Compilation
+
+### Get the code
 
 Clone the repo:
 
-        git clone git@github.com:BIG-Tools/BigBrowser
+```
+git clone git@github.com:BIG-Tools/BigBrowser
+```
 
+### Build without IDE
 
+```
+mkdir build
+cd build
+(qmake|qmake-qt5) ../src/BigBrowser.pro
+make
+```
 
