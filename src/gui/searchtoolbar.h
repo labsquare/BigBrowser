@@ -10,11 +10,11 @@ namespace big {
 using namespace core;
 
 namespace gui {
-class MainToolBar : public QToolBar
+class SearchToolBar : public QToolBar
 {
     Q_OBJECT
 public:
-    MainToolBar(QWidget * parent = 0);
+    SearchToolBar(QWidget * parent = 0);
     //    void setSelector(Selector * selector);
 
 
@@ -27,6 +27,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+
 
 protected:
     void createActions();

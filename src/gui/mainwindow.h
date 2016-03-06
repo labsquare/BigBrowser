@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QSplitter>
-#include "maintoolbar.h"
+#include "searchtoolbar.h"
 #include "statusbar.h"
 #include "tracklistwidget.h"
 #include "chromosomwidget.h"
@@ -32,7 +32,8 @@ protected:
 
 private:
     QMenuBar * mMenuBar;
-    MainToolBar * mMainToolBar;
+    SearchToolBar * mSearchBar;
+    QToolBar * mToolBar;
     StatusBar * mStatusBar;
     ChromosomWidget * mchromosomWidget;
     TrackListWidget * mTrackListWidget;

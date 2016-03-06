@@ -7,14 +7,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 
     mMenuBar         = new QMenuBar();
-    mMainToolBar     = new MainToolBar();
+    mSearchBar     = new SearchToolBar();
+    mToolBar         = new QToolBar();
     mStatusBar       = new StatusBar();
     mchromosomWidget = new ChromosomWidget();
     mTrackListWidget = new TrackListWidget();
     mGenom           = new Genom();
 
     setMenuBar(mMenuBar);
-    addToolBar(mMainToolBar);
+    addToolBar(mToolBar);
+    addToolBar(mSearchBar);
+
 
     QSplitter * centralSplitter = new QSplitter(Qt::Vertical);
     centralSplitter->addWidget(mchromosomWidget);
@@ -34,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(cWidget);
 
 
-    mchromosomWidget->setMaximumHeight(130);
+    mchromosomWidget->setFixedHeight(130);
     resize(1000,600);
 
     setupMenuBar();
@@ -44,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 
     // Connect signals and slots
-    connect(mMainToolBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
+    connect(mSearchBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
 
 
@@ -69,7 +72,7 @@ void MainWindow::setGenom(const QString &name)
 {
     mGenom->load(App::i()->genomPath(name));
 
-    mMainToolBar->setGenom(mGenom);
+    mSearchBar->setGenom(mGenom);
     mchromosomWidget->setGenom(mGenom);
     mStatusBar->setGenom(mGenom);
 }
@@ -79,8 +82,8 @@ void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 e
     if (sender() != mchromosomWidget)
         mchromosomWidget->setSelection(chromosom,start,end);
 
-    if (sender() != mMainToolBar)
-        mMainToolBar->setSelection(chromosom,start,end);
+    if (sender() != mSearchBar)
+        mSearchBar->setSelection(chromosom,start,end);
 
     if (sender() != mStatusBar)
         mStatusBar->setSelection(chromosom,start,end);
@@ -93,6 +96,10 @@ void MainWindow::setupMenuBar()
     QAction * preferenceAction = fileMenu->addAction("Preference",this,SLOT(showSettings()));
     QAction * closeAction      = fileMenu->addAction("Close", this,SLOT(close()));
 
+
+    QAction * chromAction = mToolBar->addAction("show chromosom",mchromosomWidget,SLOT(setVisible(bool)));
+    chromAction->setCheckable(true);
+    chromAction->setChecked(true);
 
 
 }
