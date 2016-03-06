@@ -4,9 +4,8 @@
 
 namespace big {
 namespace gui {
-ChromosomWidget::ChromosomWidget(Genom * genom, QWidget * parent)
-    :QWidget(parent),
-      mGenom(genom)
+ChromosomWidget::ChromosomWidget( QWidget * parent)
+    :QWidget(parent), mGenom(0)
 {
     // Define chromosome offset (canvas inner margin)
     mOffsetX         = 30;
@@ -42,9 +41,15 @@ ChromosomWidget::~ChromosomWidget()
     // Do not delete genom or selection
 }
 
-Selection *ChromosomWidget::selection()
+Selector *ChromosomWidget::selector()
 {
-    return mSelection;
+    return mSelector;
+}
+
+void ChromosomWidget::setSelector(Selector *selector)
+{
+    mSelector = selector;
+    connect(mSelector,SIGNAL(changed()),this,SLOT(updateChromosom()));
 }
 
 Genom *ChromosomWidget::genom()
@@ -52,15 +57,21 @@ Genom *ChromosomWidget::genom()
     return mGenom;
 }
 
-void ChromosomWidget::setChromosom(const QString &chromosom)
+void ChromosomWidget::setGenom(Genom *genom)
 {
-    mChromosoms = genom()->cytoBand(chromosom);
-    mSelection  = new Selection(chromosom,0,0);
-    // Force the redraw of the background
-    mBackgroundLayer = QImage();
-    update();
+    mGenom = genom;
 }
 
+void ChromosomWidget::updateChromosom()
+{
+    if (genom() && selector() )
+    {
+        mChromosoms = genom()->cytoBand(selector()->chromosom());
+        // Force the redraw of the background
+        mBackgroundLayer = QImage();
+        update();
+    }
+}
 
 
 void ChromosomWidget::paintEvent(QPaintEvent *)
@@ -129,7 +140,8 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         // Recompute Frame is exists
         if (!mFrame.isNull())
         {
-            mFrame = QRect(baseToPixel(selection()->start()), 0, baseToPixel(selection()->end()) - baseToPixel(selection()->start()),rect().height()-1);
+            qDebug()<<"draw frame";
+            mFrame = QRect(baseToPixel(selector()->start()), 0, baseToPixel(selector()->end()) - baseToPixel(selector()->start()),rect().height()-1);
         }
     }
 
@@ -457,8 +469,8 @@ void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
         mFrame = mFrameGhost;
 
         // update section property
-        selection()->setStart(pixelToBase(mFrame.x()));
-        selection()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
+        selector()->setStart(pixelToBase(mFrame.x()));
+        selector()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
     }
     mCursorClicked = false;
 
@@ -473,8 +485,8 @@ void ChromosomWidget::mouseDoubleClickEvent(QMouseEvent * )
     mFrame = QRect(baseToPixel(region.first()), 0, baseToPixel(region.last()) - baseToPixel(region.first()),rect().height()-1);
 
     // update section property
-    selection()->setStart(region.first());
-    selection()->setEnd(region.last());
+    selector()->setStart(region.first());
+    selector()->setEnd(region.last());
 
 
     // Refresh UI

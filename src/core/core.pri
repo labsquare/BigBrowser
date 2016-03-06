@@ -7,11 +7,11 @@ HEADERS += \
     $$PWD/app.h \
     $$PWD/sequence.h \
     $$PWD/genom.h \
-    $$PWD/selection.h
+    $$PWD/selector.h
 
 SOURCES += \
     $$PWD/app.cpp \
     $$PWD/sequence.cpp \
     $$PWD/genom.cpp \
-    $$PWD/selection.cpp
+    $$PWD/selector.cpp
 

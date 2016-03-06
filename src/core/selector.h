@@ -6,15 +6,17 @@ namespace big {
 namespace core {
 
 
-class Selection: public QObject
+class Selector: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(quint64 start READ start WRITE setStart NOTIFY changed)
     Q_PROPERTY(quint64 end READ end WRITE setEnd NOTIFY changed)
 
 public:
-    Selection(QObject * parent = 0);
-    Selection(const QString& chromosom, quint64 start, quint64 end, QObject * parent = 0);
+    Selector(QObject * parent = 0);
+    Selector(const QString& chromosom, quint64 start, quint64 end, QObject * parent = 0);
+
+    QString toString() const;
 
     /*!
      * \brief length
@@ -69,6 +71,8 @@ public Q_SLOTS:
     void setChromosom(const QString &chromosom);
     void setStart(const quint64 &start);
     void setEnd(const quint64 &end);
+    void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    void setSelection(const QString& pattern);
 
     /*!
      * \brief translate
@@ -83,6 +87,7 @@ public Q_SLOTS:
      * \param baseCount
      */
     void scale(qint64 baseCount);
+
 
 
 

@@ -9,8 +9,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mMenuBar         = new QMenuBar();
     mMainToolBar     = new MainToolBar();
     mStatusBar       = new StatusBar();
-    mchromosomWidget = new ChromosomWidget(App::i()->currentGenom());
+    mchromosomWidget = new ChromosomWidget();
     mTrackListWidget = new TrackListWidget();
+    mSelection       = new core::Selector;
+
+
+    mchromosomWidget->setGenom(App::i()->currentGenom());
+    mchromosomWidget->setSelector(mSelection);
+
+    mMainToolBar->setGenom(App::i()->currentGenom());
+    mMainToolBar->setSelector(mSelection);
+
 
     setMenuBar(mMenuBar);
     addToolBar(mMainToolBar);
@@ -33,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     setCentralWidget(cWidget);
 
-    mchromosomWidget->setChromosom("chr1");
-
+    mSelection->setChromosom("chr1");
+    mchromosomWidget->updateChromosom();
 
     mchromosomWidget->setMaximumHeight(130);
 
@@ -42,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     setupMenuBar();
 
-    connect(mMainToolBar,SIGNAL(chromosomeChanged(QString)),mchromosomWidget,SLOT(setChromosom(QString)));
 }
 
 void MainWindow::showSettings()

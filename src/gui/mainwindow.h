@@ -33,6 +33,8 @@ private:
     ChromosomWidget * mchromosomWidget;
     TrackListWidget * mTrackListWidget;
 
+    core::Selector * mSelection;
+
 };
 
 }}
