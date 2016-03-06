@@ -14,7 +14,8 @@ ChromosomWidget::ChromosomWidget( QWidget * parent)
     mChromosomWidth  = 0;
     mB2PCoeff        = 0;
 
-    mSelector = new Region("chr1");
+    // Create an empty selector
+    mSelector = new Region();
 
     // Cursor management
     mCursorActive       = false;
@@ -40,7 +41,8 @@ ChromosomWidget::ChromosomWidget( QWidget * parent)
 
 ChromosomWidget::~ChromosomWidget()
 {
-    // Do not delete genom or selection
+    // Do not delete genom
+    delete mSelector;
 }
 
 Genom *ChromosomWidget::genom()
@@ -52,6 +54,7 @@ void ChromosomWidget::setGenom(Genom *genom)
 {
     mGenom = genom;
     if (mGenom){
+        // When genom changed, load new set of chromosom and show the first one
         selector()->setChromosom(mGenom->chromosoms().first());
         updateChromosom();
     }
@@ -64,7 +67,7 @@ Region * ChromosomWidget::selector()
 
 void ChromosomWidget::updateChromosom()
 {
-    if (genom() && selector() )
+    if (genom())
     {
         mChromosoms = genom()->cytoBand(selector()->chromosom());
         // Force the redraw of the background

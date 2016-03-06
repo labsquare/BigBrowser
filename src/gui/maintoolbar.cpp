@@ -49,8 +49,6 @@ void MainToolBar::createActions()
 
 }
 
-
-
 void MainToolBar::locationEditChanged()
 {
     Region region(mLocationEdit->text());

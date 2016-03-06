@@ -40,15 +40,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setupMenuBar();
 
     setGenom("hg19");
-    setSelection("chr21",1,100000);
+    setSelection("chr1",1,100000);
 
 
+    // Connect signals and slots
     connect(mMainToolBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
 
     connect(mStatusBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
-
 
     connect(mchromosomWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
@@ -91,8 +91,6 @@ void MainWindow::setupMenuBar()
     QMenu * fileMenu = menuBar()->addMenu("File");
     QAction * preferenceAction = fileMenu->addAction("Preference",this,SLOT(showSettings()));
     QAction * closeAction      = fileMenu->addAction("Close", this,SLOT(close()));
-
-
 
 
 
