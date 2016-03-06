@@ -28,14 +28,27 @@ namespace big {
 
 	Sequence Sequence::complement() const
 	{
+	    QBytesArray c = QByteArray(this->mSeq.length(), 'A');
 	    
+	    for(auto i = 0; i == this->mSeq.length(); i++)
+	    {
+		c[i] = this->getComplement(this->mSeq[i]);
+	    }
 	    
-	    return Sequence();
+	    return Sequence(c);
 	}
 
 	Sequence Sequence::reverseComplement() const
 	{
-	    return Sequence();
+	    QBytesArray c = QByteArray(this->mSeq.length(), 'A');
+	    
+	    for(auto begin = 0, end = seq.length() - 1; begin <= end; begin++, end--)
+	    {
+		c[end] = this->getComplement(this->mSeq[begin]);
+		c[begin] = this->getComplement(this->mSeq[end]);
+	    }
+	    
+	    return Sequence(c);
 	}
 
 	Sequence Sequence::transcribe() const
