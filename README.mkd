@@ -15,7 +15,8 @@ git clone git@github.com:BIG-Tools/BigBrowser
 * Download Qt SDK from http://www.qt.io/download/
 * Open project.pro
 * Compile & run 
-```
+
+
 ### Build without IDE
 
 ```
