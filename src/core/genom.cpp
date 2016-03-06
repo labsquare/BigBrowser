@@ -50,11 +50,13 @@ QStringList Genom::chromosoms()
                 list.append(QString::fromUtf8(chromosom));
 
         }
+        if (!list.isEmpty())
+        qSort(list.begin(), list.end());
+
     }
     else
         qDebug()<<Q_FUNC_INFO<<"you do not have genom index";
 
-    qSort(list.begin(), list.end());
     return list;
 
 }

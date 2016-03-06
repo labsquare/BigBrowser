@@ -55,6 +55,7 @@ void ChromosomWidget::setGenom(Genom *genom)
     mGenom = genom;
     if (mGenom){
         // When genom changed, load new set of chromosom and show the first one
+        if (mGenom->chromosomCount() > 0)
         selector()->setChromosom(mGenom->chromosoms().first());
         updateChromosom();
     }
