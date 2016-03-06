@@ -13,8 +13,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     App::i()->setDefaultDatabasePath();
 
-    MainWindow win ;
-    win.show();
+    Sequence seq;
+
+//    MainWindow win ;
+//    win.show();
 
 
     return a.exec();
