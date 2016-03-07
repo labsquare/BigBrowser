@@ -9,20 +9,29 @@ Genom::Genom()
 
 }
 
-Genom::Genom(const QString &path)
+Genom::Genom(QIODevice * device)
 {
-    load(path);
+    load(device);
 }
 
-void Genom::load(const QString &path)
+void Genom::load(QIODevice * device)
 {
-    mDir              = QDir(path);
-    mName             = mDir.dirName();
-    mSeqFilename      = mDir.filePath(mName+".fa");
-    mIndexFilename    = mDir.filePath(mName+".fa.fai");
-    mCytobandFilename = mDir.filePath(mName+".cytoBand");
 
-    loadChromosoms();
+    QuaZip zip(device);
+    zip.open(QuaZip::mdUnzip);
+
+    while (zip.goToNextFile()) {
+        qDebug()<<zip.getCurrentFileName();
+
+    } ;
+
+    //    mDir              = QDir(path);
+    //    mName             = mDir.dirName();
+    //    mSeqFilename      = mDir.filePath(mName+".fa");
+    //    mIndexFilename    = mDir.filePath(mName+".fa.fai");
+    //    mCytobandFilename = mDir.filePath(mName+".cytoBand");
+
+    //    loadChromosoms();
 }
 
 int Genom::chromosomCount()
@@ -51,7 +60,7 @@ QStringList Genom::chromosoms()
 
         }
         if (!list.isEmpty())
-        qSort(list.begin(), list.end());
+            qSort(list.begin(), list.end());
 
     }
     else

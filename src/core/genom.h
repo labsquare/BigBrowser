@@ -5,6 +5,8 @@
 #include "region.h"
 #include "regionlist.h"
 #include "cytobandreader.h"
+#include "quazip.h"
+
 
 namespace big {
 namespace core {
@@ -27,9 +29,9 @@ public:
     };
 
     Genom();
-    Genom(const QString& path);
+    Genom(QIODevice * device);
 
-    void load(const QString& path);
+    void load(QIODevice * device);
 
 
     /*!
@@ -115,6 +117,7 @@ private:
     QString mName;
     // each chromosom have name and size
     QHash<QByteArray, quint64> mChromosoms;
+    QIODevice * mDevice;
 
 
 

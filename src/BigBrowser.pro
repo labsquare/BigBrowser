@@ -8,19 +8,20 @@ QT     += core gui
 CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = BigBrowser
-TEMPLATE = app
+TARGET     = BigBrowser
+TEMPLATE   = app
+DISTFILES += ../data
 
-SOURCES += main.cpp \
-    GUnzipDevice.cpp
+SOURCES += main.cpp
 
-LIBS+=-lz
+unix:LIBS+=-lz
+
+
 
 
 
 include("core/core.pri")
-include("gui/gui.pri")
-include("quazip-0.7.1/quazip.pri")
+#include("gui/gui.pri")
+include("libs/quazip-0.7.1/quazip.pri")
 
-HEADERS += \
-    GUnzipDevice.h
+
