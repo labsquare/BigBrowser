@@ -11,9 +11,16 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = BigBrowser
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    GUnzipDevice.cpp
+
+LIBS+=-lz
 
 
 
 include("core/core.pri")
 include("gui/gui.pri")
+include("quazip-0.7.1/quazip.pri")
+
+HEADERS += \
+    GUnzipDevice.h
