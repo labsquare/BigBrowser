@@ -10,18 +10,26 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET     = BigBrowser
 TEMPLATE   = app
-DISTFILES += ../data
-
 SOURCES += main.cpp
 
-unix:LIBS+=-lz
 
+## QUAZIP AND ZLIB DEPENDENCY
+
+unix{
+LIBS+=-lz
+include("libs/quazip-0.7.1/quazip/quazip.pri")
+}
+
+win32{
+LIBS += -L$$PWD/../win32/lib/ -lquazip
+INCLUDEPATH += $$PWD/../win32/include
+}
 
 
 
 
 include("core/core.pri")
 #include("gui/gui.pri")
-include("libs/quazip-0.7.1/quazip.pri")
+
 
 
