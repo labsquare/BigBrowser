@@ -1,1 +1,6 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file alias="folder">Folder.png</file>
+        <file alias="display">Xlarge Icons.png</file>
+    </qresource>
+</RCC>

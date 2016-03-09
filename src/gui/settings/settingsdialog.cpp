@@ -14,6 +14,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     mButtonBox = new QDialogButtonBox(QDialogButtonBox::Reset|QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
 
     mListWidget->setMaximumWidth(200);
+    mListWidget->setIconSize(QSize(48,48));
 
 
     QHBoxLayout * cLayout = new QHBoxLayout;
@@ -28,9 +29,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     setLayout(mainLayout);
 
 
-    addWidget(new PathSettingsWidget(),"Data", App::awesome()->icon(fa::database));
+    addWidget(new PathSettingsWidget(),"Data", QIcon(":/folder"));
     addWidget(new GenomSettingsWidget(),"Data");
-    addWidget(new ChromosomSettingsWidget(),"Display",App::awesome()->icon(fa::desktop));
+    addWidget(new ChromosomSettingsWidget(),"Display",QIcon(":/display"));
 
     resize(800,400);
 
