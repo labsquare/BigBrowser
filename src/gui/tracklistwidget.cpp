@@ -9,7 +9,7 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
     setResizeAnchor(QGraphicsView::NoAnchor);
     //    setTransformationAnchor(QGraphicsView::NoAnchor	);
 
-    mScene->setSceneRect(rect());
+//    mScene->setSceneRect(rect());
 
 
 }

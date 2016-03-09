@@ -1,5 +1,6 @@
 #include "abstracttrack.h"
 #include <QPainter>
+#include <QDebug>
 #include <QGraphicsScene>
 #include "tracklistwidget.h"
 namespace big {
@@ -9,6 +10,7 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     :QGraphicsObject(parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
 QRectF AbstractTrack::boundingRect() const
@@ -31,6 +33,19 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 }
 
+QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+    if (change == QGraphicsItem::ItemPositionChange)
+    {
+
+       QPointF pos  = value.toPointF();
+       pos.setX(0);
+       return pos;
+    }
+
+    return QGraphicsObject::itemChange(change,value);
+}
+
 
 const QString &AbstractTrack::chromosom() const
 {
@@ -50,7 +65,6 @@ quint64 AbstractTrack::end() const
     return trackView()->end();
 
 }
-
 
 TrackListWidget *AbstractTrack::trackView() const
 {

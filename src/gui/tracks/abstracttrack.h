@@ -10,17 +10,17 @@ class AbstractTrack : public QGraphicsObject
     Q_OBJECT
 public:
     AbstractTrack(QGraphicsItem * parent = 0);
+    const QString& chromosom() const ;
+    quint64 start() const;
+    quint64 end() const;
+    TrackListWidget * trackView() const;
 
 protected:
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
-
-    const QString& chromosom() const ;
-    quint64 start() const;
-    quint64 end() const;
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant & value);
 
 
-    TrackListWidget * trackView() const;
 
 
 
