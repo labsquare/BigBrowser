@@ -12,7 +12,7 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
 
 QRectF AbstractTrack::boundingRect() const
 {
-   return QRect(0,0,800,100);
+    return QRect(0,0,800,100);
 
 }
 
@@ -28,7 +28,34 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setFont(font);
     painter->drawText(boundingRect(),Qt::AlignCenter,"TRACKS");
 
+
+
+
 }
+
+void AbstractTrack::setSelection(const QString &chromosom, quint64 start, quint64 end)
+{
+    mChromosom = chromosom;
+    mStart = start;
+    mEnd = end;
+
+}
+
+const QString &AbstractTrack::chromosom() const
+{
+    return mChromosom;
+}
+
+quint64 AbstractTrack::start() const
+{
+    return mStart;
+}
+
+quint64 AbstractTrack::end() const
+{
+    return mEnd;
+}
+
 
 
 }} // end namespace
