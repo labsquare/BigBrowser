@@ -25,13 +25,13 @@ public:
      * \brief databasePath
      * \return return location where all data are stored
      */
-    const QString& databasePath() const;
-    void setDatabasePath(const QString& path);
-    void setDefaultDatabasePath();
-
+    const QString& genomPath() const;
+    void setGenomPath(const QString& path);
+    const QString& annotationPath() const;
+    void setAnnotationPath(const QString& path);
+    void setDefaultPath() ;
     QStringList avaibleGenoms() const;
 
-    QString genomPath(const QString& name);
 
 
 
@@ -42,9 +42,8 @@ protected:
 private:
     explicit App(QObject *parent = 0);
     static App * mInstance;
-    QString mDatabasePath;
-    QString mCurrentGenom;
-    Genom * mGenom;
+    QString mGenomPath;
+    QString mAnnotationPath;
 
 
 };

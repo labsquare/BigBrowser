@@ -11,20 +11,14 @@ using namespace big::core;
 
 int main(int argc, char *argv[])
 {
-    //    QApplication a(argc, argv);
-    //    App::i()->setDefaultDatabasePath();
+    QApplication a(argc, argv);
 
 
-    Genom genom(new QFile("/home/sacha/igv/genomes/hg19.genome"));
+    qDebug()<<App::i()->avaibleGenoms();
 
-    qDebug()<<genom.isValid();
-
-
-
-    //    QuaZip zip("c:/test.zip");
-    //    zip.open(QuaZip::mdUnzip);
-    //    qDebug()<<zip.getFileNameList();
+//    MainWindow win;
+//    win.show();
 
 
-    //    return a.exec();
+    return a.exec();
 }

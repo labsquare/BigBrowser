@@ -15,55 +15,72 @@ App* App::i()
 
 }
 
-const QString &App::databasePath() const
+const QString &App::genomPath() const
 {
-    return mDatabasePath;
+    return mGenomPath;
 }
 
-void App::setDatabasePath(const QString &path)
+void App::setGenomPath(const QString &path)
 {
+    mGenomPath = path;
+}
 
-    // Check Path. Create it if doesn't exists
-    QDir dir(path);
-    if (!dir.exists()){
-        qDebug()<<Q_FUNC_INFO<<"database path doesn't exist. It has been created";
-        if (!dir.mkpath(path))
-            qDebug()<<Q_FUNC_INFO<<"cannot create path. Check your path";
-        return;
+const QString &App::annotationPath() const
+{
+    return mAnnotationPath;
+}
+
+void App::setAnnotationPath(const QString &path)
+{
+    mAnnotationPath = path;
+}
+
+void App::setDefaultPath()
+{
+    QString basePath   = QDir::homePath() + QDir::separator() + "bigbrowser";
+    QString genom      = basePath + QDir::separator() + "genome";
+    QString annotation = basePath + QDir::separator() + "annotation";
+
+    QStringList paths;
+    paths.append(genom);
+    paths.append(annotation);
+
+    // Create path if not exists
+    foreach (QString path, paths){
+        QDir dir(path);
+        if (!dir.exists()){
+            qDebug()<<Q_FUNC_INFO<<path<<" doesn't exist. It has been created";
+            if (!dir.mkpath(path)){
+                qDebug()<<Q_FUNC_INFO<<"cannot create path "<<path;
+                return;
+            }
+        }
     }
 
-    mDatabasePath = path;
+    setGenomPath(genom);
+    setAnnotationPath(annotation);
 
-}
-
-void App::setDefaultDatabasePath()
-{
-    // set default path to your home directory
-    setDatabasePath(QDir::homePath() + QDir::separator() + ".bigbrowser");
 }
 
 QStringList App::avaibleGenoms() const
 {
     QStringList list;
-    QDir dir(databasePath()+QDir::separator()+"genom");
-    foreach (QFileInfo info, dir.entryList(QDir::AllDirs|QDir::NoDotAndDotDot))
+    QDir dir(genomPath());
+
+    dir.setNameFilters(QStringList()<<"*.genome");
+    foreach (QFileInfo info, dir.entryList(QDir::Files|QDir::NoDotAndDotDot))
     {
-        list.append(info.baseName());
+        list.append(info.fileName());
     }
 
     return list;
 }
 
-QString App::genomPath(const QString &name)
-{
-    return databasePath()+QDir::separator()+"genom"+QDir::separator()+name;
-
-}
 
 App::App(QObject *parent) :
     QObject(parent)
 {
-    mGenom = new Genom();
+    setDefaultPath();
 }
 
 }}
