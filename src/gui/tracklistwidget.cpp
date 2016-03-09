@@ -6,10 +6,12 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
     mScene = new QGraphicsScene;
     setScene(mScene);
 
-    setResizeAnchor(QGraphicsView::NoAnchor);
+
+//    setResizeAnchor(QGraphicsView::NoAnchor);
     //    setTransformationAnchor(QGraphicsView::NoAnchor	);
 
 //    mScene->setSceneRect(rect());
+
 
 
 }
@@ -19,6 +21,7 @@ void TrackListWidget::addTrack(AbstractTrack *track)
     track->setParent(track);
     mTracks.append(track);
     scene()->addItem(track);
+    track->setPos(0,track->boundingRect().height() * (mTracks.count()-1));
 
 }
 
@@ -42,6 +45,17 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     mChromosom = chromosom;
     mStart = start;
     mEnd = end;
+}
+
+void TrackListWidget::resizeEvent(QResizeEvent *event)
+{
+    // If I do not put 2000 .. I Do not have the scrollbar !
+
+   mScene->setSceneRect(QRectF(0,0,event->size().width(),2000));
+
+
+   QGraphicsView::resizeEvent(event);
+
 }
 
 }}

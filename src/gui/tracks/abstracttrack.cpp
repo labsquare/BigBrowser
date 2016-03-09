@@ -15,7 +15,8 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
 
 QRectF AbstractTrack::boundingRect() const
 {
-    return QRect(0,0,800,100);
+    int w = scene()->views().first()->width();
+    return QRect(0,0,w,200);
 
 }
 
@@ -40,6 +41,10 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
        QPointF pos  = value.toPointF();
        pos.setX(0);
+
+       if (pos.y() < 0)
+           pos.setY(0);
+
        return pos;
     }
 

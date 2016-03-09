@@ -5,6 +5,7 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 #include <QGraphicsView>
+#include <QResizeEvent>
 #include <QGraphicsScene>
 #include "abstracttrack.h"
 namespace big {
@@ -31,6 +32,10 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+
+
+protected:
+    void resizeEvent(QResizeEvent * event);
 
 private:
 QList<AbstractTrack*> mTracks;
