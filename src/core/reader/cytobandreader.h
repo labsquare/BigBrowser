@@ -19,6 +19,8 @@ class CytobandReader: public AbstractRegionReader
 {
 public:
     CytobandReader(const QString& filename);
+    CytobandReader(QIODevice * device);
+
     virtual bool next();
 
 

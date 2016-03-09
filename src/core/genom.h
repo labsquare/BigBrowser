@@ -6,6 +6,7 @@
 #include "regionlist.h"
 #include "cytobandreader.h"
 #include "quazip.h"
+#include "quazipfile.h"
 
 
 namespace big {
@@ -16,17 +17,6 @@ namespace core {
 class Genom
 {
 public:
-    /*!
-     * \brief The FileType enum contains 3 kind of file to work with genom
-     * GenomFile is the fasta file. hg19.fa
-     * IndexFile is the fasta index file .  hg19.fa.fai
-     * CytobandFile contains band regions. hg19.cytoBand
-     */
-    enum FileType {
-        SequenceFile = 0x0000,
-        IndexFile    = 0x0001,
-        CytobandFile = 0x0002,
-    };
 
     Genom();
     Genom(QIODevice * device);
@@ -55,7 +45,7 @@ public:
      * \param chromosom
      * \return list of Region
      */
-    RegionList cytoBand(const QString& chromosom);
+    const RegionList chromosomBand(const QString& chromosom) const;
 
 
     /*!
@@ -74,8 +64,8 @@ public:
      * \brief name
      * \return the genom name
      */
-    const QString& name() const;
-    const QString& filename(FileType type = Genom::SequenceFile) const;
+     QString name() const;
+     QString id() const;
 
 
     bool isValid();
@@ -86,7 +76,7 @@ public:
      * Check if faidx exists for the genom
      * \return True if it exists. Otherwise return false
      */
-    bool hasIndex();
+//    bool hasIndex();
 
     /*!
      * \brief hasCytoband
@@ -94,29 +84,31 @@ public:
      */
     bool hasCytoband();
 
-    /*!
-     * \brief createIndex
-     *
-     * Create the faidx for the genom.
-     *
-     * Please read this page, to understand the purpose of this methodes
-     * http://www.htslib.org/doc/faidx.html
-     * \todo Threading the process ?
-     */
-    bool createIndex();
+//    /*!
+//     * \brief createIndex
+//     *
+//     * Create the faidx for the genom.
+//     *
+//     * Please read this page, to understand the purpose of this methodes
+//     * http://www.htslib.org/doc/faidx.html
+//     * \todo Threading the process ?
+//     */
+//    bool createIndex();
 
 protected:
-    void loadChromosoms();
+    void loadCytoBand(QIODevice * device);
+    void loadProperty(QIODevice * device);
+
 
 
 private:
-    QDir mDir;
-    QString mSeqFilename;
-    QString mIndexFilename;
-    QString mCytobandFilename;
-    QString mName;
+
     // each chromosom have name and size
-    QHash<QByteArray, quint64> mChromosoms;
+    QHash<QString, quint64> mChromosomsSize;
+    QHash<QString, RegionList> mChromosomsBands;
+    QHash<QString, QString> mProperties;
+    QuaZip mZip;
+
     QIODevice * mDevice;
 
 
