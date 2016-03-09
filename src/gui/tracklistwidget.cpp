@@ -11,12 +11,14 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 
     mScene->setSceneRect(rect());
 
+
 }
 
 void TrackListWidget::addTrack(AbstractTrack *track)
 {
     mTracks.append(track);
     scene()->addItem(track);
+
 
 
 }

@@ -7,12 +7,12 @@ namespace gui {
 AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     :QGraphicsObject(parent)
 {
-
+    setFlag(QGraphicsItem::ItemIsMovable);
 }
 
 QRectF AbstractTrack::boundingRect() const
 {
-   return QRect(0,0,100,100);
+   return QRect(0,0,800,100);
 
 }
 
@@ -20,7 +20,13 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 {
 
     painter->setPen(QPen(Qt::red));
+    painter->setBrush(QBrush(Qt::blue));
     painter->drawRect(boundingRect());
+
+    QFont font = QFont();
+    font.setPixelSize(30);
+    painter->setFont(font);
+    painter->drawText(boundingRect(),Qt::AlignCenter,"TRACKS");
 
 }
 
