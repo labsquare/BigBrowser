@@ -13,11 +13,13 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    MainWindow win;
-    win.show();
+//    MainWindow win;
+//    win.show();
+
+    SettingsDialog * dialog = new SettingsDialog;
+    dialog->show();
 
 
 
-
-    return a.exec();
+   return a.exec();
 }

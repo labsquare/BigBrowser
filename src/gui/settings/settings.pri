@@ -3,10 +3,12 @@ INCLUDEPATH += $$PWD
 HEADERS += \
     $$PWD/abstractsettingswidget.h \
     $$PWD/settingsdialog.h \
-    $$PWD/databasesettingswidget.h
+    $$PWD/pathsettingswidget.h \
+    $$PWD/genomsettingswidget.h
 
 SOURCES += \
     $$PWD/abstractsettingswidget.cpp \
     $$PWD/settingsdialog.cpp \
-    $$PWD/databasesettingswidget.cpp
+    $$PWD/pathsettingswidget.cpp \
+    $$PWD/genomsettingswidget.cpp
 

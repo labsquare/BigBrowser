@@ -3,7 +3,7 @@
 namespace big {
 namespace gui {
 AbstractSettingsWidget::AbstractSettingsWidget(QWidget *parent) :
-    QTabWidget(parent)
+    QWidget(parent)
 {
 
 }

@@ -5,7 +5,7 @@
 #include <QTabWidget>
 namespace big {
 namespace gui {
-class AbstractSettingsWidget : public QTabWidget
+class AbstractSettingsWidget : public QWidget
 {
     Q_OBJECT
 public:
