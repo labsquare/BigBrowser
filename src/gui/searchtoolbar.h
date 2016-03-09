@@ -21,6 +21,7 @@ public:
 public Q_SLOTS:
     void setGenom(Genom * genom);
     void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    void loadAvaibleGenom();
 
 
 
@@ -35,7 +36,6 @@ protected:
 protected Q_SLOTS:
     void locationEditChanged();
     void chromosomChanged();
-    void loadAvaibleGenom();
     void genomComboBoxChanged();
 
 

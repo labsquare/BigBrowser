@@ -22,8 +22,8 @@ public:
                    const QIcon& icon = QIcon());
 
 public Q_SLOTS:
-    bool save();
-    bool load();
+    void save();
+    void load();
 
 protected Q_SLOTS:
     void updateTab(int row);

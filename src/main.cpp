@@ -15,13 +15,10 @@ int main(int argc, char *argv[])
 
     App::i()->setDefaultPath();
 
-//    MainWindow win;
-//    win.show();
-
-    SettingsDialog * dialog = new SettingsDialog;
-    dialog->show();
+    MainWindow win;
+    win.show();
 
 
 
-   return a.exec();
+    return a.exec();
 }

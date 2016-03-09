@@ -1,6 +1,7 @@
 #include "settingsdialog.h"
 #include "pathsettingswidget.h"
 #include "genomsettingswidget.h"
+#include "chromosomsettingswidget.h"
 #include "app.h"
 #include <QDebug>
 namespace big {
@@ -10,7 +11,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     mListWidget = new QListWidget;
     mTabWidget = new QTabWidget;
-    mButtonBox = new QDialogButtonBox(QDialogButtonBox::Reset|QDialogButtonBox::Apply|QDialogButtonBox::Cancel);
+    mButtonBox = new QDialogButtonBox(QDialogButtonBox::Reset|QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
 
     mListWidget->setMaximumWidth(200);
 
@@ -27,13 +28,15 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     setLayout(mainLayout);
 
 
-    addWidget(new PathSettingsWidget(),"data", App::awesome()->icon(fa::database));
-    addWidget(new GenomSettingsWidget(),"data");
+    addWidget(new PathSettingsWidget(),"Data", App::awesome()->icon(fa::database));
+    addWidget(new GenomSettingsWidget(),"Data");
+    addWidget(new ChromosomSettingsWidget(),"Display",App::awesome()->icon(fa::desktop));
 
     resize(800,400);
 
     connect(mListWidget,SIGNAL(currentRowChanged(int)),this,SLOT(updateTab(int)));
     connect(mButtonBox,SIGNAL(rejected()),this,SLOT(reject()));
+    connect(mButtonBox,SIGNAL(accepted()),this,SLOT(save()));
 
     setWindowTitle(tr("Settings"));
 
@@ -51,40 +54,42 @@ void SettingsDialog::addWidget(AbstractSettingsWidget *widget,
         mWidgets[categorie] = QList<AbstractSettingsWidget*>();
         mListWidget->addItem(new QListWidgetItem(icon,categorie));
 
+
     }
 
     mWidgets[categorie].append(widget);
 
 }
 
-bool SettingsDialog::save()
-{
-    if (mListWidget->selectedItems().count() == 0)
-        return false;
-
-    QString categorie = mListWidget->currentItem()->text();
-    bool status = true;
-
-    foreach ( AbstractSettingsWidget * widget , mWidgets.value(categorie))
-        status&=widget->save();
-
-    return status;
-
-}
-
-bool SettingsDialog::load()
+void SettingsDialog::save()
 {
 
     foreach (QString key, mWidgets.keys())
     {
-       foreach (AbstractSettingsWidget * w, mWidgets[key])
-       {
-        if (!w->load())
-            qDebug()<<"cannot load settings "<<w->windowTitle();
-       }
+        foreach (AbstractSettingsWidget * w, mWidgets[key])
+        {
+            if (!w->save())
+                qDebug()<<"cannot load settings "<<w->windowTitle();
+        }
 
     }
-    return true;
+
+    emit accept();
+
+}
+
+void SettingsDialog::load()
+{
+
+    foreach (QString key, mWidgets.keys())
+    {
+        foreach (AbstractSettingsWidget * w, mWidgets[key])
+        {
+            if (!w->load())
+                qDebug()<<"cannot load settings "<<w->windowTitle();
+        }
+
+    }
 }
 
 void SettingsDialog::updateTab(int row)
