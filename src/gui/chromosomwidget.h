@@ -60,6 +60,7 @@ protected:
     inline quint64 pixelToBase(int pixel) {return (pixel-mOffsetX) / mB2PCoeff;}
     inline int baseToPixel(quint64 base) {return base * mB2PCoeff + mOffsetX;}
     Region getRegionAtPixel(int pixelPos);
+    void initStainColorFromRegions();
 
 private:
     Genom * mGenom;

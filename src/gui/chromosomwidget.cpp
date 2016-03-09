@@ -23,18 +23,6 @@ ChromosomWidget::ChromosomWidget( QWidget * parent)
     mCursorBasePosition = 0;
 
 
-    // Create color map
-    QColor base = QColor(200,200,200);
-
-    mStains["stalk"]   = Qt::darkCyan;
-    mStains["gneg"]    = base;
-    mStains["gpos25"]  = base.darker(100);
-    mStains["gpos50"]  = base.darker(150);
-    mStains["gpos75"]  = base.darker(200);
-    mStains["gpos100"] = base.darker(250);
-    mStains["gvar"]    = QColor(144, 195, 212);
-    mStains["acen"]    = QColor(80, 144, 212);
-
     setMouseTracking(true);
 
 }
@@ -53,10 +41,13 @@ Genom *ChromosomWidget::genom()
 void ChromosomWidget::setGenom(Genom *genom)
 {
     mGenom = genom;
-    if (mGenom){
+    if (mGenom)
+    {
         // When genom changed, load new set of chromosom and show the first one
         if (mGenom->chromosomCount() > 0)
-        selector()->setChromosom(mGenom->chromosoms().first());
+        {
+            selector()->setChromosom(mGenom->chromosoms().first());
+        }
         updateChromosom();
     }
 }
@@ -71,6 +62,7 @@ void ChromosomWidget::updateChromosom()
     if (genom())
     {
         mChromosoms = genom()->chromosomBand(selector()->chromosom());
+        initStainColorFromRegions();
         // Force the redraw of the background
         mBackgroundLayer = QImage();
         update();
@@ -227,17 +219,31 @@ QPainterPath ChromosomWidget::getChromosomWrapperShape(int wrapperPadding, int w
     // Drawing chromosom wrapper
     QPainterPath path;
 
-    path.moveTo(A);
-    path.cubicTo(QPoint(A.x() + wrc, A.y()),QPoint(B.x() - wrc, B.y()),B);
-    path.cubicTo(QPoint(B.x() + wrc, B.y()),QPoint(C.x() - wrc, C.y()),C);
-    path.cubicTo(QPoint(C.x() + wrc, C.y()),QPoint(D.x() - wrc, D.y()),D);
-    path.cubicTo(QPoint(D.x() + wrc, D.y()),QPoint(E.x() - wrc, E.y()),E);
-    path.cubicTo(QPoint(E.x() + wrc, E.y()),QPoint(F.x() + wrc, F.y()),F);
-    path.cubicTo(QPoint(F.x() - wrc, F.y()),QPoint(G.x() + wrc, G.y()),G);
-    path.cubicTo(QPoint(G.x() - wrc, G.y()),QPoint(H.x() + wrc, H.y()),H);
-    path.cubicTo(QPoint(H.x() - wrc, H.y()),QPoint(I.x() + wrc, I.y()),I);
-    path.cubicTo(QPoint(I.x() - wrc, I.y()),QPoint(J.x() + wrc, J.y()),J);
-    path.cubicTo(QPoint(J.x() - wrc, J.y()),QPoint(A.x() - wrc, A.y()),A);
+
+    // Drawing shape with centromere
+    if (mStains.contains("acen"))
+    {
+        path.moveTo(A);
+        path.cubicTo(QPoint(A.x() + wrc, A.y()),QPoint(B.x() - wrc, B.y()),B);
+        path.cubicTo(QPoint(B.x() + wrc, B.y()),QPoint(C.x() - wrc, C.y()),C);
+        path.cubicTo(QPoint(C.x() + wrc, C.y()),QPoint(D.x() - wrc, D.y()),D);
+        path.cubicTo(QPoint(D.x() + wrc, D.y()),QPoint(E.x() - wrc, E.y()),E);
+        path.cubicTo(QPoint(E.x() + wrc, E.y()),QPoint(F.x() + wrc, F.y()),F);
+        path.cubicTo(QPoint(F.x() - wrc, F.y()),QPoint(G.x() + wrc, G.y()),G);
+        path.cubicTo(QPoint(G.x() - wrc, G.y()),QPoint(H.x() + wrc, H.y()),H);
+        path.cubicTo(QPoint(H.x() - wrc, H.y()),QPoint(I.x() + wrc, I.y()),I);
+        path.cubicTo(QPoint(I.x() - wrc, I.y()),QPoint(J.x() + wrc, J.y()),J);
+        path.cubicTo(QPoint(J.x() - wrc, J.y()),QPoint(A.x() - wrc, A.y()),A);
+    }
+    else
+    {
+        // else without centromere
+        path.moveTo(A);
+        path.cubicTo(QPoint(A.x() + wrc, A.y()),QPoint(E.x() - wrc, E.y()),E);
+        path.cubicTo(QPoint(E.x() + wrc, E.y()),QPoint(F.x() + wrc, F.y()),F);
+        path.cubicTo(QPoint(F.x() - wrc, F.y()),QPoint(J.x() + wrc, J.y()),J);
+        path.cubicTo(QPoint(J.x() - wrc, J.y()),QPoint(A.x() - wrc, A.y()),A);
+    }
 
     // Job done
     return path;
@@ -431,7 +437,35 @@ Region ChromosomWidget::getRegionAtPixel(int pixelPos)
 }
 
 
+void ChromosomWidget::initStainColorFromRegions()
+{
+    mStains.clear();
+    QColor base = QColor(200,200,200);
 
+    mStains["stalk"]   = Qt::darkCyan;
+    mStains["gvar"]    = QColor(144, 195, 212);
+    mStains["gneg"]    = base;
+
+    // Compute gradiant color for "gposXXX" region
+    foreach ( Region region, mChromosoms)
+    {
+        QString stain = region.data("stain").toString();
+
+        // We add "acen" stain only if exists in the chromom (allow us to detect next if need to draw it or not)
+        if (stain == "acen" && !mStains.contains(stain))
+        {
+            mStains["acen"]    = QColor(80, 144, 212);
+        }
+
+        if (stain.startsWith("gpos") && !mStains.contains(stain))
+        {
+            QString stainLabel = stain;
+            stain.remove(0,4);
+            float value = 50 + (stain.toFloat() / 100.0) * 200.0; // 50 + % * 200     => max 250, min 50
+            mStains[stainLabel] = base.darker(value);
+        }
+    }
+}
 
 
 
