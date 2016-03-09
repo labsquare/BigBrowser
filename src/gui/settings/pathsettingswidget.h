@@ -14,6 +14,9 @@ public Q_SLOTS:
     bool save();
     bool load();
 
+protected slots:
+    void openFileBrowser();
+
 private:
     QLineEdit * mGenomPath;
     QLineEdit * mAnnotationPath;

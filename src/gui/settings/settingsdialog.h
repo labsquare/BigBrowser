@@ -17,7 +17,9 @@ class SettingsDialog : public QDialog
     Q_OBJECT
 public:
     explicit SettingsDialog(QWidget *parent = 0);
-    void addWidget(AbstractSettingsWidget * widget,const QString& categorie = QString("extra"));
+    void addWidget(AbstractSettingsWidget * widget,
+                   const QString& categorie = QString("extra"),
+                   const QIcon& icon = QIcon());
 
 public Q_SLOTS:
     bool save();
@@ -27,7 +29,6 @@ protected Q_SLOTS:
     void updateTab(int row);
 
 private:
-    void createList();
 
 private:
     QHash<QString, QList<AbstractSettingsWidget*> > mWidgets;

@@ -1,6 +1,7 @@
 #include "settingsdialog.h"
 #include "pathsettingswidget.h"
 #include "genomsettingswidget.h"
+#include "app.h"
 #include <QDebug>
 namespace big {
 namespace gui {
@@ -26,7 +27,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     setLayout(mainLayout);
 
 
-    addWidget(new PathSettingsWidget(),"data");
+    addWidget(new PathSettingsWidget(),"data", App::awesome()->icon(fa::database));
     addWidget(new GenomSettingsWidget(),"data");
 
     resize(800,400);
@@ -36,26 +37,31 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     setWindowTitle(tr("Settings"));
 
+    load();
+
 }
 
 
-void SettingsDialog::addWidget(AbstractSettingsWidget *widget,const QString& categorie)
+void SettingsDialog::addWidget(AbstractSettingsWidget *widget,
+                               const QString& categorie,
+                               const QIcon& icon)
 {
-    if (!mWidgets.keys().contains(categorie))
+    // if categories doesn't exists, create it ! In Hash and In ListView
+    if (!mWidgets.keys().contains(categorie)){
         mWidgets[categorie] = QList<AbstractSettingsWidget*>();
+        mListWidget->addItem(new QListWidgetItem(icon,categorie));
 
+    }
 
     mWidgets[categorie].append(widget);
-
-    createList();
-
-    //    mStacks->addWidget(widget);
-    //    mListWidget->addItem(new QListWidgetItem(widget->windowIcon(),widget->windowTitle()));
 
 }
 
 bool SettingsDialog::save()
 {
+    if (mListWidget->selectedItems().count() == 0)
+        return false;
+
     QString categorie = mListWidget->currentItem()->text();
     bool status = true;
 
@@ -69,13 +75,16 @@ bool SettingsDialog::save()
 bool SettingsDialog::load()
 {
 
-    QString categorie = mListWidget->currentItem()->text();
-    bool status = true;
+    foreach (QString key, mWidgets.keys())
+    {
+       foreach (AbstractSettingsWidget * w, mWidgets[key])
+       {
+        if (!w->load())
+            qDebug()<<"cannot load settings "<<w->windowTitle();
+       }
 
-    foreach ( AbstractSettingsWidget * widget , mWidgets.value(categorie))
-        status&=widget->load();
-
-    return status;
+    }
+    return true;
 }
 
 void SettingsDialog::updateTab(int row)
@@ -88,16 +97,6 @@ void SettingsDialog::updateTab(int row)
 
 }
 
-void SettingsDialog::createList()
-{
-    mListWidget->clear();
 
-    foreach (QString title, mWidgets.keys())
-    {
-        mListWidget->addItem(title);
-    }
-
-
-}
 
 }}
