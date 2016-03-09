@@ -27,7 +27,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
-
+    void genomChanged(const QString& name);
 
 protected:
     void createActions();
@@ -35,6 +35,9 @@ protected:
 protected Q_SLOTS:
     void locationEditChanged();
     void chromosomChanged();
+    void loadAvaibleGenom();
+    void genomComboBoxChanged();
+
 
 
 

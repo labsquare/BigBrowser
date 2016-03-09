@@ -26,6 +26,7 @@ public:
      * \return return location where all data are stored
      */
     const QString& genomPath() const;
+    QString genomPath(const QString& filename) const;
     void setGenomPath(const QString& path);
     const QString& annotationPath() const;
     void setAnnotationPath(const QString& path);

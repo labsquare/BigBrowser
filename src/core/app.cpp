@@ -20,6 +20,11 @@ const QString &App::genomPath() const
     return mGenomPath;
 }
 
+QString App::genomPath(const QString &filename) const
+{
+    return genomPath() + QDir::separator() + filename;
+}
+
 void App::setGenomPath(const QString &path)
 {
     mGenomPath = path;

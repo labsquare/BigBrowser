@@ -1,23 +1,22 @@
 #include <QApplication>
 #include <QDebug>
 #include "app.h"
-//#include "mainwindow.h"
+#include "mainwindow.h"
 #include "sequence.h"
 #include "genom.h"
 #include "quazip.h"
 
 using namespace big::core;
-//using namespace big::gui;
+using namespace big::gui;
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    MainWindow win;
+    win.show();
 
-    qDebug()<<App::i()->avaibleGenoms();
 
-//    MainWindow win;
-//    win.show();
 
 
     return a.exec();

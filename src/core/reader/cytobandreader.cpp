@@ -24,14 +24,14 @@ bool CytobandReader::next()
 
 
     QStringList items = mStream.readLine().split("\t");
-    if (items.size() == 5){
+
+    if (items.count() == 5){
         Region region;
         region.setChromosom(items.at(0));
         region.setStart(items.at(1).toInt());
         region.setEnd(items.at(2).toInt());
         region.setName(items.at(3));
         region.addData("stain",items.at(4));
-
 
         setRegion(region);
         setCurrentLine(currentLine()+1);

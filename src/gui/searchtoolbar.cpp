@@ -15,7 +15,7 @@ SearchToolBar::SearchToolBar(QWidget * parent):
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     createActions();
-
+    loadAvaibleGenom();
 
     addWidget(spacer);
     addWidget(mGenomComboBox);
@@ -25,11 +25,13 @@ SearchToolBar::SearchToolBar(QWidget * parent):
     mGenomComboBox->setMinimumWidth(100);
     mLocationEdit->setMaximumWidth(300);
     mLocationEdit->setPlaceholderText("chr4:102344342-24234234234");
-    mGenomComboBox->addItems(App::i()->avaibleGenoms());
+
+
+
 
     connect(mLocationEdit,SIGNAL(returnPressed()),this,SLOT(locationEditChanged()));
     connect(mChromosomComboBox,SIGNAL(currentTextChanged(QString)),this,SLOT(chromosomChanged()));
-
+    connect(mGenomComboBox,SIGNAL(currentIndexChanged(QString)),this,SLOT(genomComboBoxChanged()));
 
 }
 
@@ -47,11 +49,25 @@ void SearchToolBar::setSelection(const QString &chromosom, quint64 start, quint6
     mLocationEdit->setText(region.toString());
 }
 
+void SearchToolBar::loadAvaibleGenom()
+{
+    mGenomComboBox->clear();
+    foreach ( QString name, App::i()->avaibleGenoms())
+    {
+        Genom genom(App::i()->genomPath(name));
+        mGenomComboBox->addItem(genom.name(), name);
 
+    }
+}
+
+void SearchToolBar::genomComboBoxChanged()
+{
+    emit genomChanged(mGenomComboBox->currentData().toString());
+}
 
 void SearchToolBar::createActions()
 {
-//    QAction * showChromosomAction = addAction("show chrom");
+    //    QAction * showChromosomAction = addAction("show chrom");
 
 
 }

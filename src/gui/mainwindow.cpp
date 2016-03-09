@@ -42,8 +42,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     setupMenuBar();
 
-    setGenom("hg19");
-    setSelection("chr1",1,100000);
+//    setSelection("chr1",1,100000);
 
 
     // Connect signals and slots
@@ -55,6 +54,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
             this,SLOT(setSelection(QString,quint64,quint64)));
 
     connect(mStatusBar,SIGNAL(zoomChanged(int)),mchromosomWidget,SLOT(setZoom(int)));
+
+    connect(mSearchBar,SIGNAL(genomChanged(QString)),this,SLOT(setGenom(QString)));
+
+
+    // Load a genom if not exists
+    if (!App::i()->avaibleGenoms().isEmpty())
+        setGenom(App::i()->avaibleGenoms().first());
 
 
 
@@ -74,7 +80,7 @@ void MainWindow::setGenom(const QString &name)
 
     mSearchBar->setGenom(mGenom);
     mchromosomWidget->setGenom(mGenom);
-    mStatusBar->setGenom(mGenom);
+//    mStatusBar->setGenom(mGenom);
 }
 
 void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 end)

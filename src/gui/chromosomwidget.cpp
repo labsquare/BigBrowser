@@ -70,7 +70,7 @@ void ChromosomWidget::updateChromosom()
 {
     if (genom())
     {
-        mChromosoms = genom()->cytoBand(selector()->chromosom());
+        mChromosoms = genom()->chromosomBand(selector()->chromosom());
         // Force the redraw of the background
         mBackgroundLayer = QImage();
         update();

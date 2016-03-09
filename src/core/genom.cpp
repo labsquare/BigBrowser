@@ -5,18 +5,35 @@
 namespace big {
 namespace core {
 Genom::Genom()
+    :mDevice(0)
 {
 
 }
 
 Genom::Genom(QIODevice * device)
+    :mDevice(0)
 {
     load(device);
 }
 
+Genom::Genom(const QString& filename)
+    :mDevice(0)
+{
+    load(filename);
+}
+
+Genom::~Genom()
+{
+    delete mDevice;
+    mChromosomsBands.clear();
+    mChromosomsSize.clear();
+}
+
+
+
 void Genom::load(QIODevice * device)
 {
-
+    mDevice = device;
     mZip.setIoDevice(device);
     mZip.open(QuaZip::mdUnzip);
     QuaZipFile file(&mZip);
@@ -34,6 +51,19 @@ void Genom::load(QIODevice * device)
 
 }
 
+void Genom::load(const QString &filename)
+{
+    if (mDevice)
+        delete mDevice;
+
+    QFile * file = new QFile(filename);
+    if (file->exists())
+        load(file);
+    else
+        qDebug()<<Q_FUNC_INFO<<filename<<" doesn't exists";
+
+}
+
 void Genom::loadCytoBand(QIODevice *device)
 {
     if (device->open(QIODevice::ReadOnly))
@@ -48,6 +78,8 @@ void Genom::loadCytoBand(QIODevice *device)
             if (!mChromosomsSize.keys().contains(region.chromosom())){
                 mChromosomsSize.insert(region.chromosom(), 0);
                 mChromosomsBands.insert(region.chromosom(), RegionList());
+                mChromosomsBands[region.chromosom()].append(region);
+
             }
             else {
                 mChromosomsSize[region.chromosom()] = qMax(mChromosomsSize.value(region.chromosom()), region.end());

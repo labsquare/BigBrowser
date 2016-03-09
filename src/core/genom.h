@@ -20,8 +20,11 @@ public:
 
     Genom();
     Genom(QIODevice * device);
+    Genom(const QString& filename);
+    ~Genom();
 
     void load(QIODevice * device);
+    void load(const QString& filename);
 
 
     /*!
