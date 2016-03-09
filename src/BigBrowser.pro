@@ -21,8 +21,8 @@ include("libs/quazip-0.7.1/quazip/quazip.pri")
 }
 
 win32{
-LIBS += -L$$PWD/../win32/lib/ -lquazip
-INCLUDEPATH += $$PWD/../win32/include
+LIBS += -L$$PWD/libs/win32 -lquazip
+INCLUDEPATH += $$PWD/libs/quazip-0.7.1/quazip
 }
 
 
