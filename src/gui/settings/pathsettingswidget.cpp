@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QMessageBox>
+
 #include "app.h"
 
 namespace big {
@@ -43,18 +44,21 @@ PathSettingsWidget::PathSettingsWidget(QWidget * parent)
 
 bool PathSettingsWidget::save()
 {
-
-    App::i()->setAnnotationPath(mAnnotationPath->text());
-    App::i()->setAnnotationPath(mGenomPath->text());
-
+    QSettings settings;
+    settings.beginGroup("data");
+    settings.setValue("genomPath", mGenomPath->text());
+    settings.setValue("annotationPath", mAnnotationPath->text());
+    settings.endGroup();
     return true;
 }
 
 bool PathSettingsWidget::load()
 {
-
-    mGenomPath->setText(App::i()->genomPath());
-    mAnnotationPath->setText(App::i()->annotationPath());
+    QSettings settings;
+    settings.beginGroup("data");
+    mGenomPath->setText(settings.value("genomPath").toString());
+    mAnnotationPath->setText(settings.value("annotationPath").toString());
+    settings.endGroup();
 
     return true;
 }

@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QDebug>
+#include <QSettings>
 #include "app.h"
 #include "mainwindow.h"
 #include "sequence.h"
@@ -13,7 +14,11 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    App::i()->setDefaultPath();
+    QCoreApplication::setOrganizationName("BIG");
+    QCoreApplication::setOrganizationDomain("labsquare.org");
+    QCoreApplication::setApplicationName("Big Browser");
+
+    App::i()->loadSettings();
 
     MainWindow win;
     win.show();

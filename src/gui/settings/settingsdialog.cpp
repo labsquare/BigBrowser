@@ -74,6 +74,7 @@ void SettingsDialog::save()
 
     }
 
+    App::i()->loadSettings();
     emit accept();
 
 }

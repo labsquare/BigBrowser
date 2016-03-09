@@ -2,6 +2,7 @@
 #define BIGBROWSER_H
 
 #include <QObject>
+#include <QSettings>
 #include "QtAwesome.h"
 
 namespace big {
@@ -31,8 +32,10 @@ public:
     void setGenomPath(const QString& path);
     const QString& annotationPath() const;
     void setAnnotationPath(const QString& path);
-    void setDefaultPath() ;
+    void createDefaultPath() ;
     QStringList avaibleGenoms() const;
+
+    void loadSettings();
 
 protected:
 

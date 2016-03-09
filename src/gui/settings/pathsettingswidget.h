@@ -1,6 +1,7 @@
 #ifndef DATABASESETTINGSWIDGET_H
 #define DATABASESETTINGSWIDGET_H
 #include <QtWidgets>
+#include <QSettings>
 #include "abstractsettingswidget.h"
 namespace big {
 namespace gui {

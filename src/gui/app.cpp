@@ -49,7 +49,7 @@ void App::setAnnotationPath(const QString &path)
     mAnnotationPath = path;
 }
 
-void App::setDefaultPath()
+void App::createDefaultPath()
 {
     QString basePath   = QDir::homePath() + QDir::separator() + "bigbrowser";
     QString genom      = basePath + QDir::separator() + "genome";
@@ -71,6 +71,14 @@ void App::setDefaultPath()
         }
     }
 
+
+
+    QSettings settings;
+    settings.beginGroup("data");
+    settings.setValue("genomPath", genom);
+    settings.setValue("annotationPath", annotation);
+    settings.endGroup();
+
     setGenomPath(genom);
     setAnnotationPath(annotation);
 
@@ -90,12 +98,29 @@ QStringList App::avaibleGenoms() const
     return list;
 }
 
+void App::loadSettings()
+{
+    qDebug()<<"load settings";
+
+    QSettings settings;
+    if (!settings.contains("data")){
+        qDebug()<<"no path.. Create defaults path";
+        createDefaultPath();
+    }
+    else {
+    settings.beginGroup("data");
+    setGenomPath(settings.value("genomPath").toString());
+    setAnnotationPath(settings.value("annotationPath").toString());
+    settings.endGroup();
+    }
+
+}
+
 App::App(QObject *parent) :
     QObject(parent)
 {
-    mAwesome = new QtAwesome(this);
-    mAwesome->initFontAwesome();
-    setDefaultPath();
+
+
 }
 
 }}
