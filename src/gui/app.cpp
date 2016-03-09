@@ -3,9 +3,9 @@
 #include <QDebug>
 #include <QStandardPaths>
 namespace big {
-namespace core {
+namespace gui {
 App* App::mInstance = nullptr;
-
+QtAwesome* App::mAwesome  = nullptr;
 App* App::i()
 {
     if (!mInstance)
@@ -13,6 +13,15 @@ App* App::i()
 
     return mInstance;
 
+}
+
+QtAwesome *App::awesome()
+{
+    if (!mAwesome){
+        mAwesome = new QtAwesome();
+        mAwesome->initFontAwesome();
+    }
+    return mAwesome;
 }
 
 const QString &App::genomPath() const
@@ -81,10 +90,11 @@ QStringList App::avaibleGenoms() const
     return list;
 }
 
-
 App::App(QObject *parent) :
     QObject(parent)
 {
+    mAwesome = new QtAwesome(this);
+    mAwesome->initFontAwesome();
     setDefaultPath();
 }
 

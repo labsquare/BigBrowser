@@ -2,10 +2,10 @@
 #define BIGBROWSER_H
 
 #include <QObject>
-#include "genom.h"
+#include "QtAwesome.h"
 
 namespace big {
-namespace core {
+namespace gui {
 
 /*!
  * \brief Singleton class containing database path acccessor and settings of the application
@@ -20,6 +20,7 @@ public:
      * \return instance of BigBrowser
      */
     static App * i();
+    static QtAwesome * awesome();
 
     /*!
      * \brief databasePath
@@ -33,16 +34,12 @@ public:
     void setDefaultPath() ;
     QStringList avaibleGenoms() const;
 
-
-
-
-
-
 protected:
 
 private:
     explicit App(QObject *parent = 0);
     static App * mInstance;
+    static QtAwesome * mAwesome;
     QString mGenomPath;
     QString mAnnotationPath;
 

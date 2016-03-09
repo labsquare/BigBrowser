@@ -1,6 +1,7 @@
 #include "pathsettingswidget.h"
 #include <QVBoxLayout>
 #include <QPushButton>
+#include "app.h"
 
 namespace big {
 namespace gui {
@@ -13,6 +14,7 @@ PathSettingsWidget::PathSettingsWidget(QWidget * parent)
 
   QAction * setPathAction = new QAction(this);
   setPathAction->setText("path");
+   setPathAction->setIcon(App::awesome()->icon(fa::bell));
 
   mGenomPath->addAction(setPathAction,QLineEdit::TrailingPosition);
 

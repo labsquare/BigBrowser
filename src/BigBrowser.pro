@@ -30,6 +30,6 @@ INCLUDEPATH += $$PWD/libs/quazip-0.7.1/quazip
 
 include("core/core.pri")
 include("gui/gui.pri")
-
+include("libs/QtAwesome/QtAwesome.pri")
 
 
