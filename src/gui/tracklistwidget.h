@@ -12,17 +12,32 @@ namespace gui {
 class TrackListWidget : public QGraphicsView
 {
     Q_OBJECT
+    Q_PROPERTY(QString chromosom READ chromosom )
+    Q_PROPERTY(quint64 start READ start() )
+    Q_PROPERTY(quint64 end READ end )
+
 public:
     explicit TrackListWidget(QWidget *parent = 0);
-
     void addTrack(AbstractTrack * track);
 
-public Q_SLOTS:
+    const QString& chromosom() const;
+    quint64 start() const;
+    quint64 end() const;
 
+
+
+public Q_SLOTS:
+    void setSelection(const QString& chromosom, quint64 start, quint64 end);
+
+Q_SIGNALS:
+    void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
 
 private:
 QList<AbstractTrack*> mTracks;
 QGraphicsScene * mScene;
+QString mChromosom;
+quint64 mStart;
+quint64 mEnd;
 
 
 };

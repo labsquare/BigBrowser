@@ -1,6 +1,7 @@
 #include "abstracttrack.h"
 #include <QPainter>
 #include <QGraphicsScene>
+#include "tracklistwidget.h"
 namespace big {
 namespace gui {
 
@@ -28,32 +29,33 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setFont(font);
     painter->drawText(boundingRect(),Qt::AlignCenter,"TRACKS");
 
-
-
-
 }
 
-void AbstractTrack::setSelection(const QString &chromosom, quint64 start, quint64 end)
-{
-    mChromosom = chromosom;
-    mStart = start;
-    mEnd = end;
-
-}
 
 const QString &AbstractTrack::chromosom() const
 {
-    return mChromosom;
+
+    return trackView()->chromosom();
+
 }
 
 quint64 AbstractTrack::start() const
 {
-    return mStart;
+    return trackView()->start();
+
 }
 
 quint64 AbstractTrack::end() const
 {
-    return mEnd;
+    return trackView()->end();
+
+}
+
+
+TrackListWidget *AbstractTrack::trackView() const
+{
+    TrackListWidget * view = qobject_cast<TrackListWidget*>(parent());
+    return view;
 }
 
 
