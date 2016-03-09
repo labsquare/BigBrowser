@@ -14,6 +14,8 @@ GenomSettingsWidget::GenomSettingsWidget(QWidget * parent)
     mView->setModel(mModel);
     mView->setSelectionBehavior(QAbstractItemView::SelectRows);
     mView->setSelectionMode(QAbstractItemView::SingleSelection);
+    mView->verticalHeader()->hide();
+    mView->setAlternatingRowColors(true);
 
     QPushButton * addLocalButton  = new QPushButton(App::awesome()->icon(fa::download),tr("Add from computer"));
     QPushButton * addRemoteButton = new QPushButton(App::awesome()->icon(fa::plus),tr("Add from IGV server"));
