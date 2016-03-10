@@ -110,7 +110,7 @@ namespace big {
 	    return Sequence();
 	}
 
-	char Sequence::getComplement(char nuc)
+	char Sequence::getComplement(unsigned char nuc)
 	{
 	    return Sequence::mComplement[nuc];
 	}

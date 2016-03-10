@@ -205,7 +205,7 @@ Sequence Genom::sequence(const QString &chromosom, quint64 pos, quint64 length)
     //            return Sequence(seq);
     //        }
     //    }
-    //    return Sequence();
+    // return Sequence();
 }
 
 QString Genom::name() const
@@ -223,7 +223,7 @@ QString Genom::id() const
 bool Genom::isValid()
 {
     mZip.open(QuaZip::mdUnzip);
-    bool success=mZip.getZipError() == UNZ_OK & mZip.getFileNameList().contains("property.txt");
+    bool success = mZip.getZipError() == (UNZ_OK & mZip.getFileNameList().contains("property.txt"));
     mZip.close();
     return success;
 

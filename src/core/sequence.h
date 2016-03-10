@@ -70,7 +70,7 @@ namespace big {
 	     * \param nucleotide
 	     * \return the complement of original nucleotide
 	     */
-	    static char getComplement(char nuc);
+	    static char getComplement(unsigned char nuc);
 
 	private:
 
