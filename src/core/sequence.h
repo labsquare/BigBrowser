@@ -3,6 +3,8 @@
 
 #include <QtCore>
 
+#include "revcomp.h"
+
 namespace big {
     namespace core {
 
@@ -19,18 +21,6 @@ namespace big {
 	    void setSequence(const QByteArray& seq);
 
 	    QString toString() const;
-
-	    /*!
-	     * \brief complement
-	     * \return the complement sequence
-	     */
-	    Sequence complement() const;
-
-	    /*!
-	     * \brief reverseComplement
-	     * \return the reverse complement sequence
-	     */
-	    Sequence reverseComplement() const;
 
 	    /*!
 	     * \brief transcribe
@@ -53,39 +43,9 @@ namespace big {
 	     */
 	    static Sequence fromFasta(const QString& filename);
 
-	protected:
-
-	    /*!
-	     * \brief getComplement
-	     *
-	     * Return the complement of nucleotide.
-	     *
-	     * For Adenine return always Thymine no Uracil.
-	     * If IUPAC alphabet is use in sequence we return the same letter.
-	     * Case is keep
-	     *
-	     * If letter is not in IUPAC Alphabet behavior of function is 
-	     * undefine
-	     *
-	     * \param nucleotide
-	     * \return the complement of original nucleotide
-	     */
-	    static char getComplement(unsigned char nuc);
-
-	private:
-
-	    /*!
-	     * \brief mInitComplementTable
-	     *
-	     * Init the complement table
-	     */
-	    static void mInitComplementTable();
-
 	private:
 
 	    QByteArray mSeq;
-
-	    static char mComplement[122]; // y + 1 -> 121 + 1 = 122
 	};
     } // end of namespace core
 } // end of namespace big
