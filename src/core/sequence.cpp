@@ -19,6 +19,11 @@ namespace big {
 	{
 	}
 
+	Sequence::Sequence(int size, char ch)
+	{
+	    this->mSeq = QByteArray(size, ch);
+	}
+	
 	void Sequence::setSequence(const QByteArray &seq)
 	{
 	    mSeq = seq;
@@ -86,6 +91,27 @@ namespace big {
 
 	    return Sequence();
 	}
+
+	Sequence::iterator Sequence::begin()
+	{
+	    return this->mSeq.begin();
+	}
+
+	Sequence::const_iterator Sequence::begin() const
+	{
+	    return this->mSeq.begin();
+	}
+
+	Sequence::iterator Sequence::end()
+	{
+	    return this->mSeq.end();
+	}
+
+	Sequence::const_iterator Sequence::end() const
+	{
+	    return this->mSeq.end();
+	}
+
     } // end of namespace core
 } // end of namespace big
 

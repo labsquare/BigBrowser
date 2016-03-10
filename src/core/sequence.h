@@ -13,11 +13,16 @@ namespace big {
          */
 	class Sequence
 	{
-    
+
+	public:
+	    typedef QByteArray::iterator iterator;
+	    typedef QByteArray::const_iterator const_iterator;
+	    
 	public:
 	    Sequence(const QByteArray& seq);
 	    Sequence();
-
+	    Sequence(int size, char ch);
+	    
 	    void setSequence(const QByteArray& seq);
 
 	    QString toString() const;
@@ -43,6 +48,30 @@ namespace big {
 	     */
 	    static Sequence fromFasta(const QString& filename);
 
+	    /*!
+	     * \brief begin
+	     * \return Returns an STL-style iterator pointing to the first character.
+	     */
+	    iterator begin();
+
+	    /*!
+	     * \brief begin
+	     * \return Returns an STL-style iterator pointing to the first character.
+	     */
+	    const_iterator begin() const;
+
+	    /*!
+	     * \brief begin
+	     * \return Returns an STL-style iterator pointing to the last character.
+	     */
+	    iterator end();
+
+	    /*!
+	     * \brief begin
+	     * \return Returns an STL-style iterator pointing to the last character.
+	     */
+	    const_iterator end() const;
+	    
 	private:
 
 	    QByteArray mSeq;
