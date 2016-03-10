@@ -96,6 +96,7 @@ void SettingsDialog::load()
 
 void SettingsDialog::updateTab(int row)
 {
+    Q_UNUSED(row);
     mTabWidget->clear();
 
     foreach ( AbstractSettingsWidget * widget , mWidgets.value(mListWidget->currentItem()->text()))

@@ -22,6 +22,8 @@ QRectF AbstractTrack::boundingRect() const
 
 void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
 
     painter->setPen(QPen(Qt::red));
     painter->setBrush(QBrush(Qt::blue));

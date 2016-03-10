@@ -15,11 +15,14 @@ GenomModel::GenomModel(QObject * parent)
 
 int GenomModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return mItems.count();
 }
 
 int GenomModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
+
     return 3;
 }
 
