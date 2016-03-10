@@ -153,7 +153,7 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         bgPainter.end();
 
         // Recompute Frame is exists
-        if (!mFrame.isNull())
+        if (selector()->start() < selector()->end())
         {
             mFrame = QRect(baseToPixel(selector()->start()), 0, baseToPixel(selector()->end()) - baseToPixel(selector()->start()),rect().height()-1);
             mFrameHandleM = QRect(mFrame.left(), mFrame.top(), mFrame.width(), 15);
@@ -402,7 +402,7 @@ void ChromosomWidget::drawFrameLayer(QPainter *painter)
                 startX = rect().width() - width;
             }
 
-            QRect labelRect(startX, rect().height() - height - 2, width, height);
+            QRect labelRect(startX, rect().height() - height, width -1, height -1);
             painter->drawRect(labelRect);
 
             const QLocale & cLocale = QLocale::c();

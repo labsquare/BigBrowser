@@ -133,6 +133,11 @@ const RegionList Genom::chromosomBand(const QString &chromosom) const
 
 Sequence Genom::sequence(const QString &chromosom, quint64 pos, quint64 length)
 {
+    Q_UNUSED(chromosom);
+    Q_UNUSED(pos);
+    Q_UNUSED(length);
+
+    return Sequence();
     //    // This function generate a Sequence object using a fai index file
 
     //    if (!hasIndex())
