@@ -71,6 +71,8 @@ namespace big {
 	     * \return Returns an STL-style iterator pointing to the last character.
 	     */
 	    const_iterator end() const;
+
+	    int length() const;
 	    
 	private:
 

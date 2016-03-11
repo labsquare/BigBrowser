@@ -6,11 +6,13 @@ namespace big
 {
     namespace core
     {
+	RevComp* RevComp::m_instance = nullptr;
+
 	RevComp::RevComp()
 	{
 	    this->mComplement['-'] = '-'; // gap
 	    this->mComplement['.'] = '.'; // gap
-	    this->mComplement['A'] = 'A'; // Adenine
+	    this->mComplement['A'] = 'T'; // Adenine
 	    this->mComplement['B'] = 'B'; // C or G or T
 	    this->mComplement['C'] = 'G'; // Cytosine
 	    this->mComplement['D'] = 'D'; // A or G or T
@@ -46,23 +48,12 @@ namespace big
 	
 	RevComp* RevComp::instance()
 	{
-	    if(this->m_instance == std::nullptr)
+	    if(RevComp::m_instance == nullptr)
 	    {
-		this->m_instance = new RevComp();
+		RevComp::m_instance = new RevComp();
 	    }
 
-	    return this->m_instance;
+	    return RevComp::m_instance;
 	}
     } // end of namespace core
 } // end of namespace big
-
-
-
-
-
-
-
-
-
-
-

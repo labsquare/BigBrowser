@@ -112,8 +112,20 @@ namespace big {
 	    return this->mSeq.end();
 	}
 
+	int Sequence::length() const
+	{
+	    return this->mSeq.length();
+	}
+
     } // end of namespace core
 } // end of namespace big
+
+
+
+
+
+
+
 
 
 

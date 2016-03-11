@@ -72,13 +72,13 @@ namespace big
 		OUT c = OUT(src.length(), 'A');
 
 		auto src_begin = src.begin();
-		auto src_end = src.end();
+		auto src_end = src.end(); src_end--;
 		auto c_begin = c.begin();
-		auto c_end = c.end();
+		auto c_end = c.end(); c_end--;
 		for(; src_begin <= src_end; src_begin++, src_end--, c_begin++, c_end--)
 		{
-	            *c_begin = *src_begin;
-		    *c_end = *src_end;
+		    *c_begin = *src_end;
+		    *c_end = *src_begin;
 		}
 		
 		return c;
@@ -94,13 +94,13 @@ namespace big
 		OUT c = OUT(src.length(), 'A');
 
 		auto src_begin = src.begin();
-		auto src_end = src.end();
+		auto src_end = src.end(); src_end--;
 		auto c_begin = c.begin();
-		auto c_end = c.end();
+		auto c_end = c.end(); c_end--;
 		for(; src_begin <= src_end; src_begin++, src_end--, c_begin++, c_end--)
 		{
-		    *c_begin = this->complement(*src_begin);
-		    *c_end = this->complement(*src_end);
+		    *c_begin = this->complement(*src_end);
+		    *c_end = this->complement(*src_begin);
 		}
 
 		return c;
