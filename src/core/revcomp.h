@@ -56,11 +56,7 @@ namespace big
 	     * \param nucleotide
 	     * \return the complement of original nucleotide
 	     */
-	    unsigned char complement(unsigned char nuc)
-	    {
-		return this->mComplement[nuc];
-	    }
-	    
+	    unsigned char complement(unsigned char nuc);	    
 
 	    /*!
 	     * \brief reverse

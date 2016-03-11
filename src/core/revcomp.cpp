@@ -53,6 +53,12 @@ namespace big
 
 	    return this->m_instance;
 	}
+
+	template<>
+	unsigned char complement(unsigned char nuc)
+	{
+	    return this->mComplement[nuc];
+	}
     } // end of namespace core
 } // end of namespace big
 
