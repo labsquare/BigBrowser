@@ -3,7 +3,7 @@
 
 #include <QtCore>
 
-#include "revcomp.h"
+//#include "revcomp.h"
 
 namespace big {
     namespace core {
