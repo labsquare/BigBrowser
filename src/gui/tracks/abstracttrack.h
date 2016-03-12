@@ -2,6 +2,7 @@
 #define ABSTRACTTRACK_H
 #include <QGraphicsObject>
 #include <QContiguousCache>
+#include <QPropertyAnimation>
 namespace big {
 namespace gui {
 class TrackListWidget;
@@ -20,6 +21,8 @@ protected:
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant & value);
 
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event);
+
 
 
 
@@ -28,6 +31,7 @@ private:
     QString mChromosom;
     quint64 mStart;
     quint64 mEnd;
+    QPropertyAnimation * mAnimation;
 
 };
 

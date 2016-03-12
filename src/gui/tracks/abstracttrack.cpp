@@ -14,6 +14,8 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+
+    mAnimation = new QPropertyAnimation(this,"y");
 }
 
 QRectF AbstractTrack::boundingRect() const
@@ -29,6 +31,7 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(widget);
 
     painter->setPen(QPen(Qt::lightGray));
+    painter->setBrush(Qt::blue);
     painter->drawRect(boundingRect());
 
 
@@ -73,6 +76,25 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
     }
 
     return QGraphicsObject::itemChange(change,value);
+}
+
+void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug()<<"start anim";
+    // "y" is One of the property of QGraphicsItem. See doc
+    // Property are not variable.  A property has getter, setter AND changed signals
+
+
+    mAnimation->setDuration(4000);
+    mAnimation->setStartValue(0);
+    mAnimation->setEndValue(500);
+    mAnimation->setEasingCurve(QEasingCurve::OutBounce);
+//    mAnimation->setLoopCount(4);
+
+    mAnimation->start();
+
+
+
 }
 
 
