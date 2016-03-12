@@ -2,6 +2,7 @@
 #define ABSTRACTREGIONREADER_H
 #include <QObject>
 #include <QIODevice>
+#include "quazipfile.h"
 #include "region.h"
 #include "regionlist.h"
 namespace big {

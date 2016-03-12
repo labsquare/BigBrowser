@@ -1,7 +1,10 @@
 #include "abstracttrack.h"
 #include <QPainter>
 #include <QDebug>
+#include <QStyle>
+#include <QApplication>
 #include <QGraphicsScene>
+#include <QStyleOptionSizeGrip>
 #include "tracklistwidget.h"
 namespace big {
 namespace gui {
@@ -25,14 +28,23 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->setPen(QPen(Qt::red));
-    painter->setBrush(QBrush(Qt::blue));
+    painter->setPen(QPen(Qt::lightGray));
     painter->drawRect(boundingRect());
 
-    QFont font = QFont();
-    font.setPixelSize(30);
-    painter->setFont(font);
-    painter->drawText(boundingRect(),Qt::AlignCenter,"TRACKS");
+    QStyleOptionSizeGrip opt;
+    opt.corner = Qt::BottomRightCorner;
+    opt.rect = boundingRect().toRect();
+    QPen pen;
+    pen.setStyle(Qt::SolidLine);
+    pen.setColor(QColor(Qt::black));
+    pen.setWidth(1);
+
+    qApp->style()->drawControl(QStyle::CE_SizeGrip, &opt, painter);
+
+    //    QFont font = QFont();
+    //    font.setPixelSize(30);
+    //    painter->setFont(font);
+    //    painter->drawText(boundingRect(),Qt::AlignCenter,"TRACKS");
 
 }
 
@@ -41,13 +53,13 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
     if (change == QGraphicsItem::ItemPositionChange)
     {
 
-       QPointF pos  = value.toPointF();
-       pos.setX(0);
+        QPointF pos  = value.toPointF();
+        pos.setX(0);
 
-       if (pos.y() < 0)
-           pos.setY(0);
+        if (pos.y() < 0)
+            pos.setY(0);
 
-       return pos;
+        return pos;
     }
 
     return QGraphicsObject::itemChange(change,value);
