@@ -259,8 +259,8 @@ void ChromosomWidget::drawLabels(QPainter *painter)
 void ChromosomWidget::drawFrameLayer(QPainter *painter)
 {
     // Define colors
-    // Todo : settable via parameter ?
     QColor baseColor = qApp->style()->standardPalette().highlight().color();
+
     // Draw active frame if exist
     if (!mFrame.isNull())
     {
@@ -339,9 +339,7 @@ void ChromosomWidget::drawFrameLayer(QPainter *painter)
 void ChromosomWidget::drawCursorLayer(QPainter *painter)
 {
     // Define colors
-    // Todo : settable via parameter ?
     QColor baseColor = qApp->style()->standardPalette().highlight().color();
-
 
     if (mCursorMode == cutter || mCursorMode == select)
     {
@@ -571,8 +569,8 @@ void ChromosomWidget::updateFrame(QRect newFrame, bool updateSelector)
     {
         selector()->setStart(pixelToBase(mFrame.x()));
         selector()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
-        emit selectionChanged(selector()->chromosom(),selector()->start(),selector()->end());
     }
+    emit selectionChanged(selector()->chromosom(),selector()->start(),selector()->end());
 }
 
 
