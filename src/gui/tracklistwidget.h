@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSplitter>
+#include <QDebug>
 #include <QVBoxLayout>
 #include <QGraphicsView>
 #include <QResizeEvent>
@@ -25,6 +26,8 @@ public:
     quint64 start() const;
     quint64 end() const;
 
+    int rowToPixel(int row) const;
+    QList<AbstractTrack*> tracks();
 
 
 public Q_SLOTS:

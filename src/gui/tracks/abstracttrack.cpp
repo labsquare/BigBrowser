@@ -25,6 +25,21 @@ QRectF AbstractTrack::boundingRect() const
 
 }
 
+int AbstractTrack::height() const
+{
+    return boundingRect().height();
+}
+
+void AbstractTrack::setTrackList(TrackListWidget *parent)
+{
+    mTrackList = parent;
+}
+
+void AbstractTrack::setRow(int row)
+{
+    mRow = row;
+}
+
 void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
@@ -86,10 +101,10 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 
     mAnimation->setDuration(4000);
-    mAnimation->setStartValue(0);
-    mAnimation->setEndValue(500);
+    mAnimation->setStartValue(trackList()->rowToPixel(mRow));
+    mAnimation->setEndValue(trackList()->rowToPixel(mRow+1));
     mAnimation->setEasingCurve(QEasingCurve::OutBounce);
-//    mAnimation->setLoopCount(4);
+    //    mAnimation->setLoopCount(4);
 
     mAnimation->start();
 
@@ -101,26 +116,25 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 const QString &AbstractTrack::chromosom() const
 {
 
-    return trackView()->chromosom();
+    return trackList()->chromosom();
 
 }
 
 quint64 AbstractTrack::start() const
 {
-    return trackView()->start();
+    return trackList()->start();
 
 }
 
 quint64 AbstractTrack::end() const
 {
-    return trackView()->end();
+    return trackList()->end();
 
 }
 
-TrackListWidget *AbstractTrack::trackView() const
+TrackListWidget *AbstractTrack::trackList() const
 {
-    TrackListWidget * view = qobject_cast<TrackListWidget*>(parent());
-    return view;
+    return mTrackList;
 }
 
 

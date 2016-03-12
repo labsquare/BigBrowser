@@ -14,8 +14,14 @@ public:
     const QString& chromosom() const ;
     quint64 start() const;
     quint64 end() const;
-    TrackListWidget * trackView() const;
+    TrackListWidget * trackList() const ;
     virtual QRectF boundingRect() const;
+    int height() const;
+
+    void setTrackList(TrackListWidget * parent);
+
+public Q_SLOTS:
+    void setRow(int row);
 
 protected:
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
@@ -28,10 +34,12 @@ protected:
 
 
 private:
+    int mRow;
     QString mChromosom;
     quint64 mStart;
     quint64 mEnd;
     QPropertyAnimation * mAnimation;
+    TrackListWidget * mTrackList;
 
 };
 
