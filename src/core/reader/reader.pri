@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/bedreader.h \
     $$PWD/bedgraphreader.h \
     $$PWD/gffreader.h \
-    $$PWD/vcfreader.h
+    $$PWD/vcfreader.h \
+    $$PWD/abstracttextregionreader.h
 
 SOURCES += \
     $$PWD/abstractregionreader.cpp \
@@ -15,5 +16,6 @@ SOURCES += \
     $$PWD/bedreader.cpp \
     $$PWD/bedgraphreader.cpp \
     $$PWD/gffreader.cpp \
-    $$PWD/vcfreader.cpp
+    $$PWD/vcfreader.cpp \
+    $$PWD/abstracttextregionreader.cpp
 

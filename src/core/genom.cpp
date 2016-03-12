@@ -114,7 +114,7 @@ void Genom::loadProperty(QIODevice *device)
 bool Genom::chromosomLessThan(const QString &s1, const QString &s2)
 {
 
-    QRegularExpression expression("chr([XY]|\\d+)");
+    QRegularExpression expression("chr([XYxyMm]|\\d+)");
     QRegularExpressionMatch match1  = expression.match(s1);
     QRegularExpressionMatch match2  = expression.match(s2);
 

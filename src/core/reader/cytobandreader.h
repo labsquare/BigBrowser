@@ -1,6 +1,6 @@
 #ifndef CYTOBANDREADER_H
 #define CYTOBANDREADER_H
-#include "abstractregionreader.h"
+#include "abstracttextregionreader.h"
 #include <QTextStream>
 namespace big {
 namespace core {
@@ -15,14 +15,16 @@ namespace core {
  *  qDebug()<<reader.region().chromosom()
  * }
  */
-class CytobandReader: public AbstractRegionReader
+class CytobandReader: public AbstractTextRegionReader
 {
 public:
     CytobandReader(const QString& filename);
     CytobandReader(QIODevice * device);
 
-    virtual bool next();
 
+
+protected:
+    Region parseLine(const QString &line) const;
 
 
 private:

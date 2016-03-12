@@ -3,47 +3,30 @@
 namespace big {
 namespace core {
 CytobandReader::CytobandReader(const QString &filename):
-    AbstractRegionReader(filename)
+    AbstractTextRegionReader(filename)
 {
-
-    mStream.setDevice(device());
 }
 CytobandReader::CytobandReader(QIODevice * device):
-    AbstractRegionReader(device)
+    AbstractTextRegionReader(device)
 {
-    mStream.setDevice(device);
 }
 
-bool CytobandReader::next()
+Region CytobandReader::parseLine(const QString &line) const
 {
-
-    if (!device()->isOpen()){
-        qDebug()<<Q_FUNC_INFO<<"device is not open";
-        return false;
-    }
-
-
-    QStringList items = mStream.readLine().split("\t");
-
+    QStringList items = line.split("\t");
+    Region region;
     if (items.count() == 5){
-        Region region;
         region.setChromosom(items.at(0));
         region.setStart(items.at(1).toInt());
         region.setEnd(items.at(2).toInt());
         region.setName(items.at(3));
         region.addData("stain",items.at(4));
-
-        setRegion(region);
-        setCurrentLine(currentLine()+1);
     }
 
-    if (mStream.atEnd())
-        return false;
-
-
-    return true;
-
+    return region;
 }
+
+
 
 
 

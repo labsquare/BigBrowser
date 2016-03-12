@@ -5,23 +5,18 @@ namespace core {
 
 
 AbstractRegionReader::AbstractRegionReader(QIODevice *device)
-    : mDevice(device),mCurrentLine(0)
+    : mDevice(device)
 {
 
 
 }
 
 AbstractRegionReader::AbstractRegionReader(const QString &filename)
-    :mDevice(new QFile(filename)),mCurrentLine(0)
+    :mDevice(new QFile(filename))
 {
 
 
 
-}
-
-quint64 AbstractRegionReader::currentLine() const
-{
-    return mCurrentLine;
 }
 
 bool AbstractRegionReader::open(QIODevice::OpenMode mode)
@@ -31,53 +26,41 @@ bool AbstractRegionReader::open(QIODevice::OpenMode mode)
 
 void AbstractRegionReader::reset()
 {
-    setCurrentLine(0);
     if (mDevice->isOpen())
         mDevice->seek(0);
 }
 
-const Region &AbstractRegionReader::region() const
+const Region &AbstractRegionReader::region()
 {
-    return  mRegion;
+    return mCurrentRegion;
 }
+
+
 
 RegionList AbstractRegionReader::regions()
 {
+    if (!device()->isReadable())
+        qDebug()<<Q_FUNC_INFO<<"cannot read. Did you open the device?";
 
-    if (!device()->isOpen())
-        device()->open(QIODevice::ReadOnly);
-
+    device()->seek(0);
     RegionList list;
     while (next())
     {
         list.append(region());
     }
-
-    device()->close();
     return list;
 }
-
-bool AbstractRegionReader::isValid()
-{
-    return device()->isOpen();
-}
-
-
 
 QIODevice *AbstractRegionReader::device()
 {
     return mDevice;
 }
 
-
-void AbstractRegionReader::setRegion(const Region &region)
+void AbstractRegionReader::setCurrentRegion(const Region &region)
 {
-    mRegion = region;
+    mCurrentRegion = region;
 }
 
-void AbstractRegionReader::setCurrentLine(quint64 line)
-{
-    mCurrentLine = line;
-}
+
 
 }}

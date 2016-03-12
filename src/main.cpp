@@ -18,6 +18,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("labsquare.org");
     QCoreApplication::setApplicationName("Big Browser");
 
+
+
     App::i()->loadSettings();
 
     MainWindow win;

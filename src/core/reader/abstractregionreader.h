@@ -18,28 +18,29 @@ public:
     AbstractRegionReader(QIODevice * device);
     AbstractRegionReader(const QString& filename);
 
-    /*!
-     * \brief currentLine
-     * \return the current line number of reader
-     */
-    quint64 currentLine() const;
-
-
     bool open(QIODevice::OpenMode mode = QIODevice::ReadOnly);
 
-    /*!
+     /*!
      * \brief reset
      *
-     * Reset current internal state to 0. Current Line will be set to 0
+     * Reset current internal state to 0.
      */
     virtual void reset();
+    /*!
+     * \brief next
+     *
+     * iter to the next line and set the new region
+     * \return True if success. If the end of file is reach , return false
+     */
+    virtual bool next() = 0;
+
 
 
     /*!
     * \brief region
-    * \return current Region according to the current line
+    * \return current Region
     */
-   const Region &region() const;
+   const Region &region();
 
    /*!
     * \brief regions
@@ -50,32 +51,20 @@ public:
     */
    RegionList regions();
 
-   /*!
-    * \brief next
-    *
-    * iter to the next line and set the new region
-    * \return True if success. If the end of file is reach , return false
-    */
-   virtual bool next() = 0;
 
 
-   bool isValid();
 
 
 
 
 protected:
     QIODevice * device();
-    void setRegion(const Region& region);
-    void setCurrentLine(quint64 line);
-
-
-
+    void setCurrentRegion(const Region& region);
 
 private:
     QIODevice * mDevice;
-    Region mRegion;
-    quint64 mCurrentLine;
+    Region mCurrentRegion;
+    Region mQuery;
 
 
 

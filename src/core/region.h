@@ -66,6 +66,8 @@ public:
      */
     quint64 middle() const;
 
+    bool isNull() const;
+
 
 
     /*!
