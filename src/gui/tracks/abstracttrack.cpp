@@ -17,6 +17,9 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     mAnimation = new QPropertyAnimation(this,"y");
+
+    mHeight = 10 +  qrand() * 20;
+    mTitle = qrand() * 100;
 }
 
 QRectF AbstractTrack::boundingRect() const
@@ -31,30 +34,57 @@ int AbstractTrack::height() const
     return boundingRect().height();
 }
 
-int AbstractTrack::row() const
-{
-    return mRow;
-}
 
 void AbstractTrack::setTrackList(TrackListWidget *parent)
 {
     mTrackList = parent;
 }
 
-void AbstractTrack::setRow(int row)
+void AbstractTrack::setSlotPosition(int slotPosition)
 {
-    mRow = row;
+    mSlotPosition = slotPosition;
 }
 
-void AbstractTrack::updatePositionFromRow()
+int AbstractTrack::slotPosition()
 {
+    return mSlotPosition;
+}
 
-    mAnimation->setStartValue(pos().y());
-    mAnimation->setEndValue(trackList()->rowToPixel(mRow));
-    mAnimation->setDuration(500);
-    mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
-    mAnimation->start();
+QString AbstractTrack::title()
+ { return QString::number(mTitle);}
 
+void AbstractTrack::updatePosition(int position, bool withAnimation)
+{
+    // Update slot
+    mSlotPosition = position;
+
+    // Update position in the scene
+    if ( !isSelected() && pos().y() != position)
+    {
+        //qDebug() << "update track position : " << position;
+        setPos(0, position);
+    }
+
+    return;
+
+
+    if (position != pos().y() || position != mAnimation->endValue())
+    {
+
+        if (mAnimation->state() == QAbstractAnimation::Running)
+        {
+            mAnimation->stop();
+        }
+        mAnimation->setStartValue(pos().y());
+        mAnimation->setEndValue(position);
+        mAnimation->setDuration(100);
+        mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
+        mAnimation->start();
+    }
+    else
+    {
+        setPos(0, position);
+    }
 }
 
 void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -72,7 +102,7 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawRect(boundingRect());
 
 
-    painter->drawText(boundingRect(),Qt::AlignCenter, QString::number(mRow));
+    painter->drawText(boundingRect(), QString::number(mTitle));
 
 
 
@@ -105,32 +135,34 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 {
     if (change == QGraphicsItem::ItemPositionChange)
     {
-
         QPointF pos  = value.toPointF();
         pos.setX(0);
-        if (pos.y() < 0)
-            pos.setY(0);
+        if (pos.y() < 0) pos.setY(0);
 
-        // Compute new row . If row changed, emit the signal rowChanged
-        int moveRow = trackList()->rowFromPixel(pos.y());
-        if (mRow != moveRow)
-            emit rowChanged(mRow, moveRow);
-
-        return pos;
+        //qDebug() << "Track.UpdatePosition : " << pos;
+        // if item moved by user, notify tracklist to rearrange all tracks
+        if (zValue() == 10)
+        {
+            //qDebug() << " -> call trackList()->rearrange";
+            trackList()->rearrange(this);
+        }
     }
 
     // This part manage selection. A native feature of QGraphicsItem
     if ( change == QGraphicsItem::ItemSelectedHasChanged)
     {
+        //qDebug() << "Track.UpdateSelection : " << value.toBool();
+
         // if selection == True, move the item on the top , to be not hiddable by other track
         if ( value.toBool())
+        {
             setZValue(10);
-        else{
+            setFocus();
+        }
+        else
+        {
             setZValue(0);
-            // Also, when selection change to false, recompute position from his row
-            updatePositionFromRow();
-
-
+            updatePosition(mSlotPosition+1);
         }
     }
 
@@ -140,7 +172,7 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
 void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug()<<"start anim";
+    //qDebug()<<"start anim";
     // "y" is One of the property of QGraphicsItem. See doc
     // Property are not variable.  A property has getter, setter AND changed signals
 
