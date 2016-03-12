@@ -101,6 +101,7 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 void TrackListWidget::rearrage(int from, int to)
 {
     /*
+     * THIS IS WHERE @OLIVIER HAS TO WORK...
      Selected items call this methods, when their row change "from" to "to"
 
     */

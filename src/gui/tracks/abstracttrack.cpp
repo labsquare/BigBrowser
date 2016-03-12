@@ -16,7 +16,6 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     setFlag(QGraphicsItem::ItemIsSelectable);
 
-
     mAnimation = new QPropertyAnimation(this,"y");
 }
 
@@ -49,7 +48,13 @@ void AbstractTrack::setRow(int row)
 
 void AbstractTrack::updatePositionFromRow()
 {
-    setPos(pos().x(), trackList()->rowToPixel(mRow));
+
+    mAnimation->setStartValue(pos().y());
+    mAnimation->setEndValue(trackList()->rowToPixel(mRow));
+    mAnimation->setDuration(500);
+    mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
+    mAnimation->start();
+
 }
 
 void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -106,23 +111,25 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
         if (pos.y() < 0)
             pos.setY(0);
 
+        // Compute new row . If row changed, emit the signal rowChanged
         int moveRow = trackList()->rowFromPixel(pos.y());
         if (mRow != moveRow)
             emit rowChanged(mRow, moveRow);
 
-
-
-
         return pos;
     }
 
+    // This part manage selection. A native feature of QGraphicsItem
     if ( change == QGraphicsItem::ItemSelectedHasChanged)
     {
+        // if selection == True, move the item on the top , to be not hiddable by other track
         if ( value.toBool())
             setZValue(10);
         else{
             setZValue(0);
+            // Also, when selection change to false, recompute position from his row
             updatePositionFromRow();
+
 
         }
     }
