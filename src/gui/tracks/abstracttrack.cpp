@@ -4,7 +4,7 @@
 #include <QStyle>
 #include <QApplication>
 #include <QGraphicsScene>
-#include <QStyleOptionSizeGrip>
+#include <QStyleOptionProgressBar>
 #include "tracklistwidget.h"
 namespace big {
 namespace gui {
@@ -31,15 +31,25 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setPen(QPen(Qt::lightGray));
     painter->drawRect(boundingRect());
 
-    QStyleOptionSizeGrip opt;
-    opt.corner = Qt::BottomRightCorner;
-    opt.rect = boundingRect().toRect();
-    QPen pen;
-    pen.setStyle(Qt::SolidLine);
-    pen.setColor(QColor(Qt::black));
-    pen.setWidth(1);
 
-    qApp->style()->drawControl(QStyle::CE_SizeGrip, &opt, painter);
+
+    QStyleOptionProgressBar barOption;
+
+    int height = 20;
+    int marge  = 60;
+    barOption.minimum = 0;
+    barOption.maximum = 100;
+    barOption.textAlignment = Qt::AlignCenter;
+    barOption.textVisible = true;
+    barOption.text = QString("Downloading %1").arg(45);
+    barOption.rect.setLeft(boundingRect().left() + 50);
+    barOption.rect.setRight(boundingRect().right() - 50);
+    barOption.rect.setTop(boundingRect().top() + 50);
+    barOption.rect.setHeight(20);
+    barOption.progress =  54;
+
+    QApplication::style()->drawControl(QStyle::CE_ProgressBar, &barOption,painter);
+
 
     //    QFont font = QFont();
     //    font.setPixelSize(30);
