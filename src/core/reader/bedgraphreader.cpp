@@ -4,7 +4,7 @@ namespace big {
 namespace core {
 
 BedGraphReader::BedGraphReader(const QString &filename)
-    :AbstractRegionReader(filename)
+    :AbstractTextRegionReader(filename)
 {
 
 

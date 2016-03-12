@@ -1,6 +1,7 @@
 #ifndef ABSTRACTTEXTREGIONREADER_H
 #define ABSTRACTTEXTREGIONREADER_H
 #include <QtCore>
+#include "quazip.h"
 #include "abstractregionreader.h"
 namespace big {
 namespace core {

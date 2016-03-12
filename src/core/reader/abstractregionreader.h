@@ -16,7 +16,6 @@ class AbstractRegionReader
 
 public:
     AbstractRegionReader(QIODevice * device);
-    AbstractRegionReader(const QString& filename);
 
     bool open(QIODevice::OpenMode mode = QIODevice::ReadOnly);
 

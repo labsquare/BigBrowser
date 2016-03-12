@@ -1,15 +1,17 @@
 #ifndef GFFREADER_H
 #define GFFREADER_H
-#include "abstractregionreader.h"
+#include "abstracttextregionreader.h"
+
 namespace big {
 namespace core {
 
-class GffReader : public AbstractRegionReader
+class GffReader : public AbstractTextRegionReader
 {
 public:
     GffReader(const QString& filename);
 
-    bool next() Q_DECL_OVERRIDE;
+    Region parseLine(const QString &line) const;
+
 };
 }}
 

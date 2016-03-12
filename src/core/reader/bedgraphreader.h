@@ -1,9 +1,9 @@
 #ifndef BEDGRAPHREADER_H
 #define BEDGRAPHREADER_H
-#include "abstractregionreader.h"
+#include "abstracttextregionreader.h"
 namespace big {
 namespace core {
-class BedGraphReader : public AbstractRegionReader
+class BedGraphReader : public AbstractTextRegionReader
 {
 public:
     BedGraphReader(const QString& filename);

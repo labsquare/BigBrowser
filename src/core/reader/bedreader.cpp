@@ -4,16 +4,19 @@ namespace big {
 namespace core {
 
 BedReader::BedReader(const QString &filename)
-    :AbstractRegionReader(filename)
+    :AbstractTextRegionReader(filename)
 {
 
 
 }
 
-bool BedReader::next()
+Region BedReader::parseLine(const QString &line) const
 {
-    return false;
+
+    return Region();
 }
+
+
 
 
 }}

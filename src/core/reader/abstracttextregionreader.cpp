@@ -9,8 +9,11 @@ AbstractTextRegionReader::AbstractTextRegionReader(QIODevice *device)
 }
 
 AbstractTextRegionReader::AbstractTextRegionReader(const QString &filename)
-    :AbstractRegionReader(filename)
+    :AbstractRegionReader(new QFile(filename))
 {
+//    QFileInfo info(filename);
+//    AbstractRegionReader::AbstractRegionReader(new QFile(filename));
+
     mStream.setDevice(device());
 
 }

@@ -8,15 +8,6 @@ AbstractRegionReader::AbstractRegionReader(QIODevice *device)
     : mDevice(device)
 {
 
-
-}
-
-AbstractRegionReader::AbstractRegionReader(const QString &filename)
-    :mDevice(new QFile(filename))
-{
-
-
-
 }
 
 bool AbstractRegionReader::open(QIODevice::OpenMode mode)

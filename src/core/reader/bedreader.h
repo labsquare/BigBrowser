@@ -1,16 +1,17 @@
 #ifndef BEDREADER_H
 #define BEDREADER_H
-#include "abstractregionreader.h"
+#include "abstracttextregionreader.h"
 
 namespace big{
 namespace core {
 
-class BedReader : public AbstractRegionReader
+class BedReader : public AbstractTextRegionReader
 {
 public:
     BedReader(const QString& filename);
 
-    bool next() Q_DECL_OVERRIDE;
+    Region parseLine(const QString &line) const;
+
 };
 
 }}

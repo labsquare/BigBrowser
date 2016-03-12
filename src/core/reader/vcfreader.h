@@ -1,15 +1,16 @@
 #ifndef VCFREADER_H
 #define VCFREADER_H
-#include "abstractregionreader.h"
+#include "abstracttextregionreader.h"
 namespace big {
 namespace core {
 
-class VcfReader : public AbstractRegionReader
+class VcfReader : public AbstractTextRegionReader
 {
 public:
     VcfReader(const QString& filename);
 
-    bool next() Q_DECL_OVERRIDE;
+    Region parseLine(const QString &line) const;
+
 };
 
 }}

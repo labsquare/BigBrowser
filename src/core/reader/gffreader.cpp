@@ -1,16 +1,18 @@
 #include "gffreader.h"
-
+#include "abstracttextregionreader.h"
 namespace big {
 namespace core {
 GffReader::GffReader(const QString &filename)
-    :AbstractRegionReader(filename)
+    :AbstractTextRegionReader(filename)
 {
 
 }
 
-bool GffReader::next()
+Region GffReader::parseLine(const QString &line) const
 {
-    return false;
+ return Region();
 }
+
+
 
 }}

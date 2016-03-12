@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QSettings>
+#include "quagzipfile.h"
 #include "app.h"
 #include "mainwindow.h"
 #include "sequence.h"
@@ -19,6 +20,16 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Big Browser");
 
 
+    //    QuaGzipFile * file = new QuaGzipFile("/home/schutz/cytoBand.txt.gz");
+
+    //    CytobandReader reader(file);
+    //    if (reader.open())
+    //    {
+    //        while (reader.next())
+    //        {
+    //            qDebug()<<reader.region().chromosom();
+    //        }
+    //    }
 
     App::i()->loadSettings();
 

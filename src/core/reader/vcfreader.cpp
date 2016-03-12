@@ -2,14 +2,16 @@
 namespace big {
 namespace core {
 VcfReader::VcfReader(const QString& filename)
-    :AbstractRegionReader(filename)
+    :AbstractTextRegionReader(filename)
 {
 
 }
 
-bool VcfReader::next()
+Region VcfReader::parseLine(const QString &line) const
 {
- return false;
+ return Region();
 }
+
+
 
 }} // end namespace
