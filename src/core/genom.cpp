@@ -111,6 +111,37 @@ void Genom::loadProperty(QIODevice *device)
     }
 }
 
+bool Genom::chromosomLessThan(const QString &s1, const QString &s2)
+{
+
+    QRegularExpression expression("chr([XY]|\\d+)");
+    QRegularExpressionMatch match1  = expression.match(s1);
+    QRegularExpressionMatch match2  = expression.match(s2);
+
+    if (match1.hasMatch() && match2.hasMatch())
+    {
+
+        if (match1.captured(1) == "Y")
+            return false;
+
+        if (match2.captured(1) == "Y")
+            return true;
+
+        if (match1.captured(1) == "X")
+            return false;
+
+        if (match2.captured(1) == "X")
+            return true;
+
+        return match1.captured(1).toInt() < match2.captured(1).toInt();
+    }
+
+
+
+    return false;
+
+}
+
 int Genom::chromosomCount()
 {
     return mChromosomsSize.count();
@@ -123,7 +154,12 @@ int Genom::chromosomLength(const QString &chromosom)
 
 QStringList Genom::chromosoms()
 {
-    return mChromosomsSize.keys();
+    QStringList keys = mChromosomsSize.keys();
+
+    qSort(keys.begin(), keys.end(),Genom::chromosomLessThan);
+
+
+    return keys;
 }
 
 const RegionList Genom::chromosomBand(const QString &chromosom) const

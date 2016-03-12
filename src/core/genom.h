@@ -102,6 +102,8 @@ protected:
     void loadCytoBand(QIODevice * device);
     void loadProperty(QIODevice * device);
 
+    static bool chromosomLessThan(const QString &s1, const QString &s2);
+
 
 
 private:
