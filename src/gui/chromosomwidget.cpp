@@ -1,7 +1,8 @@
 #include "chromosomwidget.h"
 #include "app.h"
 #include <QGraphicsDropShadowEffect>
-
+#include <QApplication>
+#include <QStyle>
 namespace big {
 namespace gui {
 
@@ -259,8 +260,7 @@ void ChromosomWidget::drawFrameLayer(QPainter *painter)
 {
     // Define colors
     // Todo : settable via parameter ?
-    QColor baseColor = QColor(240,140,0);
-
+    QColor baseColor = qApp->style()->standardPalette().highlight().color();
     // Draw active frame if exist
     if (!mFrame.isNull())
     {
@@ -340,7 +340,7 @@ void ChromosomWidget::drawCursorLayer(QPainter *painter)
 {
     // Define colors
     // Todo : settable via parameter ?
-    QColor baseColor = Qt::red;
+    QColor baseColor = qApp->style()->standardPalette().highlight().color();
 
 
     if (mCursorMode == cutter || mCursorMode == select)
