@@ -27,11 +27,16 @@ public:
     quint64 end() const;
 
     int rowToPixel(int row) const;
+    int rowFromPixel(int y) const;
+
     QList<AbstractTrack*> tracks();
+
+
 
 
 public Q_SLOTS:
     void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    void rearrage( int from , int to );
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);

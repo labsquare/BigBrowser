@@ -24,6 +24,8 @@ void TrackListWidget::addTrack(AbstractTrack *track)
     scene()->addItem(track);
     track->setPos(0,track->boundingRect().height() * (mTracks.count()-1));
 
+    connect(track,SIGNAL(rowChanged(int,int)),this,SLOT(rearrage(int,int)));
+
 }
 
 const QString &TrackListWidget::chromosom() const
@@ -43,12 +45,33 @@ quint64 TrackListWidget::end() const
 
 int TrackListWidget::rowToPixel(int row) const
 {
+    // Convert index of track to the top  coordinaite
     int y = 0;
     for (int i=0; i<row; ++i)
     {
         y += mTracks.at(i)->height();
     }
     return y;
+}
+
+int TrackListWidget::rowFromPixel(int y) const
+{
+
+    // Convert top y coordinaite to the row index
+    int size = 0;
+    int row  =0;
+    for ( int index = 0; index < mTracks.count(); ++index)
+    {
+        size += mTracks.at(row)->height();
+        if ( size > y){
+            row = index;
+            break;
+        }
+    }
+
+
+
+    return row;
 }
 
 QList<AbstractTrack *> TrackListWidget::tracks()
@@ -72,6 +95,49 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 
 
     QGraphicsView::resizeEvent(event);
+
+}
+
+void TrackListWidget::rearrage(int from, int to)
+{
+    /*
+     Selected items call this methods, when their row change "from" to "to"
+
+    */
+
+    // ensure this is only called by a trackItem
+    if (!sender())
+        return ;
+
+
+    // the sender of the signals
+    AbstractTrack * track = qobject_cast<AbstractTrack*>(sender());
+
+    qDebug()<<"from "<<from<<" to "<<to;
+
+    if ( to > from )
+    {
+
+        foreach ( AbstractTrack * t , mTracks)
+        {
+            if (t != track)
+            {
+                if (( t->row() <= to) && t->row() > from)
+                {
+                    qDebug()<<"move item"<<t->row();
+                    t->setRow(t->row()>0 ? t->row()-1: 0);
+                    t->updatePositionFromRow();
+                }
+            }
+
+        }
+
+    }
+
+
+
+    track->setRow(to);
+
 
 }
 

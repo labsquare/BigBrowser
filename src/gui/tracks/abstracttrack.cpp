@@ -14,6 +14,8 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    setFlag(QGraphicsItem::ItemIsSelectable);
+
 
     mAnimation = new QPropertyAnimation(this,"y");
 }
@@ -21,13 +23,18 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
 QRectF AbstractTrack::boundingRect() const
 {
     int w = scene()->views().first()->width();
-    return QRect(0,0,w,200);
+    return QRect(0,0,w,40);
 
 }
 
 int AbstractTrack::height() const
 {
     return boundingRect().height();
+}
+
+int AbstractTrack::row() const
+{
+    return mRow;
 }
 
 void AbstractTrack::setTrackList(TrackListWidget *parent)
@@ -40,33 +47,46 @@ void AbstractTrack::setRow(int row)
     mRow = row;
 }
 
+void AbstractTrack::updatePositionFromRow()
+{
+    setPos(pos().x(), trackList()->rowToPixel(mRow));
+}
+
 void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
     painter->setPen(QPen(Qt::lightGray));
-    painter->setBrush(Qt::blue);
+    if (isSelected())
+        painter->setBrush(Qt::red);
+
+    else
+        painter->setBrush(Qt::blue);
+
     painter->drawRect(boundingRect());
 
 
+    painter->drawText(boundingRect(),Qt::AlignCenter, QString::number(mRow));
 
-    QStyleOptionProgressBar barOption;
 
-    int height = 20;
-    int marge  = 60;
-    barOption.minimum = 0;
-    barOption.maximum = 100;
-    barOption.textAlignment = Qt::AlignCenter;
-    barOption.textVisible = true;
-    barOption.text = QString("Downloading %1").arg(45);
-    barOption.rect.setLeft(boundingRect().left() + 50);
-    barOption.rect.setRight(boundingRect().right() - 50);
-    barOption.rect.setTop(boundingRect().top() + 50);
-    barOption.rect.setHeight(20);
-    barOption.progress =  54;
 
-    QApplication::style()->drawControl(QStyle::CE_ProgressBar, &barOption,painter);
+    //    QStyleOptionProgressBar barOption;
+
+    //    int height = 20;
+    //    int marge  = 60;
+    //    barOption.minimum = 0;
+    //    barOption.maximum = 100;
+    //    barOption.textAlignment = Qt::AlignCenter;
+    //    barOption.textVisible = true;
+    //    barOption.text = QString("Downloading %1").arg(45);
+    //    barOption.rect.setLeft(boundingRect().left() + 50);
+    //    barOption.rect.setRight(boundingRect().right() - 50);
+    //    barOption.rect.setTop(boundingRect().top() + 50);
+    //    barOption.rect.setHeight(20);
+    //    barOption.progress =  54;
+
+    //    QApplication::style()->drawControl(QStyle::CE_ProgressBar, &barOption,painter);
 
 
     //    QFont font = QFont();
@@ -83,15 +103,33 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
         QPointF pos  = value.toPointF();
         pos.setX(0);
-
         if (pos.y() < 0)
             pos.setY(0);
+
+        int moveRow = trackList()->rowFromPixel(pos.y());
+        if (mRow != moveRow)
+            emit rowChanged(mRow, moveRow);
+
+
+
 
         return pos;
     }
 
+    if ( change == QGraphicsItem::ItemSelectedHasChanged)
+    {
+        if ( value.toBool())
+            setZValue(10);
+        else{
+            setZValue(0);
+            updatePositionFromRow();
+
+        }
+    }
+
     return QGraphicsObject::itemChange(change,value);
 }
+
 
 void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -100,16 +138,25 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     // Property are not variable.  A property has getter, setter AND changed signals
 
 
-    mAnimation->setDuration(4000);
-    mAnimation->setStartValue(trackList()->rowToPixel(mRow));
-    mAnimation->setEndValue(trackList()->rowToPixel(mRow+1));
-    mAnimation->setEasingCurve(QEasingCurve::OutBounce);
-    //    mAnimation->setLoopCount(4);
+//    mAnimation->setDuration(4000);
+//    mAnimation->setStartValue(trackList()->rowToPixel(mRow));
+//    mAnimation->setEndValue(trackList()->rowToPixel(mRow+1));
+//    mAnimation->setEasingCurve(QEasingCurve::OutBounce);
+//    //    mAnimation->setLoopCount(4);
 
-    mAnimation->start();
+//    mAnimation->start();
 
 
 
+}
+
+void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+
+    setSelected(false);
+
+
+    QGraphicsObject::mouseReleaseEvent(event);
 }
 
 
