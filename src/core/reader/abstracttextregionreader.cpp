@@ -11,8 +11,8 @@ AbstractTextRegionReader::AbstractTextRegionReader(QIODevice *device)
 AbstractTextRegionReader::AbstractTextRegionReader(const QString &filename)
     :AbstractRegionReader(new QFile(filename))
 {
-//    QFileInfo info(filename);
-//    AbstractRegionReader::AbstractRegionReader(new QFile(filename));
+    //    QFileInfo info(filename);
+    //    AbstractRegionReader::AbstractRegionReader(new QFile(filename));
 
     mStream.setDevice(device());
 
@@ -25,16 +25,18 @@ bool AbstractTextRegionReader::next()
         return false;
     }
 
-    QString line = mStream.readLine();
-    Region region = parseLine(line);
-    if (!region.isNull())
-        setCurrentRegion(region);
-    else
-        return false;
+    Region region;
+    while (region.isNull()){
+        QString line = mStream.readLine();
+        region = parseLine(line);
 
-    if (mStream.atEnd())
-        return false;
+        if (mStream.atEnd())
+            return false;
 
+
+    }
+
+    setCurrentRegion(region);
     return true;
 
 
