@@ -9,16 +9,20 @@
 #include "regionlist.h"
 #include <QHash>
 
+
 namespace big {
+namespace gui {
+
 using namespace core;
 
-namespace gui {
+
+
+
+
 class ChromosomWidget : public QWidget
 {
-
     Q_OBJECT
 public:
-
     ChromosomWidget(QWidget * parent = 0);
     ~ChromosomWidget();
 
@@ -46,14 +50,16 @@ protected:
     void mousePressEvent(QMouseEvent * event)Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent * event);
     void mouseDoubleClickEvent(QMouseEvent * event)Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent * event)Q_DECL_OVERRIDE;
     void enterEvent(QEvent * event)Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent * event)Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent * event)Q_DECL_OVERRIDE;
 
     // Drawing
     void drawRegions(QPainter * painter);
     void drawLabels(QPainter *painter);
+    void drawCursorLayer(QPainter *painter);
     void drawFrameLayer(QPainter *painter);
+
     QPainterPath getChromosomWrapperShape(int wrapperPadding, int wrc) const;
 
     // Helper
@@ -61,42 +67,99 @@ protected:
     inline int baseToPixel(quint64 base) {return base * mB2PCoeff + mOffsetX;}
     Region getRegionAtPixel(int pixelPos);
     void initStainColorFromRegions();
+    void updateFrame(QRect newFrame, bool updateSelector=true);
 
 private:
+
+    // ----------------------------------------------------------
+    // Define sub class/enum
+    // ----------------------------------------------------------
+    //! Different cursor modes managed by the widget
+    enum CursorMode
+    {
+        normal  = 0,
+        cutter  = 1,
+        select  = 2,
+        move    = 3,
+        resizeL = 4,
+        resizeR = 5
+    };
+
+
+    // ----------------------------------------------------------
+    // Business data
+    // ----------------------------------------------------------
+    //! The genom to display
     Genom * mGenom;
+
+    //! The list of regions of the chromosom
+    RegionList mChromosomRegions;
+
+    //! The selected region of the genom
     Region * mSelector;
 
-    QString mCytoBandFileName;
-    RegionList mRegionList;
-    RegionList mChromosoms;
-    QHash<QString, QColor> mStains;
 
+    // ----------------------------------------------------------
     // Cursor management
+    // ----------------------------------------------------------
+    //! The current mode of the cursor
+    CursorMode mCursorMode;
+
+    //! The current position of the cursor in the widget referential (pixel)
     QPoint mCursorPosition;
+
+    //! Is the cursor active (mouse over the widget)
     bool mCursorActive;
-    bool mCursorClicked ;
-    quint64 mCursorBasePosition ;
+
+    //! The region selected (in select mode of course... not the active region -> see mSelector)
     Region mCursorRegion;
 
+    //! The position of the cursor in the chromosome referential (base)
+    quint64 mCursorBasePosition ;
+
+    //! In select mode : the position of the cursor at the "mouse left button press"
+    QPoint mCursorFirstPoint;
+
+
+    // ----------------------------------------------------------
     // Frame management
+    // ----------------------------------------------------------
+    //! The active frame
     QRect mFrame;
+
+    //! Used for feedback in Creation/Move or Resize mode
     QRect mFrameGhost;
-    QPoint mFrameFirstPoint;
+
+    //! The left handle to resize the active frame to the left
     QRect mFrameHandleL;
-    QRect mFrameHandleM;
+
+    //! The right handle to resize the active frame to the right
     QRect mFrameHandleR;
 
 
-
-    // Define chromosome offset (canvas inner margin)
+    // ----------------------------------------------------------
+    // Chromosome drawing
+    // ----------------------------------------------------------
+    //! Horizontal canvas inner margin
     float mOffsetX;
+
+    //! Vertical canvas inner margin
     float mOffsetY;
+
+    //! Height of the chromosom shape
     float mChromosomHeight;
+
+    //! Width of the chromosom shape (canvas width - 2 * mOffsetX)
     float mChromosomWidth;
+
+    //! Coeff to swith referential pixels <-> chr bases
     float mB2PCoeff;
 
-    // Keeping background in memory to avoid to redraw it too often
+    //! Bakground image : Keeping it in memory to avoid to redraw it too often
     QImage mBackgroundLayer;
+
+    //! The mapping between chromosom region's stains and color
+    QHash<QString, QColor> mStains;
 };
 
 }}
