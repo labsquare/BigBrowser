@@ -59,7 +59,7 @@ int TrackListWidget::rowFromPixel(int y) const
 
     // Convert top y coordinaite to the row index
     int size = 0;
-    int row  =0;
+    int row  = mTracks.count() > 0 ? mTracks.count()-1:0;
     for ( int index = 0; index < mTracks.count(); ++index)
     {
         size += mTracks.at(row)->height();
