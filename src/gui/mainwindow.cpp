@@ -25,10 +25,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     mTrackListWidget->addTrack(new SequenceTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
 
     QVBoxLayout * centralLayout = new QVBoxLayout;
     centralLayout->addWidget(centralSplitter);

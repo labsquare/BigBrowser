@@ -7,6 +7,7 @@
 #include <QVariantMap>
 #include <QStyleOptionProgressBar>
 #include <QStyleOptionFrame>
+#include <QStyleOptionRubberBand>
 #include "app.h"
 #include "tracklistwidget.h"
 namespace big {
@@ -20,7 +21,7 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     mAnimation = new QPropertyAnimation(this,"y");
-    setHeight(50);
+    setHeight(200);
 }
 
 QRectF AbstractTrack::boundingRect() const
@@ -93,26 +94,54 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->setPen(QPen(Qt::lightGray));
-    if (isSelected())
-        painter->setBrush(Qt::red);
+    painter->setPen(Qt::transparent);
+    painter->setRenderHint(QPainter::Antialiasing);
+    if (isSelected()){
+        QBrush brush(qApp->style()->standardPalette().color(QPalette::Highlight));
+        brush.setStyle(Qt::Dense7Pattern);
+        painter->setBrush(brush);
+
+    }
 
     else
-        painter->setBrush(Qt::blue);
+        painter->setBrush(qApp->style()->standardPalette().color(QPalette::Base));
 
     painter->drawRect(boundingRect());
 
     // Draw toolbar
     QRect toolbarRect =  boundingRect().toRect();
     toolbarRect.setWidth(40);
-    painter->setBrush(QBrush(Qt::yellow));
-    painter->drawRect(toolbarRect);
+
+    QStyleOption op;
+    op.rect = toolbarRect;
+
+    painter->setBrush(qApp->style()->standardPalette().color(QPalette::Window));
+    qApp->style()->drawPrimitive(QStyle::PE_Frame, &op,painter);
+
+    op.rect = toolbarRect;
+
+    qApp->style()->drawControl(QStyle::CE_Splitter, &op,painter);
+
+
 
 
     QVariantMap options;
-    options.insert( "color" , QColor(255,0,0) );
-    painter->drawPixmap(toolbarRect.center(), App::awesome()->icon(fa::wrench, options).pixmap(24,24));
+    options.insert( "color" , qApp->style()->standardPalette().color(QPalette::WindowText));
+    QPoint iconPos = toolbarRect.topLeft();
+    iconPos += QPoint(10,10);
+    painter->drawPixmap(iconPos, App::awesome()->icon(fa::cogs, options).pixmap(20,20));
 
+
+
+
+    // draw rubber
+//    QStyleOptionRubberBand bandOption;
+//    bandOption.shape = QRubberBand::Rectangle;
+//    bandOption.rect.setWidth(boundingRect().toRect().width()-100);
+//    bandOption.rect.setHeight(10);
+
+
+//    qApp->style()->drawControl(QStyle::CE_RubberBand, &bandOption, painter);
 
 
 
