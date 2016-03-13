@@ -4,7 +4,10 @@
 #include <QStyle>
 #include <QApplication>
 #include <QGraphicsScene>
+#include <QVariantMap>
 #include <QStyleOptionProgressBar>
+#include <QStyleOptionFrame>
+#include "app.h"
 #include "tracklistwidget.h"
 namespace big {
 namespace gui {
@@ -54,11 +57,11 @@ void AbstractTrack::updatePositionFromSlot()
         mAnimation->stop();
 
 
-        mAnimation->setStartValue(pos().y());
-        mAnimation->setEndValue(trackList()->rowToPixel(slot()));
-        mAnimation->setDuration(200);
-        mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
-        mAnimation->start();
+    mAnimation->setStartValue(pos().y());
+    mAnimation->setEndValue(trackList()->rowToPixel(slot()));
+    mAnimation->setDuration(200);
+    mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
+    mAnimation->start();
 
 
 }
@@ -66,6 +69,11 @@ void AbstractTrack::updatePositionFromSlot()
 void AbstractTrack::setTrackList(TrackListWidget *parent)
 {
     mTrackList = parent;
+}
+
+void AbstractTrack::paintRegion(const QString &chromosom, quint64 start, quint64 end)
+{
+
 }
 
 
@@ -93,6 +101,30 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         painter->setBrush(Qt::blue);
 
     painter->drawRect(boundingRect());
+
+    // Draw toolbar
+    QRect toolbarRect =  boundingRect().toRect();
+    toolbarRect.setWidth(40);
+    painter->setBrush(QBrush(Qt::yellow));
+    painter->drawRect(toolbarRect);
+
+
+    QVariantMap options;
+    options.insert( "color" , QColor(255,0,0) );
+    painter->drawPixmap(toolbarRect.center(), App::awesome()->icon(fa::wrench, options).pixmap(24,24));
+
+
+
+
+
+
+
+    //    QStyleOptionFrame frameOption;
+    //    frameOption.features = QStyleOptionFrame::Rounded;
+    //    frameOption.rect = boundingRect().toRect();
+
+    //    qApp->style()->drawPrimitive(QStyle::PE_Frame,&frameOption, painter );
+
 
 
     painter->drawText(boundingRect(),Qt::AlignCenter,  QString("%1 0x%2").arg(slot()).arg((quintptr)this,
@@ -129,7 +161,6 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 {
     if (change == QGraphicsItem::ItemPositionChange)
     {
-
         QPointF pos  = value.toPointF();
         pos.setX(0);
         if (pos.y() < 0)
@@ -141,10 +172,8 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
         if (newSlot != mSlot && isSelected()){
             emit rowChanged(mSlot, newSlot);
         }
-
-
-
         return pos;
+
     }
 
     // This part manage selection. A native feature of QGraphicsItem
@@ -164,22 +193,33 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
 void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    // "y" is One of the property of QGraphicsItem. See doc
-    // Property are not variable.  A property has getter, setter AND changed signals
 
-
-    //    mAnimation->setDuration(4000);
-    //    mAnimation->setStartValue(trackList()->rowToPixel(mRow));
-    //    mAnimation->setEndValue(trackList()->rowToPixel(mRow+1));
-    //    mAnimation->setEasingCurve(QEasingCurve::OutBounce);
-    //    //    mAnimation->setLoopCount(4);
-
-    //    mAnimation->start();
-
+    // default
     QGraphicsObject::mouseDoubleClickEvent(event);
+}
+
+void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+
+    // Set movable only if cursor select the toolbar
+    QGraphicsObject::mousePressEvent(event);
+
+    QRect toolbarRect =  boundingRect().toRect();
+    toolbarRect.setWidth(40);
+
+    if (toolbarRect.contains( event->pos().toPoint()))
+        setFlag(QGraphicsItem::ItemIsMovable,true);
+
+    else
+        setFlag(QGraphicsItem::ItemIsMovable,false);
 
 
+}
 
+void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    //Default
+    QGraphicsObject::mouseMoveEvent(event);
 }
 
 void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -187,8 +227,6 @@ void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
     setSelected(false);
     updatePositionFromSlot();
-
-
     QGraphicsObject::mouseReleaseEvent(event);
 }
 

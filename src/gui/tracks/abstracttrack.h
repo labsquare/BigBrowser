@@ -30,6 +30,9 @@ public:
     // this methods is only called when you add item to the view
     void setTrackList(TrackListWidget * parent);
 
+
+    virtual void paintRegion(const QString& chromosom, quint64 start, quint64 end);
+
 public Q_SLOTS:
 
 
@@ -43,7 +46,11 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant & value);
 
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event);
+
+    void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
+
 
 
 

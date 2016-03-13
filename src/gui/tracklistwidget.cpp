@@ -96,6 +96,14 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     mChromosom = chromosom;
     mStart = start;
     mEnd = end;
+
+    foreach ( AbstractTrack * track, mTracks) {
+       track->update();
+    }
+
+
+
+
 }
 
 void TrackListWidget::resizeEvent(QResizeEvent *event)
