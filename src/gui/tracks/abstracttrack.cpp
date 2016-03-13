@@ -97,8 +97,9 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->setPen(Qt::transparent);
     painter->setRenderHint(QPainter::Antialiasing);
     if (isSelected()){
-        QBrush brush(qApp->style()->standardPalette().color(QPalette::Highlight));
-        brush.setStyle(Qt::Dense7Pattern);
+        QColor col  =qApp->style()->standardPalette().color(QPalette::Highlight);
+        col.setAlpha(50);
+        QBrush brush(col);
         painter->setBrush(brush);
 
     }
