@@ -114,11 +114,14 @@ void TrackListWidget::rearrage(int from, int to)
 
     qDebug()<<from<<"  "<<to;
 
+    // Get the sender of signals ( the selected track)
     AbstractTrack * track = qobject_cast<AbstractTrack*>(sender());
 
+    // Move the track into the new position
     mTracks.removeOne(track);
     mTracks.insert(to,track);
 
+    // Update new slot for each track
     int index = 0;
     foreach ( AbstractTrack * other, mTracks)
     {
@@ -127,6 +130,7 @@ void TrackListWidget::rearrage(int from, int to)
     }
 
 
+    // set Position for all track, except the selected tracks
     foreach (AbstractTrack * other, mTracks)
     {
         if (other != track)
@@ -138,7 +142,6 @@ void TrackListWidget::rearrage(int from, int to)
 
 
 
-    qDebug()<<"change";
 
 
 
