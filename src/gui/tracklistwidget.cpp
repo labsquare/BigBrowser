@@ -19,7 +19,7 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 void TrackListWidget::addTrack(AbstractTrack *track)
 {
     track->setTrackList(this);
-    track->setRow(mTracks.count());
+    track->setSlot(mTracks.count());
     mTracks.append(track);
     scene()->addItem(track);
     track->setPos(0,track->boundingRect().height() * (mTracks.count()-1));
@@ -100,6 +100,7 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 
 void TrackListWidget::rearrage(int from, int to)
 {
+
     /*
      * THIS IS WHERE @OLIVIER HAS TO WORK...
      Selected items call this methods, when their row change "from" to "to"
@@ -110,54 +111,27 @@ void TrackListWidget::rearrage(int from, int to)
     if (!sender())
         return ;
 
-
-    // the sender of the signals
     AbstractTrack * track = qobject_cast<AbstractTrack*>(sender());
 
-    qDebug()<<"from "<<from<<" to "<<to;
+    mTracks.insert(to,mTracks.takeAt(from));
+    track->setSlot(to);
 
-    if ( to > from )
+    int index = 0;
+    foreach ( AbstractTrack * other, mTracks)
     {
-
-        foreach ( AbstractTrack * t , mTracks)
-        {
-            if (t != track)
+            if (other != track)
             {
-                if (( t->row() <= to) && t->row() > from)
-                {
-                    qDebug()<<"move item"<<t->row();
-                    t->setRow(t->row()>0 ? t->row()-1: 0);
-                    t->updatePositionFromRow();
-                }
+                other->setSlot(index);
+                other->updatePositionFromSlot();
+
             }
 
-        }
-        track->setRow(to);
-
-
-    }
-
-    if ( to < from )
-    {
-
-        foreach ( AbstractTrack * t , mTracks)
-        {
-            if (t != track)
-            {
-                if (( t->row() > to) && (t->row() <= from))
-                {
-                    t->setRow(t->row() +1);
-                    t->updatePositionFromRow();
-                }
-            }
-
-        }
-        track->setRow(to);
-
-
+        ++index;
     }
 
 
+
+    qDebug()<<"change";
 
 
 

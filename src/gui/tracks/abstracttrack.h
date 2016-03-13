@@ -21,18 +21,17 @@ public:
     // Return the height of the track
     int height() const;
 
-    // Return the row of the track
-    int row() const;
+
+    void setSlot(int slot);
+    int slot() const;
+
+    void updatePositionFromSlot();
 
     // this methods is only called when you add item to the view
     void setTrackList(TrackListWidget * parent);
 
 public Q_SLOTS:
-    // set the row of items
-    void setRow(int row);
 
-    // update position from row . see setRow
-    void updatePositionFromRow();
 
 signals:
     // This signals is emitted when the row changed.
@@ -56,6 +55,8 @@ private:
     quint64 mEnd;
     QPropertyAnimation * mAnimation;
     TrackListWidget * mTrackList;
+    int mSlot;
+
 
 };
 

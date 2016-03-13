@@ -31,9 +31,27 @@ int AbstractTrack::height() const
     return boundingRect().height();
 }
 
-int AbstractTrack::row() const
+void AbstractTrack::setSlot(int slot)
 {
-    return mRow;
+    mSlot = slot;
+}
+
+int AbstractTrack::slot() const
+{
+    return mSlot;
+}
+
+void AbstractTrack::updatePositionFromSlot()
+{
+    if ( mAnimation->state() != QAbstractAnimation::Running)
+    {
+        mAnimation->setStartValue(pos().y());
+        mAnimation->setEndValue(trackList()->rowToPixel(slot()));
+        mAnimation->setDuration(500);
+        mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
+        mAnimation->start();
+
+    }
 }
 
 void AbstractTrack::setTrackList(TrackListWidget *parent)
@@ -41,21 +59,17 @@ void AbstractTrack::setTrackList(TrackListWidget *parent)
     mTrackList = parent;
 }
 
-void AbstractTrack::setRow(int row)
-{
-    mRow = row;
-}
 
-void AbstractTrack::updatePositionFromRow()
-{
+//void AbstractTrack::updatePositionFromRow()
+//{
 
-    mAnimation->setStartValue(pos().y());
-    mAnimation->setEndValue(trackList()->rowToPixel(mRow));
-    mAnimation->setDuration(500);
-    mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
-    mAnimation->start();
+////    mAnimation->setStartValue(pos().y());
+////    mAnimation->setEndValue(trackList()->rowToPixel(mRow));
+////    mAnimation->setDuration(500);
+////    mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
+////    mAnimation->start();
 
-}
+//}
 
 void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -72,7 +86,8 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawRect(boundingRect());
 
 
-    painter->drawText(boundingRect(),Qt::AlignCenter, QString::number(mRow));
+    painter->drawText(boundingRect(),Qt::AlignCenter,  QString("%1 0x%2").arg(slot()).arg((quintptr)this,
+                                                                                          QT_POINTER_SIZE * 2, 16, QChar('0')));
 
 
 
@@ -111,10 +126,14 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
         if (pos.y() < 0)
             pos.setY(0);
 
-        // Compute new row . If row changed, emit the signal rowChanged
-        int moveRow = trackList()->rowFromPixel(pos.y());
-        if (mRow != moveRow)
-            emit rowChanged(mRow, moveRow);
+        int median = pos.y() + boundingRect().height() / 2;
+        int newSlot = trackList()->rowFromPixel(median);
+
+        if (newSlot != mSlot && mAnimation->state() != QAbstractAnimation::Running){
+            emit rowChanged(mSlot, newSlot);
+        }
+
+
 
         return pos;
     }
@@ -127,10 +146,7 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
             setZValue(10);
         else{
             setZValue(0);
-            // Also, when selection change to false, recompute position from his row
-            updatePositionFromRow();
-
-
+            updatePositionFromSlot();
         }
     }
 
@@ -140,18 +156,19 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
 void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug()<<"start anim";
     // "y" is One of the property of QGraphicsItem. See doc
     // Property are not variable.  A property has getter, setter AND changed signals
 
 
-//    mAnimation->setDuration(4000);
-//    mAnimation->setStartValue(trackList()->rowToPixel(mRow));
-//    mAnimation->setEndValue(trackList()->rowToPixel(mRow+1));
-//    mAnimation->setEasingCurve(QEasingCurve::OutBounce);
-//    //    mAnimation->setLoopCount(4);
+    //    mAnimation->setDuration(4000);
+    //    mAnimation->setStartValue(trackList()->rowToPixel(mRow));
+    //    mAnimation->setEndValue(trackList()->rowToPixel(mRow+1));
+    //    mAnimation->setEasingCurve(QEasingCurve::OutBounce);
+    //    //    mAnimation->setLoopCount(4);
 
-//    mAnimation->start();
+    //    mAnimation->start();
+
+    QGraphicsObject::mouseDoubleClickEvent(event);
 
 
 
@@ -161,7 +178,6 @@ void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 
     setSelected(false);
-
 
     QGraphicsObject::mouseReleaseEvent(event);
 }
