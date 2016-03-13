@@ -21,17 +21,22 @@ public:
     // Return the height of the track
     int height() const;
 
-    // Return the row of the track
-    int row() const;
+
+    void setSlot(int slot);
+    int slot() const;
+
+    void updatePositionFromSlot();
 
     // this methods is only called when you add item to the view
     void setTrackList(TrackListWidget * parent);
 
-    // update position
-    void setSlotPosition(int slotPosition);
-    int slotPosition();
-    void updatePosition(int position, bool withAnimation=true);
-    QString title();
+public Q_SLOTS:
+
+
+signals:
+    // This signals is emitted when the row changed.
+    // It's connected to TrackListView::arrange
+    void rowChanged(int before, int after);
 
 protected:
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
@@ -44,16 +49,14 @@ protected:
 
 
 private:
-    int mSlotPosition;
+    int mRow;
     QString mChromosom;
     quint64 mStart;
     quint64 mEnd;
     QPropertyAnimation * mAnimation;
     TrackListWidget * mTrackList;
+    int mSlot;
 
-
-    int mHeight;
-    int mTitle;
 
 };
 

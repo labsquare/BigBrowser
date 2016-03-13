@@ -36,7 +36,7 @@ public:
 
 public Q_SLOTS:
     void setSelection(const QString& chromosom, quint64 start, quint64 end);
-    void rearrange(AbstractTrack * movingTrack, bool withAnimation=true);
+    void rearrage( int from , int to );
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);

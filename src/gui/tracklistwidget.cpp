@@ -18,24 +18,13 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 
 void TrackListWidget::addTrack(AbstractTrack *track)
 {
-
-
     track->setTrackList(this);
+    track->setSlot(mTracks.count());
     mTracks.append(track);
     scene()->addItem(track);
-    int pos = 0;
-    foreach (AbstractTrack *track, mTracks)
-    {
-        pos += track->height();
-    }
-    track->setPos(0,pos - track->height());
-    track->setSlotPosition(pos - track->height());
+    track->setPos(0,track->boundingRect().height() * (mTracks.count()-1));
 
-    //rearrange(track, false);
-
-    //setPos(0,track->boundingRect().height() * (mTracks.count()-1));
-
-    //connect(track,SIGNAL(rowChanged(int,int)),this,SLOT(rearrage(int,int)));
+    connect(track,SIGNAL(rowChanged(int,int)),this,SLOT(rearrage(int,int)));
 
 }
 
@@ -54,7 +43,36 @@ quint64 TrackListWidget::end() const
     return mEnd;
 }
 
+int TrackListWidget::rowToPixel(int row) const
+{
+    // Convert index of track to the top  coordinaite
+    int y = 0;
+    for (int i=0; i<row; ++i)
+    {
+        y += mTracks.at(i)->height();
+    }
+    return y;
+}
 
+int TrackListWidget::rowFromPixel(int y) const
+{
+
+    // Convert top y coordinaite to the row index
+    int size = 0;
+    int row  = mTracks.count() > 0 ? mTracks.count()-1:0;
+    for ( int index = 0; index < mTracks.count(); ++index)
+    {
+        size += mTracks.at(row)->height();
+        if ( size > y){
+            row = index;
+            break;
+        }
+    }
+
+
+
+    return row;
+}
 
 QList<AbstractTrack *> TrackListWidget::tracks()
 {
@@ -72,60 +90,61 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 void TrackListWidget::resizeEvent(QResizeEvent *event)
 {
     // If I do not put 2000 .. I Do not have the scrollbar !
+
     mScene->setSceneRect(QRectF(0,0,event->size().width(),2000));
+
+
     QGraphicsView::resizeEvent(event);
+
 }
 
-void TrackListWidget::rearrange(AbstractTrack * movingTrack, bool withAnimation )
+void TrackListWidget::rearrage(int from, int to)
 {
-    // Compute the threshold for the Y reaarangement
-    //qDebug() << "REARRANGE tracks (" << mTracks.count() << ") called by " << movingTrack->title();
+
+    /*
+     * THIS IS WHERE @OLIVIER HAS TO WORK...
+     Selected items call this methods, when their row change "from" to "to"
+
+    */
+
+    // ensure this is only called by a trackItem
+    if (!sender())
+        return ;
 
 
-    int currentPos = 0;
+    qDebug()<<from<<"  "<<to;
 
-    bool needToRearrange = false;
+    // Get the sender of signals ( the selected track)
+    AbstractTrack * track = qobject_cast<AbstractTrack*>(sender());
 
-    // First loop : reorder
-    for (int idx=0; idx < mTracks.count(); idx++) // AbstractTrack * track , mTracks)
+    // Move the track into the new position
+    mTracks.removeOne(track);
+    mTracks.insert(to,track);
+
+    // Update new slot for each track
+    int index = 0;
+    foreach ( AbstractTrack * other, mTracks)
     {
-        AbstractTrack * track = mTracks[idx];
-        int yThreshold = movingTrack->pos().y() + movingTrack->height() / 2;
-        int yMin = currentPos;
-        int yMax = yMin + track->height();
+        other->setSlot(index);
+        ++index;
+    }
 
 
-        //qDebug() << " - " << idx << "(" << currentPos << " [" << yThreshold << "]";
-
-
-        if (yThreshold >=yMin && yThreshold <= yMax)
+    // set Position for all track, except the selected tracks
+    foreach (AbstractTrack * other, mTracks)
+    {
+        if (other != track)
         {
-            //qDebug() << "   movedTrack [" << track->title() << "] go to the top position : " << idx << "(" << currentPos << ")";
-            // Put the dragged track at its new place
-            mTracks.removeOne(movingTrack);
-            mTracks.insert(idx, movingTrack);
+            other->updatePositionFromSlot();
 
-            needToRearrange = true;
-            break;
         }
-
-        //qDebug() << "   track [" << track->title() << "] over its slot : " <<idx << "(" << currentPos << ")";
-        currentPos += track->height();
-        continue;
     }
 
-    // Second loop : rearrange items
-    //qDebug() << "result : ";
-    currentPos = 0;
-    foreach (AbstractTrack * track, mTracks)
-    {
-        //qDebug() << "   track [" << track->title() << "] go to the position : "  << currentPos;
-        track->updatePosition(currentPos, withAnimation);
-        currentPos += track->height();
-    }
-    //qDebug() << "";
 
-    return;
+
+
+
+
 }
 
 }}
