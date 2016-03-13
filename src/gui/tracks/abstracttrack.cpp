@@ -17,18 +17,24 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     mAnimation = new QPropertyAnimation(this,"y");
+    setHeight(qrand()%100 + 40);
 }
 
 QRectF AbstractTrack::boundingRect() const
 {
     int w = scene()->views().first()->width();
-    return QRect(0,0,w,40);
+    return QRect(0,0,w,height());
 
 }
 
 int AbstractTrack::height() const
 {
-    return boundingRect().height();
+    return mHeight;
+}
+
+void AbstractTrack::setHeight(int h)
+{
+    mHeight = h;
 }
 
 void AbstractTrack::setSlot(int slot)

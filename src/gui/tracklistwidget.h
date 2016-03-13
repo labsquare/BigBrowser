@@ -28,6 +28,7 @@ public:
 
     int rowToPixel(int row) const;
     int rowFromPixel(int y) const;
+    int tracksHeight() const;
 
     QList<AbstractTrack*> tracks();
 

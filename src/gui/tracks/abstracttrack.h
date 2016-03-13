@@ -20,7 +20,7 @@ public:
     virtual QRectF boundingRect() const;
     // Return the height of the track
     int height() const;
-
+    void setHeight(int h);
 
     void setSlot(int slot);
     int slot() const;
@@ -56,6 +56,7 @@ private:
     QPropertyAnimation * mAnimation;
     TrackListWidget * mTrackList;
     int mSlot;
+    int mHeight;
 
 
 };

@@ -18,11 +18,13 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 
 void TrackListWidget::addTrack(AbstractTrack *track)
 {
+    // be carefull to keep same order
     track->setTrackList(this);
     track->setSlot(mTracks.count());
     mTracks.append(track);
     scene()->addItem(track);
-    track->setPos(0,track->boundingRect().height() * (mTracks.count()-1));
+
+    track->setPos(0,tracksHeight() - track->height());
 
     connect(track,SIGNAL(rowChanged(int,int)),this,SLOT(rearrage(int,int)));
 
@@ -72,6 +74,15 @@ int TrackListWidget::rowFromPixel(int y) const
 
 
     return row;
+}
+
+int TrackListWidget::tracksHeight() const
+{
+    int total = 0;
+    foreach (AbstractTrack * track, mTracks)
+        total += track->height();
+
+    return total;
 }
 
 QList<AbstractTrack *> TrackListWidget::tracks()
