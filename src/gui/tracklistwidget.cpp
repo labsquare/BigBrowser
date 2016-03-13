@@ -111,22 +111,29 @@ void TrackListWidget::rearrage(int from, int to)
     if (!sender())
         return ;
 
+
+    qDebug()<<from<<"  "<<to;
+
     AbstractTrack * track = qobject_cast<AbstractTrack*>(sender());
 
-    mTracks.insert(to,mTracks.takeAt(from));
-    track->setSlot(to);
+    mTracks.removeOne(track);
+    mTracks.insert(to,track);
 
     int index = 0;
     foreach ( AbstractTrack * other, mTracks)
     {
-            if (other != track)
-            {
-                other->setSlot(index);
-                other->updatePositionFromSlot();
-
-            }
-
+        other->setSlot(index);
         ++index;
+    }
+
+
+    foreach (AbstractTrack * other, mTracks)
+    {
+        if (other != track)
+        {
+            other->updatePositionFromSlot();
+
+        }
     }
 
 

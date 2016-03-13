@@ -146,7 +146,6 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
             setZValue(10);
         else{
             setZValue(0);
-            updatePositionFromSlot();
         }
     }
 
@@ -178,6 +177,8 @@ void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 
     setSelected(false);
+    updatePositionFromSlot();
+
 
     QGraphicsObject::mouseReleaseEvent(event);
 }
