@@ -36,19 +36,17 @@ namespace big {
 		 * \brief complement
 		 * \return the complement sequence
 		 */
-		template<typename OUT, typename SOURCE>
-		    OUT complement(SOURCE src)
+		template<typename SOURCE>
+		    SOURCE complement(SOURCE src)
 		{
-		    OUT c = OUT(src.length(), 'A');
+		    SOURCE c = SOURCE(src.length(), 'A');
 
 		    auto src_begin = src.begin();
 		    auto src_end = src.end();
 		    auto c_begin = c.begin();
 		    for(; src_begin <= src_end; src_begin++, c_begin++)
 		    {
-			/* std::cout<<src_begin->toLatin1()<<std::endl; */
 			*c_begin = this->complement(*src_begin);
-			/* std::cout<<c_begin->toLatin1()<<std::endl; */
 		    }
 
 		    return c;
@@ -69,17 +67,17 @@ namespace big {
 		 * \param nucleotide
 		 * \return the complement of original nucleotide
 		 */
-		unsigned char complement(unsigned char nuc);
+		char complement(char nuc);
 		QChar complement(QChar& nuc);
 
 		/*!
 		 * \brief reverse
 		 * \return the reverse sequence
 		 */
-		template<typename OUT, typename SOURCE>
-		    OUT reverse(SOURCE src)
+		template<typename SOURCE>
+		    SOURCE reverse(SOURCE src)
 		{
-		    OUT c = OUT(src.length(), 'A');
+		    SOURCE c = SOURCE(src.length(), 'A');
 
 		    auto src_begin = src.begin();
 		    auto src_end = src.end(); src_end--;
@@ -98,10 +96,10 @@ namespace big {
 		 * \brief reverseComplement
 		 * \return the reverse complement sequence
 		 */
-		template<typename OUT, typename SOURCE>
-		    OUT reverseComplement(SOURCE src)
+		template<typename SOURCE>
+		    SOURCE reverseComplement(SOURCE src)
 		{
-		    OUT c = OUT(src.length(), 'A');
+		    SOURCE c = SOURCE(src.length(), 'A');
 
 		    auto src_begin = src.begin();
 		    auto src_end = src.end(); src_end--;
@@ -122,115 +120,62 @@ namespace big {
 		unsigned char mComplement[122];
 	    };
 
-	    /*!
-	     * \brief Type
-	     * Type of Sequence
-	     */
-	    enum Type
+
+	    template<typename SEQ>
+		SEQ transcribe(SEQ &orig)
 	    {
-		DNA,
-		RNA,
-		PROTINE
-	    };
-
-	    /*!
-	     * \brief Base
-	     * Definition of general sequence
-	     */
-	    template<typename SEQ, typename COMMENT, typename TYPE>
-		struct Base
-		{
-		    SEQ sequence;
-		    COMMENT comment;
-		    TYPE type;
-		};
-
-	    template<typename SEQ, typename COMMENT>
-		Base<SEQ, COMMENT, Type> transcribe(Base<SEQ, COMMENT, Type> &orig)
-	    {
-		Base<SEQ, COMMENT, Type> next;
-
-		next.comment = orig.comment;
-
-		if(orig.type != Type::DNA)
-		{
-		    next.type = orig.type;
-		    next.sequence = orig.sequence;
-		}
-		else
-		{
-		    next.type = Type::RNA;
-		    next.sequence = orig.sequence;
-		}
-
-		return next;
-	    }
-
-	    template<typename SEQ, typename COMMENT, typename TYPE>
-		Base<SEQ, COMMENT, TYPE> backTranscribe(Base<SEQ, COMMENT, TYPE> &orig)
-	    {
-		Base<SEQ, COMMENT, Type> next;
-
-		next.comment = orig.comment;
-
-		if(orig.type != Type::RNA)
-		{
-		    next.type = orig.type;
-		    next.sequence = orig.sequence;
-		}
-		else
-		{
-		    next.type = Type::DNA;
-		    next.sequence = orig.sequence;
-		}
-
-		return next;
-	    }
-
-	    template<typename SEQ, typename COMMENT, typename TYPE>
-		Base<SEQ, COMMENT, TYPE> translate(Base<SEQ, COMMENT, TYPE> &orig)
-	    {
-		Base<SEQ, COMMENT, Type> next;
-
-		next.comment = orig.comment;
-		next.type = orig.type;
+		SEQ next();
 		next.sequence = orig.sequence;
+	        
+		return next;
+	    }
+
+	    template<typename SEQ>
+	        SEQ backTranscribe(SEQ &orig)
+	    {
+	        SEQ next;
+
+		next = orig;
+
+		return next;
+	    }
+
+	    template<typename SEQ>
+		SEQ translate(SEQ &orig)
+	    {
+	        SEQ next;
+
+	        next = orig;
 
 		return next;
 	    }
 	    
-	    template<typename SEQ, typename COMMENT, typename TYPE>
-		Base<SEQ, COMMENT, TYPE> complement(Base<SEQ, COMMENT, TYPE> &orig)
+	    template<typename SEQ>
+	        SEQ complement(SEQ &orig)
 	    {
-		Base<SEQ, COMMENT, Type> next;
+	        SEQ next;
 
-		next.comment = orig.comment;
-		next.type = orig.type;
-		next.sequence = Transform::instance()->complement<SEQ, SEQ>(orig.sequence);
+	        next = Transform::instance()->complement(orig);
 
 		return next;
 	    }
 
-	    template<typename SEQ, typename COMMENT, typename TYPE>
-		Base<SEQ, COMMENT, TYPE> reverse(Base<SEQ, COMMENT, TYPE> &orig)
+	    template<typename SEQ>
+	        SEQ reverse(SEQ  &orig)
 	    {
-		Base<SEQ, COMMENT, Type> next;
+	        SEQ next;
 
-		next.comment = orig.comment;
-		next.type = orig.type;
-		next.sequence = Transform::instance()->reverse<SEQ, SEQ>(orig.sequence);
+	        next = Transform::instance()->reverse(orig);
 
 		return next;
 	    }
 
-	    template<typename SEQ, typename COMMENT, typename TYPE>
-		Base<SEQ, COMMENT, TYPE> reverseComplement(Base<SEQ, COMMENT, TYPE> &orig)
+	    template<typename SEQ>
+		SEQ reverseComplement(SEQ &orig)
 	    {
-		Base<SEQ, COMMENT, Type> next;
+	        SEQ next;
 
-		next.comment = orig.comment;
-		next.type = orig.type;
-		next.sequence = Transform::instance()->reverseComplement<SEQ, SEQ>(orig.sequence);
+	        next = Transform::instance()->reverseComplement(orig);
 
 		return next;
 	    }
@@ -239,7 +184,7 @@ namespace big {
 	/*!
 	 * Definition of Sequence with specialisation of sequence::Base
 	 */
-	typedef sequence::Base<QString, QString, sequence::Type> Sequence;
+	typedef QByteArray Sequence;
 
     } // end of namespace core
 } // end of namespace big

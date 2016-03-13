@@ -58,7 +58,7 @@ namespace big {
 		return Transform::m_instance;
 	    }
 
-	    unsigned char Transform::complement(unsigned char nuc)
+	    char Transform::complement(char nuc)
 	    {
 		return this->mComplement[nuc];
 	    }
