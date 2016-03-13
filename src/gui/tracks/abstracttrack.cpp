@@ -34,6 +34,7 @@ int AbstractTrack::height() const
 void AbstractTrack::setSlot(int slot)
 {
     mSlot = slot;
+    update();
 }
 
 int AbstractTrack::slot() const
@@ -43,15 +44,17 @@ int AbstractTrack::slot() const
 
 void AbstractTrack::updatePositionFromSlot()
 {
-    if ( mAnimation->state() != QAbstractAnimation::Running)
-    {
+    if (mAnimation->state() == QAbstractAnimation::Running)
+        mAnimation->stop();
+
+
         mAnimation->setStartValue(pos().y());
         mAnimation->setEndValue(trackList()->rowToPixel(slot()));
-        mAnimation->setDuration(500);
+        mAnimation->setDuration(200);
         mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
         mAnimation->start();
 
-    }
+
 }
 
 void AbstractTrack::setTrackList(TrackListWidget *parent)
@@ -129,7 +132,7 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
         int median = pos.y() + boundingRect().height() / 2;
         int newSlot = trackList()->rowFromPixel(median);
 
-        if (newSlot != mSlot && mAnimation->state() != QAbstractAnimation::Running){
+        if (newSlot != mSlot && isSelected()){
             emit rowChanged(mSlot, newSlot);
         }
 
