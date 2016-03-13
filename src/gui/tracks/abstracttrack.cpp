@@ -17,7 +17,7 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     mAnimation = new QPropertyAnimation(this,"y");
-    setHeight(qrand()%100 + 40);
+    setHeight(50);
 }
 
 QRectF AbstractTrack::boundingRect() const
