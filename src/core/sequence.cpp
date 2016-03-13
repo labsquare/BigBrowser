@@ -1,8 +1,4 @@
 
-/* Qt include */
-#include <QFile>
-#include <QTextStream>
-
 /* Project include */
 #include "sequence.h"
 
@@ -10,113 +6,68 @@ namespace big {
 
     namespace core {
 
-	Sequence::Sequence(const QByteArray &seq)
+	namespace sequence
 	{
-	    setSequence(seq);
-	}
+	    Transform* Transform::m_instance = nullptr;
 
-	Sequence::Sequence()
-	{
-	}
-
-	Sequence::Sequence(int size, char ch)
-	{
-	    this->mSeq = QByteArray(size, ch);
-	}
+	    Transform::Transform()
+	    {
+		this->mComplement['-'] = '-'; // gap
+		this->mComplement['.'] = '.'; // gap
+		this->mComplement['A'] = 'T'; // Adenine
+		this->mComplement['B'] = 'B'; // C or G or T
+		this->mComplement['C'] = 'G'; // Cytosine
+		this->mComplement['D'] = 'D'; // A or G or T
+		this->mComplement['G'] = 'C'; // Guanine
+		this->mComplement['H'] = 'H'; // A or C or T
+		this->mComplement['K'] = 'K'; // G or T
+		this->mComplement['M'] = 'M'; // A or C
+		this->mComplement['N'] = 'N'; // any base
+		this->mComplement['R'] = 'R'; // A or G
+		this->mComplement['S'] = 'S'; // G or C
+		this->mComplement['T'] = 'A'; // Thymine
+		this->mComplement['U'] = 'A'; // Uracil
+		this->mComplement['V'] = 'V'; // A or C or G
+		this->mComplement['W'] = 'W'; // A or T
+		this->mComplement['Y'] = 'Y'; // C or G
+		this->mComplement['a'] = 't'; // Adenine
+		this->mComplement['b'] = 'b'; // C or G or T
+		this->mComplement['c'] = 'g'; // Cytosine
+		this->mComplement['d'] = 'd'; // A or G or T
+		this->mComplement['g'] = 'c'; // Guanine
+		this->mComplement['h'] = 'h'; // A or C or T
+		this->mComplement['k'] = 'k'; // G or T
+		this->mComplement['m'] = 'm'; // A or C
+		this->mComplement['n'] = 'n'; // any base
+		this->mComplement['r'] = 'r'; // A or G
+		this->mComplement['s'] = 's'; // G or C
+		this->mComplement['t'] = 'a'; // Thymine
+		this->mComplement['u'] = 'a'; // Uracil
+		this->mComplement['v'] = 'v'; // A or C or G
+		this->mComplement['w'] = 'w'; // A or T
+		this->mComplement['y'] = 'y'; // C or G
+	    }
 	
-	void Sequence::setSequence(const QByteArray &seq)
-	{
-	    mSeq = seq;
-	}
-
-	QString Sequence::toString() const
-	{
-
-	    return QString::fromUtf8(mSeq);
-	}
-
-	Sequence Sequence::transcribe() const
-	{
-	    QByteArray t = QByteArray(this->mSeq.length(), 'A');
-
-	    for(auto i = this->mSeq.length(); i != this->mSeq.length(); i++)
+	    Transform* Transform::instance()
 	    {
-		if(this->mSeq[i] == 'A')
+		if(Transform::m_instance == nullptr)
 		{
-		    t[i] = 'U';
+		    Transform::m_instance = new Transform();
 		}
-		if( this->mSeq[i] == 'a')
-		{
-		    t[i] = 'u';
-		}
+
+		return Transform::m_instance;
 	    }
 
-	    return Sequence(t);
-	}
-
-	Sequence Sequence::backTranscribe() const
-	{
-	    // Duplicate code form Sequence::transcribe if you can factorize factorize
-	    QByteArray t = QByteArray(this->mSeq.length(), 'A');
-
-	    for(auto i = this->mSeq.length(); i != this->mSeq.length(); i++)
+	    unsigned char Transform::complement(unsigned char nuc)
 	    {
-		if(this->mSeq[i] == 'U')
-		{
-		    t[i] = 'A';
-		}
-		if(this->mSeq[i] == 'u')
-		{
-		    t[i] = 'a';
-		}
+		return this->mComplement[nuc];
 	    }
 
-	    return Sequence(t);
-	}
-
-
-	Sequence Sequence::fromFasta(const QString &filename)
-	{
-	    QFile file(filename);
-
-	    // Do not load big fasta file
-
-	    if ( file.open(QIODevice::ReadOnly))
+	    QChar Transform::complement(QChar& nuc)
 	    {
-		QTextStream stream(&file);
-
-		// Process fasta
-		// setSequence
+		return this->complement(nuc.toLatin1());
 	    }
-
-	    return Sequence();
-	}
-
-	Sequence::iterator Sequence::begin()
-	{
-	    return this->mSeq.begin();
-	}
-
-	Sequence::const_iterator Sequence::begin() const
-	{
-	    return this->mSeq.begin();
-	}
-
-	Sequence::iterator Sequence::end()
-	{
-	    return this->mSeq.end();
-	}
-
-	Sequence::const_iterator Sequence::end() const
-	{
-	    return this->mSeq.end();
-	}
-
-	int Sequence::length() const
-	{
-	    return this->mSeq.length();
-	}
-
+	} // end of namespace sequence
     } // end of namespace core
 } // end of namespace big
 
