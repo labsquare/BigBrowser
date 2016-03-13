@@ -132,12 +132,33 @@ void TrackListWidget::rearrage(int from, int to)
             }
 
         }
+        track->setRow(to);
+
+
+    }
+
+    if ( to < from )
+    {
+
+        foreach ( AbstractTrack * t , mTracks)
+        {
+            if (t != track)
+            {
+                if (( t->row() > to) && (t->row() <= from))
+                {
+                    t->setRow(t->row() +1);
+                    t->updatePositionFromRow();
+                }
+            }
+
+        }
+        track->setRow(to);
+
 
     }
 
 
 
-    track->setRow(to);
 
 
 }
