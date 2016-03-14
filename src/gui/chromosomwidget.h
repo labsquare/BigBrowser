@@ -44,7 +44,9 @@ protected Q_SLOTS:
     void updateChromosom();
 
 protected:
+    // ----------------------------------------------------------
     // Override Qt event handler
+    // ----------------------------------------------------------
     void paintEvent(QPaintEvent * event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent * event)Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent * event)Q_DECL_OVERRIDE;
@@ -54,7 +56,9 @@ protected:
     void leaveEvent(QEvent * event)Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent * event)Q_DECL_OVERRIDE;
 
+    // ----------------------------------------------------------
     // Drawing
+    // ----------------------------------------------------------
     void drawRegions(QPainter * painter);
     void drawLabels(QPainter *painter);
     void drawCursorLayer(QPainter *painter);
@@ -62,12 +66,16 @@ protected:
 
     QPainterPath getChromosomWrapperShape(int wrapperPadding, int wrc) const;
 
+    // ----------------------------------------------------------
     // Helper
+    // ----------------------------------------------------------
     inline quint64 pixelToBase(int pixel) {return (pixel-mOffsetX) / mB2PCoeff;}
     inline int baseToPixel(quint64 base) {return base * mB2PCoeff + mOffsetX;}
     Region getRegionAtPixel(int pixelPos);
     void initStainColorFromRegions();
     void updateFrame(QRect newFrame, bool updateSelector=true);
+
+
 
 private:
 

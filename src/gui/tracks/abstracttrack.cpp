@@ -10,8 +10,11 @@
 #include <QStyleOptionRubberBand>
 #include "app.h"
 #include "tracklistwidget.h"
+
 namespace big {
 namespace gui {
+
+
 
 AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     :QGraphicsObject(parent)
@@ -21,14 +24,21 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     mAnimation = new QPropertyAnimation(this,"y");
-    setHeight(200);
+    mSlotModeON = false;
+
+    setHeight(30+qrand()%270);
 }
 
-QRectF AbstractTrack::boundingRect() const
-{
-    int w = scene()->views().first()->width();
-    return QRect(0,0,w,height());
 
+
+void AbstractTrack::setTrackList(TrackListWidget *parent)
+{
+    mTrackList = parent;
+}
+
+TrackListWidget *AbstractTrack::trackList() const
+{
+    return mTrackList;
 }
 
 int AbstractTrack::height() const
@@ -41,75 +51,169 @@ void AbstractTrack::setHeight(int h)
     mHeight = h;
 }
 
-void AbstractTrack::setSlot(int slot)
+
+
+
+void AbstractTrack::setSlotMode(bool slotModeON)
 {
-    mSlot = slot;
-    update();
+    if (mSlotModeON != slotModeON)
+    {
+        mSlotModeON = slotModeON;
+        if (!slotModeON && mSlotTop != mSlotGhostTop)
+        {
+            mSlotTop = mSlotGhostTop;
+            goToSlotPosition();
+        }
+        update();
+    }
 }
 
-int AbstractTrack::slot() const
+bool AbstractTrack::slotMode() const
 {
-    return mSlot;
+    return mSlotModeON;
 }
 
-void AbstractTrack::updatePositionFromSlot()
+int AbstractTrack::setSlotIndex(int slotIdx)
 {
+    mSlotIndex = slotIdx;
+}
+
+int AbstractTrack::slotIndex() const
+{
+    return mSlotIndex;
+}
+
+int AbstractTrack::setSlotTop(int slotTop)
+{
+    mSlotTop = slotTop;
+    mSlotGhostTop = slotTop;
+}
+
+int AbstractTrack::slotTop() const
+{
+    return mSlotTop;
+}
+
+void AbstractTrack::updateSlotPosition(int slotIndex, int slotGhostTop)
+{
+    if (mSlotModeON && mSlotIndex != slotIndex)
+    {
+        mSlotIndex = slotIndex;
+        mSlotGhostTop = slotGhostTop;
+        goToSlotPosition();
+    }
+}
+
+int AbstractTrack::matchSlot(int yPosition)
+{
+    // Top Out of the slot
+    if (yPosition < mSlotTop)
+        return -1;
+    // Top In the slot
+    if (yPosition <= mSlotTop + mHeight/2)
+        return 1;
+    // Bottom In the slot
+    if (yPosition <= mSlotTop + mHeight)
+        return 2;
+    // Bottom Out of the slot
+    return -2;
+}
+
+
+
+
+
+const QString &AbstractTrack::chromosom() const
+{
+
+    return trackList()->chromosom();
+
+}
+
+quint64 AbstractTrack::start() const
+{
+    return trackList()->start();
+
+}
+
+quint64 AbstractTrack::end() const
+{
+    return trackList()->end();
+
+}
+
+
+
+QRectF AbstractTrack::boundingRect() const
+{
+    int w = scene()->views().first()->width();
+    return QRect(0,0,w,height());
+    //return QRect(0,0,scene()->width(),mHeight);
+}
+
+void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end)
+{
+    // Default implementation draw some usefull debug informations
+    // This method must be overriden by children classes
+    painter->drawText(
+                boundingRect(),
+                Qt::AlignCenter,
+                QString("%1 0x%2 - %3 [%4-%5]")
+                    .arg(mSlotIndex)
+                    .arg((quintptr)this, QT_POINTER_SIZE * 2, 16, QChar('0'))
+                    .arg(chromosom)
+                    .arg(start)
+                    .arg(end)
+    );
+}
+
+
+
+
+
+void AbstractTrack::goToSlotPosition()
+{
+    if (isSelected())
+    {
+        return;
+    }
     if (mAnimation->state() == QAbstractAnimation::Running)
+    {
         mAnimation->stop();
-
+    }
 
     mAnimation->setStartValue(pos().y());
-    mAnimation->setEndValue(trackList()->rowToPixel(slot()));
+    mAnimation->setEndValue((mSlotModeON) ? mSlotGhostTop : mSlotTop);
     mAnimation->setDuration(200);
     mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
     mAnimation->start();
-
-
 }
 
-void AbstractTrack::setTrackList(TrackListWidget *parent)
-{
-    mTrackList = parent;
-}
-
-void AbstractTrack::paintRegion(const QString &chromosom, quint64 start, quint64 end)
-{
-
-}
-
-
-//void AbstractTrack::updatePositionFromRow()
-//{
-
-////    mAnimation->setStartValue(pos().y());
-////    mAnimation->setEndValue(trackList()->rowToPixel(mRow));
-////    mAnimation->setDuration(500);
-////    mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
-////    mAnimation->start();
-
-//}
 
 void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->setPen(Qt::transparent);
+    painter->setPen(Qt::black);
     painter->setRenderHint(QPainter::Antialiasing);
-    if (isSelected()){
+
+    if (isSelected())
+    {
         QColor col  =qApp->style()->standardPalette().color(QPalette::Highlight);
         col.setAlpha(50);
         QBrush brush(col);
         painter->setBrush(brush);
-
     }
-
     else
+    {
         painter->setBrush(qApp->style()->standardPalette().color(QPalette::Base));
-
+    }
     painter->drawRect(boundingRect());
 
-    // Draw toolbar
+
+
+    // Draw Track Handle
     QRect toolbarRect =  boundingRect().toRect();
     toolbarRect.setWidth(40);
 
@@ -129,7 +233,6 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
     painter->drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start()));
     painter->drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end()));
-
 
 
     QVariantMap options;
@@ -163,35 +266,16 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 
 
-    painter->drawText(boundingRect(),Qt::AlignCenter,  QString("%1 0x%2").arg(slot()).arg((quintptr)this,
-                                                                                          QT_POINTER_SIZE * 2, 16, QChar('0')));
+    // Set the bounds of the painter for the Content region
+    // TODO
 
-
-
-    //    QStyleOptionProgressBar barOption;
-
-    //    int height = 20;
-    //    int marge  = 60;
-    //    barOption.minimum = 0;
-    //    barOption.maximum = 100;
-    //    barOption.textAlignment = Qt::AlignCenter;
-    //    barOption.textVisible = true;
-    //    barOption.text = QString("Downloading %1").arg(45);
-    //    barOption.rect.setLeft(boundingRect().left() + 50);
-    //    barOption.rect.setRight(boundingRect().right() - 50);
-    //    barOption.rect.setTop(boundingRect().top() + 50);
-    //    barOption.rect.setHeight(20);
-    //    barOption.progress =  54;
-
-    //    QApplication::style()->drawControl(QStyle::CE_ProgressBar, &barOption,painter);
-
-
-    //    QFont font = QFont();
-    //    font.setPixelSize(30);
-    //    painter->setFont(font);
-    //    painter->drawText(boundingRect(),Qt::AlignCenter,"TRACKS");
+    // Call the method to draw the content of the Track
+    this->paintRegion(painter, chromosom(), start(), end());
 
 }
+
+
+
 
 QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
@@ -199,14 +283,10 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
     {
         QPointF pos  = value.toPointF();
         pos.setX(0);
-        if (pos.y() < 0)
-            pos.setY(0);
 
-        int median = pos.y() + boundingRect().height() / 2;
-        int newSlot = trackList()->rowFromPixel(median);
-
-        if (newSlot != mSlot && isSelected()){
-            emit rowChanged(mSlot, newSlot);
+        if (mSlotModeON && isSelected())
+        {
+            trackList()->slotReordering(this);
         }
         return pos;
 
@@ -217,8 +297,11 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
     {
         // if selection == True, move the item on the top , to be not hiddable by other track
         if ( value.toBool())
+        {
             setZValue(10);
-        else{
+        }
+        else
+        {
             setZValue(0);
         }
     }
@@ -227,29 +310,14 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 }
 
 
+
+
+
+
 void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-
     // default
     QGraphicsObject::mouseDoubleClickEvent(event);
-}
-
-void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-
-    // Set movable only if cursor select the toolbar
-    QGraphicsObject::mousePressEvent(event);
-
-    QRect toolbarRect =  boundingRect().toRect();
-    toolbarRect.setWidth(40);
-
-    if (toolbarRect.contains( event->pos().toPoint()))
-        setFlag(QGraphicsItem::ItemIsMovable,true);
-
-    else
-        setFlag(QGraphicsItem::ItemIsMovable,false);
-
-
 }
 
 void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -258,38 +326,36 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsObject::mouseMoveEvent(event);
 }
 
+void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    // Set movable only if cursor select the toolbar
+    QGraphicsObject::mousePressEvent(event);
+
+    QRect toolbarRect = boundingRect().toRect();
+    toolbarRect.setWidth(40);
+
+    if (toolbarRect.contains( event->pos().toPoint()))
+    {
+        setFlag(QGraphicsItem::ItemIsMovable,true);
+        trackList()->switchSlotMode(true);
+    }
+    else
+    {
+        setFlag(QGraphicsItem::ItemIsMovable,false);
+        trackList()->switchSlotMode(false);
+    }
+}
+
 void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-
     setSelected(false);
-    updatePositionFromSlot();
-    QGraphicsObject::mouseReleaseEvent(event);
+    trackList()->switchSlotMode(false);
+    QGraphicsObject::mouseReleaseEvent(event);    
 }
 
 
-const QString &AbstractTrack::chromosom() const
-{
 
-    return trackList()->chromosom();
 
-}
-
-quint64 AbstractTrack::start() const
-{
-    return trackList()->start();
-
-}
-
-quint64 AbstractTrack::end() const
-{
-    return trackList()->end();
-
-}
-
-TrackListWidget *AbstractTrack::trackList() const
-{
-    return mTrackList;
-}
 
 
 
