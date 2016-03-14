@@ -123,6 +123,10 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
     qApp->style()->drawControl(QStyle::CE_Splitter, &op,painter);
 
+    painter->setPen(QPen(Qt::black));
+
+    painter->drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start()));
+    painter->drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end()));
 
 
 

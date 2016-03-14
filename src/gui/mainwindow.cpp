@@ -54,6 +54,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(mchromosomWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
 
+
+    connect(mTrackListWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
+            this,SLOT(setSelection(QString,quint64,quint64)));
+
     connect(mStatusBar,SIGNAL(zoomChanged(int)),mchromosomWidget,SLOT(setZoom(int)));
 
     connect(mSearchBar,SIGNAL(genomChanged(QString)),this,SLOT(setGenom(QString)));
@@ -100,6 +104,10 @@ void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 e
 
     if (sender() != mStatusBar)
         mStatusBar->setSelection(chromosom,start,end);
+
+    if (sender() != mTrackListWidget)
+        mTrackListWidget->setSelection(chromosom,start,end);
+
 }
 
 void MainWindow::setupMenuBar()
