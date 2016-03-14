@@ -8,6 +8,7 @@
 #include "genom.h"
 #include "quazip.h"
 #include "vcfreader.h"
+#include "genetoolwidget.h"
 
 using namespace big::core;
 using namespace big::gui;
@@ -19,6 +20,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("BIG");
     QCoreApplication::setOrganizationDomain("labsquare.org");
     QCoreApplication::setApplicationName("Big Browser");
+
+    GeneToolWidget * widget = new GeneToolWidget;
+    widget->show();
+
 
 
 
@@ -33,10 +38,10 @@ int main(int argc, char *argv[])
     //        }
     //    }
 
-    App::i()->loadSettings();
+//    App::i()->loadSettings();
 
-    MainWindow win;
-    win.show();
+//    MainWindow win;
+//    win.show();
 
 
 

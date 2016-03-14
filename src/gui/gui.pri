@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/tracklistwidget.h \
     $$PWD/statusbar.h \
     $$PWD/searchtoolbar.h \
-    $$PWD/app.h
+    $$PWD/app.h \
+    $$PWD/genetoolwidget.h
 
 SOURCES += \
     $$PWD/mainwindow.cpp \
@@ -14,7 +15,8 @@ SOURCES += \
     $$PWD/tracklistwidget.cpp \
     $$PWD/statusbar.cpp \
     $$PWD/searchtoolbar.cpp \
-    $$PWD/app.cpp
+    $$PWD/app.cpp \
+    $$PWD/genetoolwidget.cpp
 
 
 include(settings/settings.pri)
