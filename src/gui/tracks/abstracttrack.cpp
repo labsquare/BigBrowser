@@ -116,8 +116,10 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     QStyleOption op;
     op.rect = toolbarRect;
 
-    painter->setBrush(qApp->style()->standardPalette().color(QPalette::Window));
-    qApp->style()->drawPrimitive(QStyle::PE_Frame, &op,painter);
+
+
+    painter->setBrush(qApp->palette("QWidget").button());
+    qApp->style()->drawPrimitive(QStyle::PE_PanelButtonTool, &op,painter);
 
     op.rect = toolbarRect;
 
