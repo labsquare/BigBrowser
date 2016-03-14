@@ -1,6 +1,9 @@
 # BIG Browser
 
-An offline and graphical implementation of genome viewer.
+An offline and graphical implementation of genome viewer. 
+
+## Dependency 
+Qt 5.5 minimum is required to compile bigbrowser. 
 
 ## Compilation
 
