@@ -59,7 +59,7 @@ void AbstractTrack::setSlotMode(bool slotModeON)
     if (mSlotModeON != slotModeON)
     {
         mSlotModeON = slotModeON;
-        if (!slotModeON && mSlotTop != mSlotGhostTop)
+        if (!slotModeON && (mSlotTop != mSlotGhostTop || pos().y() != mSlotGhostTop))
         {
             mSlotTop = mSlotGhostTop;
             goToSlotPosition();
