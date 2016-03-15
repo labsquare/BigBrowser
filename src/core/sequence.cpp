@@ -9,12 +9,18 @@ namespace core {
 QVector<unsigned char> Sequence::complementTable = Sequence::createComplementTable();
 
 Sequence::Sequence(const char *data)
-    :mArray(data)
+    :mArray(data),mType(Adn), mStrand(Forward)
+{
+
+}
+
+Sequence::Sequence(const QByteArray &bytes)
+    :mArray(bytes),mType(Adn), mStrand(Forward)
 {
 }
 
 Sequence::Sequence()
-    :mArray()
+    :mArray(),mType(Adn), mStrand(Forward)
 {
 }
 
@@ -22,12 +28,18 @@ Sequence Sequence::complement() const
 {
     // @Natir
 
+    QByteArray c;
+    c.fill('A', count());
 
+    auto src_begin = byteArray().begin();
+    auto src_end = byteArray().end();
+    auto c_begin = c.begin();
+    for(; src_begin <= src_end; src_begin++, c_begin++)
+    {
+        *c_begin = Sequence::baseToComplement(*src_begin);
+    }
 
-
-
-
-    return Sequence();
+    return Sequence(c);
 }
 
 Sequence Sequence::translate() const
@@ -103,7 +115,7 @@ QString Sequence::toString() const
     return QString(mArray);
 }
 
-unsigned char Sequence::baseToComplement(unsigned char base)
+unsigned char Sequence::baseToComplement(unsigned char base) const
 {
     return Sequence::complementTable.at(base);
 

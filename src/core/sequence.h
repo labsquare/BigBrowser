@@ -20,6 +20,8 @@ public:
     };
 
     Sequence(const char *data);
+    Sequence(const QByteArray& bytes);
+
     Sequence();
 
     Sequence complement() const;
@@ -42,7 +44,7 @@ public:
     const QByteArray& byteArray() const;
     QString toString() const;
 
-    unsigned char baseToComplement(unsigned char base);
+    unsigned char baseToComplement(unsigned char base) const;
     static QVector<unsigned char> createComplementTable();
 
 private:

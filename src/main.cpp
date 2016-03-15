@@ -22,9 +22,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Big Browser");
 
 
-    Sequence seq;
+    Sequence seq("ACGT");
+    qDebug()<<seq.toString();
+    qDebug()<<seq.complement().toString();
 
-    qDebug()<<seq.baseToComplement('A');
+
 
 
     //    QuaGzipFile * file = new QuaGzipFile("/home/schutz/cytoBand.txt.gz");
