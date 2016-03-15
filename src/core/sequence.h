@@ -1,7 +1,7 @@
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 #include <QtCore>
-
+#include <QDebug>
 
 namespace big {
 namespace core {
@@ -25,8 +25,7 @@ public:
     Sequence complement() const;
     Sequence translate() const;
     Sequence transcribe() const;
-
-    void reverse();
+    Sequence reverse() const;
 
 
     QString name() const;
@@ -43,6 +42,8 @@ public:
     const QByteArray& byteArray() const;
     QString toString() const;
 
+    unsigned char baseToComplement(unsigned char base);
+    static QVector<unsigned char> createComplementTable();
 
 private:
     // do not use pointer. Not virtual destructor
@@ -50,6 +51,7 @@ private:
     QString mName;
     Strand mStrand;
     Type mType;
+    static QVector<unsigned char> complementTable;
 
 };
 

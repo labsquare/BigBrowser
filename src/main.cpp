@@ -8,6 +8,7 @@
 #include "genom.h"
 #include "quazip.h"
 #include "vcfreader.h"
+#include "sequence.h"
 
 using namespace big::core;
 using namespace big::gui;
@@ -20,6 +21,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("labsquare.org");
     QCoreApplication::setApplicationName("Big Browser");
 
+
+    Sequence seq;
+
+    qDebug()<<seq.baseToComplement('A');
 
 
     //    QuaGzipFile * file = new QuaGzipFile("/home/schutz/cytoBand.txt.gz");
