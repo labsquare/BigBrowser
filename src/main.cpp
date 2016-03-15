@@ -24,13 +24,6 @@ int main(int argc, char *argv[])
 
 
 
-    Sequence seq("ATG");
-
-    qDebug()<<seq.translate().toString();
-
-
-
-
     //    QuaGzipFile * file = new QuaGzipFile("/home/schutz/cytoBand.txt.gz");
 
     //    CytobandReader reader(file);
@@ -42,10 +35,10 @@ int main(int argc, char *argv[])
     //        }
     //    }
 
-//    App::i()->loadSettings();
+    App::i()->loadSettings();
 
-//    MainWindow win;
-//    win.show();
+    MainWindow win;
+    win.show();
 
 
 

@@ -10,8 +10,8 @@ class Sequence
 {
 public:
     enum Type {
-        Adn     = 0x01,
-        Arn     = 0x02,
+        Dna     = 0x01,
+        Rna     = 0x02,
         Protein = 0x03
     };
 
@@ -22,7 +22,6 @@ public:
 
     Sequence(const char *data);
     Sequence(const QByteArray& bytes);
-
     Sequence();
 
     Sequence complement() const;
@@ -40,8 +39,11 @@ public:
     Type type() const;
     void setType(const Type &type);
 
+    QString typeName();
+
     int count() const;
 
+    void setByteArray(const QByteArray& array);
     const QByteArray& byteArray() const;
     QString toString() const;
 

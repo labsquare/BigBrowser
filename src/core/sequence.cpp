@@ -7,24 +7,29 @@ namespace big {
 namespace core {
 
 Sequence::Sequence(const char *data)
-    :mArray(data),mType(Adn), mStrand(Forward)
+    :mArray(data), mStrand(Forward),mType(Dna)
 {
 
 }
 
 Sequence::Sequence(const QByteArray &bytes)
-    :mArray(bytes),mType(Adn), mStrand(Forward)
+    :mArray(bytes), mStrand(Forward),mType(Dna)
 {
 }
 
+
 Sequence::Sequence()
-    :mArray(),mType(Adn), mStrand(Forward)
+    :mArray(), mStrand(Forward),mType(Dna)
 {
 }
 
 Sequence Sequence::complement() const
 {
-    // @Natir
+    if (type() == Protein)
+    {
+        qWarning()<<"cannot complement a protein";
+        return Sequence();
+    }
 
     QByteArray c;
     c.fill('A', count());
@@ -37,28 +42,49 @@ Sequence Sequence::complement() const
         *c_begin = NucleotidAlphabet::complement(*src_begin);
     }
 
-    return Sequence(c);
+    Sequence newSeq(c);
+    newSeq.setName(name());
+    newSeq.setStrand(strand());
+    newSeq.setType(type());
+
+    return newSeq;
 }
 
 Sequence Sequence::translate() const
 {
-   int index = 0;
-   QByteArray array;
+    if (type() == Protein)
+    {
+        qWarning()<<"cannot translate a protein";
+        return Sequence();
+    }
+
+    int index = 0;
+    QByteArray array;
     for (auto i = byteArray().begin(); i<=byteArray().end()-3; i+=3, index+=3)
     {
         array.append(ProteinAlphabet::codonToAA(byteArray().mid(index,3)));
 
     }
-    return Sequence(array);
+
+    Sequence seq(array);
+    seq.setStrand(strand());
+    seq.setType(Protein);
+    seq.setName(name());
+    return seq;
 }
 
 Sequence Sequence::transcribe() const
 {
-    // @Natir
+    if (type() == Protein)
+    {
+        qWarning()<<"cannot transcribe a protein";
+        return Sequence();
+    }
     QByteArray c = byteArray();
     Sequence newSeq = Sequence(c);
-
-    newSeq.setType(Arn);
+    newSeq.setType(Rna);
+    newSeq.setName(name());
+    newSeq.setStrand(strand());
     return newSeq;
 }
 
@@ -79,7 +105,8 @@ Sequence Sequence::reverse() const
 
     Sequence newSeq = Sequence(c);
     newSeq.setStrand(strand() == Forward ? Reverse : Forward);
-
+    newSeq.setType(type());
+    newSeq.setName(name());
     return newSeq;
 }
 
@@ -115,9 +142,25 @@ void Sequence::setType(const Type &type)
     mType = type;
 }
 
+QString Sequence::typeName()
+{
+    switch ( type())
+    {
+    case Dna: return "dna";
+    case Rna: return "rna";
+    case Protein:return "protein";
+    default : return "unknown";
+    }
+}
+
 int Sequence::count() const
 {
     return mArray.count();
+}
+
+void Sequence::setByteArray(const QByteArray &array)
+{
+    mArray = array;
 }
 
 const QByteArray &Sequence::byteArray() const
