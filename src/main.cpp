@@ -9,6 +9,7 @@
 #include "quazip.h"
 #include "vcfreader.h"
 #include "sequence.h"
+#include "nucleotidalphabet.h"
 
 using namespace big::core;
 using namespace big::gui;
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("BIG");
     QCoreApplication::setOrganizationDomain("labsquare.org");
     QCoreApplication::setApplicationName("Big Browser");
+
 
 
     Sequence seq("AACTTGA");
@@ -42,10 +44,10 @@ int main(int argc, char *argv[])
     //        }
     //    }
 
-    App::i()->loadSettings();
+//    App::i()->loadSettings();
 
-    MainWindow win;
-    win.show();
+//    MainWindow win;
+//    win.show();
 
 
 

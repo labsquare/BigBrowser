@@ -6,12 +6,7 @@ namespace core {
 
 class Alphabet
 {
-public:
-    Alphabet();
 
-protected:
-    // A - Adénine
-    QHash<unsigned char, QString> mletters;
 
 };
 

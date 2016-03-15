@@ -2,6 +2,7 @@
 #define SEQUENCE_H
 #include <QtCore>
 #include <QDebug>
+#include "nucleotidalphabet.h"
 
 namespace big {
 namespace core {
@@ -44,9 +45,7 @@ public:
     const QByteArray& byteArray() const;
     QString toString() const;
 
-    unsigned char baseToComplement(unsigned char base) const;
 
-    static QVector<unsigned char> createComplementTable();
 
 private:
     // do not use pointer. Not virtual destructor
@@ -54,7 +53,6 @@ private:
     Strand mStrand;
     Type mType;
     QString mName;
-    static QVector<unsigned char> complementTable;
 
 
 };
