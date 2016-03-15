@@ -20,32 +20,28 @@ Sequence::Sequence()
 
 Sequence Sequence::complement() const
 {
-    // @Natir: You start here ..
+    // @Natir
 
 
 
     return Sequence();
-    // You finish here !
 }
 
 Sequence Sequence::translate() const
 {
-    // @Natir: You start here ..
-
+    // @Natir
 
 
     return Sequence();
-    // You finish here !
 }
 
 Sequence Sequence::transcribe() const
 {
-    // @Natir: You start here ..
+    // @Natir
 
 
 
     return Sequence();
-    // You finish here !
 }
 
 void Sequence::reverse()
