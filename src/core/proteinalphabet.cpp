@@ -10,8 +10,6 @@ ProteinAlphabet::ProteinAlphabet()
     initGeneticCode();
 }
 
-
-
 void ProteinAlphabet::initGeneticCode()
 {
     mCodes = {

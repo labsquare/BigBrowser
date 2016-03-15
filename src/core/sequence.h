@@ -3,7 +3,7 @@
 #include <QtCore>
 #include <QDebug>
 #include "nucleotidalphabet.h"
-
+#include "proteinalphabet.h"
 namespace big {
 namespace core {
 class Sequence

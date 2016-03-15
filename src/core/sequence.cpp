@@ -42,10 +42,14 @@ Sequence Sequence::complement() const
 
 Sequence Sequence::translate() const
 {
-    // @Natir
+   int index = 0;
+   QByteArray array;
+    for (auto i = byteArray().begin(); i<=byteArray().end()-3; i+=3, index+=3)
+    {
+        array.append(ProteinAlphabet::codonToAA(byteArray().mid(index,3)));
 
-
-    return Sequence();
+    }
+    return Sequence(array);
 }
 
 Sequence Sequence::transcribe() const

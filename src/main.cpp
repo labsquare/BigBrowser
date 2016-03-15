@@ -24,11 +24,9 @@ int main(int argc, char *argv[])
 
 
 
-    Sequence seq("AACTTGA");
-    qDebug()<<seq.toString();
-    qDebug()<<seq.complement().toString();
-    qDebug()<<seq.reverse().toString();
-    qDebug()<<seq.transcribe().toString();
+    Sequence seq("ATG");
+
+    qDebug()<<seq.translate().toString();
 
 
 
