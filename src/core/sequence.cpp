@@ -53,19 +53,32 @@ Sequence Sequence::translate() const
 Sequence Sequence::transcribe() const
 {
     // @Natir
+    QByteArray c = byteArray();
+    Sequence newSeq = Sequence(c);
 
-
-
-    return Sequence();
+    newSeq.setType(Arn);
+    return newSeq;
 }
 
 Sequence Sequence::reverse() const
 {
+    QByteArray c;
+    c.fill('A', count());
 
-    Sequence newSeq = Sequence();
+    auto src_begin = byteArray().begin();
+    auto src_end = byteArray().end(); src_end--;
+    auto c_begin = c.begin();
+    auto c_end = c.end(); c_end--;
+    for(; src_begin <= src_end; src_begin++, src_end--, c_begin++, c_end--)
+    {
+        *c_begin = *src_end;
+        *c_end = *src_begin;
+    }
+
+    Sequence newSeq = Sequence(c);
     newSeq.setStrand(strand() == Forward ? Reverse : Forward);
 
-
+    return newSeq;
 }
 
 

@@ -22,9 +22,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Big Browser");
 
 
-    Sequence seq("ACGT");
+    Sequence seq("AACTTGA");
     qDebug()<<seq.toString();
     qDebug()<<seq.complement().toString();
+    qDebug()<<seq.reverse().toString();
+    qDebug()<<seq.transcribe().toString();
 
 
 
