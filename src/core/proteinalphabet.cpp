@@ -2,7 +2,7 @@
 namespace big {
 namespace core {
 
-ProteinAlphabet * ProteinAlphabet::mInstance = new ProteinAlphabet;
+ProteinAlphabet * ProteinAlphabet::mInstance = nullptr;
 
 ProteinAlphabet::ProteinAlphabet()
 {
