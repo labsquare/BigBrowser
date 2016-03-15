@@ -112,7 +112,7 @@ unsigned char Sequence::baseToComplement(unsigned char base)
 QVector <unsigned char> Sequence::createComplementTable()
 {
     QVector<unsigned char> tables(122);
-    tables.fill(" "); // avoid error
+    tables.fill(' '); // avoid error
     tables['-'] = '-'; // gap
     tables['.'] = '.'; // gap
     tables['A'] = 'T'; // Adenine
