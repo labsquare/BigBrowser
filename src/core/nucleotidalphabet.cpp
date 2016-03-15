@@ -2,7 +2,7 @@
 namespace big{
 namespace core {
 
-NucleotidAlphabet *NucleotidAlphabet::mInstance = new NucleotidAlphabet;
+NucleotidAlphabet *NucleotidAlphabet::mInstance = nullptr;
 
 NucleotidAlphabet::NucleotidAlphabet()
     :Alphabet()
@@ -13,12 +13,23 @@ NucleotidAlphabet::NucleotidAlphabet()
 
 QString NucleotidAlphabet::name(unsigned char letter)
 {
-    return NucleotidAlphabet::mInstance->mNames.value(letter,QString());
+    return i()->mNames.value(letter,QString());
 }
 
 unsigned char NucleotidAlphabet::complement(unsigned char letter)
 {
-    return NucleotidAlphabet::mInstance->mTables.value(letter,'?');
+    return i()->mTables.value(letter,'?');
+}
+
+NucleotidAlphabet *NucleotidAlphabet::i()
+{
+    // use QMutex to protected thread
+    if (!NucleotidAlphabet::mInstance){
+        NucleotidAlphabet::mInstance = new NucleotidAlphabet;
+    }
+
+    return NucleotidAlphabet::mInstance;
+
 }
 void NucleotidAlphabet::initNames()
 {

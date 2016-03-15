@@ -3,7 +3,7 @@
 #include "alphabet.h"
 #include <QHash>
 #include <QVector>
-
+#include <QMutexLocker>
 namespace big{
 namespace core {
 class NucleotidAlphabet : public Alphabet
@@ -17,17 +17,18 @@ public:
     static unsigned char complement(unsigned char letter);
 
 
+    static NucleotidAlphabet * i();
 
 
-protected:
-    void initNames();
-    void initComplements();
 
 
 private:
-    QHash<unsigned char, QString> mNames;
-    QVector <unsigned char> mTables;
 
+    void initNames();
+    void initComplements();
+
+    QHash<unsigned char, QString> mNames;
+     QVector<unsigned char> mTables;
     static NucleotidAlphabet *mInstance;
 
 
