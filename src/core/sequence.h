@@ -21,6 +21,7 @@ public:
     };
 
     Sequence(const char *data);
+    Sequence();
 
     Sequence complement() const;
     Sequence translate() const;
@@ -35,10 +36,14 @@ public:
     Strand strand() const;
     void setStrand(const Strand &strand);
 
+    Type type() const;
+    void setType(const Type &type);
+
 private:
     // do not use pointer. Not virtual destructor
     QString mName;
     Strand mStrand;
+    Type mType;
 
 };
 

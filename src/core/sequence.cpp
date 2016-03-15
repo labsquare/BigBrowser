@@ -12,6 +12,12 @@ Sequence::Sequence(const char *data)
 
 }
 
+Sequence::Sequence()
+    :QByteArray()
+{
+
+}
+
 Sequence Sequence::complement() const
 {
     return Sequence();
@@ -39,7 +45,7 @@ void Sequence::setName(const QString &name)
     mName = name;
 }
 
-Strand Sequence::strand() const
+Sequence::Strand Sequence::strand() const
 {
     return mStrand;
 }
@@ -47,6 +53,16 @@ Strand Sequence::strand() const
 void Sequence::setStrand(const Strand &strand)
 {
     mStrand = strand;
+}
+
+Sequence::Type Sequence::type() const
+{
+    return mType;
+}
+
+void Sequence::setType(const Type &type)
+{
+    mType = type;
 }
 
 
