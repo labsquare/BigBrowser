@@ -27,6 +27,9 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     mSlotModeON = false;
 
     setHeight(30+qrand()%270);
+
+    setAcceptHoverEvents(true);
+
 }
 
 
@@ -159,12 +162,12 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
                 boundingRect(),
                 Qt::AlignCenter,
                 QString("%1 0x%2 - %3 [%4-%5]")
-                    .arg(mSlotIndex)
-                    .arg((quintptr)this, QT_POINTER_SIZE * 2, 16, QChar('0'))
-                    .arg(chromosom)
-                    .arg(start)
-                    .arg(end)
-    );
+                .arg(mSlotIndex)
+                .arg((quintptr)this, QT_POINTER_SIZE * 2, 16, QChar('0'))
+                .arg(chromosom)
+                .arg(start)
+                .arg(end)
+                );
 }
 
 
@@ -241,17 +244,24 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     iconPos += QPoint(10,10);
     painter->drawPixmap(iconPos, App::awesome()->icon(fa::cogs, options).pixmap(20,20));
 
+//    QRect bottomLine;
+//    bottomLine.setWidth(boundingRect().width());
+//    bottomLine.setHeight(10);
+//    bottomLine.setTop(height()-5);
+//    bottomLine.setBottom(height());
 
+//    painter->setBrush(QBrush(Qt::red));
+//    painter->drawRect(bottomLine);
 
 
     // draw rubber
-//    QStyleOptionRubberBand bandOption;
-//    bandOption.shape = QRubberBand::Rectangle;
-//    bandOption.rect.setWidth(boundingRect().toRect().width()-100);
-//    bandOption.rect.setHeight(10);
+    //    QStyleOptionRubberBand bandOption;
+    //    bandOption.shape = QRubberBand::Rectangle;
+    //    bandOption.rect.setWidth(boundingRect().toRect().width()-100);
+    //    bandOption.rect.setHeight(10);
 
 
-//    qApp->style()->drawControl(QStyle::CE_RubberBand, &bandOption, painter);
+    //    qApp->style()->drawControl(QStyle::CE_RubberBand, &bandOption, painter);
 
 
 
@@ -322,6 +332,18 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+
+    if (cursor().shape() == Qt::SizeVerCursor)
+    {
+        QRectF oldRect = boundingRect();
+        setHeight(event->pos().y());
+        update(oldRect);
+        emit resized();
+
+
+    }
+
+
     //Default
     QGraphicsObject::mouseMoveEvent(event);
 }
@@ -350,8 +372,40 @@ void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     setSelected(false);
     trackList()->switchSlotMode(false);
-    QGraphicsObject::mouseReleaseEvent(event);    
+    QGraphicsObject::mouseReleaseEvent(event);
 }
+
+void AbstractTrack::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+
+    QGraphicsObject::hoverEnterEvent(event);
+}
+
+void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+
+    QRect bottomLine;
+    bottomLine.setWidth(boundingRect().width());
+    bottomLine.setTop(height()-10);
+    bottomLine.setBottom(height());
+
+    if (bottomLine.contains(event->pos().toPoint()))
+        setCursor(Qt::SizeVerCursor);
+    else
+        setCursor(Qt::ArrowCursor);
+
+
+
+
+    QGraphicsObject::hoverMoveEvent(event);
+}
+
+void AbstractTrack::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+
+    QGraphicsObject::hoverLeaveEvent(event);
+}
+
 
 
 

@@ -60,6 +60,8 @@ void TrackListWidget::addTrack(AbstractTrack *track)
     track->setSlotTop(xPos);
 
     qDebug() << "AddTrack : " << track->slotIndex() << " " << xPos;
+
+    connect(track,SIGNAL(heightChanged()),this,SLOT(updateTracksHeight()));
 }
 
 
@@ -90,8 +92,8 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
     // 1) Check cases where there is nothing to do
     int slotMatching = draggedTrack->matchSlot(yThreshold);
     if (slotMatching > 0                                                    // track over his hown slot
-    || (draggedTrack->slotIndex() == 0 && slotMatching == -1)               // track slot 0 special case
-    || (draggedTrack->slotIndex() == mSlots.count() && slotMatching == -2)) // track slot max special case
+            || (draggedTrack->slotIndex() == 0 && slotMatching == -1)               // track slot 0 special case
+            || (draggedTrack->slotIndex() == mSlots.count() && slotMatching == -2)) // track slot max special case
     {
         return;
     }
@@ -143,6 +145,27 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
     }
 }
 
+void TrackListWidget::updateTracksHeight()
+{
+
+    AbstractTrack * track = qobject_cast<AbstractTrack*>(sender());
+
+    foreach ( AbstractTrack * t, mTracks)
+    {
+        if (t != track) {
+
+          // Resize all tracks according emitter
+
+
+        }
+
+
+    }
+
+
+
+}
+
 
 
 
@@ -162,7 +185,7 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 
     foreach ( AbstractTrack * track, mTracks)
     {
-       track->update();
+        track->update();
     }
 
 

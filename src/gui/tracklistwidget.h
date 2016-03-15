@@ -35,6 +35,7 @@ public:
     void slotReordering(AbstractTrack * draggedTrack);
 
 
+
     //! Gets the list of tracks managed
     QList<AbstractTrack*> tracks();
     //! Gets the height of the tracklist
@@ -50,6 +51,7 @@ public:
 
 public Q_SLOTS:
     void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    void updateTracksHeight();
 
 
 Q_SIGNALS:

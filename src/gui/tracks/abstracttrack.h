@@ -56,6 +56,9 @@ public:
     virtual void paintRegion(QPainter *painter, const QString& chromosom, quint64 start, quint64 end);
 
 
+Q_SIGNALS:
+    // This signals is emitted during resizing
+    void resized();
 
 
 
@@ -67,6 +70,11 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
+
+    void hoverEnterEvent(QGraphicsSceneHoverEvent * event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent * event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
+
 
 
 
