@@ -5,7 +5,6 @@
 
 namespace big {
 namespace core {
-// -------- MILITARY AREA : FORBIDDEN FOR @natir ----------------
 class Sequence
 {
 public:
@@ -51,7 +50,6 @@ private:
     QString mName;
     Strand mStrand;
     Type mType;
-// -------- MILITARY AREA : FORBIDDEN FOR @natir ----------------
 
 };
 

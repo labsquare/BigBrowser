@@ -5,14 +5,12 @@
 namespace big {
 
 namespace core {
-// -------- MILITARY AREA : FORBIDDEN FOR @natir ----------------
 
 Sequence::Sequence(const char *data)
     :mArray(data)
 {
 
 }
-// -------- MILITARY AREA : FORBIDDEN FOR @natir ----------------
 
 Sequence::Sequence()
     :mArray()
@@ -22,7 +20,6 @@ Sequence::Sequence()
 
 Sequence Sequence::complement() const
 {
-    // DEMILITARY AREA : AUTHORIZED TO CODE
     // @Natir: You start here ..
 
 
@@ -33,8 +30,6 @@ Sequence Sequence::complement() const
 
 Sequence Sequence::translate() const
 {
-    // DEMILITARY AREA : AUTHORIZED TO CODE
-
     // @Natir: You start here ..
 
 
@@ -45,14 +40,21 @@ Sequence Sequence::translate() const
 
 Sequence Sequence::transcribe() const
 {
-    // DEMILITARY AREA : AUTHORIZED TO CODE
-
     // @Natir: You start here ..
 
 
 
     return Sequence();
     // You finish here !
+}
+
+void Sequence::reverse()
+{
+
+
+
+
+    setStrand( strand() == Forward ? Reverse : Forward);
 }
 
 
