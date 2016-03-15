@@ -18,7 +18,7 @@ QString NucleotidAlphabet::name(unsigned char letter)
 
 unsigned char NucleotidAlphabet::complement(unsigned char letter)
 {
-    return i()->mTables.value(letter,'?');
+    return i()->mTables.at(letter);
 }
 
 NucleotidAlphabet *NucleotidAlphabet::i()
