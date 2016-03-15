@@ -8,7 +8,8 @@ HEADERS += \
     $$PWD/region.h \
     $$PWD/regionlist.h \
     $$PWD/alphabet.h \
-    $$PWD/nucleotidalphabet.h
+    $$PWD/nucleotidalphabet.h \
+    $$PWD/proteinalphabet.h
 
 SOURCES += \
     $$PWD/sequence.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
     $$PWD/region.cpp \
     $$PWD/regionlist.cpp \
     $$PWD/alphabet.cpp \
-    $$PWD/nucleotidalphabet.cpp
+    $$PWD/nucleotidalphabet.cpp \
+    $$PWD/proteinalphabet.cpp
 
 
