@@ -45,15 +45,17 @@ public:
     QString toString() const;
 
     unsigned char baseToComplement(unsigned char base) const;
+
     static QVector<unsigned char> createComplementTable();
 
 private:
     // do not use pointer. Not virtual destructor
     QByteArray mArray;
-    QString mName;
     Strand mStrand;
     Type mType;
+    QString mName;
     static QVector<unsigned char> complementTable;
+
 
 };
 

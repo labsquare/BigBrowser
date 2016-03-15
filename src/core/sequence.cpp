@@ -8,6 +8,7 @@ namespace core {
 
 QVector<unsigned char> Sequence::complementTable = Sequence::createComplementTable();
 
+
 Sequence::Sequence(const char *data)
     :mArray(data),mType(Adn), mStrand(Forward)
 {
@@ -134,6 +135,8 @@ unsigned char Sequence::baseToComplement(unsigned char base) const
 
 }
 
+
+
 QVector <unsigned char> Sequence::createComplementTable()
 {
     QVector<unsigned char> tables(122);
@@ -176,6 +179,7 @@ QVector <unsigned char> Sequence::createComplementTable()
     return tables;
 
 }
+
 
 
 } // end of namespace core
