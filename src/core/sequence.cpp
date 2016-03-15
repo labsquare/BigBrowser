@@ -12,16 +12,22 @@ Sequence::Sequence(const char *data)
 
 }
 
-void Sequence::reverse()
+Sequence Sequence::complement() const
 {
-
+    return Sequence();
 }
 
-Sequence Sequence::reversed() const
+Sequence Sequence::translate() const
+{
+    return Sequence();
+}
+
+Sequence Sequence::transcribe() const
 {
 
     return Sequence();
 }
+
 
 QString Sequence::name() const
 {
@@ -31,6 +37,16 @@ QString Sequence::name() const
 void Sequence::setName(const QString &name)
 {
     mName = name;
+}
+
+Strand Sequence::strand() const
+{
+    return mStrand;
+}
+
+void Sequence::setStrand(const Strand &strand)
+{
+    mStrand = strand;
 }
 
 
