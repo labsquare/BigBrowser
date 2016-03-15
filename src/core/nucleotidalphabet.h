@@ -13,8 +13,8 @@ private:
 
 public:
 
-    static QString name(unsigned char letter);
-    static unsigned char complement(unsigned char letter);
+    static QString name(unsigned char iupac);
+    static unsigned char complement(unsigned char iupac);
 
 
     static NucleotidAlphabet * i();

@@ -12,11 +12,21 @@ private:
 
 public:
     void initGeneticCode();
+    void initNames();
+
+    static QString name(unsigned char iupac);
+    static QString shortName(unsigned char iupac);
+    static unsigned char codonToAA(const QByteArray& codon);
+
+
+    static ProteinAlphabet* i();
 
 
 private:
     static ProteinAlphabet *mInstance;
-
+    // codon to AA
+    QHash<unsigned char, QPair<QString,QString> > mNames;
+    QHash<QByteArray, unsigned char> mCodes;
 
 
 

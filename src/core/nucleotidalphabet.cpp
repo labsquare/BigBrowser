@@ -11,14 +11,17 @@ NucleotidAlphabet::NucleotidAlphabet()
     initComplements();
 }
 
-QString NucleotidAlphabet::name(unsigned char letter)
+QString NucleotidAlphabet::name(unsigned char iupac)
 {
-    return i()->mNames.value(letter,QString());
+    if ( i()->mNames.contains(iupac))
+        return i()->mNames.value(iupac,QString());
+
+    return QString();
 }
 
-unsigned char NucleotidAlphabet::complement(unsigned char letter)
+unsigned char NucleotidAlphabet::complement(unsigned char iupac)
 {
-    return i()->mTables.at(letter);
+    return i()->mTables.at(iupac);
 }
 
 NucleotidAlphabet *NucleotidAlphabet::i()
