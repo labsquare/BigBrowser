@@ -5,8 +5,8 @@
 
 namespace big {
 namespace core {
-
-class Sequence : public QByteArray
+// -------- MILITARY AREA : FORBIDDEN FOR @natir ----------------
+class Sequence
 {
 public:
     enum Type {
@@ -39,11 +39,19 @@ public:
     Type type() const;
     void setType(const Type &type);
 
+    int count() const;
+
+    const QByteArray& byteArray() const;
+    QString toString() const;
+
+
 private:
     // do not use pointer. Not virtual destructor
+    QByteArray mArray;
     QString mName;
     Strand mStrand;
     Type mType;
+// -------- MILITARY AREA : FORBIDDEN FOR @natir ----------------
 
 };
 

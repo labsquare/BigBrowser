@@ -5,33 +5,54 @@
 namespace big {
 
 namespace core {
+// -------- MILITARY AREA : FORBIDDEN FOR @natir ----------------
 
 Sequence::Sequence(const char *data)
-    :QByteArray(data)
+    :mArray(data)
 {
 
 }
+// -------- MILITARY AREA : FORBIDDEN FOR @natir ----------------
 
 Sequence::Sequence()
-    :QByteArray()
+    :mArray()
 {
 
 }
 
 Sequence Sequence::complement() const
 {
+    // DEMILITARY AREA : AUTHORIZED TO CODE
+    // @Natir: You start here ..
+
+
+
     return Sequence();
+    // You finish here !
 }
 
 Sequence Sequence::translate() const
 {
+    // DEMILITARY AREA : AUTHORIZED TO CODE
+
+    // @Natir: You start here ..
+
+
+
     return Sequence();
+    // You finish here !
 }
 
 Sequence Sequence::transcribe() const
 {
+    // DEMILITARY AREA : AUTHORIZED TO CODE
+
+    // @Natir: You start here ..
+
+
 
     return Sequence();
+    // You finish here !
 }
 
 
@@ -64,6 +85,22 @@ void Sequence::setType(const Type &type)
 {
     mType = type;
 }
+
+int Sequence::count() const
+{
+    return mArray.count();
+}
+
+const QByteArray &Sequence::byteArray() const
+{
+    return mArray;
+}
+
+QString Sequence::toString() const
+{
+ return QString(mArray);
+}
+
 
 
 
