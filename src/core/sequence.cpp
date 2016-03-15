@@ -60,11 +60,7 @@ Sequence Sequence::translate() const
 
     int index = 0;
     QByteArray array;
-    for (auto i = byteArray().begin(); i<=byteArray().end()-3; i+=3, index+=3)
-    {
-        array.append(ProteinAlphabet::codonToAA(byteArray().mid(index,3)));
 
-    }
 
     Sequence seq(array);
     seq.setStrand(strand());
@@ -93,8 +89,8 @@ Sequence Sequence::reverse() const
     QByteArray c;
     c.fill('A', count());
 
-    auto src_begin = byteArray().begin();
-    auto src_end = byteArray().end(); src_end--;
+    auto src_begin = this->byteArray().begin();
+    auto src_end = this->byteArray().end(); src_end--;
     auto c_begin = c.begin();
     auto c_end = c.end(); c_end--;
     for(; src_begin <= src_end; src_begin++, src_end--, c_begin++, c_end--)
