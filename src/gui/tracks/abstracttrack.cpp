@@ -352,10 +352,7 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         setHeight(event->pos().y());
         update(oldRect);
         emit resized();
-
-
     }
-
 
     //Default
     QGraphicsObject::mouseMoveEvent(event);
