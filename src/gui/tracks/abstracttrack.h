@@ -41,6 +41,8 @@ public:
     int slotTop() const;
     //! Update the slot of the track
     void updateSlotPosition(int slotIndex, int slotGhostTop);
+    //! Update the slot position of the track (only used when slot top pos changed due to the resizing of a track)
+    void updateSlotTop(int slotTop);
     //! Return where is the provided position relating to the slot : -1="TopOut", 1="TopIn", 2="BotIn", -2="BotOut"
     int matchSlot(int yPosition);
 

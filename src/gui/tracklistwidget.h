@@ -89,9 +89,6 @@ private:
     // ----------------------------------------------------------
     //! List of the track currently displayed
     QList<AbstractTrack*> mTracks;
-
-    //! Temp list of track used only in SLot mode (when user is reordering track by drag&drop)
-    QList<AbstractTrack*> mSlots;
 };
 
 }}

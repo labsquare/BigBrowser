@@ -52,6 +52,7 @@ int AbstractTrack::height() const
 void AbstractTrack::setHeight(int h)
 {
     mHeight = h;
+    emit resized();
 }
 
 
@@ -105,6 +106,21 @@ void AbstractTrack::updateSlotPosition(int slotIndex, int slotGhostTop)
         mSlotGhostTop = slotGhostTop;
         goToSlotPosition();
     }
+}
+
+void AbstractTrack::updateSlotTop(int slotTop)
+{
+    if (isSelected())
+    {
+        return;
+    }
+
+    mSlotGhostTop = slotTop;
+    mSlotTop = slotTop;
+
+    // Todo @IDK : force the redraw of the track...
+    setPos(0,slotTop);
+    update();
 }
 
 int AbstractTrack::matchSlot(int yPosition)
@@ -161,12 +177,13 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
     painter->drawText(
                 boundingRect(),
                 Qt::AlignCenter,
-                QString("%1 0x%2 - %3 [%4-%5]")
+                QString("%1 0x%2 - %3 [%4-%5]\nSlot n°%6")
                 .arg(mSlotIndex)
                 .arg((quintptr)this, QT_POINTER_SIZE * 2, 16, QChar('0'))
                 .arg(chromosom)
                 .arg(start)
                 .arg(end)
+                .arg(mSlotIndex)
                 );
 }
 
