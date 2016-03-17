@@ -8,6 +8,8 @@
 #include <QStyleOptionProgressBar>
 #include <QStyleOptionFrame>
 #include <QStyleOptionRubberBand>
+#include <QGraphicsDropShadowEffect>
+
 #include "app.h"
 #include "tracklistwidget.h"
 
@@ -26,10 +28,17 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     mAnimation = new QPropertyAnimation(this,"y");
     mSlotModeON = false;
 
-    setHeight(30+qrand()%270);
+
+    mShadowEffect = new QGraphicsDropShadowEffect();
+    mShadowEffect->setBlurRadius(50);
+    setGraphicsEffect(mShadowEffect);
+    mShadowEffect->setEnabled(false);
+
 
     setAcceptHoverEvents(true);
 
+    // Debug Height
+    setHeight(30+qrand()%270);
 }
 
 
@@ -185,6 +194,10 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
                 .arg(end)
                 .arg(mSlotIndex)
                 );
+
+
+    painter->drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start));
+    painter->drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end));
 }
 
 
@@ -216,8 +229,12 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(widget);
 
     painter->setPen(Qt::black);
-    painter->setRenderHint(QPainter::Antialiasing);
+    //painter->setRenderHint(QPainter::Antialiasing);
 
+
+    // -------------------------
+    // Draw Track Global Background
+    // -------------------------
     if (isSelected())
     {
         QColor col  =qApp->style()->standardPalette().color(QPalette::Highlight);
@@ -232,73 +249,50 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawRect(boundingRect());
 
 
-
+    // -------------------------
     // Draw Track Handle
-    QRect toolbarRect =  boundingRect().toRect();
-    toolbarRect.setWidth(40);
+    // -------------------------
 
+    // Background
+    QRect toolbarRect =  boundingRect().toRect();
+    toolbarRect.setWidth(30);
     QStyleOption op;
     op.rect = toolbarRect;
 
+    // Forground
+    QColor base = qApp->style()->standardPalette().dark().color();
+    QColor activeColor = base.darker(250);
+    QColor inactiveColor = base.darker(120);// inactiveColor.setAlpha(200);
+
+    painter->setBrush(base);
+    painter->drawRect(toolbarRect);
+    qApp->style()->drawPrimitive(QStyle::PE_PanelMenu, &op,painter);
 
 
-    painter->setBrush(qApp->palette("QWidget").button());
-    qApp->style()->drawPrimitive(QStyle::PE_PanelButtonTool, &op,painter);
-
-    op.rect = toolbarRect;
-
-    qApp->style()->drawControl(QStyle::CE_Splitter, &op,painter);
-
-    painter->setPen(QPen(Qt::black));
-
-    painter->drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start()));
-    painter->drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end()));
+    // Rubber
+    QVariantMap handleIcon;
+    QPoint handleIconPos = QPoint(toolbarRect.left() + 5, toolbarRect.top() + toolbarRect.height() / 2 - 10);
+    handleIcon.insert( "color" , isUnderMouse() ? activeColor : inactiveColor);
+    painter->drawPixmap(handleIconPos, App::awesome()->icon(fa::bars, handleIcon).pixmap(20,20));
 
 
-    QVariantMap options;
-    options.insert( "color" , qApp->style()->standardPalette().color(QPalette::WindowText));
-    QPoint iconPos = toolbarRect.topLeft();
-    iconPos += QPoint(10,10);
-    painter->drawPixmap(iconPos, App::awesome()->icon(fa::cogs, options).pixmap(20,20));
-
-//    QRect bottomLine;
-//    bottomLine.setWidth(boundingRect().width());
-//    bottomLine.setHeight(10);
-//    bottomLine.setTop(height()-5);
-//    bottomLine.setBottom(height());
-
-//    painter->setBrush(QBrush(Qt::red));
-//    painter->drawRect(bottomLine);
+    // Icon "Track Options"
+    QVariantMap settingIcon;
+    QColor settingIconColor = isSelected() ? inactiveColor : base;
+    settingIcon.insert( "color" , settingIconColor);
+    QPoint settingIconPos = QPoint(toolbarRect.left() + 5, toolbarRect.top() + 5);
+    painter->drawPixmap(settingIconPos, App::awesome()->icon(fa::wrench, settingIcon).pixmap(20,20));
 
 
-    // draw rubber
-    //    QStyleOptionRubberBand bandOption;
-    //    bandOption.shape = QRubberBand::Rectangle;
-    //    bandOption.rect.setWidth(boundingRect().toRect().width()-100);
-    //    bandOption.rect.setHeight(10);
-
-
-    //    qApp->style()->drawControl(QStyle::CE_RubberBand, &bandOption, painter);
-
-
-
-
-
-
-    //    QStyleOptionFrame frameOption;
-    //    frameOption.features = QStyleOptionFrame::Rounded;
-    //    frameOption.rect = boundingRect().toRect();
-
-    //    qApp->style()->drawPrimitive(QStyle::PE_Frame,&frameOption, painter );
-
-
+    // -------------------------
+    // Draw Track Content
+    // -------------------------
 
     // Set the bounds of the painter for the Content region
     // TODO
 
     // Call the method to draw the content of the Track
     this->paintRegion(painter, chromosom(), start(), end());
-
 }
 
 
@@ -326,10 +320,12 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
         if ( value.toBool())
         {
             setZValue(10);
+            mShadowEffect->setEnabled(true);
         }
         else
         {
             setZValue(0);
+            mShadowEffect->setEnabled(false);
         }
     }
 

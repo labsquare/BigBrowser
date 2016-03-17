@@ -4,6 +4,7 @@
 #include <QContiguousCache>
 #include <QGraphicsSceneMouseEvent>
 #include <QPropertyAnimation>
+#include <QGraphicsDropShadowEffect>
 
 namespace big {
 namespace gui {
@@ -79,6 +80,14 @@ protected:
 
 
 
+protected :
+    int mHeight;
+    int mHeightMax;
+    int mHeightMin;
+
+    QPropertyAnimation * mAnimation;
+    QGraphicsDropShadowEffect * mShadowEffect;
+    TrackListWidget * mTrackList;
 
 
 
@@ -88,13 +97,6 @@ private:
     int mSlotIndex;
     int mSlotTop;
     int mSlotGhostTop;
-
-    int mHeight;
-    int mHeightMax;
-    int mHeightMin;
-
-    QPropertyAnimation * mAnimation;
-    TrackListWidget * mTrackList;
 
 
 };

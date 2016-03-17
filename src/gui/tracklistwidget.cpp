@@ -1,4 +1,5 @@
 #include "tracklistwidget.h"
+
 namespace big {
 namespace gui {
 
@@ -8,6 +9,9 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 {
     mScene = new QGraphicsScene;
     setScene(mScene);
+
+
+    setBackgroundBrush(QColor(220,220,220));
 }
 
 
