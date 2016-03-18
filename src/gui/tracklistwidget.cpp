@@ -65,7 +65,7 @@ void TrackListWidget::addTrack(AbstractTrack *track)
 
     qDebug() << "AddTrack : " << track->slotIndex() << " " << xPos;
 
-    connect(track,SIGNAL(heightChanged()),this,SLOT(updateTracksHeight()));
+    connect(track,SIGNAL(resized()),this,SLOT(updateTracksHeight()));
 }
 
 
