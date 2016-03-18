@@ -228,6 +228,11 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
+
+
+
+
+
     painter->setPen(Qt::black);
     //painter->setRenderHint(QPainter::Antialiasing);
 
@@ -247,6 +252,19 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         painter->setBrush(qApp->style()->standardPalette().color(QPalette::Base));
     }
     painter->drawRect(boundingRect());
+
+
+
+    // -------------------------
+    // Draw Track Content
+    // -------------------------
+
+    // Set the bounds of the painter for the Content region
+    // TODO
+
+    // Call the method to draw the content of the Track
+    this->paintRegion(painter, chromosom(), start(), end());
+
 
 
     // -------------------------
@@ -284,15 +302,6 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawPixmap(settingIconPos, App::awesome()->icon(fa::wrench, settingIcon).pixmap(20,20));
 
 
-    // -------------------------
-    // Draw Track Content
-    // -------------------------
-
-    // Set the bounds of the painter for the Content region
-    // TODO
-
-    // Call the method to draw the content of the Track
-    this->paintRegion(painter, chromosom(), start(), end());
 }
 
 

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "app.h"
 #include "sequencetrack.h"
+#include "rulertrack.h"
 namespace big {
 namespace gui {
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralSplitter->addWidget(mchromosomWidget);
     centralSplitter->addWidget(mTrackListWidget);
 
+    mTrackListWidget->addTrack(new RulerTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     mTrackListWidget->addTrack(new SequenceTrack());

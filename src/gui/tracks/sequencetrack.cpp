@@ -2,6 +2,7 @@
 
 namespace big {
 namespace gui {
+
 SequenceTrack::SequenceTrack(QGraphicsItem * parent)
     :AbstractTrack(parent)
 {
