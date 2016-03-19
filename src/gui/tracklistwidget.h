@@ -34,6 +34,7 @@ public:
     //! check if the dragged track slot's position have changed, and update all slots positions if needed
     void slotReordering(AbstractTrack * draggedTrack);
 
+    void updateSharedCursor(AbstractTrack * source, QPoint cursorPosition);
 
 
     //! Gets the list of tracks managed
@@ -56,6 +57,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+
 
 
 protected:
@@ -89,6 +91,9 @@ private:
     // ----------------------------------------------------------
     //! List of the track currently displayed
     QList<AbstractTrack*> mTracks;
+
+    //! The position of the cursor is shared by all tracks
+    int mTrackCursorPosition;
 };
 
 }}

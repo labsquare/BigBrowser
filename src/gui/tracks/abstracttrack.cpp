@@ -259,11 +259,23 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     // Draw Track Content
     // -------------------------
 
-    // Set the bounds of the painter for the Content region
-    // TODO
+    // Update content boundaries
+    mContentBoundaries = QRect(30,0,boundingRect().width()-30,boundingRect().height());
 
-    // Call the method to draw the content of the Track
-    this->paintRegion(painter, chromosom(), start(), end());
+    // We let the track redraw its content only if needed
+    if (hasFocus() || mContentCache.rect() != mContentBoundaries)
+    {
+        mContentCache = QImage(QSize(boundingRect().width(), boundingRect().height()), QImage::Format_ARGB32_Premultiplied);
+        QPainter contentPainter;
+        mContentCache.fill(0);
+        contentPainter.begin(&mContentCache);
+        this->paintRegion(&contentPainter, chromosom(), start(), end());
+        contentPainter.end();
+    }
+
+    // Content is cached so redraw the cached image and draw cursor over it
+    painter->drawImage(boundingRect(), mContentCache);
+    drawCursorLayer(painter);
 
 
 
@@ -342,6 +354,22 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 }
 
 
+void AbstractTrack::updateCursorPosition(QPoint cursorPosition)
+{
+    mCursorPosition = cursorPosition;
+    qDebug() << "updateCursorPosition " << cursorPosition;
+    if (hasFocus())
+    {
+        mTrackList->updateSharedCursor(this, cursorPosition);
+    }
+    update();
+}
+
+void AbstractTrack::drawCursorLayer(QPainter * painter)
+{
+    painter->setPen(QColor(0,0,0,200));
+    painter->drawLine(mCursorPosition.x(),0, mCursorPosition.x(), mContentBoundaries.height());
+}
 
 
 
@@ -354,7 +382,13 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    //Default
+    QGraphicsObject::mouseMoveEvent(event);
 
+    // Manage and share the position of the cursor
+    updateCursorPosition(QPoint(event->pos().x(), event->pos().y()));
+
+    // Manage resize of the track
     if (cursor().shape() == Qt::SizeVerCursor)
     {
         QRectF oldRect = boundingRect();
@@ -363,8 +397,6 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         emit resized();
     }
 
-    //Default
-    QGraphicsObject::mouseMoveEvent(event);
 }
 
 void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -394,12 +426,6 @@ void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsObject::mouseReleaseEvent(event);
 }
 
-void AbstractTrack::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-
-    QGraphicsObject::hoverEnterEvent(event);
-}
-
 void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
 
@@ -419,9 +445,14 @@ void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsObject::hoverMoveEvent(event);
 }
 
+void AbstractTrack::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    setFocus();
+    QGraphicsObject::hoverEnterEvent(event);
+}
+
 void AbstractTrack::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-
     QGraphicsObject::hoverLeaveEvent(event);
 }
 

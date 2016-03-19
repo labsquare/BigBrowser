@@ -65,6 +65,7 @@ void TrackListWidget::addTrack(AbstractTrack *track)
 
     qDebug() << "AddTrack : " << track->slotIndex() << " " << xPos;
 
+    // When a track is resized : need to re-arrange all tracks below
     connect(track,SIGNAL(resized()),this,SLOT(updateTracksHeight()));
 }
 
@@ -139,6 +140,18 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
         track->updateSlotPosition(idx, pos);
         ++idx;
         pos += track->height();
+    }
+}
+
+
+void TrackListWidget::updateSharedCursor(AbstractTrack * source, QPoint cursorPosition)
+{
+    foreach ( AbstractTrack * track, mTracks)
+    {
+        if (track != source)
+        {
+            track->updateCursorPosition(cursorPosition);
+        }
     }
 }
 
