@@ -64,6 +64,11 @@ void AbstractTrack::setHeight(int h)
     emit resized();
 }
 
+void AbstractTrack::setSelection()
+{
+
+}
+
 
 
 

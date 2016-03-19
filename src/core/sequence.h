@@ -47,6 +47,8 @@ public:
     const QByteArray& byteArray() const;
     QString toString() const;
 
+    bool isEmpty() const;
+
 
 
 private:

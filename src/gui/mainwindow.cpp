@@ -25,10 +25,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralSplitter->addWidget(mTrackListWidget);
 
     mTrackListWidget->addTrack(new RulerTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
+    mTrackListWidget->addTrack(new SequenceTrack("/home/sacha/data/hg19.fa"));
+
 
 
     QVBoxLayout * centralLayout = new QVBoxLayout;

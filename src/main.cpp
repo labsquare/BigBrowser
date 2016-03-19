@@ -10,6 +10,7 @@
 #include "vcfreader.h"
 #include "sequence.h"
 #include "nucleotidalphabet.h"
+#include "fastadatamodel.h"
 
 using namespace big::core;
 using namespace big::gui;
@@ -21,6 +22,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("BIG");
     QCoreApplication::setOrganizationDomain("labsquare.org");
     QCoreApplication::setApplicationName("Big Browser");
+
+
+
+
 
 
 

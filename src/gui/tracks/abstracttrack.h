@@ -28,6 +28,7 @@ public:
     //! Set the height of the track
     void setHeight(int h);
 
+    virtual void setSelection();
 
     //! Sets the slot mode
     void setSlotMode(bool slotModeON);
@@ -97,6 +98,9 @@ private:
     int mSlotIndex;
     int mSlotTop;
     int mSlotGhostTop;
+
+    QString mChromosom;
+
 
 
 };

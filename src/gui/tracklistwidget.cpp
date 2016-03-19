@@ -172,7 +172,7 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 
     foreach ( AbstractTrack * track, mTracks)
     {
-        track->update();
+        track->setSelection();
     }
 
 

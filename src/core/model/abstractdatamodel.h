@@ -9,6 +9,7 @@
 namespace big {
 namespace core {
 
+
 class AbstractDataModel : public QObject
 {
     Q_OBJECT
@@ -20,12 +21,7 @@ public Q_SLOTS:
     virtual void setQuery(const QString& chromosom, quint64 start , quint64 end) = 0;
 
 
-Q_SIGNALS:
-    void regionReceived(const Region& region);
-    void regionsReceived(const QList<Region>& regions);
 
-    void sequenceReceived(const Sequence& sequence);
-    void sequencesReceived(const QList<Sequence>& sequences);
 
 protected:
     void setLoading(bool enable);

@@ -173,6 +173,11 @@ QString Sequence::toString() const
     return QString(mArray);
 }
 
+bool Sequence::isEmpty() const
+{
+    return mArray.isEmpty();
+}
+
 
 
 } // end of namespace core
