@@ -27,6 +27,7 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
 {
 
     // Todo : translate in english comment
+    painter->setPen(Qt::black);
 
     // ---------------------
     // INPUTS
@@ -52,6 +53,9 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     // Avoid division by 0 error...
     if (distanceBase == 0)
     {
+        painter->drawText(35,15, "Thanks to select a chromosom and a region to start.");
+        painter->setBrush(Qt::BDiagPattern);
+        painter->drawRect(QRect(0, 20, width, rulerHeight));
         return;
     }
 
@@ -86,7 +90,6 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     // ---------------------
     // Draw the ruler
     // ---------------------
-    painter->setPen(Qt::black);
     int pos = firstDivPixelStart;
     bool first = true;
     while (pos < width)
@@ -99,7 +102,7 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
             ss.replace(cLocale.groupSeparator(), ' ');
 
 
-            painter->drawText(50,15, ss + " (pb)");
+            painter->drawText(35,15, ss + " (pb)");
             first = false;
         }
         QColor col = deltaDivColor?QColor(0,0,0,150):QColor(255,255,255);

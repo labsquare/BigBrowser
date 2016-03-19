@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 
     mMenuBar         = new QMenuBar();
-    mSearchBar     = new SearchToolBar();
+    mSearchBar       = new SearchToolBar();
     mToolBar         = new QToolBar();
     mStatusBar       = new StatusBar();
     mchromosomWidget = new ChromosomWidget();
