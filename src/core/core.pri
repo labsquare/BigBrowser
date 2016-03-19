@@ -1,6 +1,7 @@
 INCLUDEPATH += $$PWD
 
 include("reader/reader.pri")
+include("model/model.pri")
 
 HEADERS += \
     $$PWD/sequence.h \
