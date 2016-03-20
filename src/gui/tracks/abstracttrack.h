@@ -29,6 +29,10 @@ public:
     void setHeight(int h);
 
 
+    //! This methods is called when parent list view received new selection
+    virtual void updateSelection();
+
+
     //! Sets the slot mode
     void setSlotMode(bool slotModeON);
     //! Gets if the slot mode is enable
@@ -59,11 +63,6 @@ public:
 
     virtual QRectF boundingRect() const;
     virtual void paintRegion(QPainter *painter, const QString& chromosom, quint64 start, quint64 end);
-
-
-Q_SIGNALS:
-    // This signals is emitted during resizing
-    void resized();
 
 
 

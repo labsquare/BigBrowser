@@ -61,7 +61,11 @@ int AbstractTrack::height() const
 void AbstractTrack::setHeight(int h)
 {
     mHeight = h;
-    emit resized();
+}
+
+void AbstractTrack::updateSelection()
+{
+    update();
 }
 
 
@@ -394,7 +398,7 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         QRectF oldRect = boundingRect();
         setHeight(event->pos().y());
         update(oldRect);
-        emit resized();
+        trackList()->updateTracksHeight();
     }
 
 }

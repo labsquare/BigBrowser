@@ -63,17 +63,7 @@ void TrackListWidget::addTrack(AbstractTrack *track)
     track->setPos(0, xPos);
     track->setSlotTop(xPos);
 
-    qDebug() << "AddTrack : " << track->slotIndex() << " " << xPos;
-
-    // When a track is resized : need to re-arrange all tracks below
-    connect(track,SIGNAL(resized()),this,SLOT(updateTracksHeight()));
 }
-
-
-
-
-
-
 
 
 void TrackListWidget::switchSlotMode(bool slotModeON)
@@ -167,16 +157,6 @@ void TrackListWidget::updateTracksHeight()
 }
 
 
-
-
-
-
-
-
-
-
-
-
 void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
 {
     mChromosom = chromosom;
@@ -185,11 +165,8 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 
     foreach ( AbstractTrack * track, mTracks)
     {
-        track->update();
+        track->updateSelection();
     }
-
-
-
 
 }
 

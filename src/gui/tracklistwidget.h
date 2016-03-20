@@ -17,7 +17,7 @@ class TrackListWidget : public QGraphicsView
 {
     Q_OBJECT
     Q_PROPERTY(QString chromosom READ chromosom )
-    Q_PROPERTY(quint64 start READ start() )
+    Q_PROPERTY(quint64 start READ start )
     Q_PROPERTY(quint64 end READ end )
 
 public:
@@ -27,6 +27,7 @@ public:
     void addTrack(AbstractTrack * track);
     //! Remove a track from the manager
     void removeTrack(AbstractTrack * track);
+
 
 
     //! notify all tracks to switch or not in SlotMode (to allow reordoring of tracks)
