@@ -1,4 +1,5 @@
 #include "tracklistwidget.h"
+
 namespace big {
 namespace gui {
 
@@ -8,6 +9,9 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 {
     mScene = new QGraphicsScene;
     setScene(mScene);
+
+
+    setBackgroundBrush(QColor(220,220,220));
 }
 
 
@@ -59,122 +63,98 @@ void TrackListWidget::addTrack(AbstractTrack *track)
     track->setPos(0, xPos);
     track->setSlotTop(xPos);
 
-    qDebug() << "AddTrack : " << track->slotIndex() << " " << xPos;
-
-    connect(track,SIGNAL(heightChanged()),this,SLOT(updateTracksHeight()));
 }
-
-
-
-
-
-
 
 
 void TrackListWidget::switchSlotMode(bool slotModeON)
 {
-    mSlots.clear();
     foreach (AbstractTrack * track, mTracks)
     {
-        // Save current slots ordering
-        mSlots.append(track);
-
         // And notify all tracks
         track->setSlotMode(slotModeON);
     }
-
 }
 
 void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
 {
     int yThreshold = draggedTrack->pos().y() + draggedTrack->height() / 2;
 
-    // 1) Check cases where there is nothing to do
-    int slotMatching = draggedTrack->matchSlot(yThreshold);
-    if (slotMatching > 0                                                    // track over his hown slot
-            || (draggedTrack->slotIndex() == 0 && slotMatching == -1)               // track slot 0 special case
-            || (draggedTrack->slotIndex() == mSlots.count() && slotMatching == -2)) // track slot max special case
-    {
-        return;
-    }
 
-    int draggedTrackSlotIndex = 0;
+    int draggedTrackSlotIndex = -1;
+    int slotIndex = -1;
 
-    // 2) Find the slot over which the track is
-    foreach (AbstractTrack * slot, mSlots)
+    // Find the slot over which the track is
+    foreach (AbstractTrack * slot, mTracks)
     {
-        slotMatching = slot->matchSlot(yThreshold);
-        // Check if the track is over this slot
-        if (slotMatching > 0)
+        ++draggedTrackSlotIndex;
+        int slotMatching = slot->matchSlot(yThreshold);
+        if (slotMatching < 0) continue;
+
+        // The track is over the slot
+
+        // Case 1 : go above the current slot
+        if (slotMatching == 2)
         {
-            if (slotMatching == 1)
-            {
-                // TopIn : Need to insert the draggedTrack's slot above this slot
-                --draggedTrackSlotIndex;
-                break;
-            }
-            else
-            {
-                // BotIn : Need to insert the draggedTrack's slot under this slot
-                break;
-            }
+            slotIndex = slot->slotIndex();
+            draggedTrackSlotIndex++;
+            break;
         }
 
-        ++draggedTrackSlotIndex;
+        // Case 2 : take the position of the current slot
+        slotIndex = slot->slotIndex();
+        break;
     }
 
-    // We update view only if there is a change
-    if (draggedTrack->slotIndex() != draggedTrackSlotIndex)
+    // Cases where there is nothing to do (over his own slot, or outside of the grid)
+    if (draggedTrack->slotIndex() == slotIndex || slotIndex == -1)
+        return;
+
+    if (slotIndex > draggedTrack->slotIndex())
     {
+        draggedTrackSlotIndex--;
+    }
 
-        qDebug() << "slotReordering " << draggedTrack->slotIndex() << " > " << draggedTrackSlotIndex;
 
-        // 3) Update Tracks slots
-        mTracks.removeOne(draggedTrack);
-        mTracks.insert(draggedTrackSlotIndex,draggedTrack);
 
-        // 4) Notify all tracks to update their positions
-        int idx = 0;
-        int pos = 0;
-        foreach (AbstractTrack * track, mTracks)
+    //qDebug() << "slotReordering " << draggedTrack->slotIndex() << " > " << draggedTrackSlotIndex;
+
+    // Update Tracks slots
+    mTracks.removeOne(draggedTrack);
+    mTracks.insert(draggedTrackSlotIndex,draggedTrack);
+
+    // Notify all tracks to update their positions
+    int idx = 0;
+    int pos = 0;
+    foreach (AbstractTrack * track, mTracks)
+    {
+        track->updateSlotPosition(idx, pos);
+        ++idx;
+        pos += track->height();
+    }
+}
+
+
+void TrackListWidget::updateSharedCursor(AbstractTrack * source, QPoint cursorPosition)
+{
+    foreach ( AbstractTrack * track, mTracks)
+    {
+        if (track != source)
         {
-            track->updateSlotPosition(idx, pos);
-            ++idx;
-            pos += track->height();
+            track->updateCursorPosition(cursorPosition);
         }
     }
 }
+
 
 void TrackListWidget::updateTracksHeight()
 {
-
-    AbstractTrack * track = qobject_cast<AbstractTrack*>(sender());
-
-    foreach ( AbstractTrack * t, mTracks)
+    int pos = 0;
+    foreach ( AbstractTrack * track, mTracks)
     {
-        if (t != track) {
-
-          // Resize all tracks according emitter
-
-
-        }
-
-
+        track->updateSlotTop(pos);
+        pos += track->height();
     }
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
 
 
 void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
@@ -185,11 +165,8 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 
     foreach ( AbstractTrack * track, mTracks)
     {
-        track->update();
+        track->updateSelection();
     }
-
-
-
 
 }
 

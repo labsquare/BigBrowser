@@ -8,6 +8,8 @@
 #include <QStyleOptionProgressBar>
 #include <QStyleOptionFrame>
 #include <QStyleOptionRubberBand>
+#include <QGraphicsDropShadowEffect>
+
 #include "app.h"
 #include "tracklistwidget.h"
 
@@ -26,10 +28,17 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     mAnimation = new QPropertyAnimation(this,"y");
     mSlotModeON = false;
 
-    setHeight(30+qrand()%270);
+
+    mShadowEffect = new QGraphicsDropShadowEffect();
+    mShadowEffect->setBlurRadius(50);
+    setGraphicsEffect(mShadowEffect);
+    mShadowEffect->setEnabled(false);
+
 
     setAcceptHoverEvents(true);
 
+    // Debug Height
+    setHeight(30+qrand()%270);
 }
 
 
@@ -52,6 +61,11 @@ int AbstractTrack::height() const
 void AbstractTrack::setHeight(int h)
 {
     mHeight = h;
+}
+
+void AbstractTrack::updateSelection()
+{
+    update();
 }
 
 
@@ -105,6 +119,21 @@ void AbstractTrack::updateSlotPosition(int slotIndex, int slotGhostTop)
         mSlotGhostTop = slotGhostTop;
         goToSlotPosition();
     }
+}
+
+void AbstractTrack::updateSlotTop(int slotTop)
+{
+    if (isSelected())
+    {
+        return;
+    }
+
+    mSlotGhostTop = slotTop;
+    mSlotTop = slotTop;
+
+    // Todo @IDK : force the redraw of the track...
+    setPos(0,slotTop);
+    update();
 }
 
 int AbstractTrack::matchSlot(int yPosition)
@@ -161,13 +190,18 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
     painter->drawText(
                 boundingRect(),
                 Qt::AlignCenter,
-                QString("%1 0x%2 - %3 [%4-%5]")
+                QString("%1 0x%2 - %3 [%4-%5]\nSlot n°%6")
                 .arg(mSlotIndex)
                 .arg((quintptr)this, QT_POINTER_SIZE * 2, 16, QChar('0'))
                 .arg(chromosom)
                 .arg(start)
                 .arg(end)
+                .arg(mSlotIndex)
                 );
+
+
+    painter->drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start));
+    painter->drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end));
 }
 
 
@@ -198,9 +232,18 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->setPen(Qt::black);
-    painter->setRenderHint(QPainter::Antialiasing);
 
+
+
+
+
+    painter->setPen(Qt::black);
+    //painter->setRenderHint(QPainter::Antialiasing);
+
+
+    // -------------------------
+    // Draw Track Global Background
+    // -------------------------
     if (isSelected())
     {
         QColor col  =qApp->style()->standardPalette().color(QPalette::Highlight);
@@ -216,71 +259,64 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 
 
-    // Draw Track Handle
-    QRect toolbarRect =  boundingRect().toRect();
-    toolbarRect.setWidth(40);
+    // -------------------------
+    // Draw Track Content
+    // -------------------------
 
+    // Update content boundaries
+    mContentBoundaries = QRect(30,0,boundingRect().width()-30,boundingRect().height());
+
+    // We let the track redraw its content only if needed
+    if (hasFocus() || mContentCache.rect() != mContentBoundaries)
+    {
+        mContentCache = QImage(QSize(boundingRect().width(), boundingRect().height()), QImage::Format_ARGB32_Premultiplied);
+        QPainter contentPainter;
+        mContentCache.fill(0);
+        contentPainter.begin(&mContentCache);
+        this->paintRegion(&contentPainter, chromosom(), start(), end());
+        contentPainter.end();
+    }
+
+    // Content is cached so redraw the cached image and draw cursor over it
+    painter->drawImage(boundingRect(), mContentCache);
+    drawCursorLayer(painter);
+
+
+
+    // -------------------------
+    // Draw Track Handle
+    // -------------------------
+
+    // Background
+    QRect toolbarRect =  boundingRect().toRect();
+    toolbarRect.setWidth(30);
     QStyleOption op;
     op.rect = toolbarRect;
 
+    // Forground
+    QColor base = qApp->style()->standardPalette().dark().color();
+    QColor activeColor = base.darker(250);
+    QColor inactiveColor = base.darker(120);// inactiveColor.setAlpha(200);
+
+    painter->setBrush(base);
+    painter->drawRect(toolbarRect);
+    qApp->style()->drawPrimitive(QStyle::PE_PanelMenu, &op,painter);
 
 
-    painter->setBrush(qApp->palette("QWidget").button());
-    qApp->style()->drawPrimitive(QStyle::PE_PanelButtonTool, &op,painter);
-
-    op.rect = toolbarRect;
-
-    qApp->style()->drawControl(QStyle::CE_Splitter, &op,painter);
-
-    painter->setPen(QPen(Qt::black));
-
-    painter->drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start()));
-    painter->drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end()));
+    // Rubber
+    QVariantMap handleIcon;
+    QPoint handleIconPos = QPoint(toolbarRect.left() + 5, toolbarRect.top() + toolbarRect.height() / 2 - 10);
+    handleIcon.insert( "color" , isUnderMouse() ? activeColor : inactiveColor);
+    painter->drawPixmap(handleIconPos, App::awesome()->icon(fa::bars, handleIcon).pixmap(20,20));
 
 
-    QVariantMap options;
-    options.insert( "color" , qApp->style()->standardPalette().color(QPalette::WindowText));
-    QPoint iconPos = toolbarRect.topLeft();
-    iconPos += QPoint(10,10);
-    painter->drawPixmap(iconPos, App::awesome()->icon(fa::cogs, options).pixmap(20,20));
+    // Icon "Track Options"
+    QVariantMap settingIcon;
+    QColor settingIconColor = isSelected() ? inactiveColor : base;
+    settingIcon.insert( "color" , settingIconColor);
+    QPoint settingIconPos = QPoint(toolbarRect.left() + 5, toolbarRect.top() + 5);
+    painter->drawPixmap(settingIconPos, App::awesome()->icon(fa::wrench, settingIcon).pixmap(20,20));
 
-//    QRect bottomLine;
-//    bottomLine.setWidth(boundingRect().width());
-//    bottomLine.setHeight(10);
-//    bottomLine.setTop(height()-5);
-//    bottomLine.setBottom(height());
-
-//    painter->setBrush(QBrush(Qt::red));
-//    painter->drawRect(bottomLine);
-
-
-    // draw rubber
-    //    QStyleOptionRubberBand bandOption;
-    //    bandOption.shape = QRubberBand::Rectangle;
-    //    bandOption.rect.setWidth(boundingRect().toRect().width()-100);
-    //    bandOption.rect.setHeight(10);
-
-
-    //    qApp->style()->drawControl(QStyle::CE_RubberBand, &bandOption, painter);
-
-
-
-
-
-
-    //    QStyleOptionFrame frameOption;
-    //    frameOption.features = QStyleOptionFrame::Rounded;
-    //    frameOption.rect = boundingRect().toRect();
-
-    //    qApp->style()->drawPrimitive(QStyle::PE_Frame,&frameOption, painter );
-
-
-
-    // Set the bounds of the painter for the Content region
-    // TODO
-
-    // Call the method to draw the content of the Track
-    this->paintRegion(painter, chromosom(), start(), end());
 
 }
 
@@ -309,10 +345,12 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
         if ( value.toBool())
         {
             setZValue(10);
+            mShadowEffect->setEnabled(true);
         }
         else
         {
             setZValue(0);
+            mShadowEffect->setEnabled(false);
         }
     }
 
@@ -320,6 +358,22 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 }
 
 
+void AbstractTrack::updateCursorPosition(QPoint cursorPosition)
+{
+    mCursorPosition = cursorPosition;
+    qDebug() << "updateCursorPosition " << cursorPosition;
+    if (hasFocus())
+    {
+        mTrackList->updateSharedCursor(this, cursorPosition);
+    }
+    update();
+}
+
+void AbstractTrack::drawCursorLayer(QPainter * painter)
+{
+    painter->setPen(QColor(0,0,0,200));
+    painter->drawLine(mCursorPosition.x(),0, mCursorPosition.x(), mContentBoundaries.height());
+}
 
 
 
@@ -332,20 +386,21 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    //Default
+    QGraphicsObject::mouseMoveEvent(event);
 
+    // Manage and share the position of the cursor
+    updateCursorPosition(QPoint(event->pos().x(), event->pos().y()));
+
+    // Manage resize of the track
     if (cursor().shape() == Qt::SizeVerCursor)
     {
         QRectF oldRect = boundingRect();
         setHeight(event->pos().y());
         update(oldRect);
-        emit resized();
-
-
+        trackList()->updateTracksHeight();
     }
 
-
-    //Default
-    QGraphicsObject::mouseMoveEvent(event);
 }
 
 void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -375,12 +430,6 @@ void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsObject::mouseReleaseEvent(event);
 }
 
-void AbstractTrack::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-
-    QGraphicsObject::hoverEnterEvent(event);
-}
-
 void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
 
@@ -400,9 +449,14 @@ void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsObject::hoverMoveEvent(event);
 }
 
+void AbstractTrack::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    setFocus();
+    QGraphicsObject::hoverEnterEvent(event);
+}
+
 void AbstractTrack::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-
     QGraphicsObject::hoverLeaveEvent(event);
 }
 

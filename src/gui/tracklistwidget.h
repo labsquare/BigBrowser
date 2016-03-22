@@ -17,7 +17,7 @@ class TrackListWidget : public QGraphicsView
 {
     Q_OBJECT
     Q_PROPERTY(QString chromosom READ chromosom )
-    Q_PROPERTY(quint64 start READ start() )
+    Q_PROPERTY(quint64 start READ start )
     Q_PROPERTY(quint64 end READ end )
 
 public:
@@ -29,11 +29,13 @@ public:
     void removeTrack(AbstractTrack * track);
 
 
+
     //! notify all tracks to switch or not in SlotMode (to allow reordoring of tracks)
     void switchSlotMode(bool slotModeON);
     //! check if the dragged track slot's position have changed, and update all slots positions if needed
     void slotReordering(AbstractTrack * draggedTrack);
 
+    void updateSharedCursor(AbstractTrack * source, QPoint cursorPosition);
 
 
     //! Gets the list of tracks managed
@@ -56,6 +58,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+
 
 
 protected:
@@ -90,8 +93,8 @@ private:
     //! List of the track currently displayed
     QList<AbstractTrack*> mTracks;
 
-    //! Temp list of track used only in SLot mode (when user is reordering track by drag&drop)
-    QList<AbstractTrack*> mSlots;
+    //! The position of the cursor is shared by all tracks
+    int mTrackCursorPosition;
 };
 
 }}

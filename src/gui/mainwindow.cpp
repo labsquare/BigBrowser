@@ -1,13 +1,14 @@
 #include "mainwindow.h"
 #include "app.h"
 #include "sequencetrack.h"
+#include "rulertrack.h"
 namespace big {
 namespace gui {
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 
     mMenuBar         = new QMenuBar();
-    mSearchBar     = new SearchToolBar();
+    mSearchBar       = new SearchToolBar();
     mToolBar         = new QToolBar();
     mStatusBar       = new StatusBar();
     mchromosomWidget = new ChromosomWidget();
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralSplitter->addWidget(mchromosomWidget);
     centralSplitter->addWidget(mTrackListWidget);
 
+    mTrackListWidget->addTrack(new RulerTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
