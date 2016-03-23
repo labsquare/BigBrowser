@@ -34,8 +34,9 @@ public:
     void switchSlotMode(bool slotModeON);
     //! check if the dragged track slot's position have changed, and update all slots positions if needed
     void slotReordering(AbstractTrack * draggedTrack);
-
+    //! Manage the update of the cursor on all tracks
     void updateSharedCursor(QPoint cursorPosition);
+    //! Manage the update of the selection on all tracks when scrolling is done on a track
     void trackScroll(int deltaX);
 
     //! Gets the list of tracks managed
@@ -89,7 +90,6 @@ private:
     // Drawing
     // ----------------------------------------------------------
     QGraphicsScene * mScene;
-    int mTrackWidth;
     float mBbPCoeff;
 
 

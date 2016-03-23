@@ -180,9 +180,8 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 void TrackListWidget::resizeEvent(QResizeEvent *event)
 {
     // If I do not put 2000 .. I Do not have the scrollbar !
-    mTrackWidth = event->size().width();
+    mScene->setSceneRect(QRectF(0,0,event->size().width(),2000));
     mBbPCoeff = (mSelectionDistance > 0) ? mScene->width() / mSelectionDistance : 0;
-    mScene->setSceneRect(QRectF(0,0,mTrackWidth,2000));
 
     QGraphicsView::resizeEvent(event);
 }
