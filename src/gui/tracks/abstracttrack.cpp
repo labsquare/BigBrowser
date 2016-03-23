@@ -67,6 +67,8 @@ void AbstractTrack::setHeight(int h)
 
 void AbstractTrack::updateSelection()
 {
+    // Need to clear cache to force redraw of all tracks
+    mContentCache = QImage();
     update();
 }
 
@@ -383,18 +385,7 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     // Manage scrolling
     QPoint newCursorPos = QPoint(event->pos().x(), event->pos().y());
     int deltaX = mCursorPosition.x() - newCursorPos.x();
-
-    quint64 min64 = 0; // to be opti
-    quint64 distanceBase = end() - start(); // tobe opti
-    float b2pCoeff = boundingRect().width() / distanceBase; // tobe opti
-    qint64 deltaBase =  deltaX / b2pCoeff;
-    quint64 newStartBase = start() + deltaBase;
-    if (deltaX < 0 && newStartBase > start())
-    {
-        newStartBase = 0;
-    }
-    // TODO @IDK : the emit don't update the genom browser
-    emit mTrackList->setSelection(chromosom(), newStartBase, newStartBase + distanceBase);
+    mTrackList->trackScroll(deltaX);
 
     // Manage and share the position of the cursor
     mTrackList->updateSharedCursor(newCursorPos);

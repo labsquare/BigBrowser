@@ -36,7 +36,7 @@ public:
     void slotReordering(AbstractTrack * draggedTrack);
 
     void updateSharedCursor(QPoint cursorPosition);
-
+    void trackScroll(int deltaX);
 
     //! Gets the list of tracks managed
     QList<AbstractTrack*> tracks();
@@ -47,6 +47,7 @@ public:
     const QString& chromosom() const;
     quint64 start() const;
     quint64 end() const;
+    void setSelectionMax(quint64 max);
 
 
 
@@ -75,9 +76,12 @@ private:
     //! The name of the file where data are stored
     QString mChromosom;
     //! The base number where the selected region is starting
-    quint64 mStart;
+    quint64 mSelectionStart;
     //! The base number where the selected region is ending
-    quint64 mEnd;
+    quint64 mSelectionEnd;
+
+    quint64 mSelectionDistance;
+    quint64 mSelectionMax;
 
 
 
@@ -85,6 +89,8 @@ private:
     // Drawing
     // ----------------------------------------------------------
     QGraphicsScene * mScene;
+    int mTrackWidth;
+    float mBbPCoeff;
 
 
     // ----------------------------------------------------------

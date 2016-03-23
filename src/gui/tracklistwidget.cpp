@@ -10,8 +10,10 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
     mScene = new QGraphicsScene;
     setScene(mScene);
 
-
     setBackgroundBrush(QColor(220,220,220));
+
+    // Todo @Sacha : maxValue for the end of the selection must be shared with the tracklist to "bound" the scrolling into tracks.
+    mSelectionMax = 249250617;
 }
 
 
@@ -28,12 +30,17 @@ const QString &TrackListWidget::chromosom() const
 
 quint64 TrackListWidget::start() const
 {
-    return mStart;
+    return mSelectionStart;
 }
 
 quint64 TrackListWidget::end() const
 {
-    return mEnd;
+    return mSelectionEnd;
+}
+
+void TrackListWidget::setSelectionMax(quint64 max)
+{
+    mSelectionMax = max;
 }
 
 int TrackListWidget::tracksHeight() const
@@ -157,8 +164,10 @@ void TrackListWidget::updateTracksHeight()
 void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
 {
     mChromosom = chromosom;
-    mStart = start;
-    mEnd = end;
+    mSelectionStart = qMin(start, end);
+    mSelectionEnd = qMax(start, end);
+    mSelectionDistance = mSelectionEnd - mSelectionStart;
+    mBbPCoeff = (mSelectionDistance > 0) ? mScene->width() / mSelectionDistance : 0;
 
     foreach ( AbstractTrack * track, mTracks)
     {
@@ -171,8 +180,9 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 void TrackListWidget::resizeEvent(QResizeEvent *event)
 {
     // If I do not put 2000 .. I Do not have the scrollbar !
-    mScene->setSceneRect(QRectF(0,0,event->size().width(),2000));
-
+    mTrackWidth = event->size().width();
+    mBbPCoeff = (mSelectionDistance > 0) ? mScene->width() / mSelectionDistance : 0;
+    mScene->setSceneRect(QRectF(0,0,mTrackWidth,2000));
 
     QGraphicsView::resizeEvent(event);
 }
@@ -180,22 +190,23 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 
 void TrackListWidget::trackScroll(int deltaX)
 {
-    quint64 min64 = 0; // to be opti
-    quint64 distanceBase = end() - start(); // tobe opti
-    float b2pCoeff = boundingRect().width() / distanceBase; // tobe opti
+    qint64 deltaBase =  deltaX / mBbPCoeff;
+    quint64 newStart = mSelectionStart + deltaBase;
 
-    qint64 deltaBase =  deltaX / b2pCoeff;
-    quint64 newStartBase = start() + deltaBase;
-    if (deltaX < 0 && newStartBase > start())
+    if (deltaX < 0 && newStart > mSelectionStart)
     {
-        newStartBase = 0;
+        newStart = 0;
     }
-    // same to do for max value
-    //if (deltaX > 0 && )
+    else if (deltaX > 0 && newStart + mSelectionDistance > mSelectionMax)
+    {
+        newStart = mSelectionMax - mSelectionDistance;
+    }
+
+    quint64 newEnd = newStart + mSelectionDistance;
 
 
-    setSelection(mChromosom, newStartBase, newStartBase + distanceBase);
-    emit selectionChanged(mChromosom, newStartBase, newStartBase + distanceBase);
+    setSelection(mChromosom, newStart, newEnd);
+    emit selectionChanged(mChromosom, newStart, newEnd);
 }
 
 
