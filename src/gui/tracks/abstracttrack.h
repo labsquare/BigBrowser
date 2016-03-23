@@ -74,7 +74,7 @@ public:
 
 protected:
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant & value);
+    //virtual QVariant itemChange(GraphicsItemChange change, const QVariant & value);
     virtual void drawCursorLayer(QPainter * painter);
 
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event);

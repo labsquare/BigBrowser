@@ -22,10 +22,10 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     :QGraphicsObject(parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    //setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     //setFlag(QGraphicsItem::ItemIsSelectable);
 
-    mAnimation = new QPropertyAnimation(this,"y");
+    mAnimation = new QPropertyAnimation(this,"pos");
     mSlotModeON = false;
     mIsSelected = false;
     mIsResizable = true;
@@ -223,8 +223,8 @@ void AbstractTrack::goToSlotPosition()
         mAnimation->stop();
     }
 
-    mAnimation->setStartValue(pos().y());
-    mAnimation->setEndValue((mSlotModeON) ? mSlotGhostTop : mSlotTop);
+    mAnimation->setStartValue(pos());
+    mAnimation->setEndValue((mSlotModeON) ? QPointF(0,mSlotGhostTop) : QPointF(0,mSlotTop));
     mAnimation->setDuration(200);
     mAnimation->setEasingCurve(QEasingCurve::InOutCubic);
     mAnimation->start();
@@ -327,7 +327,7 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 
 
-
+/*
 QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemPositionChange)
@@ -347,7 +347,7 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
 
     return QGraphicsObject::itemChange(change,value);
-}
+}*/
 
 
 void AbstractTrack::updateCursorPosition(QPoint cursorPosition)
@@ -373,6 +373,20 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    // Manage track rearrangment
+    if (isTrackSelected())
+    {
+        if (mSlotModeON && isTrackSelected())
+        {
+            trackList()->slotReordering(this);
+        }
+
+        // Default
+        QGraphicsObject::mouseMoveEvent(event);
+        return;
+    }
+
+
     // Manage resize of the track
     if (isResizable() && cursor().shape() == Qt::SizeVerCursor)
     {
@@ -392,17 +406,15 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 
 
-    // Default
-    //QGraphicsObject::mouseMoveEvent(event);
 }
 
 void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
-    QRect toolbarRect = boundingRect().toRect();
-    toolbarRect.setWidth(40);
+    QRect trackHandle = boundingRect().toRect();
+    trackHandle.setWidth(40);
 
-    if (toolbarRect.contains( event->pos().toPoint()))
+    if (trackHandle.contains( event->pos().toPoint()))
     {
         setTrackSelected(true);
         setFlag(QGraphicsItem::ItemIsMovable,true);
