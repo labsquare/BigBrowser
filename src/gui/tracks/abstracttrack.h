@@ -52,7 +52,9 @@ public:
     int matchSlot(int yPosition);
     //! Called by the tracklist to update the cursor position shared with all tracks
     virtual void updateCursorPosition(QPoint cursorPosition);
-
+    //! Indicates if the track is currently selected (manipulated via handle) or not. Do not used the QGraphicsObject::isSelected
+    bool isTrackSelected() const;
+    void setTrackSelected(bool selected);
 
     const QString& chromosom() const ;
     quint64 start() const;
@@ -82,6 +84,7 @@ protected:
 
 
 
+
 protected :
     int mHeight;
     int mHeightMax;
@@ -102,6 +105,7 @@ protected :
 
 private:
 
+    bool mIsSelected;
     bool mSlotModeON;
     int mSlotIndex;
     int mSlotTop;

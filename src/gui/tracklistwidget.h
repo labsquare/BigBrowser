@@ -35,7 +35,7 @@ public:
     //! check if the dragged track slot's position have changed, and update all slots positions if needed
     void slotReordering(AbstractTrack * draggedTrack);
 
-    void updateSharedCursor(AbstractTrack * source, QPoint cursorPosition);
+    void updateSharedCursor(QPoint cursorPosition);
 
 
     //! Gets the list of tracks managed

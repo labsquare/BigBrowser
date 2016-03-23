@@ -23,10 +23,11 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-    setFlag(QGraphicsItem::ItemIsSelectable);
+    //setFlag(QGraphicsItem::ItemIsSelectable);
 
     mAnimation = new QPropertyAnimation(this,"y");
     mSlotModeON = false;
+    mIsSelected = false;
 
 
     mShadowEffect = new QGraphicsDropShadowEffect();
@@ -123,7 +124,7 @@ void AbstractTrack::updateSlotPosition(int slotIndex, int slotGhostTop)
 
 void AbstractTrack::updateSlotTop(int slotTop)
 {
-    if (isSelected())
+    if (isTrackSelected())
     {
         return;
     }
@@ -210,7 +211,7 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
 
 void AbstractTrack::goToSlotPosition()
 {
-    if (isSelected())
+    if (isTrackSelected())
     {
         return;
     }
@@ -233,18 +234,17 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(widget);
 
 
-
+    //qDebug() << "paint track " << mSlotIndex;
 
 
 
     painter->setPen(Qt::black);
-    //painter->setRenderHint(QPainter::Antialiasing);
 
 
     // -------------------------
     // Draw Track Global Background
     // -------------------------
-    if (isSelected())
+    if (isTrackSelected())
     {
         QColor col  =qApp->style()->standardPalette().color(QPalette::Highlight);
         col.setAlpha(50);
@@ -267,8 +267,10 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     mContentBoundaries = QRect(30,0,boundingRect().width()-30,boundingRect().height());
 
     // We let the track redraw its content only if needed
-    if (hasFocus() || mContentCache.rect() != mContentBoundaries)
+    if (isUnderMouse() || mContentCache.rect() != boundingRect())
     {
+        // qDebug() << " - redraw content";
+
         mContentCache = QImage(QSize(boundingRect().width(), boundingRect().height()), QImage::Format_ARGB32_Premultiplied);
         QPainter contentPainter;
         mContentCache.fill(0);
@@ -312,7 +314,7 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
     // Icon "Track Options"
     QVariantMap settingIcon;
-    QColor settingIconColor = isSelected() ? inactiveColor : base;
+    QColor settingIconColor = isTrackSelected() ? inactiveColor : base;
     settingIcon.insert( "color" , settingIconColor);
     QPoint settingIconPos = QPoint(toolbarRect.left() + 5, toolbarRect.top() + 5);
     painter->drawPixmap(settingIconPos, App::awesome()->icon(fa::wrench, settingIcon).pixmap(20,20));
@@ -330,7 +332,7 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
         QPointF pos  = value.toPointF();
         pos.setX(0);
 
-        if (mSlotModeON && isSelected())
+        if (mSlotModeON && isTrackSelected())
         {
             trackList()->slotReordering(this);
         }
@@ -361,11 +363,6 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 void AbstractTrack::updateCursorPosition(QPoint cursorPosition)
 {
     mCursorPosition = cursorPosition;
-    qDebug() << "updateCursorPosition " << cursorPosition;
-    if (hasFocus())
-    {
-        mTrackList->updateSharedCursor(this, cursorPosition);
-    }
     update();
 }
 
@@ -386,12 +383,6 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    //Default
-    QGraphicsObject::mouseMoveEvent(event);
-
-    // Manage and share the position of the cursor
-    updateCursorPosition(QPoint(event->pos().x(), event->pos().y()));
-
     // Manage resize of the track
     if (cursor().shape() == Qt::SizeVerCursor)
     {
@@ -401,6 +392,8 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         trackList()->updateTracksHeight();
     }
 
+    //Default
+    QGraphicsObject::mouseMoveEvent(event);
 }
 
 void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -413,6 +406,7 @@ void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     if (toolbarRect.contains( event->pos().toPoint()))
     {
+        setTrackSelected(true);
         setFlag(QGraphicsItem::ItemIsMovable,true);
         trackList()->switchSlotMode(true);
     }
@@ -420,19 +414,23 @@ void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
         setFlag(QGraphicsItem::ItemIsMovable,false);
         trackList()->switchSlotMode(false);
+        setTrackSelected(false);
     }
 }
 
 void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    setSelected(false);
+    setTrackSelected(false);
     trackList()->switchSlotMode(false);
     QGraphicsObject::mouseReleaseEvent(event);
 }
 
 void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
+    // Manage and share the position of the cursor
+    mTrackList->updateSharedCursor(QPoint(event->pos().x(), event->pos().y()));
 
+    // Mange resing feedback of the track
     QRect bottomLine;
     bottomLine.setWidth(boundingRect().width());
     bottomLine.setTop(height()-10);
@@ -465,6 +463,14 @@ void AbstractTrack::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 
 
 
+bool AbstractTrack::isTrackSelected() const
+{
+    return mIsSelected;
+}
+void AbstractTrack::setTrackSelected(bool selected)
+{
+    mIsSelected = selected;
+}
 
 
 }} // end namespace

@@ -134,14 +134,11 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
 }
 
 
-void TrackListWidget::updateSharedCursor(AbstractTrack * source, QPoint cursorPosition)
+void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
 {
     foreach ( AbstractTrack * track, mTracks)
     {
-        if (track != source)
-        {
-            track->updateCursorPosition(cursorPosition);
-        }
+        track->updateCursorPosition(cursorPosition);
     }
 }
 
