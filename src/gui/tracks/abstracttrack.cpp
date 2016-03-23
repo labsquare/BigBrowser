@@ -380,14 +380,33 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         trackList()->updateTracksHeight();
     }
 
-    //Default
-    QGraphicsObject::mouseMoveEvent(event);
+    // Manage scrolling
+    QPoint newCursorPos = QPoint(event->pos().x(), event->pos().y());
+    int deltaX = mCursorPosition.x() - newCursorPos.x();
+
+    quint64 min64 = 0; // to be opti
+    quint64 distanceBase = end() - start(); // tobe opti
+    float b2pCoeff = boundingRect().width() / distanceBase; // tobe opti
+    qint64 deltaBase =  deltaX / b2pCoeff;
+    quint64 newStartBase = start() + deltaBase;
+    if (deltaX < 0 && newStartBase > start())
+    {
+        newStartBase = 0;
+    }
+    // TODO @IDK : the emit don't update the genom browser
+    emit mTrackList->setSelection(chromosom(), newStartBase, newStartBase + distanceBase);
+
+    // Manage and share the position of the cursor
+    mTrackList->updateSharedCursor(newCursorPos);
+
+
+
+    // Default
+    //QGraphicsObject::mouseMoveEvent(event);
 }
 
 void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // Set movable only if cursor select the toolbar
-    QGraphicsObject::mousePressEvent(event);
 
     QRect toolbarRect = boundingRect().toRect();
     toolbarRect.setWidth(40);
@@ -404,13 +423,17 @@ void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
         trackList()->switchSlotMode(false);
         setTrackSelected(false);
     }
+
+    // Set movable only if cursor select the toolbar
+    //QGraphicsObject::mousePressEvent(event);
 }
 
 void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     setTrackSelected(false);
     trackList()->switchSlotMode(false);
-    QGraphicsObject::mouseReleaseEvent(event);
+
+    //QGraphicsObject::mouseReleaseEvent(event);
 }
 
 void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)

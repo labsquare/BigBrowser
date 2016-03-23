@@ -162,6 +162,7 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 
     foreach ( AbstractTrack * track, mTracks)
     {
+        // qDebug() << "Update selection on track " << track->slotIndex() << " : " << mStart << " - " << mEnd;
         track->updateSelection();
     }
 
@@ -175,6 +176,28 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 
     QGraphicsView::resizeEvent(event);
 }
+
+
+void TrackListWidget::trackScroll(int deltaX)
+{
+    quint64 min64 = 0; // to be opti
+    quint64 distanceBase = end() - start(); // tobe opti
+    float b2pCoeff = boundingRect().width() / distanceBase; // tobe opti
+
+    qint64 deltaBase =  deltaX / b2pCoeff;
+    quint64 newStartBase = start() + deltaBase;
+    if (deltaX < 0 && newStartBase > start())
+    {
+        newStartBase = 0;
+    }
+    // same to do for max value
+    //if (deltaX > 0 && )
+
+
+    setSelection(mChromosom, newStartBase, newStartBase + distanceBase);
+    emit selectionChanged(mChromosom, newStartBase, newStartBase + distanceBase);
+}
+
 
 
 }}
