@@ -12,10 +12,10 @@ RulerTrack::RulerTrack(QGraphicsItem * parent)
     :AbstractTrack(parent)
 {
     setHeight(25);
+    setIsResizable(false);
+
 
     // Todo :
-    //  - Set no resizable
-    //  - Fix size to 20
     //  - No option (disable settings button)
     //  - Set Default Title of the track : "Ruler" (this title should be displayed when drag&droping tracks)
 

@@ -56,6 +56,10 @@ public:
     bool isTrackSelected() const;
     void setTrackSelected(bool selected);
 
+    //! Indicates if the track can be resized by the user
+    bool isResizable() const;
+    void setIsResizable(bool isResizable);
+
     const QString& chromosom() const ;
     quint64 start() const;
     quint64 end() const;
@@ -105,6 +109,7 @@ protected :
 
 private:
 
+    bool mIsResizable;
     bool mIsSelected;
     bool mSlotModeON;
     int mSlotIndex;

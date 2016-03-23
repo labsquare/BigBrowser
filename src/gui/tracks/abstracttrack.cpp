@@ -28,6 +28,7 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
     mAnimation = new QPropertyAnimation(this,"y");
     mSlotModeON = false;
     mIsSelected = false;
+    mIsResizable = true;
 
 
     mShadowEffect = new QGraphicsDropShadowEffect();
@@ -340,21 +341,8 @@ QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
     }
 
-    // This part manage selection. A native feature of QGraphicsItem
-    if ( change == QGraphicsItem::ItemSelectedHasChanged)
-    {
-        // if selection == True, move the item on the top , to be not hiddable by other track
-        if ( value.toBool())
-        {
-            setZValue(10);
-            mShadowEffect->setEnabled(true);
-        }
-        else
-        {
-            setZValue(0);
-            mShadowEffect->setEnabled(false);
-        }
-    }
+    // if selection == True, move the item on the top , to be not hiddable by other track
+
 
     return QGraphicsObject::itemChange(change,value);
 }
@@ -384,7 +372,7 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     // Manage resize of the track
-    if (cursor().shape() == Qt::SizeVerCursor)
+    if (isResizable() && cursor().shape() == Qt::SizeVerCursor)
     {
         QRectF oldRect = boundingRect();
         setHeight(event->pos().y());
@@ -431,16 +419,18 @@ void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
     mTrackList->updateSharedCursor(QPoint(event->pos().x(), event->pos().y()));
 
     // Mange resing feedback of the track
-    QRect bottomLine;
-    bottomLine.setWidth(boundingRect().width());
-    bottomLine.setTop(height()-10);
-    bottomLine.setBottom(height());
+    if (isResizable())
+    {
+        QRect bottomLine;
+        bottomLine.setWidth(boundingRect().width());
+        bottomLine.setTop(height()-10);
+        bottomLine.setBottom(height());
 
-    if (bottomLine.contains(event->pos().toPoint()))
-        setCursor(Qt::SizeVerCursor);
-    else
-        setCursor(Qt::ArrowCursor);
-
+        if (bottomLine.contains(event->pos().toPoint()))
+            setCursor(Qt::SizeVerCursor);
+        else
+            setCursor(Qt::ArrowCursor);
+    }
 
 
 
@@ -470,7 +460,17 @@ bool AbstractTrack::isTrackSelected() const
 void AbstractTrack::setTrackSelected(bool selected)
 {
     mIsSelected = selected;
+    setZValue((selected) ? 10 : 0);
+    mShadowEffect->setEnabled(selected);
 }
 
+bool AbstractTrack::isResizable() const
+{
+    return mIsResizable;
+}
+void AbstractTrack::setIsResizable(bool isResizable)
+{
+    mIsResizable = isResizable;
+}
 
 }} // end namespace
