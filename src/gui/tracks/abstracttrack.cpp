@@ -19,28 +19,36 @@ namespace gui {
 
 
 AbstractTrack::AbstractTrack(QGraphicsItem *parent)
-    :QGraphicsObject(parent)
+    :QGraphicsObject(parent),
+      mHeight(30+qrand()%270),
+      mHeightMax(600),
+      mHeightMin(10),
+      mIsResizable(true),
+      mIsSelected(false),
+      mSlotModeON(false),
+      mSlotIndex(0),
+      mSlotTop(0),
+      mSlotGhostTop(0)
+
 {
     setFlag(QGraphicsItem::ItemIsMovable);
     //setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     //setFlag(QGraphicsItem::ItemIsSelectable);
 
-    mAnimation = new QPropertyAnimation(this,"pos");
-    mSlotModeON = false;
-    mIsSelected = false;
-    mIsResizable = true;
-
-
+    mAnimation    = new QPropertyAnimation(this,"pos");
     mShadowEffect = new QGraphicsDropShadowEffect();
     mShadowEffect->setBlurRadius(50);
-    setGraphicsEffect(mShadowEffect);
     mShadowEffect->setEnabled(false);
 
-
+    setGraphicsEffect(mShadowEffect);
     setAcceptHoverEvents(true);
 
-    // Debug Height
-    setHeight(30+qrand()%270);
+}
+
+AbstractTrack::~AbstractTrack()
+{
+    delete mAnimation;
+    delete mShadowEffect;
 }
 
 
@@ -71,9 +79,6 @@ void AbstractTrack::updateSelection()
     mContentCache = QImage();
     update();
 }
-
-
-
 
 void AbstractTrack::setSlotMode(bool slotModeON)
 {

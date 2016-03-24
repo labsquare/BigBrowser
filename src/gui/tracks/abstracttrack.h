@@ -15,7 +15,9 @@ class AbstractTrack : public QGraphicsObject
 {
     Q_OBJECT
 public:
+
     AbstractTrack(QGraphicsItem * parent = 0);
+    ~AbstractTrack();
 
     /*!
      * \brief trackList
@@ -84,6 +86,8 @@ public:
     void setIsResizable(bool isResizable);
 
 
+    // @OLIVIER : I think thos methods should not be public.
+    // If only TrackviewList should access those methods, you may see "friends".
 
     //! Sets the slot mode
     void setSlotMode(bool slotModeON);
@@ -134,13 +138,24 @@ protected:
 
 
 protected :
+
+
+private:
     int mHeight;
     int mHeightMax;
     int mHeightMin;
 
-    QPropertyAnimation * mAnimation;
+    bool mIsResizable;
+    bool mIsSelected;
+    bool mSlotModeON;
+    int mSlotIndex;
+    int mSlotTop;
+    int mSlotGhostTop;
+
+
+    QPropertyAnimation *        mAnimation;
     QGraphicsDropShadowEffect * mShadowEffect;
-    TrackListWidget * mTrackList;
+    TrackListWidget *           mTrackList;
 
     //! The position of the cursor is shared by all tracks so can be updated even if the mouse is not over the track
     QPoint mCursorPosition;
@@ -151,14 +166,7 @@ protected :
     //! The boundaries of the area availables to draw the content
     QRect mContentBoundaries;
 
-private:
 
-    bool mIsResizable;
-    bool mIsSelected;
-    bool mSlotModeON;
-    int mSlotIndex;
-    int mSlotTop;
-    int mSlotGhostTop;
 
 
 };
