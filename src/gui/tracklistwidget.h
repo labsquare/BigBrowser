@@ -8,11 +8,12 @@
 #include <QGraphicsView>
 #include <QResizeEvent>
 #include <QGraphicsScene>
+#include "genom.h"
 #include "abstracttrack.h"
 
 namespace big {
 namespace gui {
-
+using namespace core;
 class TrackListWidget : public QGraphicsView
 {
     Q_OBJECT
@@ -27,6 +28,8 @@ public:
     void addTrack(AbstractTrack * track);
     //! Remove a track from the manager
     void removeTrack(AbstractTrack * track);
+
+    void setGenom(Genom * genom);
 
 
 
@@ -84,6 +87,7 @@ private:
     quint64 mSelectionDistance;
     quint64 mSelectionMax;
 
+    Genom * mGenom;
 
 
     // ----------------------------------------------------------

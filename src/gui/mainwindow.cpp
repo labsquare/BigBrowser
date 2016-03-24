@@ -96,6 +96,7 @@ void MainWindow::setGenom(const QString &name)
 
     mSearchBar->setGenom(mGenom);
     mchromosomWidget->setGenom(mGenom);
+    mTrackListWidget->setGenom(mGenom);
     //    mStatusBar->setGenom(mGenom);
 }
 

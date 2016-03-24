@@ -72,6 +72,11 @@ void TrackListWidget::addTrack(AbstractTrack *track)
 
 }
 
+void TrackListWidget::setGenom(Genom *genom)
+{
+    mGenom = genom;
+}
+
 
 void TrackListWidget::switchSlotMode(bool slotModeON)
 {
