@@ -17,20 +17,72 @@ class AbstractTrack : public QGraphicsObject
 public:
     AbstractTrack(QGraphicsItem * parent = 0);
 
-    //! Gets the trackList parent of this Track Item
+    /*!
+     * \brief trackList
+     * \return the parent trackList
+     */
     TrackListWidget * trackList() const ;
-    //! Set the trackList parent of this Track Item
+    /*!
+     * \brief setTrackList
+     * Set the trackList parent of this Track Item
+     * \param parent
+     */
     void setTrackList(TrackListWidget * parent);
 
-
-    //! Gets the height of the track
+    /*!
+     * \brief height
+     * \return track's height
+     */
     int height() const;
-    //! Set the height of the track
+
+    /*!
+     * \brief setHeight
+     * set Track Height
+     * \param h
+     */
     void setHeight(int h);
 
+    /*!
+     * \brief chromosom
+     * \return trackList->chromosom()
+     */
+    const QString& chromosom() const ;
 
-    //! This methods is called when parent list view received new selection
+    /*!
+     * \brief start
+     * \return trackList->start()
+     */
+    quint64 start() const;
+
+    /*!
+     * \brief end
+     * \return trackList->end()
+     */
+    quint64 end() const;
+
+
+    /*!
+     * \brief updateSelection
+     * This methods is called when parent list view received new selection
+     */
     virtual void updateSelection();
+
+    /*!
+     * \brief isTrackSelected
+     * Indicates if the track is currently selected (manipulated via handle) or not. Do not used the QGraphicsObject::isSelected
+     * \return
+     */
+    bool isTrackSelected() const;
+    void setTrackSelected(bool selected);
+
+
+    /*! \brief isResizable
+    Indicates if the track can be resized by the user
+     * \return
+     */
+    bool isResizable() const;
+    void setIsResizable(bool isResizable);
+
 
 
     //! Sets the slot mode
@@ -38,11 +90,11 @@ public:
     //! Gets if the slot mode is enable
     bool slotMode() const;
     //! Sets the slot index of the track
-    int setSlotIndex(int slotIdx);
+    void setSlotIndex(int slotIdx);
     //! Gets the slot index of the track
     int slotIndex() const;
     //! Sets the slot position of the track
-    int setSlotTop(int slotTop);
+    void setSlotTop(int slotTop);
     int slotTop() const;
     //! Update the slot of the track
     void updateSlotPosition(int slotIndex, int slotGhostTop);
@@ -52,17 +104,8 @@ public:
     int matchSlot(int yPosition);
     //! Called by the tracklist to update the cursor position shared with all tracks
     virtual void updateCursorPosition(QPoint cursorPosition);
-    //! Indicates if the track is currently selected (manipulated via handle) or not. Do not used the QGraphicsObject::isSelected
-    bool isTrackSelected() const;
-    void setTrackSelected(bool selected);
 
-    //! Indicates if the track can be resized by the user
-    bool isResizable() const;
-    void setIsResizable(bool isResizable);
 
-    const QString& chromosom() const ;
-    quint64 start() const;
-    quint64 end() const;
 
 
     void goToSlotPosition();

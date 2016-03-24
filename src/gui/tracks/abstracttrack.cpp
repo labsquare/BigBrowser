@@ -94,7 +94,7 @@ bool AbstractTrack::slotMode() const
     return mSlotModeON;
 }
 
-int AbstractTrack::setSlotIndex(int slotIdx)
+void AbstractTrack::setSlotIndex(int slotIdx)
 {
     mSlotIndex = slotIdx;
 }
@@ -104,7 +104,7 @@ int AbstractTrack::slotIndex() const
     return mSlotIndex;
 }
 
-int AbstractTrack::setSlotTop(int slotTop)
+void AbstractTrack::setSlotTop(int slotTop)
 {
     mSlotTop = slotTop;
     mSlotGhostTop = slotTop;
