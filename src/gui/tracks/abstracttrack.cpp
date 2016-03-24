@@ -194,9 +194,24 @@ QRectF AbstractTrack::boundingRect() const
 
 void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end)
 {
+    // Cache management : we redraw content only if needed
+    if (!isUnderMouse() && mContentCache.rect() == boundingRect())
+    {
+        return;
+    }
+
+    // qDebug() << " - redraw content";
+
+    // Init painter for drawing in cache image
+    mContentCache = QImage(QSize(boundingRect().width(), boundingRect().height()), QImage::Format_ARGB32_Premultiplied);
+    QPainter contentPainter;
+    mContentCache.fill(0);
+    contentPainter.begin(&mContentCache);
+
+
     // Default implementation draw some usefull debug informations
     // This method must be overriden by children classes
-    painter->drawText(
+    contentPainter.drawText(
                 boundingRect(),
                 Qt::AlignCenter,
                 QString("%1 0x%2 - %3 [%4-%5]\nSlot n°%6")
@@ -209,8 +224,11 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
                 );
 
 
-    painter->drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start));
-    painter->drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end));
+    contentPainter.drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start));
+    contentPainter.drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end));
+
+
+    contentPainter.end();
 }
 
 
@@ -274,18 +292,8 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     // Update content boundaries
     mContentBoundaries = QRect(30,0,boundingRect().width()-30,boundingRect().height());
 
-    // We let the track redraw its content only if needed
-    if (isUnderMouse() || mContentCache.rect() != boundingRect())
-    {
-        // qDebug() << " - redraw content";
-
-        mContentCache = QImage(QSize(boundingRect().width(), boundingRect().height()), QImage::Format_ARGB32_Premultiplied);
-        QPainter contentPainter;
-        mContentCache.fill(0);
-        contentPainter.begin(&mContentCache);
-        this->paintRegion(&contentPainter, chromosom(), start(), end());
-        contentPainter.end();
-    }
+    // We let the track redraw its content only if needed (paintRegionMethod draw in cache : mContentCache)
+    this->paintRegion(painter, chromosom(), start(), end());
 
     // Content is cached so redraw the cached image and draw cursor over it
     painter->drawImage(boundingRect(), mContentCache);
@@ -330,29 +338,6 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 }
 
-
-
-/*
-QVariant AbstractTrack::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
-{
-    if (change == QGraphicsItem::ItemPositionChange)
-    {
-        QPointF pos  = value.toPointF();
-        pos.setX(0);
-
-        if (mSlotModeON && isTrackSelected())
-        {
-            trackList()->slotReordering(this);
-        }
-        return pos;
-
-    }
-
-    // if selection == True, move the item on the top , to be not hiddable by other track
-
-
-    return QGraphicsObject::itemChange(change,value);
-}*/
 
 
 void AbstractTrack::updateCursorPosition(QPoint cursorPosition)
