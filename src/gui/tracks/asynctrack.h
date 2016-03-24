@@ -17,7 +17,7 @@ public:
     virtual void paintRegion(QPainter *painter, const QString& chromosom, quint64 start, quint64 end);
 
     virtual void updateSelection();
-    virtual QPixmap drawRegion(const QString& chromosom, quint64 start, quint64 end);
+    virtual QPixmap createPixmap(const QString& chromosom, quint64 start, quint64 end);
 
     bool isRunning() const;
 

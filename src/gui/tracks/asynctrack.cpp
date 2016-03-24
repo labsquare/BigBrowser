@@ -30,7 +30,7 @@ void AsyncTrack::updateSelection()
 {
 
     // Start thread
-    mFuture = QtConcurrent::run(this, &AsyncTrack::drawRegion, chromosom(), start(), end());
+    mFuture = QtConcurrent::run(this, &AsyncTrack::createPixmap, chromosom(), start(), end());
     mWatcher->setFuture(mFuture);
     connect(mWatcher,SIGNAL(finished()),this,SLOT(pixmapFinished()));
     update();
@@ -39,7 +39,7 @@ void AsyncTrack::updateSelection()
 
 }
 
-QPixmap AsyncTrack::drawRegion(const QString &chromosom, quint64 start, quint64 end)
+QPixmap AsyncTrack::createPixmap(const QString &chromosom, quint64 start, quint64 end)
 {
     qDebug()<<"start thread";
     // Compute in thread... long process
