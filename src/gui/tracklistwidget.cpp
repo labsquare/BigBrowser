@@ -62,13 +62,13 @@ int TrackListWidget::tracksHeight() const
 void TrackListWidget::addTrack(AbstractTrack *track)
 {
     track->setTrackList(this);
-    track->setSlotIndex(mTracks.count());
+    track->setIndex(mTracks.count());
     mTracks.append(track);
     scene()->addItem(track);
 
     int xPos = tracksHeight() - track->height();
     track->setPos(0, xPos);
-    track->setSlotTop(xPos);
+   // track->setSlotTop(xPos);
 
 }
 
@@ -107,21 +107,21 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
         // Case 1 : go above the current slot
         if (slotMatching == 2)
         {
-            slotIndex = slot->slotIndex();
+            slotIndex = slot->index();
             draggedTrackSlotIndex++;
             break;
         }
 
         // Case 2 : take the position of the current slot
-        slotIndex = slot->slotIndex();
+        slotIndex = slot->index();
         break;
     }
 
     // Cases where there is nothing to do (over his own slot, or outside of the grid)
-    if (draggedTrack->slotIndex() == slotIndex || slotIndex == -1)
+    if (draggedTrack->index() == slotIndex || slotIndex == -1)
         return;
 
-    if (slotIndex > draggedTrack->slotIndex())
+    if (slotIndex > draggedTrack->index())
     {
         draggedTrackSlotIndex--;
     }

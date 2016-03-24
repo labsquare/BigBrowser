@@ -83,7 +83,23 @@ public:
      * \return
      */
     bool isResizable() const;
-    void setIsResizable(bool isResizable);
+    void setResizable(bool isResizable);
+
+    /*!
+     * \brief setIndex
+     * Gets the slot index of the track
+     * \param slotIdx
+     */
+    void setIndex(int slotIdx);
+    int index() const;
+
+    /*!
+     * \brief setTop
+     * Sets the slot position of the track
+     * \param slotTop
+     */
+    void setTop(int slotTop);
+    int top() const;
 
 
     // @OLIVIER : I think thos methods should not be public.
@@ -94,14 +110,9 @@ public:
     //! Gets if the slot mode is enable
     bool slotMode() const;
     //! Sets the slot index of the track
-    void setSlotIndex(int slotIdx);
-    //! Gets the slot index of the track
-    int slotIndex() const;
-    //! Sets the slot position of the track
-    void setSlotTop(int slotTop);
-    int slotTop() const;
+
     //! Update the slot of the track
-    void updateSlotPosition(int slotIndex, int slotGhostTop);
+    void updateSlotPosition(int index, int slotGhostTop);
     //! Update the slot position of the track (only used when slot top pos changed due to the resizing of a track)
     void updateSlotTop(int slotTop);
     //! Return where is the provided position relating to the slot : -1="TopOut", 1="TopIn", 2="BotIn", -2="BotOut"
@@ -112,13 +123,14 @@ public:
 
 
 
-    void goToSlotPosition();
 
     virtual QRectF boundingRect() const;
 
 
 
 protected:
+    void goToSlotPosition();
+
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
     virtual void paintRegion(QPainter *painter, const QString& chromosom, quint64 start, quint64 end);
 
@@ -137,7 +149,6 @@ protected:
 
 
 
-protected :
 
 
 private:

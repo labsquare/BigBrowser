@@ -12,7 +12,7 @@ RulerTrack::RulerTrack(QGraphicsItem * parent)
     :AbstractTrack(parent)
 {
     setHeight(25);
-    setIsResizable(false);
+    setResizable(false);
 
 
     // Todo :

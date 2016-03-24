@@ -99,23 +99,23 @@ bool AbstractTrack::slotMode() const
     return mSlotModeON;
 }
 
-void AbstractTrack::setSlotIndex(int slotIdx)
+void AbstractTrack::setIndex(int slotIdx)
 {
     mSlotIndex = slotIdx;
 }
 
-int AbstractTrack::slotIndex() const
+int AbstractTrack::index() const
 {
     return mSlotIndex;
 }
 
-void AbstractTrack::setSlotTop(int slotTop)
+void AbstractTrack::setTop(int slotTop)
 {
     mSlotTop = slotTop;
     mSlotGhostTop = slotTop;
 }
 
-int AbstractTrack::slotTop() const
+int AbstractTrack::top() const
 {
     return mSlotTop;
 }
@@ -484,7 +484,7 @@ bool AbstractTrack::isResizable() const
 {
     return mIsResizable;
 }
-void AbstractTrack::setIsResizable(bool isResizable)
+void AbstractTrack::setResizable(bool isResizable)
 {
     mIsResizable = isResizable;
 }
