@@ -68,7 +68,7 @@ void TrackListWidget::addTrack(AbstractTrack *track)
 
     int xPos = tracksHeight() - track->height();
     track->setPos(0, xPos);
-   // track->setSlotTop(xPos);
+    track->setTop(xPos);
 
 }
 

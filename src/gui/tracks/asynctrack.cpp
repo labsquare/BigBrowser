@@ -53,7 +53,7 @@ QPixmap AsyncTrack::createPixmap(const QString &chromosom, quint64 start, quint6
     }
 
 
-    QPixmap pix = QPixmap(400,200);
+    QPixmap pix = QPixmap(400,height());
     pix.fill(QColor(qrand()%200, qrand()%200, 250));
 
 
