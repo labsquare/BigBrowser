@@ -29,6 +29,8 @@ void AsyncTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
 void AsyncTrack::updateSelection()
 {
 
+    if (mFuture.isRunning())
+        mFuture.cancel();
     // Start thread
     mFuture = QtConcurrent::run(this, &AsyncTrack::createPixmap, chromosom(), start(), end());
     mWatcher->setFuture(mFuture);

@@ -68,12 +68,13 @@ public:
     void goToSlotPosition();
 
     virtual QRectF boundingRect() const;
-    virtual void paintRegion(QPainter *painter, const QString& chromosom, quint64 start, quint64 end);
 
 
 
 protected:
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0);
+    virtual void paintRegion(QPainter *painter, const QString& chromosom, quint64 start, quint64 end);
+
     //virtual QVariant itemChange(GraphicsItemChange change, const QVariant & value);
     virtual void drawCursorLayer(QPainter * painter);
 
