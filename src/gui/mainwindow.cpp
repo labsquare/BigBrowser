@@ -3,6 +3,7 @@
 #include "sequencetrack.h"
 #include "rulertrack.h"
 #include "asynctrack.h"
+
 namespace big {
 namespace gui {
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -15,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mchromosomWidget = new ChromosomWidget();
     mTrackListWidget = new TrackListWidget();
     mGenom           = new Genom();
+    mTracksPanel     = new TrackSettingsPanel();
 
     setMenuBar(mMenuBar);
     addToolBar(mToolBar);
@@ -22,8 +24,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 
     QSplitter * centralSplitter = new QSplitter(Qt::Vertical);
+    QSplitter * secondSplitter  = new QSplitter(Qt::Horizontal);
+
+    secondSplitter->addWidget(mTracksPanel);
+    secondSplitter->addWidget(mTrackListWidget);
+
     centralSplitter->addWidget(mchromosomWidget);
-    centralSplitter->addWidget(mTrackListWidget);
+    centralSplitter->addWidget(secondSplitter);
 
     mTrackListWidget->addTrack(new RulerTrack());
     mTrackListWidget->addTrack(new AsyncTrack());
@@ -33,6 +40,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mTrackListWidget->addTrack(new SequenceTrack());
 
 
+
+
+
+    mTracksPanel->addWidget(new QTextEdit);
+    mTracksPanel->addWidget(new QTextEdit);
+    mTracksPanel->addWidget(new QTextEdit);
+    mTracksPanel->addWidget(new QTextEdit);
+    mTracksPanel->addWidget(new QTextEdit);
+    mTracksPanel->addWidget(new QTextEdit);
+    mTracksPanel->addWidget(new QTextEdit);
+
+
     QVBoxLayout * centralLayout = new QVBoxLayout;
     centralLayout->addWidget(centralSplitter);
     centralLayout->addWidget(mStatusBar);
@@ -40,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     QWidget * cWidget = new QWidget;
     cWidget->setLayout(centralLayout);
+
 
 
     setCentralWidget(cWidget);

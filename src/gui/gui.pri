@@ -19,5 +19,6 @@ SOURCES += \
 
 include(settings/settings.pri)
 include(tracks/tracks.pri)
+include(trackspanel/trackspanel.pri)
 include("models/models.pri")
 
