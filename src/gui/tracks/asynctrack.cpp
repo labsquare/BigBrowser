@@ -10,13 +10,18 @@ AsyncTrack::AsyncTrack(QGraphicsItem * parent )
 
 }
 
+AsyncTrack::~AsyncTrack()
+{
+    mWatcher->cancel();
+    delete mWatcher;
+}
+
 void AsyncTrack::paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end)
 {
     Q_UNUSED(chromosom);
     Q_UNUSED(start);
     Q_UNUSED(end);
 
-    qDebug()<<mFuture.isRunning();
 
     if (mFuture.isRunning())
         painter->drawText(boundingRect(), Qt::AlignHCenter|Qt::AlignVCenter, "LOADING.....");
@@ -43,7 +48,6 @@ void AsyncTrack::updateSelection()
 
 QPixmap AsyncTrack::createPixmap(const QString &chromosom, quint64 start, quint64 end)
 {
-    qDebug()<<"start thread";
     // Compute in thread... long process
     double a = 0;
     for ( double i = 0; i < 1000000000; ++i)
@@ -69,7 +73,6 @@ bool AsyncTrack::isRunning() const
 
 void AsyncTrack::pixmapFinished()
 {
-    qDebug()<<"end thread";
 
     // @olivier : this doesnt call updateContent ! It should !
     update(boundingRect());

@@ -12,7 +12,7 @@ class AsyncTrack : public AbstractTrack
     Q_OBJECT
 public:
     AsyncTrack(QGraphicsItem * parent = 0);
-
+    ~AsyncTrack();
 
     virtual void paintRegion(QPainter *painter, const QString& chromosom, quint64 start, quint64 end);
 
