@@ -40,12 +40,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mTrackListWidget->addTrack(new SequenceTrack());
 
 
+    QWidget * formTest = new QWidget;
+    QFormLayout * ltest = new QFormLayout;
+    ltest->addRow("width", new QSpinBox());
+    ltest->addRow("height", new QSpinBox());
+    ltest->addRow("color", new QCheckBox());
+    formTest->setLayout(ltest);
+
 
 
 
     mTracksPanel->addWidget(new QTextEdit);
     mTracksPanel->addWidget(new QTextEdit);
-    mTracksPanel->addWidget(new QTextEdit);
+    mTracksPanel->addWidget(formTest);
     mTracksPanel->addWidget(new QTextEdit);
     mTracksPanel->addWidget(new QTextEdit);
     mTracksPanel->addWidget(new QTextEdit);

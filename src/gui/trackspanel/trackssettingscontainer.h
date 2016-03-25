@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtWidgets>
+#include <QVariantAnimation>
 #include "tracksettingsheader.h"
 namespace big {
 namespace gui {
@@ -18,13 +19,17 @@ public Q_SLOTS:
     void expand(bool expand = true);
     void collapse(bool collapse = true);
 
+protected Q_SLOTS:
+    void animChanged(const QVariant& value);
+
 private:
     QWidget * mContent;
     QLabel * mTitleLabel;
     QLabel * mIconLabel;
     QToolButton * mToolButton;
     TrackSettingsHeader * mHeader;
-
+    QVBoxLayout * mContentLayout;
+    QVariantAnimation * mAnimation;
 
 
 };

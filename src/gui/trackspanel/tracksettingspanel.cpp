@@ -7,7 +7,11 @@ TrackSettingsPanel::TrackSettingsPanel(QWidget *parent) : QScrollArea(parent)
     mContentLayout = new QVBoxLayout;
     mContentLayout->setContentsMargins(0,0,0,0);
     mContentLayout->setSpacing(0);
-    mContentLayout->addStretch();
+
+    QWidget * spaceItem = new QWidget();
+    spaceItem->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    mContentLayout->addWidget(spaceItem);
+
     mContent->setLayout(mContentLayout);
     setWidgetResizable(true);
     setWidget(mContent);
