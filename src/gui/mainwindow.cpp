@@ -119,6 +119,7 @@ void MainWindow::setGenom(const QString &name)
 
 void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 end)
 {
+    qDebug() << "setSelection";
     // Only the Tracklist is able to validate the selection
     // (the tracklist know how to compute the zoom level according the size of the scene)
     if (sender() != mTrackListWidget)
@@ -127,6 +128,7 @@ void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 e
 
 void MainWindow::selectionValidated(const QString& chromosom, quint64 start, quint64 end)
 {
+    qDebug() << "selectionValidated";
     if (sender() != mchromosomWidget)
         mchromosomWidget->setSelection(chromosom,start,end);
 

@@ -168,7 +168,7 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
         bgPainter.end();
 
         // Recompute Frame is exists
-        if (selector()->start() < selector()->end())
+        if (selector()->length() > 1)
         {
             updateFrame(QRect(baseToPixel(selector()->start()),
                               0,
@@ -567,11 +567,10 @@ void ChromosomWidget::updateFrame(QRect newFrame, bool updateSelector)
     // update section property
     if (updateSelector)
     {
-
         selector()->setStart(pixelToBase(mFrame.x()));
         selector()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
+        emit selectionChanged(selector()->chromosom(),selector()->start(),selector()->end());
     }
-    emit selectionChanged(selector()->chromosom(),selector()->start(),selector()->end());
 }
 
 
@@ -731,12 +730,12 @@ void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
         // special case for resize L/R
         if (mCursorMode == resizeL)
         {
-            mSelector->setStart(pixelToBase(mFrameGhost.left()));
+            selector()->setStart(pixelToBase(mFrameGhost.left()));
             updateFrame(mFrameGhost, false);
         }
         else if (mCursorMode == resizeR)
         {
-            mSelector->setEnd(pixelToBase(mFrameGhost.right()));
+            selector()->setEnd(pixelToBase(mFrameGhost.right()));
             updateFrame(mFrameGhost, false);
         }
         else
@@ -764,7 +763,7 @@ void ChromosomWidget::enterEvent(QEvent *)
 {
     mCursorActive = true;
     // default mode is normal, except if no region defined
-    if (mSelector->start() < mSelector->end())
+    if (selector()->length() > 0)
     {
         mCursorMode = normal;
     }
