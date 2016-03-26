@@ -17,7 +17,8 @@ public:
 
     //! Override the painter content method
     virtual void paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end);
-
+    //! Override the painter cursor method
+    virtual void paintCursorLayer(QPainter * painter);
 };
 
 }

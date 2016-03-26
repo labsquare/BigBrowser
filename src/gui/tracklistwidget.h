@@ -53,6 +53,8 @@ public:
     quint64 end() const;
     void setSelectionMax(quint64 max);
 
+    const int sharedCursorX() const;
+
 
 
 
@@ -62,7 +64,11 @@ public Q_SLOTS:
 
 
 Q_SIGNALS:
+
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+
+    //! To notify tracks that the cursor position changed
+    void cursorChanged(int posX, quint64 posB, int baseX, int baseW);
 
 
 
@@ -94,8 +100,24 @@ private:
     // Drawing
     // ----------------------------------------------------------
     QGraphicsScene * mScene;
-    float mBbPCoeff;
+    float mP2BCoeff;
 
+
+    // ----------------------------------------------------------
+    // SharedCursor properties
+    // The cursor position/selection is shared by all tracks via the tracklist wirdget
+    // ----------------------------------------------------------
+    //! The position (in pixel) of the cursor
+    int mCursorPositionX;
+
+    //! The position (in base) of the cursor
+    quint64 mCursorPositionB;
+
+    //! The width of the base in pixel
+    int mBaseWidth;
+
+    //! This position (in pixel) of the base (under the cursor).  May be different than mCursorPositionX at great zoom level
+    int mBasePositionX;
 
     // ----------------------------------------------------------
     // Track management

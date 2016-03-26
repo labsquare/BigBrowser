@@ -28,7 +28,8 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
       mSlotModeON(false),
       mSlotIndex(0),
       mSlotTop(0),
-      mSlotGhostTop(0)
+      mSlotGhostTop(0),
+      mCursorPosition(0)
 
 {
     setFlag(QGraphicsItem::ItemIsMovable);
@@ -47,6 +48,7 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
 
 AbstractTrack::~AbstractTrack()
 {
+    disconnect(this, 0, 0, 0);
     delete mAnimation;
     delete mShadowEffect;
 }
@@ -55,7 +57,13 @@ AbstractTrack::~AbstractTrack()
 
 void AbstractTrack::setTrackList(TrackListWidget *parent)
 {
+    // @IDK : If mTrackList != null, need to unconnect
+    disconnect(this, 0, 0, 0);
+
     mTrackList = parent;
+
+    connect(mTrackList,SIGNAL(cursorChanged(int, quint64, int, int)),
+            this,SLOT(updateCursor(int, quint64, int, int)));
 }
 
 TrackListWidget *AbstractTrack::trackList() const
@@ -297,7 +305,7 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
     // Content is cached so redraw the cached image and draw cursor over it
     painter->drawImage(boundingRect(), mContentCache);
-    drawCursorLayer(painter);
+    paintCursorLayer(painter);
 
 
 
@@ -339,17 +347,15 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 }
 
 
-
-void AbstractTrack::updateCursorPosition(QPoint cursorPosition)
+void AbstractTrack::updateCursor(int posX,quint64 posB, int baseX, int baseW)
 {
-    mCursorPosition = cursorPosition;
     update();
 }
 
-void AbstractTrack::drawCursorLayer(QPainter * painter)
+void AbstractTrack::paintCursorLayer(QPainter * painter)
 {
     painter->setPen(QColor(0,0,0,200));
-    painter->drawLine(mCursorPosition.x(),0, mCursorPosition.x(), mContentBoundaries.height());
+    painter->drawLine(mTrackList->sharedCursorX(),0, mTrackList->sharedCursorX(), mContentBoundaries.height());
 }
 
 
@@ -388,8 +394,9 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     // Manage scrolling
     QPoint newCursorPos = QPoint(event->pos().x(), event->pos().y());
-    int deltaX = mCursorPosition.x() - newCursorPos.x();
+    int deltaX = mCursorPosition - newCursorPos.x();
     mTrackList->trackScroll(deltaX);
+    mCursorPosition =  newCursorPos.x();
 
     // Manage and share the position of the cursor
     mTrackList->updateSharedCursor(newCursorPos);

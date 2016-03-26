@@ -3,6 +3,7 @@
 #include <QDebug>
 #include "rulertrack.h"
 #include "sequencetrack.h"
+#include "tracklistwidget.h"
 
 namespace big {
 namespace gui {
@@ -91,20 +92,16 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     // Draw the ruler
     // ---------------------
     int pos = firstDivPixelStart;
-    bool first = true;
+    painter->setFont(QFont("Arial Sans", 6));
     while (pos < width)
     {
         // Draw legend
-        if (first)
-        {
-            const QLocale & cLocale = QLocale::c();
-            QString ss = cLocale.toString(divisionBaseBestStep);
-            ss.replace(cLocale.groupSeparator(), ' ');
+        const QLocale & cLocale = QLocale::c();
+        QString ss = cLocale.toString(firstDivBaseStart);
+        ss.replace(cLocale.groupSeparator(), ' ');
+        painter->drawText(pos+2,18, ss);
+        firstDivBaseStart +=divisionBaseBestStep;
 
-
-            painter->drawText(35,15, ss + " (pb)");
-            first = false;
-        }
         QColor col = deltaDivColor?QColor(0,0,0,150):QColor(255,255,255);
         painter->setBrush(col);
         painter->drawRect(QRect(pos, 20, divPixelSize, rulerHeight));
@@ -114,8 +111,31 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
         pos+=divPixelSize;
         deltaDivColor = !deltaDivColor;
     }
+
+    // Draw Current position
+    QFont font = QFont("Arial Sans", 8);
+    QFontMetrics fm(font);
+
+    const QLocale & cLocale = QLocale::c();
+    QString legendText = cLocale.toString(divisionBaseBestStep);
+    legendText.replace(cLocale.groupSeparator(), ' ');
+    legendText += " (pb)";
+
+    int legendWidth = fm.width(legendText);
+    int legendPosition = mCursorPosition - legendWidth / 2;
+    legendPosition = qMax(30, legendPosition);
+    legendPosition = qMin((int) boundingRect().width() - legendWidth - 20, legendPosition);
+
+    painter->setFont(font);
+    painter->drawText(legendPosition, 15, legendText);
+    painter->drawLine(legendPosition, 17, legendPosition + legendWidth, 17);
 }
 
-
+void RulerTrack::paintCursorLayer(QPainter * painter)
+{
+    mCursorPosition = mTrackList->sharedCursorX();
+    painter->setPen(QColor(0,0,0,200));
+    painter->drawLine(mTrackList->sharedCursorX(), 17, mTrackList->sharedCursorX(), mContentBoundaries.height());
+}
 
 }}

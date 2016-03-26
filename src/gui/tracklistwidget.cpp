@@ -43,6 +43,21 @@ void TrackListWidget::setSelectionMax(quint64 max)
     mSelectionMax = max;
 }
 
+
+const int TrackListWidget::sharedCursorX() const
+{
+    return mCursorPositionX;
+}
+
+
+
+
+
+
+
+
+
+
 int TrackListWidget::tracksHeight() const
 {
     int total = 0;
@@ -148,10 +163,21 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
 
 void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
 {
-    foreach ( AbstractTrack * track, mTracks)
+    // Update cursor data
+    mCursorPositionX = cursorPosition.x();
+    mCursorPositionB = mCursorPositionX * mP2BCoeff;
+    mBaseWidth = qFloor(mP2BCoeff);
+
+    // When zoom level is great (when we can see bases) we have to take in account
+    // a deltaX to manage smooth scrolling
+    if (mBaseWidth > 1)
     {
-        track->updateCursorPosition(cursorPosition);
+        // Todo
+        // mBasePositionX;
     }
+
+    // notify all tracks
+    emit cursorChanged(mCursorPositionX, mCursorPositionB, mBasePositionX, mBaseWidth);
 }
 
 
@@ -172,7 +198,7 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     mSelectionStart = qMin(start, end);
     mSelectionEnd = qMax(start, end);
     mSelectionDistance = mSelectionEnd - mSelectionStart;
-    mBbPCoeff = (mSelectionDistance > 0) ? mScene->width() / mSelectionDistance : 0;
+    mP2BCoeff = (mSelectionDistance > 0) ? mScene->width() / mSelectionDistance : 0;
 
     foreach ( AbstractTrack * track, mTracks)
     {
@@ -186,7 +212,7 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 {
     // If I do not put 2000 .. I Do not have the scrollbar !
     mScene->setSceneRect(QRectF(0,0,event->size().width(),2000));
-    mBbPCoeff = (mSelectionDistance > 0) ? mScene->width() / mSelectionDistance : 0;
+    mP2BCoeff = (mSelectionDistance > 0) ? mScene->width() / mSelectionDistance : 0;
 
     QGraphicsView::resizeEvent(event);
 }
@@ -194,7 +220,7 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 
 void TrackListWidget::trackScroll(int deltaX)
 {
-    qint64 deltaBase =  deltaX / mBbPCoeff;
+    qint64 deltaBase =  deltaX / mP2BCoeff;
     quint64 newStart = mSelectionStart + deltaBase;
 
     if (deltaX < 0 && newStart > mSelectionStart)
