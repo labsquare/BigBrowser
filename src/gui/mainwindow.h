@@ -24,7 +24,10 @@ public:
 public Q_SLOTS:
 void showSettings();
 void setGenom(const QString& name);
+
+//!
 void setSelection(const QString& chromosom, quint64 start, quint64 end);
+void selectionValidated(const QString& chromosom, quint64 start, quint64 end);
 
 protected:
     void setupMenuBar();

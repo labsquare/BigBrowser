@@ -69,8 +69,8 @@ protected:
     // ----------------------------------------------------------
     // Helper
     // ----------------------------------------------------------
-    inline quint64 pixelToBase(int pixel) {return (pixel-mOffsetX) / mB2PCoeff;}
-    inline int baseToPixel(quint64 base) {return base * mB2PCoeff + mOffsetX;}
+    inline quint64 pixelToBase(int pixel) {return (pixel-mOffsetX) / mP2BCoeff;}
+    inline int baseToPixel(quint64 base) {return base * mP2BCoeff + mOffsetX;}
     Region getRegionAtPixel(int pixelPos);
     void initStainColorFromRegions();
     void updateFrame(QRect newFrame, bool updateSelector=true);
@@ -161,7 +161,7 @@ private:
     float mChromosomWidth;
 
     //! Coeff to swith referential pixels <-> chr bases
-    float mB2PCoeff;
+    float mP2BCoeff;
 
     //! Bakground image : Keeping it in memory to avoid to redraw it too often
     QImage mBackgroundLayer;

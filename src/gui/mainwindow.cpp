@@ -53,17 +53,32 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //    setSelection("chr1",1,100000);
 
 
+    // ----------------------------------
     // Connect signals and slots
+    // ----------------------------------
+
+    // The selection signal/slot system is composed of 2 signals
+    //  - selectionChanged is raised by UI control who allow user to select a custom region
+    //  - selectionValidated is raised by the Tracklist who is the only one able to know if the selected region is drawable by tracks
+
+    // Workflow :
+    // 1) a UI control notify the mainwindow that the selection changed
+    // 2) the main windows notify tracklist
+    // 3) the tracklist validate the selection
+    // 4) the mainwindows notify all other control with the validated selection
+
+    // selectionChanged signal are raised by all UI control except the Tracklist
     connect(mSearchBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
-
-
     connect(mchromosomWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
             this,SLOT(setSelection(QString,quint64,quint64)));
 
+    // selectionValidated signal raised only by the tracklist
+    connect(mTrackListWidget,SIGNAL(selectionValidated(QString,quint64,quint64)),
+            this,SLOT(selectionValidated(QString,quint64,quint64)));
 
-    connect(mTrackListWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
-            this,SLOT(setSelection(QString,quint64,quint64)));
+
+
 
     connect(mStatusBar,SIGNAL(zoomChanged(int)),mchromosomWidget,SLOT(setZoom(int)));
 
@@ -104,6 +119,14 @@ void MainWindow::setGenom(const QString &name)
 
 void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 end)
 {
+    // Only the Tracklist is able to validate the selection
+    // (the tracklist know how to compute the zoom level according the size of the scene)
+    if (sender() != mTrackListWidget)
+        mTrackListWidget->setSelection(chromosom,start,end);
+}
+
+void MainWindow::selectionValidated(const QString& chromosom, quint64 start, quint64 end)
+{
     if (sender() != mchromosomWidget)
         mchromosomWidget->setSelection(chromosom,start,end);
 
@@ -112,11 +135,9 @@ void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 e
 
     if (sender() != mStatusBar)
         mStatusBar->setSelection(chromosom,start,end);
-
-    if (sender() != mTrackListWidget)
-        mTrackListWidget->setSelection(chromosom,start,end);
-
 }
+
+
 
 void MainWindow::setupMenuBar()
 {

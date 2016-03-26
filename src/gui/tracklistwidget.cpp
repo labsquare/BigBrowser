@@ -198,7 +198,29 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     mSelectionStart = qMin(start, end);
     mSelectionEnd = qMax(start, end);
     mSelectionDistance = mSelectionEnd - mSelectionStart;
-    mP2BCoeff = (mSelectionDistance > 0) ? mScene->width() / mSelectionDistance : 0;
+
+    if (mSelectionDistance > 0)
+    {
+        // Ok, seems ok to use this distance
+        mP2BCoeff =  mScene->width() / mSelectionDistance;
+    }
+    else
+    {
+        // To force the calculation of the distance according to the max zoom level,
+        mP2BCoeff = 11;
+    }
+
+    // Check max zoom constraint : at max zoom level, base are drawn on 10 pixels
+    if (mP2BCoeff > 10)
+    {
+        mP2BCoeff = 10;
+        mSelectionDistance = mScene->width() / mP2BCoeff;
+        mSelectionEnd = mSelectionStart + mSelectionDistance;
+
+    }
+
+    // Need to notify all with the validated selection
+    emit selectionValidated(chromosom, mSelectionStart, mSelectionEnd);
 
     foreach ( AbstractTrack * track, mTracks)
     {
@@ -236,7 +258,7 @@ void TrackListWidget::trackScroll(int deltaX)
 
 
     setSelection(mChromosom, newStart, newEnd);
-    emit selectionChanged(mChromosom, newStart, newEnd);
+    emit selectionValidated(mChromosom, newStart, newEnd);
 }
 
 

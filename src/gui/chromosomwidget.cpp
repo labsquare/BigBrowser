@@ -16,7 +16,7 @@ ChromosomWidget::ChromosomWidget( QWidget * parent)
     mOffsetY         = 30;
     mChromosomHeight = 30;
     mChromosomWidth  = 0;
-    mB2PCoeff        = 0;
+    mP2BCoeff        = 0;
 
     // Create an empty selector
     mSelector = new Region();
@@ -119,7 +119,7 @@ void ChromosomWidget::paintEvent(QPaintEvent *)
     {
         // Recompute main drawing variables
         mChromosomWidth = rect().width() - mOffsetX * 2;
-        mB2PCoeff = mChromosomWidth / mChromosomRegions.last().end();
+        mP2BCoeff = mChromosomWidth / mChromosomRegions.last().end();
 
 
         // 1st part : the wrapper
@@ -194,8 +194,8 @@ void ChromosomWidget::drawRegions(QPainter *painter)
     // Loop to draw regions
     foreach ( Region region, mChromosomRegions)
     {
-        float regionWidth = region.length() * mB2PCoeff;
-        float regionStart = mOffsetX + region.start() * mB2PCoeff;
+        float regionWidth = region.length() * mP2BCoeff;
+        float regionStart = mOffsetX + region.start() * mP2BCoeff;
 
         // Define region
         QRect fragment;
@@ -230,8 +230,8 @@ void ChromosomWidget::drawLabels(QPainter *painter)
     // Loop to draw labels
     foreach ( Region region, mChromosomRegions)
     {
-        float regionWidth = region.length() * mB2PCoeff;
-        float regionStart = mOffsetX + region.start() * mB2PCoeff;
+        float regionWidth = region.length() * mP2BCoeff;
+        float regionStart = mOffsetX + region.start() * mP2BCoeff;
 
 
         // Draw bounds lines
@@ -445,12 +445,12 @@ QPainterPath ChromosomWidget::getChromosomWrapperShape(int wrapperPadding, int w
 
         if(stain == "acen" && endPart1 == 0)
         {
-            endPart1 = region.start() * mB2PCoeff;
-            centX = region.end() * mB2PCoeff;
+            endPart1 = region.start() * mP2BCoeff;
+            centX = region.end() * mP2BCoeff;
         }
         else if (endPart1 > 0  && stain != "acen" && startPart2 == 0)
         {
-            startPart2 = region.start() * mB2PCoeff;
+            startPart2 = region.start() * mP2BCoeff;
         }
     }
 
@@ -516,8 +516,8 @@ Region ChromosomWidget::getRegionAtPixel(int pixelPos)
     // 1) Find the region (be human friendly with first and last regions)
     foreach (region, mChromosomRegions)
     {
-        regionWidth = region.length() * mB2PCoeff;
-        regionStart = mOffsetX + region.start() * mB2PCoeff;
+        regionWidth = region.length() * mP2BCoeff;
+        regionStart = mOffsetX + region.start() * mP2BCoeff;
 
         if (pixelPos < regionStart + regionWidth)
         {
@@ -567,6 +567,7 @@ void ChromosomWidget::updateFrame(QRect newFrame, bool updateSelector)
     // update section property
     if (updateSelector)
     {
+
         selector()->setStart(pixelToBase(mFrame.x()));
         selector()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
     }
@@ -608,7 +609,7 @@ void ChromosomWidget::mouseMoveEvent(QMouseEvent * event)
     }
     else
     {
-        mCursorBasePosition = (mCursorPosition.x() - mOffsetX) / mB2PCoeff;
+        mCursorBasePosition = (mCursorPosition.x() - mOffsetX) / mP2BCoeff;
         mCursorRegion = region;
     }
 

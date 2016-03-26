@@ -65,7 +65,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 
-    void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+    void selectionValidated(const QString& chromosom, quint64 start, quint64 end);
 
     //! To notify tracks that the cursor position changed
     void cursorChanged(int posX, quint64 posB, int baseX, int baseW);
