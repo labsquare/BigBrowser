@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralSplitter->addWidget(mTrackListWidget);
 
     mTrackListWidget->addTrack(new RulerTrack());
-    //mTrackListWidget->addTrack(new AsyncTrack());
+    mTrackListWidget->addTrack(new AsyncTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     //mTrackListWidget->addTrack(new SequenceTrack());
@@ -91,6 +91,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 
 
+}
+
+MainWindow::~MainWindow()
+{
+    delete mMenuBar;
+    delete mSearchBar;
+    delete mToolBar;
+    delete mStatusBar;
+    delete mchromosomWidget;
+    delete mTrackListWidget;
+    delete mGenom;
 }
 
 void MainWindow::showSettings()

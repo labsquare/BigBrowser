@@ -27,6 +27,7 @@ public:
 
 
     explicit TrackListWidget(QWidget *parent = 0);
+    ~TrackListWidget();
 
     //! Add a new track to the manager
     void addTrack(AbstractTrack * track);

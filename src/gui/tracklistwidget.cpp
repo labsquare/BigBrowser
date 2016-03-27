@@ -17,6 +17,12 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
     mCursorScrollDelta = 0;
 }
 
+TrackListWidget::~TrackListWidget()
+{
+
+    qDeleteAll(mTracks);
+}
+
 
 QList<AbstractTrack *> TrackListWidget::tracks()
 {
