@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "app.h"
 #include "sequencetrack.h"
+#include "ensembltrack.h"
 #include "rulertrack.h"
 #include "asynctrack.h"
 namespace big {
@@ -26,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralSplitter->addWidget(mTrackListWidget);
 
     mTrackListWidget->addTrack(new RulerTrack());
-    mTrackListWidget->addTrack(new AsyncTrack());
+    mTrackListWidget->addTrack(new EnsemblTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     //mTrackListWidget->addTrack(new SequenceTrack());

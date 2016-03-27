@@ -38,7 +38,7 @@ void AsyncTrack::updateSelection()
 {
 
     if (mFuture.isRunning())
-        mFuture.cancel();
+        mCancelThread = true;
 
         // Start thread
         mFuture = QtConcurrent::run(this, &AsyncTrack::createPixmap, chromosom(), start(), end());
@@ -81,7 +81,6 @@ bool AsyncTrack::isRunning() const
 void AsyncTrack::pixmapFinished()
 {
 
-    // @olivier : this doesnt call updateContent ! It should !
     update(boundingRect());
 
 
