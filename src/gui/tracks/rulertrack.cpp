@@ -95,7 +95,7 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
         divPixelSize = mTrackList->sharedCursorBaseW() * divisionBaseBestStep;
     }
 
-    qDebug() << "firstDivPixelStart : " << firstDivPixelStart << " divPixelSize : " << divPixelSize << " divisionBaseBestStep : " << divisionBaseBestStep << " sharedCursorBaseW : " << mTrackList->sharedCursorBaseW();
+    //qDebug() << "firstDivPixelStart : " << firstDivPixelStart << " divPixelSize : " << divPixelSize << " divisionBaseBestStep : " << divisionBaseBestStep << " sharedCursorBaseW : " << mTrackList->sharedCursorBaseW();
 
 
     // ---------------------
@@ -158,8 +158,7 @@ void RulerTrack::paintCursorLayer(QPainter * painter)
         QColor bg = baseColor.lighter(150);
         bg.setAlpha(100);
         painter->setBrush(bg);
-        painter->drawRect(mTrackList->sharedCursorBaseX(), 20, mTrackList->sharedCursorBaseW(), 5);
-        painter->drawLine(mTrackList->sharedCursorPosX(), 17, mTrackList->sharedCursorPosX(), 20);
+        painter->drawRect(mTrackList->sharedCursorBaseX(), 18, mTrackList->sharedCursorBaseW(), 7);
     }
     else
     {

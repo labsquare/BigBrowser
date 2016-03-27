@@ -182,11 +182,12 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
 
 void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
 {
+    //qDebug() << "start : " << start() << " mP2BCoeff : " << mP2BCoeff;
     // Update cursor data
     mCursorPositionX = cursorPosition.x();
-    mCursorPositionB = start() + (mCursorPositionX - C_TRACK_HANDLE_PIXEL_WIDTH) / mP2BCoeff;
+    double delta = (mCursorPositionX - C_TRACK_HANDLE_PIXEL_WIDTH)/ mP2BCoeff; // need to convert in double for the "/" operator
+    mCursorPositionB = start() +  delta;
     mCursorBaseWidth = qFloor(mP2BCoeff);
-    //qDebug() << "mCursorPositionX : " << mCursorPositionX << " mCursorPositionB : " << mCursorPositionB << " mBaseWidth : " << mBaseWidth;
 
     // When zoom level is great (when we can see bases) to avoid display error due to rounded value
     // we recompute the CursorBaseX position according to the mCursorBaseWidth
@@ -199,6 +200,9 @@ void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
     {
         mCursorBaseX = mCursorPositionX;
     }
+
+    //qDebug() << "mCursorPositionX : " << mCursorPositionX << " mCursorPositionB : " << mCursorPositionB << " mCursorBaseX : " << mCursorBaseX << " mCursorBaseWidth : " << mCursorBaseWidth;
+
 
     // notify all tracks
     emit cursorChanged(mCursorPositionX, mCursorPositionB, mCursorBaseX, mCursorBaseWidth);
@@ -222,11 +226,12 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     mSelectionStart = qMin(start, end);
     mSelectionEnd = qMax(start, end);
     mSelectionDistance = mSelectionEnd - mSelectionStart;
+    float width = trackContentWidth(); // need to cast in float for precisions (see below)
 
     if (mSelectionDistance > 0)
     {
         // Ok, seems ok to use this distance
-        mP2BCoeff =  trackContentWidth() / mSelectionDistance;
+        mP2BCoeff = width / mSelectionDistance;
     }
     else
     {
@@ -238,7 +243,7 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     if (mP2BCoeff > C_BASE_MAX_PIXEL_WIDTH)
     {
         mP2BCoeff = C_BASE_MAX_PIXEL_WIDTH;
-        mSelectionDistance = trackContentWidth() / mP2BCoeff;
+        mSelectionDistance = width / mP2BCoeff;
         mSelectionEnd = mSelectionStart + mSelectionDistance;
 
     }
@@ -275,7 +280,7 @@ void TrackListWidget::trackScroll(int deltaX)
 
     mCursorBaseX += deltaX;
     mCursorPositionX += deltaX;
-    qDebug() << "mCursorBaseX : " << mCursorBaseX << " mCursorPositionX : " << mCursorPositionX << " deltaX : " << deltaX;
+    //qDebug() << "mCursorBaseX : " << mCursorBaseX << " mCursorPositionX : " << mCursorPositionX << " deltaX : " << deltaX;
 
     // recompute start & end according to the new mBasePositionX
     quint64 newStart = mSelectionStart;
