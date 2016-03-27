@@ -22,6 +22,10 @@ class TrackListWidget : public QGraphicsView
     Q_PROPERTY(quint64 end READ end )
 
 public:
+    const int C_BASE_MAX_PIXEL_WIDTH = 10;
+    const int C_TRACK_HANDLE_PIXEL_WIDTH = 30;
+
+
     explicit TrackListWidget(QWidget *parent = 0);
 
     //! Add a new track to the manager
@@ -53,7 +57,12 @@ public:
     quint64 end() const;
     void setSelectionMax(quint64 max);
 
-    const int sharedCursorX() const;
+    const int sharedCursorPosX() const;
+    const quint64 sharedCursorPosB() const;
+    const int sharedCursorBaseX() const;
+    const int sharedCursorBaseW() const;
+    const int trackContentWidth() const;
+    const int trackContentStartX() const;
 
 
 
@@ -114,10 +123,10 @@ private:
     quint64 mCursorPositionB;
 
     //! The width of the base in pixel
-    int mBaseWidth;
+    int mCursorBaseWidth;
 
-    //! This position (in pixel) of the base (under the cursor).  May be different than mCursorPositionX at great zoom level
-    int mBasePositionX;
+    //! The delta (in pixel) of the first base displayed (start).
+    int mCursorBaseX;
 
     // ----------------------------------------------------------
     // Track management
@@ -127,6 +136,8 @@ private:
 
     //! The position of the cursor is shared by all tracks
     int mTrackCursorPosition;
+
+
 };
 
 }}

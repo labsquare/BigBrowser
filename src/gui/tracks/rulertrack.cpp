@@ -1,6 +1,9 @@
+#include <QApplication>
 #include <QtMath>
 #include <QPainter>
 #include <QDebug>
+#include <QStyle>
+#include "app.h"
 #include "rulertrack.h"
 #include "sequencetrack.h"
 #include "tracklistwidget.h"
@@ -37,9 +40,9 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     // Taille idéale en pixel recherchée pour les divisions de la règle
     int divIdealPxl = 150;
     // Taille de la règle en pixel
-    float width = boundingRect().width();
+    float width = boundingRectContent().width();
     // Start et end en base
-
+    int startX = boundingRectContent().left();
 
 
     // ---------------------
@@ -56,7 +59,7 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     {
         painter->drawText(35,15, "Thanks to select a chromosom and a region to start.");
         painter->setBrush(Qt::BDiagPattern);
-        painter->drawRect(QRect(0, 20, width, rulerHeight));
+        painter->drawRect(QRect(startX, 20, width, rulerHeight));
         return;
     }
 
@@ -82,10 +85,17 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     float b2pCoeff = width / distanceBase;
 
     // Calcul de la position en pixel de la première graudation
-    int firstDivPixelStart = deltaFirstStart * b2pCoeff * -1;
-
+    int firstDivPixelStart = startX + deltaFirstStart * b2pCoeff * -1;
     // Calcul de la taille en pixel des divisions
     int divPixelSize = divisionBaseBestStep * b2pCoeff;
+
+    if (mTrackList->sharedCursorBaseW() > 1)
+    {
+        divisionBaseBestStep++;
+        divPixelSize = mTrackList->sharedCursorBaseW() * divisionBaseBestStep;
+    }
+
+    qDebug() << "firstDivPixelStart : " << firstDivPixelStart << " divPixelSize : " << divPixelSize << " divisionBaseBestStep : " << divisionBaseBestStep << " sharedCursorBaseW : " << mTrackList->sharedCursorBaseW();
 
 
     // ---------------------
@@ -113,29 +123,49 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     }
 
     // Draw Current position
-    QFont font = QFont("Arial Sans", 8);
+    QColor baseColor = qApp->style()->standardPalette().highlight().color();
+    painter->setPen(baseColor);
+    QFont font = QFont("Arial Sans", 9, 63);
     QFontMetrics fm(font);
 
     const QLocale & cLocale = QLocale::c();
-    QString legendText = cLocale.toString(divisionBaseBestStep);
+    QString legendText = cLocale.toString(mTrackList->sharedCursorPosB());
     legendText.replace(cLocale.groupSeparator(), ' ');
     legendText += " (pb)";
 
     int legendWidth = fm.width(legendText);
     int legendPosition = mCursorPosition - legendWidth / 2;
-    legendPosition = qMax(30, legendPosition);
-    legendPosition = qMin((int) boundingRect().width() - legendWidth - 20, legendPosition);
+    legendPosition = qMax(mTrackList->trackContentStartX(), legendPosition);
+    legendPosition = qMin(mTrackList->trackContentWidth() - legendWidth, legendPosition);
 
+    painter->setBrush(Qt::white);
+    painter->setPen(Qt::NoPen);
+    painter->drawRect(legendPosition-3,1, legendWidth+6, 19);
     painter->setFont(font);
+    painter->setPen(Qt::black);
     painter->drawText(legendPosition, 15, legendText);
-    painter->drawLine(legendPosition, 17, legendPosition + legendWidth, 17);
 }
 
 void RulerTrack::paintCursorLayer(QPainter * painter)
 {
-    mCursorPosition = mTrackList->sharedCursorX();
-    painter->setPen(QColor(0,0,0,200));
-    painter->drawLine(mTrackList->sharedCursorX(), 17, mTrackList->sharedCursorX(), mContentBoundaries.height());
+    mCursorPosition = mTrackList->sharedCursorPosX();
+    QColor baseColor = qApp->style()->standardPalette().highlight().color();
+    painter->setPen(baseColor);
+
+
+    if (mTrackList->sharedCursorBaseW() > 2)
+    {
+        QColor bg = baseColor.lighter(150);
+        bg.setAlpha(100);
+        painter->setBrush(bg);
+        painter->drawRect(mTrackList->sharedCursorBaseX(), 20, mTrackList->sharedCursorBaseW(), 5);
+        painter->drawLine(mTrackList->sharedCursorPosX(), 17, mTrackList->sharedCursorPosX(), 20);
+    }
+    else
+    {
+        painter->drawLine(mTrackList->sharedCursorPosX(), 17, mTrackList->sharedCursorPosX(), boundingRectContent().height());
+    }
+
 }
 
 }}

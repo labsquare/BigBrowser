@@ -123,7 +123,11 @@ public:
 
 
 
+    //! The boundaries of the whole track (track's handle + track's content + tracklist's scrollbar hover the tracks)
     virtual QRectF boundingRect() const;
+
+    //! The boundaries of the area availables to draw the content
+    virtual QRectF boundingRectContent() const;
 
 
 
@@ -155,9 +159,6 @@ protected:
 
     //! Content cache image : Keeping it in memory to avoid to redraw it too often
     QImage mContentCache;
-
-    //! The boundaries of the area availables to draw the content
-    QRect mContentBoundaries;
 
     //! The tracklist of which the track is the child
     TrackListWidget * mTrackList;

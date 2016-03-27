@@ -197,7 +197,13 @@ QRectF AbstractTrack::boundingRect() const
 {
     int w = scene()->views().first()->width();
     return QRect(0,0,w,height());
-    //return QRect(0,0,scene()->width(),mHeight);
+}
+QRectF AbstractTrack::boundingRectContent() const
+{
+    QRectF b = boundingRect();
+    b.setLeft(mTrackList->C_TRACK_HANDLE_PIXEL_WIDTH);
+    b.setWidth(mTrackList->trackContentWidth());
+    return b;
 }
 
 void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end)
@@ -220,7 +226,7 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
     // Default implementation draw some usefull debug informations
     // This method must be overriden by children classes
     contentPainter.drawText(
-                boundingRect(),
+                boundingRectContent(),
                 Qt::AlignCenter,
                 QString("%1 0x%2 - %3 [%4-%5]\nSlot n°%6")
                 .arg(mSlotIndex)
@@ -232,8 +238,8 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
                 );
 
 
-    contentPainter.drawText(boundingRect().left()+100, boundingRect().center().y(), QString::number(start));
-    contentPainter.drawText(boundingRect().right()-100, boundingRect().center().y(), QString::number(end));
+    contentPainter.drawText(boundingRectContent().left()+100, boundingRectContent().center().y(), QString::number(start));
+    contentPainter.drawText(boundingRectContent().right()-100, boundingRectContent().center().y(), QString::number(end));
 
 
     contentPainter.end();
@@ -296,10 +302,6 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     // -------------------------
     // Draw Track Content
     // -------------------------
-
-    // Update content boundaries
-    mContentBoundaries = QRect(30,0,boundingRect().width()-30,boundingRect().height());
-
     // We let the track redraw its content only if needed (paintRegionMethod draw in cache : mContentCache)
     this->paintRegion(painter, chromosom(), start(), end());
 
@@ -325,6 +327,7 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     QColor inactiveColor = base.darker(120);// inactiveColor.setAlpha(200);
 
     painter->setBrush(base);
+    painter->setPen(Qt::black);
     painter->drawRect(toolbarRect);
     qApp->style()->drawPrimitive(QStyle::PE_PanelMenu, &op,painter);
 
@@ -354,8 +357,20 @@ void AbstractTrack::updateCursor(int posX,quint64 posB, int baseX, int baseW)
 
 void AbstractTrack::paintCursorLayer(QPainter * painter)
 {
-    painter->setPen(QColor(0,0,0,200));
-    painter->drawLine(mTrackList->sharedCursorX(),0, mTrackList->sharedCursorX(), mContentBoundaries.height());
+    QColor baseColor = qApp->style()->standardPalette().highlight().color();
+    painter->setPen(baseColor);
+
+    if (mTrackList->sharedCursorBaseW() > 2)
+    {
+        QColor bg = baseColor.lighter(150);
+        bg.setAlpha(100);
+        painter->setBrush(bg);
+        painter->drawRect(mTrackList->sharedCursorBaseX(), 0, mTrackList->sharedCursorBaseW(), boundingRectContent().height());
+    }
+    else
+    {
+        painter->drawLine(mTrackList->sharedCursorPosX(), 0, mTrackList->sharedCursorPosX(), boundingRectContent().height());
+    }
 }
 
 
@@ -422,6 +437,7 @@ void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
         setFlag(QGraphicsItem::ItemIsMovable,false);
         trackList()->switchSlotMode(false);
         setTrackSelected(false);
+        mCursorPosition =  event->pos().x();
     }
 
     // Set movable only if cursor select the toolbar
