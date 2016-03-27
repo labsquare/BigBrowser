@@ -85,7 +85,7 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     float b2pCoeff = width / distanceBase;
 
     // Calcul de la position en pixel de la première graudation
-    int firstDivPixelStart = startX + deltaFirstStart * b2pCoeff * -1;
+    int firstDivPixelStart = startX + deltaFirstStart * b2pCoeff * -1 + mTrackList->sharedCursorScrollDeltaX();
     // Calcul de la taille en pixel des divisions
     int divPixelSize = divisionBaseBestStep * b2pCoeff;
 
@@ -152,17 +152,17 @@ void RulerTrack::paintCursorLayer(QPainter * painter)
     QColor baseColor = qApp->style()->standardPalette().highlight().color();
     painter->setPen(baseColor);
 
-
+    int startCursor = mTrackList->sharedCursorBaseX() + mTrackList->sharedCursorScrollDeltaX();
     if (mTrackList->sharedCursorBaseW() > 2)
     {
         QColor bg = baseColor.lighter(150);
         bg.setAlpha(100);
         painter->setBrush(bg);
-        painter->drawRect(mTrackList->sharedCursorBaseX(), 18, mTrackList->sharedCursorBaseW(), 7);
+        painter->drawRect(startCursor, 18, mTrackList->sharedCursorBaseW(), 7);
     }
     else
     {
-        painter->drawLine(mTrackList->sharedCursorPosX(), 17, mTrackList->sharedCursorPosX(), boundingRectContent().height());
+        painter->drawLine(startCursor, 17, startCursor, boundingRectContent().height());
     }
 
 }

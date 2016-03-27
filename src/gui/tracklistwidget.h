@@ -63,7 +63,7 @@ public:
     const int sharedCursorBaseW() const;
     const int trackContentWidth() const;
     const int trackContentStartX() const;
-
+    const int sharedCursorScrollDeltaX() const;
 
 
 
@@ -127,6 +127,8 @@ private:
 
     //! The delta (in pixel) of the first base displayed (start).
     int mCursorBaseX;
+
+    int mCursorScrollDelta;
 
     // ----------------------------------------------------------
     // Track management

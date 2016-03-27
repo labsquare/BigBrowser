@@ -14,6 +14,7 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 
     // Todo @Sacha : maxValue for the end of the selection must be shared with the tracklist to "bound" the scrolling into tracks.
     mSelectionMax = 249250617;
+    mCursorScrollDelta = 0;
 }
 
 
@@ -68,6 +69,11 @@ const int TrackListWidget::trackContentStartX() const
 {
     return C_TRACK_HANDLE_PIXEL_WIDTH;
 }
+const int TrackListWidget::sharedCursorScrollDeltaX() const
+{
+    return mCursorScrollDelta;
+}
+
 
 
 
@@ -269,24 +275,24 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 
 void TrackListWidget::trackScroll(int deltaX)
 {
-    // Disable because implementation in progress
+    // Disable scroll (implementation in progress
     return;
 
+    //mCursorBaseX += deltaX;
+    mCursorScrollDelta -= deltaX;
+    qDebug() << "mCursorBaseX : " << mCursorBaseX << " mCursorPositionX : " << mCursorPositionX << " mCursorScrollDelta : " << mCursorScrollDelta << " deltaX : " << deltaX;
 
-    mCursorBaseX += deltaX;
-    mCursorPositionX += deltaX;
-    //qDebug() << "mCursorBaseX : " << mCursorBaseX << " mCursorPositionX : " << mCursorPositionX << " deltaX : " << deltaX;
 
     // recompute start & end according to the new mBasePositionX
-    quint64 newStart = mSelectionStart;
-    if (qAbs(mCursorBaseX) > mCursorBaseWidth)
+    quint64 newStart = start();
+    if (qAbs(mCursorScrollDelta) > mCursorBaseWidth)
     {
-        int step = mCursorBaseX / mCursorBaseWidth;
+        float delta = mCursorScrollDelta;
+        int step = delta / mCursorBaseWidth;
         newStart -= step;
-        mCursorBaseX += mCursorBaseX - (step * mCursorBaseWidth);
-        mCursorPositionX += mCursorPositionX - (step * mCursorBaseWidth);
+        mCursorScrollDelta = mCursorScrollDelta - (step * mCursorBaseWidth);
     }
-
+    /*
     if (deltaX < 0 && newStart > mSelectionStart)
     {
         newStart = 0;
@@ -295,14 +301,18 @@ void TrackListWidget::trackScroll(int deltaX)
     {
         newStart = mSelectionMax - mSelectionDistance;
     }
-
+*/
     quint64 newEnd = newStart + mSelectionDistance;
 
 
-    qDebug() << " -> Start " << mSelectionStart << " => " << newStart ;
+    //qDebug() << " -> Start : " << start() << " => " << newStart ;
 
-    setSelection(mChromosom, newStart, newEnd);
-    emit selectionValidated(mChromosom, newStart, newEnd);
+    if (newStart != start() && newEnd != end())
+    {
+        qDebug() << "SelectionChange : " << start() << " => " << newStart ;
+        setSelection(mChromosom, newStart, newEnd);
+        emit selectionValidated(mChromosom, newStart, newEnd);
+    }
 }
 
 
