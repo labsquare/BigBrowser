@@ -6,6 +6,7 @@ AsyncTrack::AsyncTrack(QGraphicsItem * parent )
     :AbstractTrack(parent)
 {
     mWatcher = new QFutureWatcher<QPixmap>(this);
+    connect(mWatcher,SIGNAL(finished()),this,SLOT(pixmapFinished()));
 
 
 }
@@ -39,7 +40,6 @@ void AsyncTrack::updateSelection()
     // Start thread
     mFuture = QtConcurrent::run(this, &AsyncTrack::createPixmap, chromosom(), start(), end());
     mWatcher->setFuture(mFuture);
-    connect(mWatcher,SIGNAL(finished()),this,SLOT(pixmapFinished()));
     update();
 
 
