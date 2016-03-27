@@ -103,7 +103,7 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     // ---------------------
     int pos = firstDivPixelStart;
     painter->setFont(QFont("Arial Sans", 6));
-    while (pos < width)
+    while (pos < boundingRect().width())
     {
         // Draw legend
         const QLocale & cLocale = QLocale::c();
