@@ -16,6 +16,12 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
     mSelectionMax = 249250617;
 }
 
+TrackListWidget::~TrackListWidget()
+{
+
+    qDeleteAll(mTracks);
+}
+
 
 QList<AbstractTrack *> TrackListWidget::tracks()
 {

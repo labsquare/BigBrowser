@@ -5,6 +5,7 @@ namespace gui {
 AsyncTrack::AsyncTrack(QGraphicsItem * parent )
     :AbstractTrack(parent)
 {
+    mCancelThread = false;
     mWatcher = new QFutureWatcher<QPixmap>(this);
     connect(mWatcher,SIGNAL(finished()),this,SLOT(pixmapFinished()));
 
@@ -13,7 +14,8 @@ AsyncTrack::AsyncTrack(QGraphicsItem * parent )
 
 AsyncTrack::~AsyncTrack()
 {
-    mWatcher->cancel();
+    qDebug()<<"delete track";
+    mCancelThread = true;
     delete mWatcher;
 }
 
@@ -37,10 +39,12 @@ void AsyncTrack::updateSelection()
 
     if (mFuture.isRunning())
         mFuture.cancel();
-    // Start thread
-    mFuture = QtConcurrent::run(this, &AsyncTrack::createPixmap, chromosom(), start(), end());
-    mWatcher->setFuture(mFuture);
-    update();
+    else {
+        // Start thread
+        mFuture = QtConcurrent::run(this, &AsyncTrack::createPixmap, chromosom(), start(), end());
+        mWatcher->setFuture(mFuture);
+        update();
+    }
 
 
 
@@ -53,6 +57,9 @@ QPixmap AsyncTrack::createPixmap(const QString &chromosom, quint64 start, quint6
     for ( double i = 0; i < 1000000000; ++i)
     {
         a = i * i / i * i + sqrt(40000);
+
+        if (mCancelThread)
+            return QPixmap();
 
     }
 

@@ -27,6 +27,7 @@ protected Q_SLOTS:
 private:
     QFutureWatcher<QPixmap> * mWatcher;
     QFuture<QPixmap> mFuture;
+    bool mCancelThread;
 };
 
 
