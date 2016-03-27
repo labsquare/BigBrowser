@@ -39,12 +39,12 @@ void AsyncTrack::updateSelection()
 
     if (mFuture.isRunning())
         mFuture.cancel();
-    else {
+
         // Start thread
         mFuture = QtConcurrent::run(this, &AsyncTrack::createPixmap, chromosom(), start(), end());
         mWatcher->setFuture(mFuture);
         update();
-    }
+
 
 
 
