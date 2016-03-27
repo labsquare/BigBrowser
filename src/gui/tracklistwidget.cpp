@@ -62,8 +62,7 @@ const int TrackListWidget::sharedCursorBaseW() const
 }
 const int TrackListWidget::trackContentWidth() const
 {
-    // Todo : 20 is for the scrollbar
-    return mScene->width() - C_TRACK_HANDLE_PIXEL_WIDTH - 20;
+    return mScene->width() - C_TRACK_HANDLE_PIXEL_WIDTH - (mHasScrollbar ? 20 : 0);
 }
 const int TrackListWidget::trackContentStartX() const
 {
@@ -182,7 +181,6 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
 
 void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
 {
-    //qDebug() << "start : " << start() << " mP2BCoeff : " << mP2BCoeff;
     // Update cursor data
     mCursorPositionX = cursorPosition.x();
     double delta = (mCursorPositionX - C_TRACK_HANDLE_PIXEL_WIDTH)/ mP2BCoeff; // need to convert in double for the "/" operator
@@ -200,9 +198,6 @@ void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
     {
         mCursorBaseX = mCursorPositionX;
     }
-
-    //qDebug() << "mCursorPositionX : " << mCursorPositionX << " mCursorPositionB : " << mCursorPositionB << " mCursorBaseX : " << mCursorBaseX << " mCursorBaseWidth : " << mCursorBaseWidth;
-
 
     // notify all tracks
     emit cursorChanged(mCursorPositionX, mCursorPositionB, mCursorBaseX, mCursorBaseWidth);
@@ -258,16 +253,16 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
         // qDebug() << "Update selection on track " << track->slotIndex() << " : " << mStart << " - " << mEnd;
         track->updateSelection();
     }
-
 }
 
 void TrackListWidget::resizeEvent(QResizeEvent *event)
 {
-    // If I do not put 2000 .. I Do not have the scrollbar !
-    mScene->setSceneRect(QRectF(0,0,event->size().width(),2000));
-    mP2BCoeff = (mSelectionDistance > 0) ? trackContentWidth() / mSelectionDistance : 0;
-    mCursorBaseWidth = qRound(mP2BCoeff);
+    // Compute the best height for the tracklist scene
+    int height = qMax(event->size().height(), tracksHeight());
+    mHasScrollbar = height > event->size().height();
+    mScene->setSceneRect(QRectF(0,0,event->size().width(), height));
 
+    //setSelection(chromosom(), start(), end());
     QGraphicsView::resizeEvent(event);
 }
 
