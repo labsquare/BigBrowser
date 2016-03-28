@@ -10,6 +10,7 @@
 #include <QGraphicsScene>
 #include "genom.h"
 #include "abstracttrack.h"
+#include "selection.h"
 
 namespace big {
 namespace gui {
@@ -70,12 +71,14 @@ public:
 
 public Q_SLOTS:
     void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    void setSelection(const Selection& selection);
     void updateTracksHeight();
 
 
 Q_SIGNALS:
 
     void selectionValidated(const QString& chromosom, quint64 start, quint64 end);
+    void selectionChanged(const Selection& selection);
 
     //! To notify tracks that the cursor position changed
     void cursorChanged(int posX, quint64 posB, int baseX, int baseW);

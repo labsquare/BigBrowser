@@ -10,6 +10,7 @@
 #include "chromosomwidget.h"
 #include "settingsdialog.h"
 #include "genom.h"
+#include "selectionrouter.h"
 
 namespace big {
 namespace gui {
@@ -41,6 +42,7 @@ private:
     ChromosomWidget * mchromosomWidget;
     TrackListWidget * mTrackListWidget;
     Genom * mGenom;
+    SelectionRouter * mRouter;
 
 
 };

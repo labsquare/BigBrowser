@@ -4,6 +4,7 @@
 #include <QSlider>
 #include <QFrame>
 #include "genom.h"
+#include "selection.h"
 namespace big {
 using namespace core;
 namespace gui {
@@ -17,9 +18,10 @@ public:
 
 public Q_SLOTS:
     void setSelection(const QString& chromosom, quint64 start, quint64 end);
-
+    void setSelection(const Selection& selection );
 Q_SIGNALS:
     void zoomChanged(int value);
+    void selectionChanged(const Selection& selection);
 
 protected Q_SLOTS:
     void sliderChanged();

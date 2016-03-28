@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mchromosomWidget = new ChromosomWidget();
     mTrackListWidget = new TrackListWidget();
     mGenom           = new Genom();
+    mRouter          = new SelectionRouter();
 
     setMenuBar(mMenuBar);
     addToolBar(mToolBar);
@@ -25,10 +26,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralSplitter->addWidget(mchromosomWidget);
     centralSplitter->addWidget(mTrackListWidget);
 
-    mTrackListWidget->addTrack(new RulerTrack());
-    mTrackListWidget->addTrack(new AsyncTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
+//    mTrackListWidget->addTrack(new RulerTrack());
+//    mTrackListWidget->addTrack(new AsyncTrack());
+//    mTrackListWidget->addTrack(new SequenceTrack());
+//    mTrackListWidget->addTrack(new SequenceTrack());
     //mTrackListWidget->addTrack(new SequenceTrack());
     //mTrackListWidget->addTrack(new SequenceTrack());
 
@@ -57,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // Connect signals and slots
     // ----------------------------------
 
+
+
+
     // The selection signal/slot system is composed of 2 signals
     //  - selectionChanged is raised by UI control who allow user to select a custom region
     //  - selectionValidated is raised by the Tracklist who is the only one able to know if the selected region is drawable by tracks
@@ -68,21 +72,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // 4) the mainwindows notify all other control with the validated selection
 
     // selectionChanged signal are raised by all UI control except the Tracklist
-    connect(mSearchBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
-            this,SLOT(setSelection(QString,quint64,quint64)));
-    connect(mchromosomWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
-            this,SLOT(setSelection(QString,quint64,quint64)));
+//    connect(mSearchBar,SIGNAL(selectionChanged(QString,quint64,quint64)),
+//            this,SLOT(setSelection(QString,quint64,quint64)));
+//    connect(mchromosomWidget,SIGNAL(selectionChanged(QString,quint64,quint64)),
+//            this,SLOT(setSelection(QString,quint64,quint64)));
 
-    // selectionValidated signal raised only by the tracklist
-    connect(mTrackListWidget,SIGNAL(selectionValidated(QString,quint64,quint64)),
-            this,SLOT(selectionValidated(QString,quint64,quint64)));
-
-
+//    // selectionValidated signal raised only by the tracklist
+//    connect(mTrackListWidget,SIGNAL(selectionValidated(QString,quint64,quint64)),
+//            this,SLOT(selectionValidated(QString,quint64,quint64)));
 
 
-    connect(mStatusBar,SIGNAL(zoomChanged(int)),mchromosomWidget,SLOT(setZoom(int)));
 
-    connect(mSearchBar,SIGNAL(genomChanged(QString)),this,SLOT(setGenom(QString)));
+
+//    connect(mStatusBar,SIGNAL(zoomChanged(int)),mchromosomWidget,SLOT(setZoom(int)));
+
+//    connect(mSearchBar,SIGNAL(genomChanged(QString)),this,SLOT(setGenom(QString)));
 
 
     // Load a genom if not exists
@@ -90,6 +94,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         setGenom(App::i()->avaibleGenoms().first());
 
 
+
+    mRouter->addObject(mSearchBar);
+    mRouter->addObject(mchromosomWidget);
+    mRouter->addObject(mTrackListWidget);
 
 }
 

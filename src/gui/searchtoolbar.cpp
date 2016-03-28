@@ -49,6 +49,15 @@ void SearchToolBar::setSelection(const QString &chromosom, quint64 start, quint6
     mLocationEdit->setText(region.toString());
 }
 
+void SearchToolBar::setSelection(const Selection &selection)
+{
+    Region region(selection.chromosom(),
+                  selection.start(),
+                  selection.end());
+
+    mLocationEdit->setText(region.toString());
+}
+
 void SearchToolBar::loadAvaibleGenom()
 {
     mGenomComboBox->clear();

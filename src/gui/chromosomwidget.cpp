@@ -75,7 +75,14 @@ void ChromosomWidget::updateChromosom()
 
 void ChromosomWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
 {
-    selector()->setRegion(chromosom,start,end);
+
+}
+
+void ChromosomWidget::setSelection(const Selection &selection)
+{
+    selector()->setRegion(selection.chromosom(),
+                          selection.start(),
+                          selection.end());
     updateChromosom();
 }
 
@@ -570,6 +577,10 @@ void ChromosomWidget::updateFrame(QRect newFrame, bool updateSelector)
         selector()->setStart(pixelToBase(mFrame.x()));
         selector()->setEnd(pixelToBase(mFrame.x()+mFrame.width()));
         emit selectionChanged(selector()->chromosom(),selector()->start(),selector()->end());
+
+        emit selectionChanged(Selection(selector()->chromosom(),selector()->start(),selector()->end()));
+
+
     }
 }
 

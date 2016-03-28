@@ -67,4 +67,17 @@ void StatusBar::setSelection(const QString &chromosom, quint64 start, quint64 en
     }
 }
 
+void StatusBar::setSelection(const Selection &selection)
+{
+    mCurrentRegion = Region(selection.chromosom(),
+                            selection.start(),
+                            selection.end());
+    if (mGenom)
+    {
+        quint64 max = mGenom->chromosomLength(selection.chromosom());
+        mSlider->setRange(0,max);
+        mSlider->setValue(selection.end()-selection.start());
+    }
+}
+
 }}
