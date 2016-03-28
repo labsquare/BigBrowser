@@ -115,6 +115,10 @@ void TrackListWidget::addTrack(AbstractTrack *track)
     track->setPos(0, xPos);
     track->setTop(xPos);
 
+
+    connect(this,SIGNAL(cursorChanged(int, quint64, int, int)),
+            track,SLOT(updateCursor(int, quint64, int, int)));
+
 }
 
 void TrackListWidget::setGenom(Genom *genom)
