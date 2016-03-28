@@ -731,12 +731,12 @@ void ChromosomWidget::mouseReleaseEvent(QMouseEvent *)
         if (mCursorMode == resizeL)
         {
             selector()->setStart(pixelToBase(mFrameGhost.left()));
-            updateFrame(mFrameGhost, false);
+            updateFrame(mFrameGhost);
         }
         else if (mCursorMode == resizeR)
         {
             selector()->setEnd(pixelToBase(mFrameGhost.right()));
-            updateFrame(mFrameGhost, false);
+            updateFrame(mFrameGhost);
         }
         else
         {
