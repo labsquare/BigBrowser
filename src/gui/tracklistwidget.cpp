@@ -231,46 +231,6 @@ void TrackListWidget::updateTracksHeight()
 }
 
 
-void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
-{
-    mChromosom = chromosom;
-    mSelectionStart = qMin(start, end);
-    mSelectionEnd = qMax(start, end);
-    mSelectionDistance = mSelectionEnd - mSelectionStart;
-    float width = trackContentWidth(); // need to cast in float for precisions (see below)
-
-    if (mSelectionDistance > 0)
-    {
-        // Ok, seems ok to use this distance
-        mP2BCoeff = width / mSelectionDistance;
-    }
-    else
-    {
-        // To force the calculation of the distance according to the max zoom level,
-        mP2BCoeff = C_BASE_MAX_PIXEL_WIDTH + 1;
-    }
-
-    // Check max zoom constraint : at max zoom level, base are drawn on C_MAX_BASE_PIXEL_WIDTH pixels
-    if (mP2BCoeff > C_BASE_MAX_PIXEL_WIDTH)
-    {
-        mP2BCoeff = C_BASE_MAX_PIXEL_WIDTH;
-        mSelectionDistance = width / mP2BCoeff;
-        mSelectionEnd = mSelectionStart + mSelectionDistance;
-
-    }
-    mCursorBaseX = 0;
-    mCursorBaseWidth = qRound(mP2BCoeff);
-
-    // Need to notify all with the validated selection
-    emit selectionValidated(chromosom, mSelectionStart, mSelectionEnd);
-
-    foreach ( AbstractTrack * track, mTracks)
-    {
-        // qDebug() << "Update selection on track " << track->slotIndex() << " : " << mStart << " - " << mEnd;
-        track->updateSelection();
-    }
-}
-
 void TrackListWidget::setSelection(const Selection &selection)
 {
     mChromosom = selection.chromosom();
@@ -302,7 +262,7 @@ void TrackListWidget::setSelection(const Selection &selection)
     mCursorBaseWidth = qRound(mP2BCoeff);
 
     // Need to notify all with the validated selection
-    emit selectionValidated(mChromosom, mSelectionStart, mSelectionEnd);
+//    emit selectionValidated(mChromosom, mSelectionStart, mSelectionEnd);
 
     foreach ( AbstractTrack * track, mTracks)
     {
@@ -360,8 +320,8 @@ void TrackListWidget::trackScroll(int deltaX)
     if (newStart != start() && newEnd != end())
     {
         qDebug() << "SelectionChange : " << start() << " => " << newStart ;
-        setSelection(mChromosom, newStart, newEnd);
-        emit selectionValidated(mChromosom, newStart, newEnd);
+//        setSelection(mChromosom, newStart, newEnd);
+//        emit selectionValidated(mChromosom, newStart, newEnd);
     }
 }
 

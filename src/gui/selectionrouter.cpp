@@ -6,19 +6,23 @@ SelectionRouter::SelectionRouter(QObject *parent) : QObject(parent)
 
 }
 
+SelectionRouter::~SelectionRouter()
+{
+    qDeleteAll(mObjects);
+}
+
+
 void SelectionRouter::addObject(QObject *obj)
 {
     mObjects.append(obj);
     connect(obj,  SIGNAL(selectionChanged(Selection)),
             this, SLOT(setSelection(Selection)));
-
 }
 
 
 
 void SelectionRouter::setSelection(const Selection &selection)
 {
-    qDebug()<<Q_FUNC_INFO<<"set selection ";
 
     foreach ( QObject * obj , mObjects)
     {

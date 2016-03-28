@@ -31,16 +31,14 @@ public:
     Genom * genom();
     void setGenom(Genom * genom);
 
-    Region *selector();
+    Selection& selector();
 
 
 public Q_SLOTS:
-    void setSelection(const QString& chromosom, quint64 start, quint64 end);
     void setSelection(const Selection& selection);
     void setZoom(int factor);
 
 Q_SIGNALS:
-    void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
     void selectionChanged(const Selection& selection);
 
 protected Q_SLOTS:
@@ -107,7 +105,7 @@ private:
     RegionList mChromosomRegions;
 
     //! The selected region of the genom
-    Region * mSelector;
+    Selection mSelector;
 
 
     // ----------------------------------------------------------

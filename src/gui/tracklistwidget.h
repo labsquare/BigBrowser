@@ -70,14 +70,11 @@ public:
 
 
 public Q_SLOTS:
-    void setSelection(const QString& chromosom, quint64 start, quint64 end);
     void setSelection(const Selection& selection);
     void updateTracksHeight();
 
 
 Q_SIGNALS:
-
-    void selectionValidated(const QString& chromosom, quint64 start, quint64 end);
     void selectionChanged(const Selection& selection);
 
     //! To notify tracks that the cursor position changed

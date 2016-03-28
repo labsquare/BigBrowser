@@ -13,11 +13,23 @@ class SelectionRouter : public QObject
     Q_OBJECT
 public:
     explicit SelectionRouter(QObject *parent = 0);
+    ~SelectionRouter();
+    /*!
+     * \brief addObject
+     * append object with signals and slots :
+     *  > setSelection(Selection&)
+     *  > selectionChanged(Selection&)
+     * \param obj
+     */
     void addObject(QObject * obj);
 
-Q_SIGNALS:
 
-protected Q_SLOTS:
+public Q_SLOTS:
+    /*!
+ * \brief setSelection
+ * call setSelection for all objects, except from the sender
+ * \param selection
+ */
 void setSelection(const Selection& selection);
 
 

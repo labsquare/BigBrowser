@@ -42,13 +42,13 @@ void StatusBar::sliderChanged()
     // WARNING
     ///TODO warning.. conversion int to quint64
     ///
-//    quint64 value= mSlider->value();
+    //    quint64 value= mSlider->value();
 
-//    mCurrentRegion*=1000;
+    //    mCurrentRegion*=1000;
 
-//    emit selectionChanged(mCurrentRegion.chromosom(),
-//                          mCurrentRegion.start(),
-//                          mCurrentRegion.end());
+    //    emit selectionChanged(mCurrentRegion.chromosom(),
+    //                          mCurrentRegion.start(),
+    //                          mCurrentRegion.end());
 
 
 
@@ -56,22 +56,9 @@ void StatusBar::sliderChanged()
 
 }
 
-void StatusBar::setSelection(const QString &chromosom, quint64 start, quint64 end)
-{
-    mCurrentRegion = Region(chromosom,start,end);
-    if (mGenom)
-    {
-        quint64 max = mGenom->chromosomLength(chromosom);
-        mSlider->setRange(0,max);
-        mSlider->setValue(end-start);
-    }
-}
-
 void StatusBar::setSelection(const Selection &selection)
 {
-    mCurrentRegion = Region(selection.chromosom(),
-                            selection.start(),
-                            selection.end());
+    mCurrentRegion = selection;
     if (mGenom)
     {
         quint64 max = mGenom->chromosomLength(selection.chromosom());

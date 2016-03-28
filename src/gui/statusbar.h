@@ -17,7 +17,6 @@ public:
 
 
 public Q_SLOTS:
-    void setSelection(const QString& chromosom, quint64 start, quint64 end);
     void setSelection(const Selection& selection );
 Q_SIGNALS:
     void zoomChanged(int value);
@@ -30,7 +29,7 @@ protected Q_SLOTS:
 private:
     QSlider * mSlider;
     Genom   * mGenom;
-    Region mCurrentRegion;
+    Selection mCurrentRegion;
 
 
 };

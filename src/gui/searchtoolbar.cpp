@@ -43,11 +43,6 @@ void SearchToolBar::setGenom(Genom *genom)
     }
 }
 
-void SearchToolBar::setSelection(const QString &chromosom, quint64 start, quint64 end)
-{
-    Region region(chromosom,start, end);
-    mLocationEdit->setText(region.toString());
-}
 
 void SearchToolBar::setSelection(const Selection &selection)
 {
@@ -83,13 +78,14 @@ void SearchToolBar::createActions()
 
 void SearchToolBar::locationEditChanged()
 {
-    Region region(mLocationEdit->text());
+    Selection region;
+    region.setRegion(mLocationEdit->text());
     mChromosomComboBox->setCurrentText(region.chromosom());
-    emit selectionChanged(region.chromosom(),region.start(),region.end());
+    emit selectionChanged(region);
 }
 
 void SearchToolBar::chromosomChanged()
 {
-    emit selectionChanged(mChromosomComboBox->currentText(),0,0);
+    emit selectionChanged(Selection(mChromosomComboBox->currentText(),0,0));
 }
 }}
