@@ -12,72 +12,73 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 
     setBackgroundBrush(QColor(220,220,220));
 
-    // Todo @Sacha : maxValue for the end of the selection must be shared with the tracklist to "bound" the scrolling into tracks.
-    mSelectionMax = 249250617;
-    mCursorScrollDelta = 0;
+    mSelectionBaseMax = 0;
+    mSelectionScroll = 0;
+    mSelectionP2B = C_BASE_MAX_PIXEL_WIDTH;
 }
 
 TrackListWidget::~TrackListWidget()
 {
-
     qDeleteAll(mTracks);
 }
+
+
+
 
 
 QList<AbstractTrack *> TrackListWidget::tracks()
 {
     return mTracks;
 }
-
-
 const QString &TrackListWidget::chromosom() const
 {
     return mChromosom;
 }
-
-quint64 TrackListWidget::start() const
+const quint64 TrackListWidget::start() const
 {
-    return mSelectionStart;
+    return mSelectionStartB;
 }
-
-quint64 TrackListWidget::end() const
+const quint64 TrackListWidget::end() const
 {
-    return mSelectionEnd;
-}
-
-void TrackListWidget::setSelectionMax(quint64 max)
-{
-    mSelectionMax = max;
+    return mSelectionEndB;
 }
 
 
 const int TrackListWidget::sharedCursorPosX() const
 {
-    return mCursorPositionX;
+    return mSharedCursorPosX;
 }
 const quint64 TrackListWidget::sharedCursorPosB() const
 {
-    return mCursorPositionB;
+    return mSharedCursorPosB;
 }
 const int TrackListWidget::sharedCursorBaseX() const
 {
-    return mCursorBaseX;
+    return mSharedCursorBaseX;
 }
 const int TrackListWidget::sharedCursorBaseW() const
 {
-    return mCursorBaseWidth;
+    return mSharedCursorBaseW;
 }
-const int TrackListWidget::trackContentWidth() const
+const int TrackListWidget::selectionW() const
 {
-    return mScene->width() - C_TRACK_HANDLE_PIXEL_WIDTH - (mHasScrollbar ? 20 : 0);
+    return mSelectionW;
+}
+const quint64 TrackListWidget::selectionD() const
+{
+    return mSelectionD;
+}
+const double TrackListWidget::selectionScroll() const
+{
+    return mSelectionScroll;
 }
 const int TrackListWidget::trackContentStartX() const
 {
     return C_TRACK_HANDLE_PIXEL_WIDTH;
 }
-const int TrackListWidget::sharedCursorScrollDeltaX() const
+void TrackListWidget::setGenom(Genom *genom)
 {
-    return mCursorScrollDelta;
+    mGenom = genom;
 }
 
 
@@ -88,7 +89,7 @@ const int TrackListWidget::sharedCursorScrollDeltaX() const
 
 
 
-int TrackListWidget::tracksHeight() const
+const int TrackListWidget::tracksHeight() const
 {
     int total = 0;
     foreach (AbstractTrack * track, mTracks)
@@ -97,12 +98,6 @@ int TrackListWidget::tracksHeight() const
     }
     return total;
 }
-
-
-
-
-
-
 
 void TrackListWidget::addTrack(AbstractTrack *track)
 {
@@ -114,14 +109,24 @@ void TrackListWidget::addTrack(AbstractTrack *track)
     int xPos = tracksHeight() - track->height();
     track->setPos(0, xPos);
     track->setTop(xPos);
-
 }
-
-void TrackListWidget::setGenom(Genom *genom)
+void TrackListWidget::updateTracksHeight()
 {
-    mGenom = genom;
+    int pos = 0;
+    foreach ( AbstractTrack * track, mTracks)
+    {
+        track->updateSlotTop(pos);
+        pos += track->height();
+    }
 }
 
+
+
+
+
+// ----------------------------------------------------------
+// Slot Mode management : reordering tracks by drag&drop
+// ----------------------------------------------------------
 
 void TrackListWidget::switchSlotMode(bool slotModeON)
 {
@@ -191,74 +196,65 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
 }
 
 
+
+
+
+
+
+// ----------------------------------------------------------
+// Tracks shared behavior : SharedCursor, Selection updates,
+// and scrolling
+// ----------------------------------------------------------
+
 void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
 {
     // Update cursor data
-    mCursorPositionX = cursorPosition.x();
-    double delta = (mCursorPositionX - C_TRACK_HANDLE_PIXEL_WIDTH)/ mP2BCoeff; // need to convert in double for the "/" operator
-    mCursorPositionB = start() +  delta;
-    mCursorBaseWidth = qFloor(mP2BCoeff);
-
-    // When zoom level is great (when we can see bases) to avoid display error due to rounded value
-    // we recompute the CursorBaseX position according to the mCursorBaseWidth
-    if (mCursorBaseWidth > 1)
-    {
-        quint64 deltaB = mCursorPositionB - start();
-        mCursorBaseX = deltaB * mCursorBaseWidth + C_TRACK_HANDLE_PIXEL_WIDTH;
-    }
-    else
-    {
-        mCursorBaseX = mCursorPositionX;
-    }
+    mSharedCursorPosX = cursorPosition.x() - C_TRACK_HANDLE_PIXEL_WIDTH;
+    mSharedCursorPosB = pixelFrame2Base(mSharedCursorPosX);
+    mSharedCursorBaseX = base2PixelFrame(mSharedCursorPosB);
 
     // notify all tracks
-    emit cursorChanged(mCursorPositionX, mCursorPositionB, mCursorBaseX, mCursorBaseWidth);
+    emit cursorChanged(mSharedCursorPosX, mSharedCursorPosB, mSharedCursorBaseX, mSharedCursorBaseW);
 }
 
 
-void TrackListWidget::updateTracksHeight()
-{
-    int pos = 0;
-    foreach ( AbstractTrack * track, mTracks)
-    {
-        track->updateSlotTop(pos);
-        pos += track->height();
-    }
-}
 
 
 void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
 {
     mChromosom = chromosom;
-    mSelectionStart = qMin(start, end);
-    mSelectionEnd = qMax(start, end);
-    mSelectionDistance = mSelectionEnd - mSelectionStart;
-    float width = trackContentWidth(); // need to cast in float for precisions (see below)
+    mSelectionBaseMax = 249250710; //mGenom->chromosomLength(chromosom);
+    mSelectionStartB = qMin(start, end);
+    mSelectionEndB = qMax(start, end);
+    mSelectionD = mSelectionEndB - mSelectionStartB;
+    qDebug() << "setSelection start : " << start << " end : " << end;
 
-    if (mSelectionDistance > 0)
+    if (mSelectionD > 0)
     {
         // Ok, seems ok to use this distance
-        mP2BCoeff = width / mSelectionDistance;
+        mSelectionP2B = mSelectionW / mSelectionD;
     }
     else
     {
         // To force the calculation of the distance according to the max zoom level,
-        mP2BCoeff = C_BASE_MAX_PIXEL_WIDTH + 1;
+        mSelectionP2B = C_BASE_MAX_PIXEL_WIDTH + 1;
     }
 
     // Check max zoom constraint : at max zoom level, base are drawn on C_MAX_BASE_PIXEL_WIDTH pixels
-    if (mP2BCoeff > C_BASE_MAX_PIXEL_WIDTH)
+    if (mSelectionP2B > C_BASE_MAX_PIXEL_WIDTH)
     {
-        mP2BCoeff = C_BASE_MAX_PIXEL_WIDTH;
-        mSelectionDistance = width / mP2BCoeff;
-        mSelectionEnd = mSelectionStart + mSelectionDistance;
+        mSelectionP2B = C_BASE_MAX_PIXEL_WIDTH;
+        mSelectionD = mSelectionW / mSelectionP2B;
+        mSelectionEndB = mSelectionStartB + mSelectionD;
 
     }
-    mCursorBaseX = 0;
-    mCursorBaseWidth = qRound(mP2BCoeff);
+    //mSharedCursorBaseX = 0;
+    mSelectionScroll = base2Coeff(mSelectionStartB);
+    qDebug() << "mSelectionScroll : " << mSelectionScroll << " mSelectionStartB : " << mSelectionStartB;
+    mSharedCursorBaseW = qRound(mSelectionP2B);
 
     // Need to notify all with the validated selection
-    emit selectionValidated(chromosom, mSelectionStart, mSelectionEnd);
+    emit selectionValidated(chromosom, mSelectionStartB, mSelectionEndB);
 
     foreach ( AbstractTrack * track, mTracks)
     {
@@ -274,51 +270,76 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
     mHasScrollbar = height > event->size().height();
     mScene->setSceneRect(QRectF(0,0,event->size().width(), height));
 
-    //setSelection(chromosom(), start(), end());
+    // Update track content width
+    mSelectionW = mScene->width() - C_TRACK_HANDLE_PIXEL_WIDTH - (mHasScrollbar ? 20 : 0);
+
+    // Need to redraw all
+    setSelection(chromosom(), start(), end());
     QGraphicsView::resizeEvent(event);
 }
 
 
 void TrackListWidget::trackScroll(int deltaX)
 {
-    // Disable scroll (implementation in progress
-    return;
+    // scroll by adding delta to the current scroll coeff
+    mSelectionScroll += deltaX / (mSelectionBaseMax * mSelectionP2B);
 
-    //mCursorBaseX += deltaX;
-    mCursorScrollDelta -= deltaX;
-    qDebug() << "mCursorBaseX : " << mCursorBaseX << " mCursorPositionX : " << mCursorPositionX << " mCursorScrollDelta : " << mCursorScrollDelta << " deltaX : " << deltaX;
+    // check min/max
+    mSelectionScroll = qMax(mSelectionScroll, 0.0);
+    mSelectionScroll = qMin(mSelectionScroll, base2Coeff(mSelectionBaseMax - mSelectionD));
 
+    // update SelectionStart
+    quint64 newSelectionStartB = mSelectionScroll * mSelectionBaseMax;
 
-    // recompute start & end according to the new mBasePositionX
-    quint64 newStart = start();
-    if (qAbs(mCursorScrollDelta) > mCursorBaseWidth)
+    // compute new pixel position of the SelectionStart
+    mSelectionStartX = base2PixelFrame(newSelectionStartB);
+
+    // notify that selection changed if needed
+    if (newSelectionStartB != start())
     {
-        float delta = mCursorScrollDelta;
-        int step = delta / mCursorBaseWidth;
-        newStart -= step;
-        mCursorScrollDelta = mCursorScrollDelta - (step * mCursorBaseWidth);
+        mSelectionStartB = newSelectionStartB;
+        mSelectionEndB = newSelectionStartB + mSelectionD;
+
+        emit selectionValidated(mChromosom, mSelectionStartB, mSelectionEndB);
+        foreach ( AbstractTrack * track, mTracks)
+        {
+            track->updateSelection();
+        }
     }
-    /*
-    if (deltaX < 0 && newStart > mSelectionStart)
-    {
-        newStart = 0;
-    }
-    else if (deltaX > 0 && newStart + mSelectionDistance > mSelectionMax)
-    {
-        newStart = mSelectionMax - mSelectionDistance;
-    }
-*/
-    quint64 newEnd = newStart + mSelectionDistance;
+}
 
 
-    //qDebug() << " -> Start : " << start() << " => " << newStart ;
 
-    if (newStart != start() && newEnd != end())
+
+const double TrackListWidget::base2Coeff(quint64 base) const
+{
+    if (mSelectionBaseMax == 0)
     {
-        qDebug() << "SelectionChange : " << start() << " => " << newStart ;
-        setSelection(mChromosom, newStart, newEnd);
-        emit selectionValidated(mChromosom, newStart, newEnd);
+        return 0;
     }
+    return ((double)base) / mSelectionBaseMax;
+}
+
+const double TrackListWidget::pixelFrame2Coeff(int pixel) const
+{
+    if (mSelectionBaseMax == 0)
+    {
+        return 0;
+    }
+
+    double globalPixelSize = mSelectionBaseMax * mSelectionP2B;
+    double frameDelta = ((double)pixel) / globalPixelSize;
+    return mSelectionScroll + frameDelta;
+}
+
+const quint64 TrackListWidget::pixelFrame2Base(int pixel) const
+{
+    return pixelFrame2Coeff(pixel) * mSelectionBaseMax;
+}
+
+const int TrackListWidget::base2PixelFrame(quint64 base) const
+{
+    return (base2Coeff(base) - mSelectionScroll) * mSelectionBaseMax * mSelectionP2B;
 }
 
 

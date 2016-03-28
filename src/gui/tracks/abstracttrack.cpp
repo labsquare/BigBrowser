@@ -202,7 +202,7 @@ QRectF AbstractTrack::boundingRectContent() const
 {
     QRectF b = boundingRect();
     b.setLeft(mTrackList->C_TRACK_HANDLE_PIXEL_WIDTH);
-    b.setWidth(mTrackList->trackContentWidth());
+    b.setWidth(mTrackList->selectionW());
     return b;
 }
 
@@ -361,7 +361,7 @@ void AbstractTrack::paintCursorLayer(QPainter * painter)
     painter->setPen(baseColor);
 
 
-    int startCursor = mTrackList->sharedCursorBaseX() + mTrackList->sharedCursorScrollDeltaX();
+    int startCursor = mTrackList->sharedCursorBaseX() + mTrackList->trackContentStartX();
     if (mTrackList->sharedCursorBaseW() > 2)
     {
         QColor bg = baseColor.lighter(150);
