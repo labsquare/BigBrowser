@@ -38,6 +38,25 @@ public:
     int height() const;
 
     /*!
+     * \brief height
+     * \return track's width
+     */
+    int width() const;
+
+    /*!
+     * \brief contentHeight
+     * \return track's content Height
+     */
+    int contentHeight() const;
+
+    /*!
+     * \brief contentWidth
+     * \return track content width
+     */
+    int contentWidth() const;
+
+
+    /*!
      * \brief setHeight
      * set Track Height
      * \param h

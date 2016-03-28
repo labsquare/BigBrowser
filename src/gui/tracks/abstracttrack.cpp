@@ -58,12 +58,11 @@ AbstractTrack::~AbstractTrack()
 void AbstractTrack::setTrackList(TrackListWidget *parent)
 {
     // @IDK : If mTrackList != null, need to unconnect
-    disconnect(this, 0, 0, 0);
+    // @ikit : move connexion to tracklist
 
     mTrackList = parent;
 
-    connect(mTrackList,SIGNAL(cursorChanged(int, quint64, int, int)),
-            this,SLOT(updateCursor(int, quint64, int, int)));
+
 }
 
 TrackListWidget *AbstractTrack::trackList() const
@@ -74,6 +73,21 @@ TrackListWidget *AbstractTrack::trackList() const
 int AbstractTrack::height() const
 {
     return mHeight;
+}
+
+int AbstractTrack::width() const
+{
+    return boundingRect().width();
+}
+
+int AbstractTrack::contentHeight() const
+{
+    return boundingRectContent().height();
+}
+
+int AbstractTrack::contentWidth() const
+{
+    return boundingRectContent().height();
 }
 
 void AbstractTrack::setHeight(int h)

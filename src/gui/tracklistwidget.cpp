@@ -109,6 +109,12 @@ void TrackListWidget::addTrack(AbstractTrack *track)
     int xPos = tracksHeight() - track->height();
     track->setPos(0, xPos);
     track->setTop(xPos);
+
+
+
+    connect(this,SIGNAL(cursorChanged(int, quint64, int, int)),
+            track,SLOT(updateCursor(int, quint64, int, int)));
+
 }
 void TrackListWidget::updateTracksHeight()
 {
@@ -227,7 +233,6 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     mSelectionStartB = qMin(start, end);
     mSelectionEndB = qMax(start, end);
     mSelectionD = mSelectionEndB - mSelectionStartB;
-    qDebug() << "setSelection start : " << start << " end : " << end;
 
     if (mSelectionD > 0)
     {
@@ -250,7 +255,6 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     }
     //mSharedCursorBaseX = 0;
     mSelectionScroll = base2Coeff(mSelectionStartB);
-    qDebug() << "mSelectionScroll : " << mSelectionScroll << " mSelectionStartB : " << mSelectionStartB;
     mSharedCursorBaseW = qRound(mSelectionP2B);
 
     // Need to notify all with the validated selection
@@ -258,7 +262,6 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
 
     foreach ( AbstractTrack * track, mTracks)
     {
-        // qDebug() << "Update selection on track " << track->slotIndex() << " : " << mStart << " - " << mEnd;
         track->updateSelection();
     }
 }
