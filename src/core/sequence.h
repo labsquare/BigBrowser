@@ -50,7 +50,7 @@ namespace big {
 	    const QByteArray& byteArray() const;
 	    QString toString() const;
 
-
+	    Sequence subSequence(int position, int n=-1) const;
 
 	private:
 	    // do not use pointer. Not virtual destructor

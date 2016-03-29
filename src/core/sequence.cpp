@@ -172,6 +172,11 @@ namespace big {
 	    return QString(mArray);
 	}
 
+	Sequence Sequence::subSequence(int position, int n) const
+	{
+	    return Sequence(this->mArray.mid(position, n), this->mStrand, this->mType);
+	}
+	
     } // end of namespace core
 } // end of namespace big
 
