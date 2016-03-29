@@ -32,7 +32,6 @@ namespace big {
 	    Sequence transcribe() const;
 	    Sequence reverse() const;
 
-
 	    QString name() const;
 	    void setName(const QString &name);
 
@@ -51,6 +50,8 @@ namespace big {
 	    QString toString() const;
 
 	    Sequence subSequence(int position, int n=-1) const;
+
+	    float gcPercent() const;
 
 	private:
 	    // do not use pointer. Not virtual destructor

@@ -19,8 +19,8 @@ public:
 
     static NucleotidAlphabet * i();
 
-
-
+    static bool isGorC(char nuc);
+    static bool isGorC(QChar nuc);
 
 private:
 

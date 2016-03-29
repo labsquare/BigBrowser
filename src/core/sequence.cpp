@@ -176,6 +176,18 @@ namespace big {
 	{
 	    return Sequence(this->mArray.mid(position, n), this->mStrand, this->mType);
 	}
+
+	float Sequence::gcPercent() const
+	{
+	    float gc = 0;
+	    for(auto it = this->mArray.begin(); it != this->mArray.end(); it++)
+	    {
+		if(NucleotidAlphabet::isGorC(*it))
+		    gc++;
+	    }
+
+	    return gc/this->mArray.length();
+	}
 	
     } // end of namespace core
 } // end of namespace big

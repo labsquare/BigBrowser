@@ -24,6 +24,16 @@ unsigned char NucleotidAlphabet::complement(unsigned char iupac)
     return i()->mTables.at(iupac);
 }
 
+bool NucleotidAlphabet::isGorC(char nuc)
+{
+    return nuc == 'G' || nuc == 'C' || nuc == 'c' || nuc == 'g';
+}
+
+bool NucleotidAlphabet::isGorC(QChar nuc)
+{
+    return NucleotidAlphabet::isGorC(nuc.row());
+}
+
 NucleotidAlphabet *NucleotidAlphabet::i()
 {
     // use QMutex to protected thread
