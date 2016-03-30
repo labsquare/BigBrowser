@@ -15,10 +15,6 @@ namespace gui {
 
 using namespace core;
 
-
-
-
-
 class ChromosomWidget : public QWidget
 {
     Q_OBJECT
@@ -26,21 +22,38 @@ public:
     ChromosomWidget(QWidget * parent = 0);
     ~ChromosomWidget();
 
-
+    /*!
+     * \brief genom
+     * \return genom pointer
+     */
     Genom * genom();
+    /*!
+     * \brief setGenom
+     * \param genom pointer
+     */
     void setGenom(Genom * genom);
 
-
-
 public Q_SLOTS:
-    void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    /*!
+     * \brief setSelection
+     * Mandatory slot methods working with selectionRouter
+     * \param region
+     */
     void setSelection(const Region& region);
-    void setZoom(int factor);
 
 Q_SIGNALS:
-    void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+    /*!
+     * \brief selectionChanged
+     * Mandatory signals methods working with selectionRouter
+     * \param region
+     */
     void selectionChanged(const Region& region);
+
 protected Q_SLOTS:
+    /*!
+     * \brief updateChromosom
+     * repaint the chromosom from actual state
+     */
     void updateChromosom();
 
 protected:
@@ -70,12 +83,10 @@ protected:
     // Helper
     // ----------------------------------------------------------
     inline quint64 pixelToBase(int pixel) {return (pixel-mOffsetX) / mP2BCoeff;}
-    inline int baseToPixel(quint64 base) {return base * mP2BCoeff + mOffsetX;}
+    inline int baseToPixel(quint64 base)  {return base * mP2BCoeff + mOffsetX;}
     Region getRegionAtPixel(int pixelPos);
     void initStainColorFromRegions();
     void updateFrame(QRect newFrame, bool updateSelector=true);
-
-
 
 private:
 

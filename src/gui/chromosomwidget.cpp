@@ -6,24 +6,18 @@
 namespace big {
 namespace gui {
 
-
-
 ChromosomWidget::ChromosomWidget( QWidget * parent)
-    :QWidget(parent), mGenom(0)
+    :QWidget(parent),
+      mGenom(0),
+      mCursorMode(cutter),
+      mCursorActive(false),
+      mCursorBasePosition(0),
+      mOffsetX(30),
+      mOffsetY(30),
+      mChromosomHeight(30),
+      mChromosomWidth(0),
+      mP2BCoeff(0)
 {
-    // Define chromosome offset (canvas inner margin)
-    mOffsetX         = 30;
-    mOffsetY         = 30;
-    mChromosomHeight = 30;
-    mChromosomWidth  = 0;
-    mP2BCoeff        = 0;
-
-
-    // Cursor management
-    mCursorActive       = false;
-    mCursorMode         = cutter;
-    mCursorBasePosition = 0;
-
 
     setMouseTracking(true);
 
@@ -32,7 +26,6 @@ ChromosomWidget::ChromosomWidget( QWidget * parent)
 ChromosomWidget::~ChromosomWidget()
 {
     // Do not delete genom
-
 }
 
 Genom *ChromosomWidget::genom()
@@ -68,36 +61,12 @@ void ChromosomWidget::updateChromosom()
     }
 }
 
-void ChromosomWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
-{
-//    mSelector.setRegion(chromosom,start,end);
-//    updateChromosom();
-}
 
 void ChromosomWidget::setSelection(const Region &region)
 {
     mSelector = region;
     updateChromosom();
 }
-
-void ChromosomWidget::setZoom(int factor)
-{
-
-   quint64 middle = mSelector.middle();
-
-   mSelector.setStart(middle - factor/2 );
-   mSelector.setEnd(middle + factor/2 );
-
-   updateChromosom();
-
-}
-
-
-
-
-
-
-
 
 void ChromosomWidget::paintEvent(QPaintEvent *)
 {
@@ -393,32 +362,32 @@ void ChromosomWidget::drawCursorLayer(QPainter *painter)
 
     switch(mCursorMode)
     {
-        case CursorMode::resizeL:
-        case CursorMode::resizeR:
-            setCursor(Qt::SizeHorCursor);
-            break;
-        case CursorMode::move:
-            setCursor(Qt::SizeAllCursor);
-            break;
-        case CursorMode::select:
-        case CursorMode::cutter:
-            setCursor(Qt::BlankCursor);
-            break;
+    case CursorMode::resizeL:
+    case CursorMode::resizeR:
+        setCursor(Qt::SizeHorCursor);
+        break;
+    case CursorMode::move:
+        setCursor(Qt::SizeAllCursor);
+        break;
+    case CursorMode::select:
+    case CursorMode::cutter:
+        setCursor(Qt::BlankCursor);
+        break;
 
-        default:
-            if (mFrameHandleL.contains(mCursorPosition) || mFrameHandleR.contains(mCursorPosition))
-            {
-                setCursor(Qt::SizeHorCursor);
-            }
-            else if (mFrame.contains(mCursorPosition))
-            {
-                setCursor(Qt::SizeAllCursor);
-            }
-            else
-            {
-                setCursor(Qt::ArrowCursor);
-            }
-            break;
+    default:
+        if (mFrameHandleL.contains(mCursorPosition) || mFrameHandleR.contains(mCursorPosition))
+        {
+            setCursor(Qt::SizeHorCursor);
+        }
+        else if (mFrame.contains(mCursorPosition))
+        {
+            setCursor(Qt::SizeAllCursor);
+        }
+        else
+        {
+            setCursor(Qt::ArrowCursor);
+        }
+        break;
     }
 
 }
