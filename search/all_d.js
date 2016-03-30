@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['sequence',['Sequence',['../classbig_1_1core_1_1_sequence.html',1,'big::core']]],
-  ['sequence',['sequence',['../classbig_1_1core_1_1_genom.html#a82915e114737a5e3b937fbb28d77dd51',1,'big::core::Genom']]],
-  ['setchromosom',['setChromosom',['../classbig_1_1core_1_1_region.html#a520ec49d0534f8c81c79e36d3c7a3cbc',1,'big::core::Region']]],
-  ['setcurrentgenom',['setCurrentGenom',['../classbig_1_1core_1_1_app.html#ac2a1c51feedb485b283037bea7f2efd3',1,'big::core::App']]],
-  ['setlength',['setLength',['../classbig_1_1core_1_1_region.html#a93410c70fac9089ac1c1d60bd897d58a',1,'big::core::Region']]],
-  ['setpos',['setPos',['../classbig_1_1core_1_1_region.html#a5244d085c43813539f761a1a26ba97cf',1,'big::core::Region']]],
-  ['statusbar',['StatusBar',['../classbig_1_1gui_1_1_status_bar.html',1,'big::gui']]]
+  ['region',['Region',['../classbig_1_1core_1_1_region.html',1,'big::core']]],
+  ['region',['Region',['../classbig_1_1core_1_1_region.html#ad8186078d8c5bdcb4490e54391615bd0',1,'big::core::Region::Region(const QString &amp;chromosom, quint64 start, quint64 end)'],['../classbig_1_1core_1_1_region.html#aef00bdbad6d38a084086c2c547d44ced',1,'big::core::Region::Region(const QString &amp;pattern)'],['../classbig_1_1core_1_1_abstract_region_reader.html#a2870fa712890ffda791b576274c12f0b',1,'big::core::AbstractRegionReader::region()']]],
+  ['regionlist',['RegionList',['../classbig_1_1core_1_1_region_list.html',1,'big::core']]],
+  ['regions',['regions',['../classbig_1_1core_1_1_abstract_region_reader.html#a306ccd91b5f3a59f60a4e01be913c928',1,'big::core::AbstractRegionReader']]],
+  ['removetrack',['removeTrack',['../classbig_1_1gui_1_1_tracks_widget.html#a1df89a2b4c3ac8c8a8157d649db58041',1,'big::gui::TracksWidget']]],
+  ['reset',['reset',['../classbig_1_1core_1_1_abstract_region_reader.html#a81667f3b4c654cc477dfd9344208b1bb',1,'big::core::AbstractRegionReader::reset()'],['../classbig_1_1gui_1_1_select_tool_bar.html#a7fc4693e4b472c75afa1384aab451c37',1,'big::gui::SelectToolBar::reset()']]],
+  ['rulertrack',['RulerTrack',['../classbig_1_1gui_1_1_ruler_track.html',1,'big::gui']]],
+  ['rulertrack',['RulerTrack',['../classbig_1_1gui_1_1_ruler_track.html#ab925778c7fecd222c3227bc5686750e4',1,'big::gui::RulerTrack']]]
 ];

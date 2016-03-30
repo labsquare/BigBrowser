@@ -1,6 +1,27 @@
 var searchData=
 [
-  ['todo_20list',['Todo List',['../todo.html',1,'']]],
-  ['tracklistwidget',['TrackListWidget',['../classbig_1_1gui_1_1_track_list_widget.html',1,'big::gui']]],
-  ['transcribe',['transcribe',['../classbig_1_1core_1_1_sequence.html#ad23fe1925f48a23764b7ea5568415ca9',1,'big::core::Sequence']]]
+  ['scale',['scale',['../classbig_1_1core_1_1_region.html#a5fc8f66d51451d92d05fb06e979850a0',1,'big::core::Region']]],
+  ['selection',['selection',['../classbig_1_1gui_1_1_tracks_widget.html#a2d3cd17bbea9a3172305ed969e0884ff',1,'big::gui::TracksWidget']]],
+  ['selectionchanged',['selectionChanged',['../classbig_1_1gui_1_1_chromosom_widget.html#a6b1c8b1d1e9faa84d29dd296e0ffbc67',1,'big::gui::ChromosomWidget::selectionChanged()'],['../classbig_1_1gui_1_1_select_tool_bar.html#a5172c7900155743355e3f7c97519cb9f',1,'big::gui::SelectToolBar::selectionChanged()'],['../classbig_1_1gui_1_1_tracks_widget.html#ad4a5ce73e0e815cf7c2d8be632cf9f83',1,'big::gui::TracksWidget::selectionChanged()']]],
+  ['selectionrouter',['SelectionRouter',['../classbig_1_1gui_1_1_selection_router.html',1,'big::gui']]],
+  ['selecttoolbar',['SelectToolBar',['../classbig_1_1gui_1_1_select_tool_bar.html',1,'big::gui']]],
+  ['sequence',['sequence',['../classbig_1_1core_1_1_genom.html#a8aa2b90e4af9930d2f4c16621f16da99',1,'big::core::Genom']]],
+  ['sequence',['Sequence',['../classbig_1_1core_1_1_sequence.html',1,'big::core']]],
+  ['sequencetrack',['SequenceTrack',['../classbig_1_1gui_1_1_sequence_track.html',1,'big::gui']]],
+  ['setchromosom',['setChromosom',['../classbig_1_1core_1_1_region.html#a520ec49d0534f8c81c79e36d3c7a3cbc',1,'big::core::Region']]],
+  ['setgenom',['setGenom',['../classbig_1_1gui_1_1_chromosom_widget.html#ac4df978666036388bdcf8bcb44673896',1,'big::gui::ChromosomWidget::setGenom()'],['../classbig_1_1gui_1_1_select_tool_bar.html#a20ca047e9a7495b9afdd646777bf4214',1,'big::gui::SelectToolBar::setGenom()'],['../classbig_1_1gui_1_1_tracks_widget.html#a961df8430ce2494986984dd1eb19e49a',1,'big::gui::TracksWidget::setGenom()']]],
+  ['setheight',['setHeight',['../classbig_1_1gui_1_1_abstract_track.html#aeaf9b163056fe57757b70daa8b260576',1,'big::gui::AbstractTrack']]],
+  ['setindex',['setIndex',['../classbig_1_1gui_1_1_abstract_track.html#a3424a80e343b1e0fad62c0fabb87d91b',1,'big::gui::AbstractTrack']]],
+  ['setlength',['setLength',['../classbig_1_1core_1_1_region.html#a3a1a6b02c051e181e89ec5b0f5ce20dc',1,'big::core::Region']]],
+  ['setselection',['setSelection',['../classbig_1_1gui_1_1_chromosom_widget.html#aa134dc9e7477cc50164af31da6689871',1,'big::gui::ChromosomWidget::setSelection()'],['../classbig_1_1gui_1_1_selection_router.html#a3c027518da6a82d40c1c2c32d4df1028',1,'big::gui::SelectionRouter::setSelection()'],['../classbig_1_1gui_1_1_select_tool_bar.html#afbbb36391e158898dc6147fda4192206',1,'big::gui::SelectToolBar::setSelection()'],['../classbig_1_1gui_1_1_tracks_widget.html#ac8d31c36da178e4e400f86572bad8e28',1,'big::gui::TracksWidget::setSelection()']]],
+  ['setslotmode',['setSlotMode',['../classbig_1_1gui_1_1_abstract_track.html#a14f796b9361cf41bca1c2f0f8921411c',1,'big::gui::AbstractTrack']]],
+  ['settingsdialog',['SettingsDialog',['../classbig_1_1gui_1_1_settings_dialog.html',1,'big::gui']]],
+  ['settop',['setTop',['../classbig_1_1gui_1_1_abstract_track.html#a760d5e9ce9d57b35abde08da4f6d8861',1,'big::gui::AbstractTrack']]],
+  ['settracklist',['setTrackList',['../classbig_1_1gui_1_1_abstract_track.html#ab9cc2d5402663d8e68fb7dbd1d30f8c0',1,'big::gui::AbstractTrack']]],
+  ['sliderchanged',['sliderChanged',['../classbig_1_1gui_1_1_status_bar.html#a824219ac4891e7ae16c7d1ed70271e17',1,'big::gui::StatusBar']]],
+  ['slotmode',['slotMode',['../classbig_1_1gui_1_1_abstract_track.html#a3d922aceb4c66253a65cb1a998b7c31f',1,'big::gui::AbstractTrack']]],
+  ['slotreordering',['slotReordering',['../classbig_1_1gui_1_1_tracks_widget.html#aeb43a33e13d39fba0a119a59071cbf6d',1,'big::gui::TracksWidget']]],
+  ['start',['start',['../classbig_1_1core_1_1_region.html#ab3f7412d399136dab001d9d414c4b517',1,'big::core::Region::start()'],['../classbig_1_1gui_1_1_abstract_track.html#a1a35cec32b25d565bf744979c3f46b87',1,'big::gui::AbstractTrack::start()'],['../classbig_1_1gui_1_1_tracks_widget.html#a0c3547c25e626e99878cafb8e3d82ea9',1,'big::gui::TracksWidget::start()']]],
+  ['statusbar',['StatusBar',['../classbig_1_1gui_1_1_status_bar.html',1,'big::gui']]],
+  ['switchslotmode',['switchSlotMode',['../classbig_1_1gui_1_1_tracks_widget.html#ac736319a44cf21242edd4737493fc235',1,'big::gui::TracksWidget']]]
 ];

@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -90,155 +90,88 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classbig_1_1core_1_1_sequence-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">big::core::Sequence Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Contains DNA sequence in IUPAC Format.  
+<p>DNA/RNA/Protein sequence.  
  <a href="classbig_1_1core_1_1_sequence.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="sequence_8h_source.html">sequence.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:abed496b228be1b23733545836048676c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abed496b228be1b23733545836048676c"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Type</b> { <b>Dna</b> = 0x01, 
+<b>Rna</b> = 0x02, 
+<b>Protein</b> = 0x03
+ }</td></tr>
+<tr class="separator:abed496b228be1b23733545836048676c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cc7faade061d9299a9805bd965ada60"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0cc7faade061d9299a9805bd965ada60"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Strand</b> { <b>Forward</b> = 0x01, 
+<b>Reverse</b> = 0x02
+ }</td></tr>
+<tr class="separator:a0cc7faade061d9299a9805bd965ada60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ada5a73e2a02403166c348c43f57bec46"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ada5a73e2a02403166c348c43f57bec46"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Sequence</b> (const QByteArray &amp;seq)</td></tr>
-<tr class="separator:ada5a73e2a02403166c348c43f57bec46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60118fc2eca7e31d571c23cf2c8ae75a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60118fc2eca7e31d571c23cf2c8ae75a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Sequence</b> (const char *data)</td></tr>
+<tr class="separator:a60118fc2eca7e31d571c23cf2c8ae75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7bbe5d6e45b41590f9fc634722b58c7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7bbe5d6e45b41590f9fc634722b58c7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Sequence</b> (const QByteArray &amp;bytes)</td></tr>
+<tr class="separator:af7bbe5d6e45b41590f9fc634722b58c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d67dae78f0efa20b8b45fa9578589d4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d67dae78f0efa20b8b45fa9578589d4"></a>
+<a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><b>complement</b> () const </td></tr>
+<tr class="separator:a1d67dae78f0efa20b8b45fa9578589d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14b30a114fcff77f6ade8946d0c1bb5b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14b30a114fcff77f6ade8946d0c1bb5b"></a>
+<a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><b>translate</b> () const </td></tr>
+<tr class="separator:a14b30a114fcff77f6ade8946d0c1bb5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad23fe1925f48a23764b7ea5568415ca9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad23fe1925f48a23764b7ea5568415ca9"></a>
+<a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><b>transcribe</b> () const </td></tr>
+<tr class="separator:ad23fe1925f48a23764b7ea5568415ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a7d93c59604c3c1241f15a214879f60"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a7d93c59604c3c1241f15a214879f60"></a>
+<a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><b>reverse</b> () const </td></tr>
+<tr class="separator:a1a7d93c59604c3c1241f15a214879f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab306787942917c7ee2b5869a2dd8e1ea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab306787942917c7ee2b5869a2dd8e1ea"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const </td></tr>
+<tr class="separator:ab306787942917c7ee2b5869a2dd8e1ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92f71d00578639b71cad1244347c9bb8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a92f71d00578639b71cad1244347c9bb8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setName</b> (const QString &amp;name)</td></tr>
+<tr class="separator:a92f71d00578639b71cad1244347c9bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7faafc5660dde7f6a61d3b772e425700"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7faafc5660dde7f6a61d3b772e425700"></a>
+Strand&#160;</td><td class="memItemRight" valign="bottom"><b>strand</b> () const </td></tr>
+<tr class="separator:a7faafc5660dde7f6a61d3b772e425700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad13b25509bca237deb4b0a342237200b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad13b25509bca237deb4b0a342237200b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setStrand</b> (const Strand &amp;strand)</td></tr>
+<tr class="separator:ad13b25509bca237deb4b0a342237200b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dccf2d9956b8d1177066b06d1ac8dd7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6dccf2d9956b8d1177066b06d1ac8dd7"></a>
+Type&#160;</td><td class="memItemRight" valign="bottom"><b>type</b> () const </td></tr>
+<tr class="separator:a6dccf2d9956b8d1177066b06d1ac8dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c000283ab3324142b109ec1fd2166d0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c000283ab3324142b109ec1fd2166d0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setType</b> (const Type &amp;type)</td></tr>
+<tr class="separator:a9c000283ab3324142b109ec1fd2166d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae052824cc8a57008735be07c35b3dd50"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae052824cc8a57008735be07c35b3dd50"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>typeName</b> ()</td></tr>
+<tr class="separator:ae052824cc8a57008735be07c35b3dd50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef90f485c08a4643802543595ffced97"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef90f485c08a4643802543595ffced97"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>count</b> () const </td></tr>
+<tr class="separator:aef90f485c08a4643802543595ffced97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad24e43794808163bd05544a1991602e8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad24e43794808163bd05544a1991602e8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setByteArray</b> (const QByteArray &amp;array)</td></tr>
+<tr class="separator:ad24e43794808163bd05544a1991602e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a77132031022970ce956158f6040067"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a77132031022970ce956158f6040067"></a>
+const QByteArray &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>byteArray</b> () const </td></tr>
+<tr class="separator:a2a77132031022970ce956158f6040067"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba5ae9835c06e97522d23699ca683b43"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba5ae9835c06e97522d23699ca683b43"></a>
 QString&#160;</td><td class="memItemRight" valign="bottom"><b>toString</b> () const </td></tr>
 <tr class="separator:aba5ae9835c06e97522d23699ca683b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d67dae78f0efa20b8b45fa9578589d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_sequence.html#a1d67dae78f0efa20b8b45fa9578589d4">complement</a> () const </td></tr>
-<tr class="memdesc:a1d67dae78f0efa20b8b45fa9578589d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">complement  <a href="#a1d67dae78f0efa20b8b45fa9578589d4">More...</a><br /></td></tr>
-<tr class="separator:a1d67dae78f0efa20b8b45fa9578589d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76fce1cea7106b0746a5cabe35066b41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_sequence.html#a76fce1cea7106b0746a5cabe35066b41">reverseComplement</a> () const </td></tr>
-<tr class="memdesc:a76fce1cea7106b0746a5cabe35066b41"><td class="mdescLeft">&#160;</td><td class="mdescRight">reverseComplement  <a href="#a76fce1cea7106b0746a5cabe35066b41">More...</a><br /></td></tr>
-<tr class="separator:a76fce1cea7106b0746a5cabe35066b41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad23fe1925f48a23764b7ea5568415ca9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_sequence.html#ad23fe1925f48a23764b7ea5568415ca9">transcribe</a> () const </td></tr>
-<tr class="memdesc:ad23fe1925f48a23764b7ea5568415ca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">transcribe  <a href="#ad23fe1925f48a23764b7ea5568415ca9">More...</a><br /></td></tr>
-<tr class="separator:ad23fe1925f48a23764b7ea5568415ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a034a62b0e8398918a53a44b37675a07b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_sequence.html#a034a62b0e8398918a53a44b37675a07b">backTranscribe</a> () const </td></tr>
-<tr class="memdesc:a034a62b0e8398918a53a44b37675a07b"><td class="mdescLeft">&#160;</td><td class="mdescRight">backTranscribe  <a href="#a034a62b0e8398918a53a44b37675a07b">More...</a><br /></td></tr>
-<tr class="separator:a034a62b0e8398918a53a44b37675a07b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aabe2f653ae2ff01c384efb52a7682c26"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_sequence.html#aabe2f653ae2ff01c384efb52a7682c26">fromFasta</a> (const QString &amp;filename)</td></tr>
-<tr class="memdesc:aabe2f653ae2ff01c384efb52a7682c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">fromFasta  <a href="#aabe2f653ae2ff01c384efb52a7682c26">More...</a><br /></td></tr>
-<tr class="separator:aabe2f653ae2ff01c384efb52a7682c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Contains DNA sequence in IUPAC Format. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a034a62b0e8398918a53a44b37675a07b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a> big::core::Sequence::backTranscribe </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>backTranscribe </p>
-<dl class="section return"><dt>Returns</dt><dd>Return the dna sequence from rna sequence </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a1d67dae78f0efa20b8b45fa9578589d4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a> big::core::Sequence::complement </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>complement </p>
-<dl class="section return"><dt>Returns</dt><dd>the complement sequence </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aabe2f653ae2ff01c384efb52a7682c26"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a> big::core::Sequence::fromFasta </td>
-          <td>(</td>
-          <td class="paramtype">const QString &amp;&#160;</td>
-          <td class="paramname"><em>filename</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>fromFasta </p>
-<p>Create a sequence from fasta file </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filename</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a76fce1cea7106b0746a5cabe35066b41"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a> big::core::Sequence::reverseComplement </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>reverseComplement </p>
-<dl class="section return"><dt>Returns</dt><dd>the reverse complement sequence </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ad23fe1925f48a23764b7ea5568415ca9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a> big::core::Sequence::transcribe </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>transcribe </p>
-<dl class="section return"><dt>Returns</dt><dd>the rna sequence from dna sequence </dd></dl>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>DNA/RNA/Protein sequence. </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/core/<a class="el" href="sequence_8h_source.html">sequence.h</a></li>
 <li>src/core/sequence.cpp</li>
 </ul>

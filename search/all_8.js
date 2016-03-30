@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['last',['last',['../classbig_1_1core_1_1_region.html#aeff574b6d0a30ee205378abeb6a0efd9',1,'big::core::Region']]],
-  ['length',['length',['../classbig_1_1core_1_1_region.html#a1892f1fdb7d3b9ffd2c8695aecdc57e0',1,'big::core::Region']]]
+  ['loadcytoband',['loadCytoBand',['../classbig_1_1core_1_1_genom.html#ad9fe0dbb7327acbaa7c830c638bd176c',1,'big::core::Genom']]]
 ];

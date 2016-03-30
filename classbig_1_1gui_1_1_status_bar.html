@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -90,7 +90,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-slots">Public Slots</a> &#124;
+<a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-slots">Protected Slots</a> &#124;
 <a href="classbig_1_1gui_1_1_status_bar-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">big::gui::StatusBar Class Reference</div>  </div>
@@ -99,18 +102,65 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for big::gui::StatusBar:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classbig_1_1gui_1_1_status_bar.png" usemap="#big::gui::StatusBar_map" alt=""/>
-  <map id="big::gui::StatusBar_map" name="big::gui::StatusBar_map">
-</map>
- </div></div>
+<div class="center"><img src="classbig_1_1gui_1_1_status_bar__inherit__graph.png" border="0" usemap="#big_1_1gui_1_1_status_bar_inherit__map" alt="Inheritance graph"/></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for big::gui::StatusBar:</div>
+<div class="dyncontent">
+<div class="center"><img src="classbig_1_1gui_1_1_status_bar__coll__graph.png" border="0" usemap="#big_1_1gui_1_1_status_bar_coll__map" alt="Collaboration graph"/></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
+Public Slots</h2></td></tr>
+<tr class="memitem:a1e1eeaa86bee63abd7c80dbcfcd13157"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e1eeaa86bee63abd7c80dbcfcd13157"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setSelection</b> (const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;region)</td></tr>
+<tr class="separator:a1e1eeaa86bee63abd7c80dbcfcd13157"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
+Signals</h2></td></tr>
+<tr class="memitem:a19771edce5ba7abd3271619d4d71ed93"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19771edce5ba7abd3271619d4d71ed93"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>zoomChanged</b> (int value)</td></tr>
+<tr class="separator:a19771edce5ba7abd3271619d4d71ed93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:acc47071c296f6496aacb5bdbb335e9f0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc47071c296f6496aacb5bdbb335e9f0"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>StatusBar</b> (QWidget *parent=0)</td></tr>
 <tr class="separator:acc47071c296f6496aacb5bdbb335e9f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c6425ffe6d70ffb562094590b34d4e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c6425ffe6d70ffb562094590b34d4e5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setGenom</b> (<a class="el" href="classbig_1_1core_1_1_genom.html">Genom</a> *genom)</td></tr>
+<tr class="separator:a1c6425ffe6d70ffb562094590b34d4e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-slots"></a>
+Protected Slots</h2></td></tr>
+<tr class="memitem:a824219ac4891e7ae16c7d1ed70271e17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1gui_1_1_status_bar.html#a824219ac4891e7ae16c7d1ed70271e17">sliderChanged</a> ()</td></tr>
+<tr class="separator:a824219ac4891e7ae16c7d1ed70271e17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a824219ac4891e7ae16c7d1ed70271e17"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void big::gui::StatusBar::sliderChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>TODO warning.. conversion int to quint64</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/gui/<a class="el" href="statusbar_8h_source.html">statusbar.h</a></li>
 <li>src/gui/statusbar.cpp</li>

@@ -92,42 +92,71 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef SEQUENCE_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define SEQUENCE_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QtCore&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebig.html">big</a> {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>core {</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classbig_1_1core_1_1_sequence.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a>(<span class="keyword">const</span> QByteArray&amp; seq);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    QString toString() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> <a class="code" href="classbig_1_1core_1_1_sequence.html#a1d67dae78f0efa20b8b45fa9578589d4">complement</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> <a class="code" href="classbig_1_1core_1_1_sequence.html#a76fce1cea7106b0746a5cabe35066b41">reverseComplement</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> <a class="code" href="classbig_1_1core_1_1_sequence.html#ad23fe1925f48a23764b7ea5568415ca9">transcribe</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> <a class="code" href="classbig_1_1core_1_1_sequence.html#a034a62b0e8398918a53a44b37675a07b">backTranscribe</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">static</span> <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> <a class="code" href="classbig_1_1core_1_1_sequence.html#aabe2f653ae2ff01c384efb52a7682c26">fromFasta</a>(<span class="keyword">const</span> QString&amp; filename);</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;QtCore&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;nucleotidalphabet.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;proteinalphabet.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebig.html">big</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>core {</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classbig_1_1core_1_1_sequence.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">enum</span> Type {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        Dna     = 0x01,</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        Rna     = 0x02,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        Protein = 0x03</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    };</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">enum</span> Strand {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        Forward = 0x01, <span class="comment">// 5&#39; to 3&#39;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        Reverse = 0x02  <span class="comment">// 3&#39; to 5&#39;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    };</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *data);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a>(<span class="keyword">const</span> QByteArray&amp; bytes);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> complement() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> translate() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> transcribe() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> reverse() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    QString name() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> setName(<span class="keyword">const</span> QString &amp;name);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    Strand strand() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> setStrand(<span class="keyword">const</span> Strand &amp;strand);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    Type type() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> setType(<span class="keyword">const</span> Type &amp;type);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    QString typeName();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">int</span> count() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    QByteArray mSeq;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> setByteArray(<span class="keyword">const</span> QByteArray&amp; array);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">const</span> QByteArray&amp; byteArray() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    QString toString() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}}</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif // SEQUENCE_H</span></div>
-<div class="ttc" id="classbig_1_1core_1_1_sequence_html_a034a62b0e8398918a53a44b37675a07b"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html#a034a62b0e8398918a53a44b37675a07b">big::core::Sequence::backTranscribe</a></div><div class="ttdeci">Sequence backTranscribe() const </div><div class="ttdoc">backTranscribe </div><div class="ttdef"><b>Definition:</b> sequence.cpp:32</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_sequence_html_a76fce1cea7106b0746a5cabe35066b41"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html#a76fce1cea7106b0746a5cabe35066b41">big::core::Sequence::reverseComplement</a></div><div class="ttdeci">Sequence reverseComplement() const </div><div class="ttdoc">reverseComplement </div><div class="ttdef"><b>Definition:</b> sequence.cpp:22</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_sequence_html_aabe2f653ae2ff01c384efb52a7682c26"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html#aabe2f653ae2ff01c384efb52a7682c26">big::core::Sequence::fromFasta</a></div><div class="ttdeci">static Sequence fromFasta(const QString &amp;filename)</div><div class="ttdoc">fromFasta </div><div class="ttdef"><b>Definition:</b> sequence.cpp:38</div></div>
-<div class="ttc" id="namespacebig_html"><div class="ttname"><a href="namespacebig.html">big</a></div><div class="ttdef"><b>Definition:</b> app.cpp:5</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_sequence_html_a1d67dae78f0efa20b8b45fa9578589d4"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html#a1d67dae78f0efa20b8b45fa9578589d4">big::core::Sequence::complement</a></div><div class="ttdeci">Sequence complement() const </div><div class="ttdoc">complement </div><div class="ttdef"><b>Definition:</b> sequence.cpp:17</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_sequence_html_ad23fe1925f48a23764b7ea5568415ca9"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html#ad23fe1925f48a23764b7ea5568415ca9">big::core::Sequence::transcribe</a></div><div class="ttdeci">Sequence transcribe() const </div><div class="ttdoc">transcribe </div><div class="ttdef"><b>Definition:</b> sequence.cpp:27</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_sequence_html"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html">big::core::Sequence</a></div><div class="ttdoc">Contains DNA sequence in IUPAC Format. </div><div class="ttdef"><b>Definition:</b> sequence.h:11</div></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// do not use pointer. Not virtual destructor</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    QByteArray mArray;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    Strand mStrand;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Type mType;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    QString mName;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;} <span class="comment">// end of namespace core</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;} <span class="comment">// end of namespace big</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif // SEQUENCE_H</span></div>
+<div class="ttc" id="namespacebig_html"><div class="ttname"><a href="namespacebig.html">big</a></div><div class="ttdef"><b>Definition:</b> alphabet.cpp:2</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_sequence_html"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html">big::core::Sequence</a></div><div class="ttdoc">DNA/RNA/Protein sequence. </div><div class="ttdef"><b>Definition:</b> sequence.h:13</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

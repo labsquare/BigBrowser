@@ -94,45 +94,96 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define GENOM_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;QtCore&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;sequence.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebig.html">big</a> {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>core {</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classbig_1_1core_1_1_genom.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="classbig_1_1core_1_1_genom.html">Genom</a></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="classbig_1_1core_1_1_genom.html">Genom</a>(<span class="keyword">const</span> QString&amp; filename);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classbig_1_1core_1_1_genom.html#a0b954b892a4a6cbca20b75cacd5b9309">chromosomCount</a>();</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;region.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;regionlist.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;cytobandreader.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;quazip.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;quazipfile.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebig.html">big</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>core {</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classbig_1_1core_1_1_genom.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classbig_1_1core_1_1_genom.html">Genom</a></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classbig_1_1core_1_1_genom.html#a1de8c73d0a60274d5b5f316452409727">chromosomLength</a>(<span class="keyword">const</span> QString&amp; chromosom);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classbig_1_1core_1_1_genom.html">Genom</a>();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classbig_1_1core_1_1_genom.html">Genom</a>(QIODevice * device);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="classbig_1_1core_1_1_genom.html">Genom</a>(<span class="keyword">const</span> QString&amp; filename);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    ~<a class="code" href="classbig_1_1core_1_1_genom.html">Genom</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> load(QIODevice * device);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> load(<span class="keyword">const</span> QString&amp; filename);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> <a class="code" href="classbig_1_1core_1_1_genom.html#a82915e114737a5e3b937fbb28d77dd51">sequence</a>(<span class="keyword">const</span> QString&amp; chromosom, qint64 pos, qint64 length);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> QString&amp; <a class="code" href="classbig_1_1core_1_1_genom.html#ae8498d690be9c075f10c20ae4501e07b">name</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">const</span> QString&amp; filename() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classbig_1_1core_1_1_genom.html#a1c5f5aa5cbdb3320ee3a153f31180094">hasIndex</a>();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classbig_1_1core_1_1_genom.html#a27a359e71dfebc4dd6e7ea7ec9d56678">createIndex</a>();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    QString mFilename;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    QString mName;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}}</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif // GENOM_H</span></div>
-<div class="ttc" id="classbig_1_1core_1_1_genom_html"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html">big::core::Genom</a></div><div class="ttdoc">Describe a genom. </div><div class="ttdef"><b>Definition:</b> genom.h:10</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_genom_html_ae8498d690be9c075f10c20ae4501e07b"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#ae8498d690be9c075f10c20ae4501e07b">big::core::Genom::name</a></div><div class="ttdeci">const QString &amp; name() const </div><div class="ttdoc">name </div><div class="ttdef"><b>Definition:</b> genom.cpp:27</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_genom_html_a1c5f5aa5cbdb3320ee3a153f31180094"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a1c5f5aa5cbdb3320ee3a153f31180094">big::core::Genom::hasIndex</a></div><div class="ttdeci">bool hasIndex()</div><div class="ttdoc">hasIndex </div><div class="ttdef"><b>Definition:</b> genom.cpp:37</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_genom_html_a0b954b892a4a6cbca20b75cacd5b9309"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a0b954b892a4a6cbca20b75cacd5b9309">big::core::Genom::chromosomCount</a></div><div class="ttdeci">int chromosomCount()</div><div class="ttdoc">chromosomCount </div><div class="ttdef"><b>Definition:</b> genom.cpp:12</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_genom_html_a82915e114737a5e3b937fbb28d77dd51"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a82915e114737a5e3b937fbb28d77dd51">big::core::Genom::sequence</a></div><div class="ttdeci">Sequence sequence(const QString &amp;chromosom, qint64 pos, qint64 length)</div><div class="ttdoc">sequence </div><div class="ttdef"><b>Definition:</b> genom.cpp:22</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_genom_html_a1de8c73d0a60274d5b5f316452409727"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a1de8c73d0a60274d5b5f316452409727">big::core::Genom::chromosomLength</a></div><div class="ttdeci">int chromosomLength(const QString &amp;chromosom)</div><div class="ttdoc">chromosomLength </div><div class="ttdef"><b>Definition:</b> genom.cpp:17</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_genom_html_a27a359e71dfebc4dd6e7ea7ec9d56678"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a27a359e71dfebc4dd6e7ea7ec9d56678">big::core::Genom::createIndex</a></div><div class="ttdeci">void createIndex()</div><div class="ttdoc">createIndex </div><div class="ttdef"><b>Definition:</b> genom.cpp:42</div></div>
-<div class="ttc" id="namespacebig_html"><div class="ttname"><a href="namespacebig.html">big</a></div><div class="ttdef"><b>Definition:</b> app.cpp:5</div></div>
-<div class="ttc" id="classbig_1_1core_1_1_sequence_html"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html">big::core::Sequence</a></div><div class="ttdoc">Contains DNA sequence in IUPAC Format. </div><div class="ttdef"><b>Definition:</b> sequence.h:11</div></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classbig_1_1core_1_1_genom.html#a0b954b892a4a6cbca20b75cacd5b9309">chromosomCount</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classbig_1_1core_1_1_genom.html#a1de8c73d0a60274d5b5f316452409727">chromosomLength</a>(<span class="keyword">const</span> QString&amp; chromosom);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    QStringList chromosoms();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">const</span> <a class="code" href="classbig_1_1core_1_1_region_list.html">RegionList</a> <a class="code" href="classbig_1_1core_1_1_genom.html#a4bac9eca8dc50d4d30343e9fa787bde8">chromosomBand</a>(<span class="keyword">const</span> QString&amp; chromosom) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classbig_1_1core_1_1_sequence.html">Sequence</a> <a class="code" href="classbig_1_1core_1_1_genom.html#a8aa2b90e4af9930d2f4c16621f16da99">sequence</a>(<span class="keyword">const</span> QString&amp; chromosom, quint64 pos, quint64 length);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;     QString <a class="code" href="classbig_1_1core_1_1_genom.html#a705301cd1aa094058c7f038ac044edf6">name</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;     QString id() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">bool</span> isValid();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">//    bool hasIndex();</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classbig_1_1core_1_1_genom.html#aedd43a0c4d8fe79e880445a240a0a93b">hasCytoband</a>();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">//    /*!</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">//     * \brief createIndex</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">//     *</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">//     * Create the faidx for the genom.</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">//     *</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">//     * Please read this page, to understand the purpose of this methodes</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">//     * http://www.htslib.org/doc/faidx.html</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">//     * \todo Threading the process ?</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">//     */</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">//    bool createIndex();</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classbig_1_1core_1_1_genom.html#ad9fe0dbb7327acbaa7c830c638bd176c">loadCytoBand</a>(QIODevice * device);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span> loadProperty(QIODevice * device);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> chromosomLessThan(<span class="keyword">const</span> QString &amp;s1, <span class="keyword">const</span> QString &amp;s2);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="comment">// each chromosom have name and size</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    QHash&lt;QString, quint64&gt; mChromosomsSize;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    QHash&lt;QString, RegionList&gt; mChromosomsBands;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    QHash&lt;QString, QString&gt; mProperties;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    QuaZip mZip;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    QIODevice * mDevice;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;};</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}}</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor">#endif // GENOM_H</span></div>
+<div class="ttc" id="classbig_1_1core_1_1_genom_html"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html">big::core::Genom</a></div><div class="ttdoc">Describe a genom. </div><div class="ttdef"><b>Definition:</b> genom.h:17</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_genom_html_a0b954b892a4a6cbca20b75cacd5b9309"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a0b954b892a4a6cbca20b75cacd5b9309">big::core::Genom::chromosomCount</a></div><div class="ttdeci">int chromosomCount()</div><div class="ttdoc">chromosomCount </div><div class="ttdef"><b>Definition:</b> genom.cpp:145</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_region_list_html"><div class="ttname"><a href="classbig_1_1core_1_1_region_list.html">big::core::RegionList</a></div><div class="ttdoc">List of Region. </div><div class="ttdef"><b>Definition:</b> regionlist.h:11</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_genom_html_a705301cd1aa094058c7f038ac044edf6"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a705301cd1aa094058c7f038ac044edf6">big::core::Genom::name</a></div><div class="ttdeci">QString name() const </div><div class="ttdoc">name </div><div class="ttdef"><b>Definition:</b> genom.cpp:252</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_genom_html_ad9fe0dbb7327acbaa7c830c638bd176c"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#ad9fe0dbb7327acbaa7c830c638bd176c">big::core::Genom::loadCytoBand</a></div><div class="ttdeci">void loadCytoBand(QIODevice *device)</div><div class="ttdoc">createIndex </div><div class="ttdef"><b>Definition:</b> genom.cpp:67</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_genom_html_a1de8c73d0a60274d5b5f316452409727"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a1de8c73d0a60274d5b5f316452409727">big::core::Genom::chromosomLength</a></div><div class="ttdeci">int chromosomLength(const QString &amp;chromosom)</div><div class="ttdoc">chromosomLength </div><div class="ttdef"><b>Definition:</b> genom.cpp:150</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_genom_html_a8aa2b90e4af9930d2f4c16621f16da99"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a8aa2b90e4af9930d2f4c16621f16da99">big::core::Genom::sequence</a></div><div class="ttdeci">Sequence sequence(const QString &amp;chromosom, quint64 pos, quint64 length)</div><div class="ttdoc">sequence </div><div class="ttdef"><b>Definition:</b> genom.cpp:170</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_genom_html_a4bac9eca8dc50d4d30343e9fa787bde8"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#a4bac9eca8dc50d4d30343e9fa787bde8">big::core::Genom::chromosomBand</a></div><div class="ttdeci">const RegionList chromosomBand(const QString &amp;chromosom) const </div><div class="ttdoc">cytoBand Return cytoband according chromosom name </div><div class="ttdef"><b>Definition:</b> genom.cpp:165</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_genom_html_aedd43a0c4d8fe79e880445a240a0a93b"><div class="ttname"><a href="classbig_1_1core_1_1_genom.html#aedd43a0c4d8fe79e880445a240a0a93b">big::core::Genom::hasCytoband</a></div><div class="ttdeci">bool hasCytoband()</div><div class="ttdoc">hasIndex </div><div class="ttdef"><b>Definition:</b> genom.cpp:279</div></div>
+<div class="ttc" id="namespacebig_html"><div class="ttname"><a href="namespacebig.html">big</a></div><div class="ttdef"><b>Definition:</b> alphabet.cpp:2</div></div>
+<div class="ttc" id="classbig_1_1core_1_1_sequence_html"><div class="ttname"><a href="classbig_1_1core_1_1_sequence.html">big::core::Sequence</a></div><div class="ttdoc">DNA/RNA/Protein sequence. </div><div class="ttdef"><b>Definition:</b> sequence.h:13</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['last',['last',['../classbig_1_1core_1_1_region.html#aeff574b6d0a30ee205378abeb6a0efd9',1,'big::core::Region']]],
-  ['length',['length',['../classbig_1_1core_1_1_region.html#a1892f1fdb7d3b9ffd2c8695aecdc57e0',1,'big::core::Region']]]
+  ['i',['i',['../classbig_1_1gui_1_1_app.html#a0f14ae9daedb50ca3871a9bab5f22101',1,'big::gui::App']]],
+  ['isresizable',['isResizable',['../classbig_1_1gui_1_1_abstract_track.html#a88ba17dcfb41018d1c151906c0e97274',1,'big::gui::AbstractTrack']]],
+  ['istrackselected',['isTrackSelected',['../classbig_1_1gui_1_1_abstract_track.html#ac61fc69795bc51fb5cb8caa3af854375',1,'big::gui::AbstractTrack']]]
 ];

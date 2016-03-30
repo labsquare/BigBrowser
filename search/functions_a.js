@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['region',['Region',['../classbig_1_1core_1_1_region.html#a3674b130fdbfee148c078577c4664cc3',1,'big::core::Region::Region(const QString &amp;chromosom, qint64 pos, qint64 length)'],['../classbig_1_1core_1_1_region.html#aa484cc926586bc71d3b298d7c8519ffa',1,'big::core::Region::Region(const QString &amp;expression)'],['../classbig_1_1core_1_1_abstract_region_reader.html#ab8f4b74d806ff53e886eac288740bc3c',1,'big::core::AbstractRegionReader::region()']]],
-  ['regions',['regions',['../classbig_1_1core_1_1_abstract_region_reader.html#a306ccd91b5f3a59f60a4e01be913c928',1,'big::core::AbstractRegionReader']]],
-  ['reset',['reset',['../classbig_1_1core_1_1_abstract_region_reader.html#a81667f3b4c654cc477dfd9344208b1bb',1,'big::core::AbstractRegionReader']]],
-  ['reversecomplement',['reverseComplement',['../classbig_1_1core_1_1_sequence.html#a76fce1cea7106b0746a5cabe35066b41',1,'big::core::Sequence']]]
+  ['name',['name',['../classbig_1_1core_1_1_genom.html#a705301cd1aa094058c7f038ac044edf6',1,'big::core::Genom']]],
+  ['next',['next',['../classbig_1_1core_1_1_abstract_region_reader.html#a30cb88f18cb734e2ff745f2c31d9cbdd',1,'big::core::AbstractRegionReader::next()'],['../classbig_1_1core_1_1_abstract_text_region_reader.html#ab492d0b790320f755e60c254f92d8d25',1,'big::core::AbstractTextRegionReader::next()'],['../classbig_1_1core_1_1_bed_graph_reader.html#af1271b87f7b26c2442113ee3227df200',1,'big::core::BedGraphReader::next()']]]
 ];

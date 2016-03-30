@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -91,7 +91,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-slots">Public Slots</a> &#124;
+<a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-slots">Protected Slots</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classbig_1_1gui_1_1_chromosom_widget-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -101,33 +103,209 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for big::gui::ChromosomWidget:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classbig_1_1gui_1_1_chromosom_widget.png" usemap="#big::gui::ChromosomWidget_map" alt=""/>
-  <map id="big::gui::ChromosomWidget_map" name="big::gui::ChromosomWidget_map">
-</map>
- </div></div>
+<div class="center"><img src="classbig_1_1gui_1_1_chromosom_widget__inherit__graph.png" border="0" usemap="#big_1_1gui_1_1_chromosom_widget_inherit__map" alt="Inheritance graph"/></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for big::gui::ChromosomWidget:</div>
+<div class="dyncontent">
+<div class="center"><img src="classbig_1_1gui_1_1_chromosom_widget__coll__graph.png" border="0" usemap="#big_1_1gui_1_1_chromosom_widget_coll__map" alt="Collaboration graph"/></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Public Slots</h2></td></tr>
-<tr class="memitem:a8407af1020f23d824f158d7d6e08fd43"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8407af1020f23d824f158d7d6e08fd43"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>loadCytoBand</b> (const QString &amp;filename)</td></tr>
-<tr class="separator:a8407af1020f23d824f158d7d6e08fd43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa134dc9e7477cc50164af31da6689871"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1gui_1_1_chromosom_widget.html#aa134dc9e7477cc50164af31da6689871">setSelection</a> (const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;region)</td></tr>
+<tr class="memdesc:aa134dc9e7477cc50164af31da6689871"><td class="mdescLeft">&#160;</td><td class="mdescRight">setSelection Mandatory slot methods working with selectionRouter  <a href="#aa134dc9e7477cc50164af31da6689871">More...</a><br /></td></tr>
+<tr class="separator:aa134dc9e7477cc50164af31da6689871"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
+Signals</h2></td></tr>
+<tr class="memitem:a6b1c8b1d1e9faa84d29dd296e0ffbc67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1gui_1_1_chromosom_widget.html#a6b1c8b1d1e9faa84d29dd296e0ffbc67">selectionChanged</a> (const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;region)</td></tr>
+<tr class="memdesc:a6b1c8b1d1e9faa84d29dd296e0ffbc67"><td class="mdescLeft">&#160;</td><td class="mdescRight">selectionChanged Mandatory signals methods working with selectionRouter  <a href="#a6b1c8b1d1e9faa84d29dd296e0ffbc67">More...</a><br /></td></tr>
+<tr class="separator:a6b1c8b1d1e9faa84d29dd296e0ffbc67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6576a03a0e6e5daa328bdcafbdfbef97"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6576a03a0e6e5daa328bdcafbdfbef97"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ChromosomWidget</b> (QWidget *parent=0)</td></tr>
 <tr class="separator:a6576a03a0e6e5daa328bdcafbdfbef97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4251be97d570a9bd7c9407dd5a05f389"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_genom.html">Genom</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1gui_1_1_chromosom_widget.html#a4251be97d570a9bd7c9407dd5a05f389">genom</a> ()</td></tr>
+<tr class="memdesc:a4251be97d570a9bd7c9407dd5a05f389"><td class="mdescLeft">&#160;</td><td class="mdescRight">genom  <a href="#a4251be97d570a9bd7c9407dd5a05f389">More...</a><br /></td></tr>
+<tr class="separator:a4251be97d570a9bd7c9407dd5a05f389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4df978666036388bdcf8bcb44673896"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1gui_1_1_chromosom_widget.html#ac4df978666036388bdcf8bcb44673896">setGenom</a> (<a class="el" href="classbig_1_1core_1_1_genom.html">Genom</a> *<a class="el" href="classbig_1_1gui_1_1_chromosom_widget.html#a4251be97d570a9bd7c9407dd5a05f389">genom</a>)</td></tr>
+<tr class="memdesc:ac4df978666036388bdcf8bcb44673896"><td class="mdescLeft">&#160;</td><td class="mdescRight">setGenom  <a href="#ac4df978666036388bdcf8bcb44673896">More...</a><br /></td></tr>
+<tr class="separator:ac4df978666036388bdcf8bcb44673896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-slots"></a>
+Protected Slots</h2></td></tr>
+<tr class="memitem:af2f6673497599d94985a37f4be9431f6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2f6673497599d94985a37f4be9431f6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1gui_1_1_chromosom_widget.html#af2f6673497599d94985a37f4be9431f6">updateChromosom</a> ()</td></tr>
+<tr class="memdesc:af2f6673497599d94985a37f4be9431f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">updateChromosom repaint the chromosom from actual state <br /></td></tr>
+<tr class="separator:af2f6673497599d94985a37f4be9431f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a3fd45e5f311233d4048a7d757546efd2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3fd45e5f311233d4048a7d757546efd2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>paintEvent</b> (QPaintEvent *)</td></tr>
-<tr class="separator:a3fd45e5f311233d4048a7d757546efd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ba1205f11e375b8488a8adf273b0cc1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7ba1205f11e375b8488a8adf273b0cc1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawChromosom</b> (QPainter *painter)</td></tr>
-<tr class="separator:a7ba1205f11e375b8488a8adf273b0cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2a7716bf0ff03c18e8aebd3b0de9358"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab2a7716bf0ff03c18e8aebd3b0de9358"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>paintEvent</b> (QPaintEvent *event) Q_DECL_OVERRIDE</td></tr>
+<tr class="separator:ab2a7716bf0ff03c18e8aebd3b0de9358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63423b2635a79e3a8afac87bc095d8cc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a63423b2635a79e3a8afac87bc095d8cc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseMoveEvent</b> (QMouseEvent *event) Q_DECL_OVERRIDE</td></tr>
+<tr class="separator:a63423b2635a79e3a8afac87bc095d8cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a260ec6dfdb541beb46bfb19e11aa4ad6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a260ec6dfdb541beb46bfb19e11aa4ad6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>mousePressEvent</b> (QMouseEvent *event) Q_DECL_OVERRIDE</td></tr>
+<tr class="separator:a260ec6dfdb541beb46bfb19e11aa4ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9eaf02c99a896f475e3857f178bc0a3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad9eaf02c99a896f475e3857f178bc0a3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseReleaseEvent</b> (QMouseEvent *event)</td></tr>
+<tr class="separator:ad9eaf02c99a896f475e3857f178bc0a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71e87c6c48d895882d5009771e1112e7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a71e87c6c48d895882d5009771e1112e7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseDoubleClickEvent</b> (QMouseEvent *event) Q_DECL_OVERRIDE</td></tr>
+<tr class="separator:a71e87c6c48d895882d5009771e1112e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0208316a941e214b2716a62e623c4df"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0208316a941e214b2716a62e623c4df"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>enterEvent</b> (QEvent *event) Q_DECL_OVERRIDE</td></tr>
+<tr class="separator:aa0208316a941e214b2716a62e623c4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a394de2b0ec4ed72996cdee06c9ce1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6a394de2b0ec4ed72996cdee06c9ce1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>leaveEvent</b> (QEvent *event) Q_DECL_OVERRIDE</td></tr>
+<tr class="separator:af6a394de2b0ec4ed72996cdee06c9ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46ca061aee9c09edd23274f61e4362c2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46ca061aee9c09edd23274f61e4362c2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>keyPressEvent</b> (QKeyEvent *event) Q_DECL_OVERRIDE</td></tr>
+<tr class="separator:a46ca061aee9c09edd23274f61e4362c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74702b780dd47d6cc18d710be02fabe2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74702b780dd47d6cc18d710be02fabe2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRegions</b> (QPainter *painter)</td></tr>
+<tr class="separator:a74702b780dd47d6cc18d710be02fabe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43df1c5f2429ae0b6e45ca1ca1968d98"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43df1c5f2429ae0b6e45ca1ca1968d98"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawLabels</b> (QPainter *painter)</td></tr>
+<tr class="separator:a43df1c5f2429ae0b6e45ca1ca1968d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac67ee23255afa80cf07c24d909ab10cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac67ee23255afa80cf07c24d909ab10cf"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawCursorLayer</b> (QPainter *painter)</td></tr>
+<tr class="separator:ac67ee23255afa80cf07c24d909ab10cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87cd66d67b36b10d35cae467c8d31e9a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a87cd66d67b36b10d35cae467c8d31e9a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>drawFrameLayer</b> (QPainter *painter)</td></tr>
+<tr class="separator:a87cd66d67b36b10d35cae467c8d31e9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bc365dc2e9a99a44bc4baed3585a58d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bc365dc2e9a99a44bc4baed3585a58d"></a>
+QPainterPath&#160;</td><td class="memItemRight" valign="bottom"><b>getChromosomWrapperShape</b> (int wrapperPadding, int wrc) const </td></tr>
+<tr class="separator:a7bc365dc2e9a99a44bc4baed3585a58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84a529d4f3effcea6c9200008a0946be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84a529d4f3effcea6c9200008a0946be"></a>
+quint64&#160;</td><td class="memItemRight" valign="bottom"><b>pixelToBase</b> (int pixel)</td></tr>
+<tr class="separator:a84a529d4f3effcea6c9200008a0946be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9302e03af6deff0171d0b1238d68eb9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac9302e03af6deff0171d0b1238d68eb9"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>baseToPixel</b> (quint64 base)</td></tr>
+<tr class="separator:ac9302e03af6deff0171d0b1238d68eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11285490a080013e6a1dff7bbe4640fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11285490a080013e6a1dff7bbe4640fe"></a>
+<a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getRegionAtPixel</b> (int pixelPos)</td></tr>
+<tr class="separator:a11285490a080013e6a1dff7bbe4640fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accb84140ae982ae8a71c5eb9cfec47cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="accb84140ae982ae8a71c5eb9cfec47cb"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>initStainColorFromRegions</b> ()</td></tr>
+<tr class="separator:accb84140ae982ae8a71c5eb9cfec47cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6667fd121677c71229f44528434dcd4f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6667fd121677c71229f44528434dcd4f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>updateFrame</b> (QRect newFrame, bool updateSelector=true)</td></tr>
+<tr class="separator:a6667fd121677c71229f44528434dcd4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4251be97d570a9bd7c9407dd5a05f389"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classbig_1_1core_1_1_genom.html">Genom</a> * big::gui::ChromosomWidget::genom </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>genom </p>
+<dl class="section return"><dt>Returns</dt><dd>genom pointer </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6b1c8b1d1e9faa84d29dd296e0ffbc67"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void big::gui::ChromosomWidget::selectionChanged </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;&#160;</td>
+          <td class="paramname"><em>region</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>selectionChanged Mandatory signals methods working with selectionRouter </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">region</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ac4df978666036388bdcf8bcb44673896"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void big::gui::ChromosomWidget::setGenom </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classbig_1_1core_1_1_genom.html">Genom</a> *&#160;</td>
+          <td class="paramname"><em>genom</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>setGenom </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">genom</td><td>pointer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aa134dc9e7477cc50164af31da6689871"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void big::gui::ChromosomWidget::setSelection </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;&#160;</td>
+          <td class="paramname"><em>region</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>setSelection Mandatory slot methods working with selectionRouter </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">region</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/gui/<a class="el" href="chromosomwidget_8h_source.html">chromosomwidget.h</a></li>
 <li>src/gui/chromosomwidget.cpp</li>

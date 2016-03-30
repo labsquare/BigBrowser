@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -105,70 +105,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for big::core::AbstractRegionReader:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="classbig_1_1core_1_1_abstract_region_reader.png" usemap="#big::core::AbstractRegionReader_map" alt=""/>
-  <map id="big::core::AbstractRegionReader_map" name="big::core::AbstractRegionReader_map">
-<area href="classbig_1_1core_1_1_cytoband_reader.html" title="Region reader for Cytoband file. " alt="big::core::CytobandReader" shape="rect" coords="0,56,194,80"/>
-</map>
- </div></div>
+<div class="center"><img src="classbig_1_1core_1_1_abstract_region_reader__inherit__graph.png" border="0" usemap="#big_1_1core_1_1_abstract_region_reader_inherit__map" alt="Inheritance graph"/></div>
+<map name="big_1_1core_1_1_abstract_region_reader_inherit__map" id="big_1_1core_1_1_abstract_region_reader_inherit__map">
+<area shape="rect" id="node2" href="classbig_1_1core_1_1_abstract_text_region_reader.html" title="big::core::AbstractTextRegion\lReader" alt="" coords="224,99,420,141"/><area shape="rect" id="node3" href="classbig_1_1core_1_1_bed_graph_reader.html" title="big::core::BedGraphReader" alt="" coords="468,5,648,32"/><area shape="rect" id="node4" href="classbig_1_1core_1_1_bed_reader.html" title="big::core::BedReader" alt="" coords="485,56,631,83"/><area shape="rect" id="node5" href="classbig_1_1core_1_1_cytoband_reader.html" title="Region reader for Cytoband file. " alt="" coords="469,107,647,133"/><area shape="rect" id="node6" href="classbig_1_1core_1_1_gff_reader.html" title="big::core::GffReader" alt="" coords="488,157,628,184"/><area shape="rect" id="node7" href="classbig_1_1core_1_1_vcf_reader.html" title="big::core::VcfReader" alt="" coords="487,208,629,235"/></map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a43f08c4ef002a3a15ddd5f0b82af4e2b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43f08c4ef002a3a15ddd5f0b82af4e2b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>AbstractRegionReader</b> (QIODevice *device)</td></tr>
 <tr class="separator:a43f08c4ef002a3a15ddd5f0b82af4e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0f90d541b95412b881a8ce2bcd0893e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0f90d541b95412b881a8ce2bcd0893e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>AbstractRegionReader</b> (const QString &amp;filename)</td></tr>
-<tr class="separator:aa0f90d541b95412b881a8ce2bcd0893e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a420e4d29058eb1fb3cfc6ae99cc0edfd"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#a420e4d29058eb1fb3cfc6ae99cc0edfd">currentLine</a> () const </td></tr>
-<tr class="memdesc:a420e4d29058eb1fb3cfc6ae99cc0edfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">currentLine  <a href="#a420e4d29058eb1fb3cfc6ae99cc0edfd">More...</a><br /></td></tr>
-<tr class="separator:a420e4d29058eb1fb3cfc6ae99cc0edfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3619294c88d7a99b045eeeb9a5cdee6c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3619294c88d7a99b045eeeb9a5cdee6c"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>open</b> (QIODevice::OpenMode mode=QIODevice::ReadOnly)</td></tr>
+<tr class="separator:a3619294c88d7a99b045eeeb9a5cdee6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81667f3b4c654cc477dfd9344208b1bb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#a81667f3b4c654cc477dfd9344208b1bb">reset</a> ()</td></tr>
 <tr class="memdesc:a81667f3b4c654cc477dfd9344208b1bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">reset  <a href="#a81667f3b4c654cc477dfd9344208b1bb">More...</a><br /></td></tr>
 <tr class="separator:a81667f3b4c654cc477dfd9344208b1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8f4b74d806ff53e886eac288740bc3c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#ab8f4b74d806ff53e886eac288740bc3c">region</a> () const </td></tr>
-<tr class="memdesc:ab8f4b74d806ff53e886eac288740bc3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">region  <a href="#ab8f4b74d806ff53e886eac288740bc3c">More...</a><br /></td></tr>
-<tr class="separator:ab8f4b74d806ff53e886eac288740bc3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a306ccd91b5f3a59f60a4e01be913c928"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_region_list.html">RegionList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#a306ccd91b5f3a59f60a4e01be913c928">regions</a> ()</td></tr>
-<tr class="memdesc:a306ccd91b5f3a59f60a4e01be913c928"><td class="mdescLeft">&#160;</td><td class="mdescRight">regions  <a href="#a306ccd91b5f3a59f60a4e01be913c928">More...</a><br /></td></tr>
-<tr class="separator:a306ccd91b5f3a59f60a4e01be913c928"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30cb88f18cb734e2ff745f2c31d9cbdd"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#a30cb88f18cb734e2ff745f2c31d9cbdd">next</a> ()=0</td></tr>
 <tr class="memdesc:a30cb88f18cb734e2ff745f2c31d9cbdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">next  <a href="#a30cb88f18cb734e2ff745f2c31d9cbdd">More...</a><br /></td></tr>
 <tr class="separator:a30cb88f18cb734e2ff745f2c31d9cbdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2870fa712890ffda791b576274c12f0b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#a2870fa712890ffda791b576274c12f0b">region</a> ()</td></tr>
+<tr class="memdesc:a2870fa712890ffda791b576274c12f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">region  <a href="#a2870fa712890ffda791b576274c12f0b">More...</a><br /></td></tr>
+<tr class="separator:a2870fa712890ffda791b576274c12f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a306ccd91b5f3a59f60a4e01be913c928"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_region_list.html">RegionList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#a306ccd91b5f3a59f60a4e01be913c928">regions</a> ()</td></tr>
+<tr class="memdesc:a306ccd91b5f3a59f60a4e01be913c928"><td class="mdescLeft">&#160;</td><td class="mdescRight">regions  <a href="#a306ccd91b5f3a59f60a4e01be913c928">More...</a><br /></td></tr>
+<tr class="separator:a306ccd91b5f3a59f60a4e01be913c928"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a2a2238f18ffefc0d4df23a07e3828c75"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a2238f18ffefc0d4df23a07e3828c75"></a>
 QIODevice *&#160;</td><td class="memItemRight" valign="bottom"><b>device</b> ()</td></tr>
 <tr class="separator:a2a2238f18ffefc0d4df23a07e3828c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7498e8c9ec5385e9bc584c2e9c7b7959"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7498e8c9ec5385e9bc584c2e9c7b7959"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setRegion</b> (const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;<a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#ab8f4b74d806ff53e886eac288740bc3c">region</a>)</td></tr>
-<tr class="separator:a7498e8c9ec5385e9bc584c2e9c7b7959"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af35af5367bc3a8b2dca1574f2d963a5a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af35af5367bc3a8b2dca1574f2d963a5a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentLine</b> (qint64 line)</td></tr>
-<tr class="separator:af35af5367bc3a8b2dca1574f2d963a5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94de97d5d677b9139c4a2d64804bc34e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94de97d5d677b9139c4a2d64804bc34e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentRegion</b> (const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp;<a class="el" href="classbig_1_1core_1_1_abstract_region_reader.html#a2870fa712890ffda791b576274c12f0b">region</a>)</td></tr>
+<tr class="separator:a94de97d5d677b9139c4a2d64804bc34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class of all file <a class="el" href="classbig_1_1core_1_1_region.html" title="Describe a region of dna delimited by chromosom:pos-length. ">Region</a> Reader. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a420e4d29058eb1fb3cfc6ae99cc0edfd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">qint64 big::core::AbstractRegionReader::currentLine </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>currentLine </p>
-<dl class="section return"><dt>Returns</dt><dd>the current line number of reader </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a30cb88f18cb734e2ff745f2c31d9cbdd"></a>
 <div class="memitem">
 <div class="memproto">
@@ -193,11 +167,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentLine</b> (q
 <p>next </p>
 <p>iter to the next line and set the new region </p><dl class="section return"><dt>Returns</dt><dd>True if success. If the end of file is reach , return false </dd></dl>
 
-<p>Implemented in <a class="el" href="classbig_1_1core_1_1_cytoband_reader.html#a3185ab8ada1c12fd2b368e1f95d92e47">big::core::CytobandReader</a>.</p>
+<p>Implemented in <a class="el" href="classbig_1_1core_1_1_abstract_text_region_reader.html#ab492d0b790320f755e60c254f92d8d25">big::core::AbstractTextRegionReader</a>, and <a class="el" href="classbig_1_1core_1_1_bed_graph_reader.html#af1271b87f7b26c2442113ee3227df200">big::core::BedGraphReader</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab8f4b74d806ff53e886eac288740bc3c"></a>
+<a class="anchor" id="a2870fa712890ffda791b576274c12f0b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -205,13 +179,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentLine</b> (q
           <td class="memname">const <a class="el" href="classbig_1_1core_1_1_region.html">Region</a> &amp; big::core::AbstractRegionReader::region </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>region </p>
-<dl class="section return"><dt>Returns</dt><dd>current <a class="el" href="classbig_1_1core_1_1_region.html" title="Describe a region of dna delimited by chromosom:pos-length. ">Region</a> according to the current line </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>current <a class="el" href="classbig_1_1core_1_1_region.html" title="Describe a region of dna delimited by chromosom:pos-length. ">Region</a> </dd></dl>
 
 </div>
 </div>
@@ -255,7 +229,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setCurrentLine</b> (q
 </div><div class="memdoc">
 
 <p>reset </p>
-<p>Reset current internal state to 0. Current Line will be set to 0 </p>
+<p>Reset current internal state to 0. </p>
 
 </div>
 </div>

@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -91,6 +91,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="classbig_1_1core_1_1_genom-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">big::core::Genom Class Reference</div>  </div>
@@ -104,34 +106,89 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ac764025f93c8faab154a181cf98427b9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac764025f93c8faab154a181cf98427b9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Genom</b> (QIODevice *device)</td></tr>
+<tr class="separator:ac764025f93c8faab154a181cf98427b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab32d8b7e1ead355ebdac0a0b5e37c5b1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab32d8b7e1ead355ebdac0a0b5e37c5b1"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Genom</b> (const QString &amp;filename)</td></tr>
 <tr class="separator:ab32d8b7e1ead355ebdac0a0b5e37c5b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a323a6a323d6816661cc5c369874b3ee4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a323a6a323d6816661cc5c369874b3ee4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> (QIODevice *device)</td></tr>
+<tr class="separator:a323a6a323d6816661cc5c369874b3ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55bdd55cc733cb2c5ecab3faa57d35a4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a55bdd55cc733cb2c5ecab3faa57d35a4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> (const QString &amp;filename)</td></tr>
+<tr class="separator:a55bdd55cc733cb2c5ecab3faa57d35a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b954b892a4a6cbca20b75cacd5b9309"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#a0b954b892a4a6cbca20b75cacd5b9309">chromosomCount</a> ()</td></tr>
 <tr class="memdesc:a0b954b892a4a6cbca20b75cacd5b9309"><td class="mdescLeft">&#160;</td><td class="mdescRight">chromosomCount  <a href="#a0b954b892a4a6cbca20b75cacd5b9309">More...</a><br /></td></tr>
 <tr class="separator:a0b954b892a4a6cbca20b75cacd5b9309"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1de8c73d0a60274d5b5f316452409727"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#a1de8c73d0a60274d5b5f316452409727">chromosomLength</a> (const QString &amp;chromosom)</td></tr>
 <tr class="memdesc:a1de8c73d0a60274d5b5f316452409727"><td class="mdescLeft">&#160;</td><td class="mdescRight">chromosomLength  <a href="#a1de8c73d0a60274d5b5f316452409727">More...</a><br /></td></tr>
 <tr class="separator:a1de8c73d0a60274d5b5f316452409727"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82915e114737a5e3b937fbb28d77dd51"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#a82915e114737a5e3b937fbb28d77dd51">sequence</a> (const QString &amp;chromosom, qint64 pos, qint64 length)</td></tr>
-<tr class="memdesc:a82915e114737a5e3b937fbb28d77dd51"><td class="mdescLeft">&#160;</td><td class="mdescRight">sequence  <a href="#a82915e114737a5e3b937fbb28d77dd51">More...</a><br /></td></tr>
-<tr class="separator:a82915e114737a5e3b937fbb28d77dd51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8498d690be9c075f10c20ae4501e07b"><td class="memItemLeft" align="right" valign="top">const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#ae8498d690be9c075f10c20ae4501e07b">name</a> () const </td></tr>
-<tr class="memdesc:ae8498d690be9c075f10c20ae4501e07b"><td class="mdescLeft">&#160;</td><td class="mdescRight">name  <a href="#ae8498d690be9c075f10c20ae4501e07b">More...</a><br /></td></tr>
-<tr class="separator:ae8498d690be9c075f10c20ae4501e07b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd57c34b90c9fc166429c4b7d87fe205"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd57c34b90c9fc166429c4b7d87fe205"></a>
-const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>filename</b> () const </td></tr>
-<tr class="separator:abd57c34b90c9fc166429c4b7d87fe205"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c5f5aa5cbdb3320ee3a153f31180094"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#a1c5f5aa5cbdb3320ee3a153f31180094">hasIndex</a> ()</td></tr>
-<tr class="memdesc:a1c5f5aa5cbdb3320ee3a153f31180094"><td class="mdescLeft">&#160;</td><td class="mdescRight">hasIndex  <a href="#a1c5f5aa5cbdb3320ee3a153f31180094">More...</a><br /></td></tr>
-<tr class="separator:a1c5f5aa5cbdb3320ee3a153f31180094"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27a359e71dfebc4dd6e7ea7ec9d56678"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#a27a359e71dfebc4dd6e7ea7ec9d56678">createIndex</a> ()</td></tr>
-<tr class="memdesc:a27a359e71dfebc4dd6e7ea7ec9d56678"><td class="mdescLeft">&#160;</td><td class="mdescRight">createIndex  <a href="#a27a359e71dfebc4dd6e7ea7ec9d56678">More...</a><br /></td></tr>
-<tr class="separator:a27a359e71dfebc4dd6e7ea7ec9d56678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc1546409f7643af6949771faec27d74"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afc1546409f7643af6949771faec27d74"></a>
+QStringList&#160;</td><td class="memItemRight" valign="bottom"><b>chromosoms</b> ()</td></tr>
+<tr class="separator:afc1546409f7643af6949771faec27d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bac9eca8dc50d4d30343e9fa787bde8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classbig_1_1core_1_1_region_list.html">RegionList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#a4bac9eca8dc50d4d30343e9fa787bde8">chromosomBand</a> (const QString &amp;chromosom) const </td></tr>
+<tr class="memdesc:a4bac9eca8dc50d4d30343e9fa787bde8"><td class="mdescLeft">&#160;</td><td class="mdescRight">cytoBand Return cytoband according chromosom name  <a href="#a4bac9eca8dc50d4d30343e9fa787bde8">More...</a><br /></td></tr>
+<tr class="separator:a4bac9eca8dc50d4d30343e9fa787bde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aa2b90e4af9930d2f4c16621f16da99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbig_1_1core_1_1_sequence.html">Sequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#a8aa2b90e4af9930d2f4c16621f16da99">sequence</a> (const QString &amp;chromosom, quint64 pos, quint64 length)</td></tr>
+<tr class="memdesc:a8aa2b90e4af9930d2f4c16621f16da99"><td class="mdescLeft">&#160;</td><td class="mdescRight">sequence  <a href="#a8aa2b90e4af9930d2f4c16621f16da99">More...</a><br /></td></tr>
+<tr class="separator:a8aa2b90e4af9930d2f4c16621f16da99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a705301cd1aa094058c7f038ac044edf6"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#a705301cd1aa094058c7f038ac044edf6">name</a> () const </td></tr>
+<tr class="memdesc:a705301cd1aa094058c7f038ac044edf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">name  <a href="#a705301cd1aa094058c7f038ac044edf6">More...</a><br /></td></tr>
+<tr class="separator:a705301cd1aa094058c7f038ac044edf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c458a0db0061ecb399df7826efc8712"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c458a0db0061ecb399df7826efc8712"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> () const </td></tr>
+<tr class="separator:a1c458a0db0061ecb399df7826efc8712"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0681ac142b61b348e7fba15102d85ca2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0681ac142b61b348e7fba15102d85ca2"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isValid</b> ()</td></tr>
+<tr class="separator:a0681ac142b61b348e7fba15102d85ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedd43a0c4d8fe79e880445a240a0a93b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#aedd43a0c4d8fe79e880445a240a0a93b">hasCytoband</a> ()</td></tr>
+<tr class="memdesc:aedd43a0c4d8fe79e880445a240a0a93b"><td class="mdescLeft">&#160;</td><td class="mdescRight">hasIndex  <a href="#aedd43a0c4d8fe79e880445a240a0a93b">More...</a><br /></td></tr>
+<tr class="separator:aedd43a0c4d8fe79e880445a240a0a93b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ad9fe0dbb7327acbaa7c830c638bd176c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_genom.html#ad9fe0dbb7327acbaa7c830c638bd176c">loadCytoBand</a> (QIODevice *device)</td></tr>
+<tr class="memdesc:ad9fe0dbb7327acbaa7c830c638bd176c"><td class="mdescLeft">&#160;</td><td class="mdescRight">createIndex  <a href="#ad9fe0dbb7327acbaa7c830c638bd176c">More...</a><br /></td></tr>
+<tr class="separator:ad9fe0dbb7327acbaa7c830c638bd176c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20379482387e087478ce6c073160fe1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20379482387e087478ce6c073160fe1d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>loadProperty</b> (QIODevice *device)</td></tr>
+<tr class="separator:a20379482387e087478ce6c073160fe1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:a0f47d311cced878501eddd5366f63d4f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f47d311cced878501eddd5366f63d4f"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>chromosomLessThan</b> (const QString &amp;s1, const QString &amp;s2)</td></tr>
+<tr class="separator:a0f47d311cced878501eddd5366f63d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Describe a genom. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4bac9eca8dc50d4d30343e9fa787bde8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classbig_1_1core_1_1_region_list.html">RegionList</a> big::core::Genom::chromosomBand </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>chromosom</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>cytoBand Return cytoband according chromosom name </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chromosom</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>list of <a class="el" href="classbig_1_1core_1_1_region.html" title="Describe a region of dna delimited by chromosom:pos-length. ">Region</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a0b954b892a4a6cbca20b75cacd5b9309"></a>
 <div class="memitem">
 <div class="memproto">
@@ -175,30 +232,12 @@ const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>filena
 
 </div>
 </div>
-<a class="anchor" id="a27a359e71dfebc4dd6e7ea7ec9d56678"></a>
+<a class="anchor" id="aedd43a0c4d8fe79e880445a240a0a93b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void big::core::Genom::createIndex </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>createIndex </p>
-<p>Create the faidx for the genom. Il may takes some time </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Threading the process ? </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a1c5f5aa5cbdb3320ee3a153f31180094"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool big::core::Genom::hasIndex </td>
+          <td class="memname">bool big::core::Genom::hasCytoband </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -207,16 +246,45 @@ const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>filena
 </div><div class="memdoc">
 
 <p>hasIndex </p>
-<p>Check if faidx exists for the genom </p><dl class="section return"><dt>Returns</dt><dd>True if it exists. Otherwise return false </dd></dl>
+<p>Check if faidx exists for the genom </p><dl class="section return"><dt>Returns</dt><dd>True if it exists. Otherwise return false</dd></dl>
+<p>hasCytoband </p><dl class="section return"><dt>Returns</dt><dd>if cytoband file exists </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ae8498d690be9c075f10c20ae4501e07b"></a>
+<a class="anchor" id="ad9fe0dbb7327acbaa7c830c638bd176c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void big::core::Genom::loadCytoBand </td>
+          <td>(</td>
+          <td class="paramtype">QIODevice *&#160;</td>
+          <td class="paramname"><em>device</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>createIndex </p>
+<p>Create the faidx for the genom.</p>
+<p>Please read this page, to understand the purpose of this methodes <a href="http://www.htslib.org/doc/faidx.html">http://www.htslib.org/doc/faidx.html</a> </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Threading the process ? </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a705301cd1aa094058c7f038ac044edf6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const QString &amp; big::core::Genom::name </td>
+          <td class="memname">QString big::core::Genom::name </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -229,7 +297,7 @@ const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>filena
 
 </div>
 </div>
-<a class="anchor" id="a82915e114737a5e3b937fbb28d77dd51"></a>
+<a class="anchor" id="a8aa2b90e4af9930d2f4c16621f16da99"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -242,13 +310,13 @@ const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>filena
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">qint64&#160;</td>
+          <td class="paramtype">quint64&#160;</td>
           <td class="paramname"><em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">qint64&#160;</td>
+          <td class="paramtype">quint64&#160;</td>
           <td class="paramname"><em>length</em>&#160;</td>
         </tr>
         <tr>
@@ -260,7 +328,7 @@ const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>filena
 </div><div class="memdoc">
 
 <p>sequence </p>
-<p>Warning : <a class="el" href="classbig_1_1core_1_1_genom.html" title="Describe a genom. ">Genom</a> should be indexed in faidx. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classbig_1_1core_1_1_genom.html#a1c5f5aa5cbdb3320ee3a153f31180094" title="hasIndex ">hasIndex</a> </dd></dl>
+<p>Warning : <a class="el" href="classbig_1_1core_1_1_genom.html" title="Describe a genom. ">Genom</a> should be indexed in faidx. </p><dl class="section see"><dt>See also</dt><dd>hasIndex </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">chromosom</td><td></td></tr>

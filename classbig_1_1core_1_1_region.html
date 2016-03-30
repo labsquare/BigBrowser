@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -91,7 +91,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classbig_1_1core_1_1_region-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">big::core::Region Class Reference</div>  </div>
@@ -105,42 +104,54 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3674b130fdbfee148c078577c4664cc3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a3674b130fdbfee148c078577c4664cc3">Region</a> (const QString &amp;<a class="el" href="classbig_1_1core_1_1_region.html#a30cd83873634f15c2d014e1129487a34">chromosom</a>, qint64 <a class="el" href="classbig_1_1core_1_1_region.html#ae977500eef0d67d41aceabb00e8ba2cf">pos</a>, qint64 <a class="el" href="classbig_1_1core_1_1_region.html#a1892f1fdb7d3b9ffd2c8695aecdc57e0">length</a>)</td></tr>
-<tr class="memdesc:a3674b130fdbfee148c078577c4664cc3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classbig_1_1core_1_1_region.html" title="Describe a region of dna delimited by chromosom:pos-length. ">Region</a> Constructor.  <a href="#a3674b130fdbfee148c078577c4664cc3">More...</a><br /></td></tr>
-<tr class="separator:a3674b130fdbfee148c078577c4664cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa484cc926586bc71d3b298d7c8519ffa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#aa484cc926586bc71d3b298d7c8519ffa">Region</a> (const QString &amp;expression)</td></tr>
-<tr class="memdesc:aa484cc926586bc71d3b298d7c8519ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classbig_1_1core_1_1_region.html" title="Describe a region of dna delimited by chromosom:pos-length. ">Region</a> Constructor.  <a href="#aa484cc926586bc71d3b298d7c8519ffa">More...</a><br /></td></tr>
-<tr class="separator:aa484cc926586bc71d3b298d7c8519ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8186078d8c5bdcb4490e54391615bd0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#ad8186078d8c5bdcb4490e54391615bd0">Region</a> (const QString &amp;<a class="el" href="classbig_1_1core_1_1_region.html#a30cd83873634f15c2d014e1129487a34">chromosom</a>, quint64 <a class="el" href="classbig_1_1core_1_1_region.html#ab3f7412d399136dab001d9d414c4b517">start</a>, quint64 <a class="el" href="classbig_1_1core_1_1_region.html#aff1ff2e83cf6fa5e36ada98e8b8b017f">end</a>)</td></tr>
+<tr class="memdesc:ad8186078d8c5bdcb4490e54391615bd0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classbig_1_1core_1_1_region.html" title="Describe a region of dna delimited by chromosom:pos-length. ">Region</a> Constructor.  <a href="#ad8186078d8c5bdcb4490e54391615bd0">More...</a><br /></td></tr>
+<tr class="separator:ad8186078d8c5bdcb4490e54391615bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef00bdbad6d38a084086c2c547d44ced"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#aef00bdbad6d38a084086c2c547d44ced">Region</a> (const QString &amp;pattern)</td></tr>
+<tr class="memdesc:aef00bdbad6d38a084086c2c547d44ced"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classbig_1_1core_1_1_region.html" title="Describe a region of dna delimited by chromosom:pos-length. ">Region</a> Constructor.  <a href="#aef00bdbad6d38a084086c2c547d44ced">More...</a><br /></td></tr>
+<tr class="separator:aef00bdbad6d38a084086c2c547d44ced"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b397f67a6b783b14a698eb09120bfb4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6b397f67a6b783b14a698eb09120bfb4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setRegion</b> (const QString &amp;<a class="el" href="classbig_1_1core_1_1_region.html#a30cd83873634f15c2d014e1129487a34">chromosom</a>, quint64 <a class="el" href="classbig_1_1core_1_1_region.html#ab3f7412d399136dab001d9d414c4b517">start</a>, quint64 <a class="el" href="classbig_1_1core_1_1_region.html#aff1ff2e83cf6fa5e36ada98e8b8b017f">end</a>)</td></tr>
+<tr class="separator:a6b397f67a6b783b14a698eb09120bfb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d17e4ea274e12c30583863777ca93e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d17e4ea274e12c30583863777ca93e5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setRegion</b> (const QString &amp;patern)</td></tr>
+<tr class="separator:a0d17e4ea274e12c30583863777ca93e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c5f8bb09a44d328aa6b0d04dd7ad17c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c5f8bb09a44d328aa6b0d04dd7ad17c"></a>
 const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const </td></tr>
 <tr class="separator:a8c5f8bb09a44d328aa6b0d04dd7ad17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30cd83873634f15c2d014e1129487a34"><td class="memItemLeft" align="right" valign="top">const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a30cd83873634f15c2d014e1129487a34">chromosom</a> () const </td></tr>
-<tr class="memdesc:a30cd83873634f15c2d014e1129487a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">chromosom  <a href="#a30cd83873634f15c2d014e1129487a34">More...</a><br /></td></tr>
-<tr class="separator:a30cd83873634f15c2d014e1129487a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae977500eef0d67d41aceabb00e8ba2cf"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#ae977500eef0d67d41aceabb00e8ba2cf">pos</a> () const </td></tr>
-<tr class="memdesc:ae977500eef0d67d41aceabb00e8ba2cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">pos  <a href="#ae977500eef0d67d41aceabb00e8ba2cf">More...</a><br /></td></tr>
-<tr class="separator:ae977500eef0d67d41aceabb00e8ba2cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1892f1fdb7d3b9ffd2c8695aecdc57e0"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a1892f1fdb7d3b9ffd2c8695aecdc57e0">length</a> () const </td></tr>
-<tr class="memdesc:a1892f1fdb7d3b9ffd2c8695aecdc57e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">length  <a href="#a1892f1fdb7d3b9ffd2c8695aecdc57e0">More...</a><br /></td></tr>
-<tr class="separator:a1892f1fdb7d3b9ffd2c8695aecdc57e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7aad69ba5ece41556abe4e61af838470"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a7aad69ba5ece41556abe4e61af838470">first</a> () const </td></tr>
-<tr class="memdesc:a7aad69ba5ece41556abe4e61af838470"><td class="mdescLeft">&#160;</td><td class="mdescRight">start  <a href="#a7aad69ba5ece41556abe4e61af838470">More...</a><br /></td></tr>
-<tr class="separator:a7aad69ba5ece41556abe4e61af838470"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeff574b6d0a30ee205378abeb6a0efd9"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#aeff574b6d0a30ee205378abeb6a0efd9">last</a> () const </td></tr>
-<tr class="memdesc:aeff574b6d0a30ee205378abeb6a0efd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">end  <a href="#aeff574b6d0a30ee205378abeb6a0efd9">More...</a><br /></td></tr>
-<tr class="separator:aeff574b6d0a30ee205378abeb6a0efd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6c28adc88b699b4ae8b3577409e9ef9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6c28adc88b699b4ae8b3577409e9ef9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setName</b> (const QString &amp;name)</td></tr>
 <tr class="separator:ae6c28adc88b699b4ae8b3577409e9ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30cd83873634f15c2d014e1129487a34"><td class="memItemLeft" align="right" valign="top">const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a30cd83873634f15c2d014e1129487a34">chromosom</a> () const </td></tr>
+<tr class="memdesc:a30cd83873634f15c2d014e1129487a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">chromosom  <a href="#a30cd83873634f15c2d014e1129487a34">More...</a><br /></td></tr>
+<tr class="separator:a30cd83873634f15c2d014e1129487a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520ec49d0534f8c81c79e36d3c7a3cbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a520ec49d0534f8c81c79e36d3c7a3cbc">setChromosom</a> (const QString &amp;<a class="el" href="classbig_1_1core_1_1_region.html#a30cd83873634f15c2d014e1129487a34">chromosom</a>)</td></tr>
 <tr class="memdesc:a520ec49d0534f8c81c79e36d3c7a3cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">setChromosom  <a href="#a520ec49d0534f8c81c79e36d3c7a3cbc">More...</a><br /></td></tr>
 <tr class="separator:a520ec49d0534f8c81c79e36d3c7a3cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5244d085c43813539f761a1a26ba97cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a5244d085c43813539f761a1a26ba97cf">setPos</a> (qint64 <a class="el" href="classbig_1_1core_1_1_region.html#ae977500eef0d67d41aceabb00e8ba2cf">pos</a>)</td></tr>
-<tr class="memdesc:a5244d085c43813539f761a1a26ba97cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">setPos  <a href="#a5244d085c43813539f761a1a26ba97cf">More...</a><br /></td></tr>
-<tr class="separator:a5244d085c43813539f761a1a26ba97cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93410c70fac9089ac1c1d60bd897d58a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a93410c70fac9089ac1c1d60bd897d58a">setLength</a> (qint64 <a class="el" href="classbig_1_1core_1_1_region.html#a1892f1fdb7d3b9ffd2c8695aecdc57e0">length</a>)</td></tr>
-<tr class="memdesc:a93410c70fac9089ac1c1d60bd897d58a"><td class="mdescLeft">&#160;</td><td class="mdescRight">setLength  <a href="#a93410c70fac9089ac1c1d60bd897d58a">More...</a><br /></td></tr>
-<tr class="separator:a93410c70fac9089ac1c1d60bd897d58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7124a8c6c3c4c9072e3d4dd6b8c8b92d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7124a8c6c3c4c9072e3d4dd6b8c8b92d"></a>
+quint64&#160;</td><td class="memItemRight" valign="bottom"><b>length</b> () const </td></tr>
+<tr class="separator:a7124a8c6c3c4c9072e3d4dd6b8c8b92d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3f7412d399136dab001d9d414c4b517"><td class="memItemLeft" align="right" valign="top">quint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#ab3f7412d399136dab001d9d414c4b517">start</a> () const </td></tr>
+<tr class="memdesc:ab3f7412d399136dab001d9d414c4b517"><td class="mdescLeft">&#160;</td><td class="mdescRight">start  <a href="#ab3f7412d399136dab001d9d414c4b517">More...</a><br /></td></tr>
+<tr class="separator:ab3f7412d399136dab001d9d414c4b517"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad32881a883ef68251d1e3d15aed6009d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad32881a883ef68251d1e3d15aed6009d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setStart</b> (const quint64 &amp;<a class="el" href="classbig_1_1core_1_1_region.html#ab3f7412d399136dab001d9d414c4b517">start</a>)</td></tr>
+<tr class="separator:ad32881a883ef68251d1e3d15aed6009d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff1ff2e83cf6fa5e36ada98e8b8b017f"><td class="memItemLeft" align="right" valign="top">quint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#aff1ff2e83cf6fa5e36ada98e8b8b017f">end</a> () const </td></tr>
+<tr class="memdesc:aff1ff2e83cf6fa5e36ada98e8b8b017f"><td class="mdescLeft">&#160;</td><td class="mdescRight">end  <a href="#aff1ff2e83cf6fa5e36ada98e8b8b017f">More...</a><br /></td></tr>
+<tr class="separator:aff1ff2e83cf6fa5e36ada98e8b8b017f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2838f728ae0b56ad03a329aa99eb525f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2838f728ae0b56ad03a329aa99eb525f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setEnd</b> (const quint64 &amp;<a class="el" href="classbig_1_1core_1_1_region.html#aff1ff2e83cf6fa5e36ada98e8b8b017f">end</a>)</td></tr>
+<tr class="separator:a2838f728ae0b56ad03a329aa99eb525f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6180dd74f0f3bf58adb78166e26feba"><td class="memItemLeft" align="right" valign="top">quint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#af6180dd74f0f3bf58adb78166e26feba">middle</a> () const </td></tr>
+<tr class="memdesc:af6180dd74f0f3bf58adb78166e26feba"><td class="mdescLeft">&#160;</td><td class="mdescRight">middle  <a href="#af6180dd74f0f3bf58adb78166e26feba">More...</a><br /></td></tr>
+<tr class="separator:af6180dd74f0f3bf58adb78166e26feba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab11237603489380a3f67862b79c387eb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab11237603489380a3f67862b79c387eb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isNull</b> () const </td></tr>
+<tr class="separator:ab11237603489380a3f67862b79c387eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a1a6b02c051e181e89ec5b0f5ce20dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a3a1a6b02c051e181e89ec5b0f5ce20dc">setLength</a> (quint64 length)</td></tr>
+<tr class="memdesc:a3a1a6b02c051e181e89ec5b0f5ce20dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">setLength  <a href="#a3a1a6b02c051e181e89ec5b0f5ce20dc">More...</a><br /></td></tr>
+<tr class="separator:a3a1a6b02c051e181e89ec5b0f5ce20dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ec937b15124231f9c29975ba55669ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a5ec937b15124231f9c29975ba55669ba">addData</a> (const QString &amp;key, const QVariant &amp;value)</td></tr>
 <tr class="memdesc:a5ec937b15124231f9c29975ba55669ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">setRange  <a href="#a5ec937b15124231f9c29975ba55669ba">More...</a><br /></td></tr>
 <tr class="separator:a5ec937b15124231f9c29975ba55669ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,20 +161,26 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setName</b> (const QS
 <tr class="memitem:a48688029616218155509bb84bc6b6c21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a48688029616218155509bb84bc6b6c21">clearData</a> ()</td></tr>
 <tr class="memdesc:a48688029616218155509bb84bc6b6c21"><td class="mdescLeft">&#160;</td><td class="mdescRight">clearData  <a href="#a48688029616218155509bb84bc6b6c21">More...</a><br /></td></tr>
 <tr class="separator:a48688029616218155509bb84bc6b6c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aa7517ad3cbdf107b221edc5098c0290a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7517ad3cbdf107b221edc5098c0290a"></a>
-static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromBed</b> (const QString &amp;chrom, qint64 chromStart, qint64 chromEnd)</td></tr>
-<tr class="separator:aa7517ad3cbdf107b221edc5098c0290a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e52c680a18dfa86f303e6d4df1df782"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e52c680a18dfa86f303e6d4df1df782"></a>
-static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromBed</b> (const QString &amp;expression)</td></tr>
-<tr class="separator:a5e52c680a18dfa86f303e6d4df1df782"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a152ff0567a8a6d150000e5562be055"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a9a152ff0567a8a6d150000e5562be055">operator+=</a> (qint64 baseCount)</td></tr>
+<tr class="memdesc:a9a152ff0567a8a6d150000e5562be055"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator += shortcut for translate methods  <a href="#a9a152ff0567a8a6d150000e5562be055">More...</a><br /></td></tr>
+<tr class="separator:a9a152ff0567a8a6d150000e5562be055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85dd9147fae8f34228e7c7241e55d261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a85dd9147fae8f34228e7c7241e55d261">operator*=</a> (qint64 baseCount)</td></tr>
+<tr class="memdesc:a85dd9147fae8f34228e7c7241e55d261"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *= shortcut for scale method  <a href="#a85dd9147fae8f34228e7c7241e55d261">More...</a><br /></td></tr>
+<tr class="separator:a85dd9147fae8f34228e7c7241e55d261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2759f66b61ca3a6a40edf5a7c999d2ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a2759f66b61ca3a6a40edf5a7c999d2ff">translate</a> (qint64 baseCount)</td></tr>
+<tr class="memdesc:a2759f66b61ca3a6a40edf5a7c999d2ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">translate Translate the section of basecount. Could be negatif or positif  <a href="#a2759f66b61ca3a6a40edf5a7c999d2ff">More...</a><br /></td></tr>
+<tr class="separator:a2759f66b61ca3a6a40edf5a7c999d2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fc8f66d51451d92d05fb06e979850a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbig_1_1core_1_1_region.html#a5fc8f66d51451d92d05fb06e979850a0">scale</a> (qint64 baseCount)</td></tr>
+<tr class="memdesc:a5fc8f66d51451d92d05fb06e979850a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">scale Scale or zoom the section. Add baseCount from each side of the section  <a href="#a5fc8f66d51451d92d05fb06e979850a0">More...</a><br /></td></tr>
+<tr class="separator:a5fc8f66d51451d92d05fb06e979850a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdb318b88799fd5b6d61dfd051cd1b6b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abdb318b88799fd5b6d61dfd051cd1b6b"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>toString</b> () const </td></tr>
+<tr class="separator:abdb318b88799fd5b6d61dfd051cd1b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Describe a region of dna delimited by chromosom:pos-length. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a3674b130fdbfee148c078577c4664cc3"></a>
+<a class="anchor" id="ad8186078d8c5bdcb4490e54391615bd0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -176,14 +193,14 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">qint64&#160;</td>
-          <td class="paramname"><em>pos</em>, </td>
+          <td class="paramtype">quint64&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">qint64&#160;</td>
-          <td class="paramname"><em>length</em>&#160;</td>
+          <td class="paramtype">quint64&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -205,7 +222,7 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
 
 </div>
 </div>
-<a class="anchor" id="aa484cc926586bc71d3b298d7c8519ffa"></a>
+<a class="anchor" id="aef00bdbad6d38a084086c2c547d44ced"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -213,7 +230,7 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
           <td class="memname">big::core::Region::Region </td>
           <td>(</td>
           <td class="paramtype">const QString &amp;&#160;</td>
-          <td class="paramname"><em>expression</em></td><td>)</td>
+          <td class="paramname"><em>pattern</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -326,30 +343,12 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
 
 </div>
 </div>
-<a class="anchor" id="a7aad69ba5ece41556abe4e61af838470"></a>
+<a class="anchor" id="aff1ff2e83cf6fa5e36ada98e8b8b017f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">qint64 big::core::Region::first </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>start </p>
-<dl class="section return"><dt>Returns</dt><dd>the position start of region </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aeff574b6d0a30ee205378abeb6a0efd9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">qint64 big::core::Region::last </td>
+          <td class="memname">quint64 big::core::Region::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -362,12 +361,12 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
 
 </div>
 </div>
-<a class="anchor" id="a1892f1fdb7d3b9ffd2c8695aecdc57e0"></a>
+<a class="anchor" id="af6180dd74f0f3bf58adb78166e26feba"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">qint64 big::core::Region::length </td>
+          <td class="memname">quint64 big::core::Region::middle </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -375,26 +374,80 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
       </table>
 </div><div class="memdoc">
 
-<p>length </p>
-<dl class="section return"><dt>Returns</dt><dd>the length of region. </dd></dl>
+<p>middle </p>
+<dl class="section return"><dt>Returns</dt><dd>the middle position. If length() is an odds, return the position of the left side </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ae977500eef0d67d41aceabb00e8ba2cf"></a>
+<a class="anchor" id="a85dd9147fae8f34228e7c7241e55d261"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">qint64 big::core::Region::pos </td>
+          <td class="memname">void big::core::Region::operator*= </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>baseCount</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>pos </p>
-<dl class="section return"><dt>Returns</dt><dd>the position. equivalent to start() </dd></dl>
+<p>operator *= shortcut for scale method </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">baseCount</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a9a152ff0567a8a6d150000e5562be055"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void big::core::Region::operator+= </td>
+          <td>(</td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>baseCount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>operator += shortcut for translate methods </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">baseCount</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5fc8f66d51451d92d05fb06e979850a0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void big::core::Region::scale </td>
+          <td>(</td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>baseCount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>scale Scale or zoom the section. Add baseCount from each side of the section </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">baseCount</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -422,14 +475,14 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
 
 </div>
 </div>
-<a class="anchor" id="a93410c70fac9089ac1c1d60bd897d58a"></a>
+<a class="anchor" id="a3a1a6b02c051e181e89ec5b0f5ce20dc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void big::core::Region::setLength </td>
           <td>(</td>
-          <td class="paramtype">qint64&#160;</td>
+          <td class="paramtype">quint64&#160;</td>
           <td class="paramname"><em>length</em></td><td>)</td>
           <td></td>
         </tr>
@@ -446,24 +499,42 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
 
 </div>
 </div>
-<a class="anchor" id="a5244d085c43813539f761a1a26ba97cf"></a>
+<a class="anchor" id="ab3f7412d399136dab001d9d414c4b517"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void big::core::Region::setPos </td>
+          <td class="memname">quint64 big::core::Region::start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>start </p>
+<dl class="section return"><dt>Returns</dt><dd>the position start of region </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2759f66b61ca3a6a40edf5a7c999d2ff"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void big::core::Region::translate </td>
           <td>(</td>
           <td class="paramtype">qint64&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
+          <td class="paramname"><em>baseCount</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>setPos </p>
+<p>translate Translate the section of basecount. Could be negatif or positif </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pos</td><td></td></tr>
+    <tr><td class="paramname">baseCount</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -471,8 +542,8 @@ static <a class="el" href="classbig_1_1core_1_1_region.html">Region</a>&#160;</t
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>src/core/reader/<a class="el" href="region_8h_source.html">region.h</a></li>
-<li>src/core/reader/region.cpp</li>
+<li>src/core/<a class="el" href="region_8h_source.html">region.h</a></li>
+<li>src/core/region.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
