@@ -1,24 +1,29 @@
+// ======================================================================
+//
+//                    CORE MODULE
+//
+// =======================================================================
 class Region
 {
   Region(const QString& chromosom, quint64 start, quint64 end);
   Region(const QString& pattern);
 
 
-  QString chromosom();
+  QString chromosom() const;
   void    setChromosom(const QString& chromosom);
-  int     start();
+  int     start() const;
   void    setStart(quint64 start);
-  int     end();
+  int     end() const ;
   void    setEnd(quint64 end);
   int     data(const QString& key);
   void    setData(const QString& key, const QVariant& value);
   void    clearData();
   void    translate(quint64 count);
   void    scale(quint64 count);
-  int     length();
-  int     middle();
-  bool    isNull();
-  QString toString();
+  int     length() const;
+  int     middle() const ;
+  bool    isNull() const ;
+  QString toString() const;
 };
   
 
@@ -26,12 +31,12 @@ class Genom
 {
     void                load(QIODevice * device);
     void                load(const QString& filename);
-    int                 chromosomCount();
+    int                 chromosomCount() const;
     int                 chromosomLength(const QString& chromosom);
-    QStringList         chromosoms();
+    QStringList         chromosoms() const;
     const QList<Region> chromosomBand(const QString& chromosom) const;
     Sequence            sequence(const Region& region);
-    bool                hasCytoband();
+    bool                hasCytoband() const;
 };
 
 class Sequence
@@ -67,7 +72,11 @@ class Sequence
     QString           toString() const;
 };
 
-
+// ======================================================================
+//
+//                    GUI MODULE
+//
+// =======================================================================
 class MainWindow
 {
 void setSelection(const Region& region);  

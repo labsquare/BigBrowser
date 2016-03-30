@@ -21,6 +21,7 @@ public:
 public Q_SLOTS:
     void setGenom(Genom * genom);
     void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    void setSelection(const Region& region);
     void loadAvaibleGenom();
 
 
@@ -28,6 +29,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void selectionChanged(const QString& chromosom, quint64 start, quint64 end);
+    void selectionChanged(const Region& region);
     void genomChanged(const QString& name);
 
 protected:

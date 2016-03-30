@@ -45,7 +45,11 @@ void SearchToolBar::setGenom(Genom *genom)
 
 void SearchToolBar::setSelection(const QString &chromosom, quint64 start, quint64 end)
 {
-    Region region(chromosom,start, end);
+
+}
+
+void SearchToolBar::setSelection(const Region &region)
+{
     mLocationEdit->setText(region.toString());
 }
 
