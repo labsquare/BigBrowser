@@ -10,7 +10,10 @@ namespace big {
 namespace gui {
 class TracksWidget;
 
-
+/*!
+ * \brief The AbstractTrack class
+ * Base class for all track
+ */
 class AbstractTrack : public QGraphicsObject
 {
     Q_OBJECT

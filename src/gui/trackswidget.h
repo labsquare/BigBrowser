@@ -14,6 +14,12 @@
 namespace big {
 namespace gui {
 using namespace core;
+
+/*!
+ * \brief The TracksWidget class
+ * Contains a list of track
+ */
+
 class TracksWidget : public QGraphicsView
 {
     Q_OBJECT

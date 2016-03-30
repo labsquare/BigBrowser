@@ -6,6 +6,10 @@
 #include "proteinalphabet.h"
 namespace big {
 namespace core {
+/*! \class Sequence
+ * \brief DNA/RNA/Protein sequence
+ *
+ */
 class Sequence
 {
 public:

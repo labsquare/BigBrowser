@@ -7,7 +7,11 @@
 namespace big {
 namespace gui {
 using namespace core;
-
+/*! \class SelectionRouter
+ * \brief route for selectable component
+ * contains QObject with setSelection(const Region& region) as SLOT
+ * and selectionChanged(const Region& region) as SIGNAL
+ */
 class SelectionRouter : public QObject
 {
     Q_OBJECT

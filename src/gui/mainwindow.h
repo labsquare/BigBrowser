@@ -14,6 +14,9 @@
 
 namespace big {
 namespace gui {
+/*! \class MainWindow
+ * \brief Main application window
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
