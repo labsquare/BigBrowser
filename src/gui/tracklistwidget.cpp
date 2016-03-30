@@ -20,6 +20,7 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
 TrackListWidget::~TrackListWidget()
 {
     qDeleteAll(mTracks);
+
 }
 
 
