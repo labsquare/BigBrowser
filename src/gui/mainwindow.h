@@ -4,15 +4,19 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QSplitter>
-#include "searchtoolbar.h"
+#include "selecttoolbar.h"
 #include "statusbar.h"
-#include "tracklistwidget.h"
+#include "trackswidget.h"
 #include "chromosomwidget.h"
 #include "settingsdialog.h"
 #include "genom.h"
+#include "selectionrouter.h"
 
 namespace big {
 namespace gui {
+/*! \class MainWindow
+ * \brief Main application window
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,9 +29,7 @@ public Q_SLOTS:
 void showSettings();
 void setGenom(const QString& name);
 
-//!
 void setSelection(const QString& chromosom, quint64 start, quint64 end);
-void selectionValidated(const QString& chromosom, quint64 start, quint64 end);
 
 protected:
     void setupMenuBar();
@@ -35,12 +37,13 @@ protected:
 
 private:
     QMenuBar * mMenuBar;
-    SearchToolBar * mSearchBar;
+    SelectToolBar * mSearchBar;
     QToolBar * mToolBar;
     StatusBar * mStatusBar;
     ChromosomWidget * mchromosomWidget;
-    TrackListWidget * mTrackListWidget;
+    TracksWidget * mTrackListWidget;
     Genom * mGenom;
+    SelectionRouter * mRouter;
 
 
 };

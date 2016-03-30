@@ -6,6 +6,10 @@
 #include <QMutexLocker>
 namespace big{
 namespace core {
+/*! \class NucleotidAlphabet
+ *  \brief static class to get base name and get complement
+ *  \see Sequence
+ */
 class NucleotidAlphabet : public Alphabet
 {
 private:

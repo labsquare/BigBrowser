@@ -14,7 +14,13 @@
 namespace big {
 namespace gui {
 using namespace core;
-class TrackListWidget : public QGraphicsView
+
+/*!
+ * \brief The TracksWidget class
+ * Contains a list of track
+ */
+
+class TracksWidget : public QGraphicsView
 {
     Q_OBJECT
     Q_PROPERTY(QString chromosom READ chromosom )
@@ -26,17 +32,32 @@ public:
     const int C_TRACK_HANDLE_PIXEL_WIDTH = 30;
 
 
-    explicit TrackListWidget(QWidget *parent = 0);
-    ~TrackListWidget();
+    explicit TracksWidget(QWidget *parent = 0);
+    ~TracksWidget();
 
-    //! Add a new track to the manager
+    /*!
+     * \brief addTrack
+     * \param track
+     */
     void addTrack(AbstractTrack * track);
-    //! Remove a track from the manager
+    /*!
+     * \brief removeTrack
+     * \param track
+     */
     void removeTrack(AbstractTrack * track);
 
+    /*!
+     * \brief setGenom
+     * set genom pointer
+     * \param genom
+     */
     void setGenom(Genom * genom);
 
-
+    /*!
+     * \brief genom
+     * \return genom pointer
+     */
+    Genom * genom();
 
     //! notify all tracks to switch or not in SlotMode (to allow reordoring of tracks)
     void switchSlotMode(bool slotModeON);
@@ -49,58 +70,99 @@ public:
 
 
     //! Return the base position of the given pixel in the Frame referential
-    const quint64 pixelFrame2Base(int pixel) const;
+    quint64 pixelFrame2Base(int pixel) const;
     //! Return the pixel position in the Frame referential of the given base
-    const int base2PixelFrame(quint64 base) const;
+    int base2PixelFrame(quint64 base) const;
     //! Return the position of the base as a coeff between 0 and 1
-    const double base2Coeff(quint64 base) const;
+    double base2Coeff(quint64 base) const;
     //! Return the position of the pixel in the frame as a coeff between 0 and 1 indicating the position in the whole genom
-    const double pixelFrame2Coeff(int pixel) const;
+    double pixelFrame2Coeff(int pixel) const;
 
 
 
-    //! Gets the list of tracks managed
+    /*!
+     * \brief tracks
+     * \return list of AbstractTrack
+     */
     QList<AbstractTrack*> tracks();
-    //! Gets the height of the tracklist
-    const int tracksHeight() const;
 
+    /*!
+     * \brief tracksHeight
+     * \return total combined height of all track
+     */
+    int tracksHeight() const;
 
+    /*!
+     * \brief selection
+     * Current selection
+     * \see setSelection()
+     * \return
+     */
+    const Region& selection() const;
+
+    /*!
+     * \brief chromosom
+     * shortcut for selection()->chromosom()
+     * \see selection()
+     * \return
+     */
     const QString& chromosom() const;
-    const quint64 start() const;
-    const quint64 end() const;
+    /*!
+     * \brief start
+     * shortcut for selection()->start()
+     * \see selection()
+     * \return
+     */
+    quint64 start() const;
+    /*!
+     * \brief end
+     * shortcut for selection()->end()
+     * \return
+     */
+    quint64 end() const;
 
-    const int trackContentStartX() const;
+    int trackContentStartX() const;
 
-    const quint64 baseMax() const;
+    quint64 baseMax() const;
 
 
     // ----------------------------------------------------------
     // Selection properties
     // ----------------------------------------------------------
-    const double selectionScroll() const;
-    const int selectionW() const;
-    const int selectionStartX();
-    const quint64 selectionD() const;
+    double selectionScroll() const;
+    int selectionW() const;
+    int selectionStartX();
+    quint64 selectionD() const;
 
 
     // ----------------------------------------------------------
     // Shared cursor properties
     // ----------------------------------------------------------
-    const int sharedCursorPosX() const;
-    const quint64 sharedCursorPosB() const;
-    const int sharedCursorBaseX() const;
-    const int sharedCursorBaseW() const;
+    int sharedCursorPosX() const;
+    quint64 sharedCursorPosB() const;
+    int sharedCursorBaseX() const;
+    int sharedCursorBaseW() const;
 
 
 
 public Q_SLOTS:
-    void setSelection(const QString& chromosom, quint64 start, quint64 end);
+    /*!
+      * \brief setSelection
+      * Mandatory slot methods working with selectionRouter
+      * \param region
+      */
+    void setSelection(const Region& region);
+
     void updateTracksHeight();
 
 
 Q_SIGNALS:
-
-    void selectionValidated(const QString& chromosom, quint64 start, quint64 end);
+    /*!
+     * \brief selectionChanged
+     * Mandatory signals methods working with selectionRouter
+     * \param region
+     */
+    void selectionChanged(const Region& region);
 
     //! To notify tracks that the cursor position changed
     void cursorChanged(int posX, quint64 posB, int baseX, int baseW);
@@ -117,6 +179,8 @@ private:
     // ----------------------------------------------------------
     // Business Data
     // ----------------------------------------------------------
+    Region mSeletionB;
+
     //! The name of the file where data are stored
     QString mChromosom;
     //! The base number where the selected region is starting

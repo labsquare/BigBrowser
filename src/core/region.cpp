@@ -101,7 +101,7 @@ quint64 Region::middle() const
 
 bool Region::isNull() const
 {
-    return chromosom().isEmpty() & start() == 0 & end() == 0;
+    return chromosom().isEmpty() & (start() == 0) & (end() == 0);
 }
 
 void Region::setName(const QString &name)

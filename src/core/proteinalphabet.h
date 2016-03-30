@@ -3,6 +3,10 @@
 #include "alphabet.h"
 namespace big {
 namespace core {
+/*! \class ProteinAlphabet
+ *  \brief static class to get aminoAcid name and translation from codon
+ *  \see Sequence
+ */
 class ProteinAlphabet : public Alphabet
 {
 private:

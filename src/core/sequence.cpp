@@ -61,7 +61,6 @@ namespace big {
 		return Sequence();
 	    }
 
-	    int index = 0;
 	    QByteArray array;
 
 
