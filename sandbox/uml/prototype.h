@@ -1,14 +1,72 @@
 class Region
 {
+  Region(const QString& chromosom, quint64 start, quint64 end);
+  Region(const QString& pattern);
+
+
   QString chromosom();
-  int start();
-  int end();
-  int data(const QString& key);
-  void setData(const QString& key, const QVariant& value);
-  int length();
-  int middle();
+  void    setChromosom(const QString& chromosom);
+  int     start();
+  void    setStart(quint64 start);
+  int     end();
+  void    setEnd(quint64 end);
+  int     data(const QString& key);
+  void    setData(const QString& key, const QVariant& value);
+  void    clearData();
+  void    translate(quint64 count);
+  void    scale(quint64 count);
+  int     length();
+  int     middle();
+  bool    isNull();
+  QString toString();
 };
   
+
+class Genom
+{
+    void                load(QIODevice * device);
+    void                load(const QString& filename);
+    int                 chromosomCount();
+    int                 chromosomLength(const QString& chromosom);
+    QStringList         chromosoms();
+    const QList<Region> chromosomBand(const QString& chromosom) const;
+    Sequence            sequence(const Region& region);
+    bool                hasCytoband();
+};
+
+class Sequence
+{
+    enum Type {
+      Dna,
+      Rna,
+      Protein
+    };
+
+    enum Strand {
+      Forward
+      Reverse
+    };
+
+    Sequence(const char *data);
+    Sequence(const QByteArray& bytes);
+    Sequence();
+    Sequence          complement() const;
+    Sequence          translate()  const;
+    Sequence          transcribe() const;
+    Sequence          reverse()    const;
+    QString           name() const;
+    void              setName(const QString &name);
+    Strand            strand() const;
+    void              setStrand(const Strand &strand);
+    Type              type() const;
+    void              setType(const Type &type);
+    QString           typeName();
+    int               count() const;
+    void              setByteArray(const QByteArray& array);
+    const QByteArray& byteArray() const;
+    QString           toString() const;
+};
+
 
 class MainWindow
 {
@@ -49,48 +107,43 @@ class SelectToolBar : public QToolBar
 
 class TracksWidget :public QGraphicsView
 {
-  void setSelection(const Region& region);
-  void selectionChanged(const Region& region);
-  void setGenom(Genom * genom);
-  void addTrack(AbstractTrack * track);
-  void remTrack(AbstractTrack * track);
-  const Region& selection();
-  AbstractTrack * track(int index);
-  AbstractTrack * track(QString title);
+  void                  setSelection(const Region& region);
+  void                  selectionChanged(const Region& region);
+  void                  setGenom(Genom * genom);
+  void                  addTrack(AbstractTrack * track);
+  void                  remTrack(AbstractTrack * track);
+  const Region&         selection();
+  AbstractTrack *       track(int index);
+  AbstractTrack *       track(QString title);
   QList<AbstractTrack*> tracks();
-  
-  quint64 pixelFrameToBase(int pixel) ;
-  int     baseToPixelFrame(quint64 base) ;
-  double  baseToCoeff(quint64 base);
-  double  pixelFrameToCoeff(int pixel);
+  quint64               pixelFrameToBase(int pixel) ;
+  int                   baseToPixelFrame(quint64 base) ;
+  double                baseToCoeff(quint64 base);
+  double                pixelFrameToCoeff(int pixel);
   
 }; 
     
 class AbstractTrack
  {
-    TracksWidget * tracksWidget(); 
-    const Region& selection();
-    int  height() ;
-    int  width();
-    void setHeight(int h);
-    int  frameHeight() ;
-    int  frameWidth() ;
-    bool isTrackSelected() ;
-    void setTrackSelected(bool selected);
-    bool isResizable() ;
-    void setResizable(bool isResizable);
-    void setIndex(int slotIdx); // ?
-    void setLoading(bool loading = true, QString message);
-    bool isLoading();
-    int  index();
-
-    QRectF boundingRect() ;
-    QRectF contentboundingRect();
-   
-    virtual void updateSelection();
-    virtual void paintFrame(QPainter * painter);
-
-
+    TracksWidget *  tracksWidget(); 
+    const Region&   selection();
+    int             height() ;
+    int             width();
+    void            setHeight(int h);
+    int             frameHeight() ;
+    int             frameWidth() ;
+    bool            isTrackSelected() ;
+    void            setTrackSelected(bool selected);
+    bool            isResizable() ;
+    void            setResizable(bool isResizable);
+    void            setIndex(int slotIdx); // ?
+    void            setLoading(bool loading = true, QString message);
+    bool            isLoading();
+    int             index();
+    QRectF          boundingRect() ;
+    QRectF          contentboundingRect();
+    virtual void    updateSelection();
+    virtual void    paintFrame(QPainter * painter);
 } ;
 
 class AbstractAsyncTrack : public AbstractTrack
