@@ -1,0 +1,4 @@
+<map id="big::gui::SequenceTrack" name="big::gui::SequenceTrack">
+<area shape="rect" id="node2" href="$classbig_1_1gui_1_1_abstract_track.html" title="The AbstractTrack class Base class for all track. " alt="" coords="40,171,195,197"/>
+<area shape="rect" id="node4" href="$classbig_1_1gui_1_1_tracks_widget.html" title="The TracksWidget class Contains a list of track. " alt="" coords="153,81,306,108"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="big::core::AbstractTextRegionReader" name="big::core::AbstractTextRegionReader">
+<area shape="rect" id="node3" href="$classbig_1_1core_1_1_bed_graph_reader.html" title="big::core::BedGraphReader" alt="" coords="468,5,648,32"/>
+<area shape="rect" id="node4" href="$classbig_1_1core_1_1_bed_reader.html" title="big::core::BedReader" alt="" coords="485,56,631,83"/>
+<area shape="rect" id="node5" href="$classbig_1_1core_1_1_cytoband_reader.html" title="Region reader for Cytoband file. " alt="" coords="469,107,647,133"/>
+<area shape="rect" id="node6" href="$classbig_1_1core_1_1_gff_reader.html" title="big::core::GffReader" alt="" coords="488,157,628,184"/>
+<area shape="rect" id="node7" href="$classbig_1_1core_1_1_vcf_reader.html" title="big::core::VcfReader" alt="" coords="487,208,629,235"/>
+<area shape="rect" id="node2" href="$classbig_1_1core_1_1_abstract_region_reader.html" title="Base class of all file Region Reader. " alt="" coords="5,99,176,141"/>
+</map>

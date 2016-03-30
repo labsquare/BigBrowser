@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classbig_1_1core_1_1_alphabet.html" title="big::core::Alphabet" alt="" coords="5,31,136,57"/>
+<area shape="rect" id="node2" href="$classbig_1_1core_1_1_nucleotid_alphabet.html" title="static class to get base name and get complement " alt="" coords="184,5,371,32"/>
+<area shape="rect" id="node3" href="$classbig_1_1core_1_1_protein_alphabet.html" title="static class to get aminoAcid name and translation from codon " alt="" coords="191,56,363,83"/>
+</map>

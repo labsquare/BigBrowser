@@ -1,0 +1,5 @@
+<map id="big::gui::AbstractSettingsWidget" name="big::gui::AbstractSettingsWidget">
+<area shape="rect" id="node3" href="$classbig_1_1gui_1_1_chromosom_settings_widget.html" title="big::gui::ChromosomSettings\lWidget" alt="" coords="350,5,541,47"/>
+<area shape="rect" id="node4" href="$classbig_1_1gui_1_1_genom_settings_widget.html" title="big::gui::GenomSettingsWidget" alt="" coords="344,71,547,98"/>
+<area shape="rect" id="node5" href="$classbig_1_1gui_1_1_path_settings_widget.html" title="big::gui::PathSettingsWidget" alt="" coords="351,122,539,149"/>
+</map>

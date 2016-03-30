@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classbig_1_1gui_1_1_abstract_track.html" title="The AbstractTrack class Base class for all track. " alt="" coords="176,56,331,83"/>
+<area shape="rect" id="node3" href="$classbig_1_1gui_1_1_async_track.html" title="big::gui::AsyncTrack" alt="" coords="389,5,531,32"/>
+<area shape="rect" id="node4" href="$classbig_1_1gui_1_1_ruler_track.html" title="big::gui::RulerTrack" alt="" coords="392,56,528,83"/>
+<area shape="rect" id="node5" href="$classbig_1_1gui_1_1_sequence_track.html" title="big::gui::SequenceTrack" alt="" coords="379,107,541,133"/>
+</map>

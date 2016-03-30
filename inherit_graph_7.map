@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classbig_1_1gui_1_1_abstract_settings_widget.html" title="big::gui::AbstractSettings\lWidget" alt="" coords="134,64,303,105"/>
+<area shape="rect" id="node6" href="$classbig_1_1gui_1_1_chromosom_widget.html" title="big::gui::ChromosomWidget" alt="" coords="127,130,311,157"/>
+<area shape="rect" id="node3" href="$classbig_1_1gui_1_1_chromosom_settings_widget.html" title="big::gui::ChromosomSettings\lWidget" alt="" coords="365,5,555,47"/>
+<area shape="rect" id="node4" href="$classbig_1_1gui_1_1_genom_settings_widget.html" title="big::gui::GenomSettingsWidget" alt="" coords="359,71,561,98"/>
+<area shape="rect" id="node5" href="$classbig_1_1gui_1_1_path_settings_widget.html" title="big::gui::PathSettingsWidget" alt="" coords="366,122,554,149"/>
+</map>

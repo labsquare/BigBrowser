@@ -1,0 +1,5 @@
+<map id="big::gui::AbstractTrack" name="big::gui::AbstractTrack">
+<area shape="rect" id="node3" href="$classbig_1_1gui_1_1_async_track.html" title="big::gui::AsyncTrack" alt="" coords="5,155,148,181"/>
+<area shape="rect" id="node4" href="$classbig_1_1gui_1_1_ruler_track.html" title="big::gui::RulerTrack" alt="" coords="171,155,307,181"/>
+<area shape="rect" id="node5" href="$classbig_1_1gui_1_1_sequence_track.html" title="big::gui::SequenceTrack" alt="" coords="331,155,494,181"/>
+</map>
