@@ -1,10 +1,10 @@
-#include "searchtoolbar.h"
+#include "selecttoolbar.h"
 #include <QSpacerItem>
 #include <QRegExpValidator>
 #include "app.h"
 namespace big {
 namespace gui {
-SearchToolBar::SearchToolBar(QWidget * parent):
+SelectToolBar::SelectToolBar(QWidget * parent):
     QToolBar(parent)
 {
     mGenomComboBox     = new QComboBox();
@@ -35,7 +35,7 @@ SearchToolBar::SearchToolBar(QWidget * parent):
 
 }
 
-void SearchToolBar::setGenom(Genom *genom)
+void SelectToolBar::setGenom(Genom *genom)
 {
     if (genom){
         mChromosomComboBox->clear();
@@ -43,17 +43,18 @@ void SearchToolBar::setGenom(Genom *genom)
     }
 }
 
-void SearchToolBar::setSelection(const QString &chromosom, quint64 start, quint64 end)
+void SelectToolBar::reset()
 {
-
+    loadAvaibleGenom();
+    mLocationEdit->clear();
 }
 
-void SearchToolBar::setSelection(const Region &region)
+void SelectToolBar::setSelection(const Region &region)
 {
     mLocationEdit->setText(region.toString());
 }
 
-void SearchToolBar::loadAvaibleGenom()
+void SelectToolBar::loadAvaibleGenom()
 {
     mGenomComboBox->clear();
     foreach ( QString name, App::i()->avaibleGenoms())
@@ -64,27 +65,28 @@ void SearchToolBar::loadAvaibleGenom()
     }
 }
 
-void SearchToolBar::genomComboBoxChanged()
+void SelectToolBar::genomComboBoxChanged()
 {
     emit genomChanged(mGenomComboBox->currentData().toString());
 }
 
-void SearchToolBar::createActions()
+void SelectToolBar::createActions()
 {
     //    QAction * showChromosomAction = addAction("show chrom");
 
 
 }
 
-void SearchToolBar::locationEditChanged()
+void SelectToolBar::locationEditChanged()
 {
     Region region(mLocationEdit->text());
     mChromosomComboBox->setCurrentText(region.chromosom());
     emit selectionChanged(region);
 }
 
-void SearchToolBar::chromosomChanged()
+void SelectToolBar::chromosomChanged()
 {
-    emit selectionChanged(mChromosomComboBox->currentText(),0,0);
+    mLocationEdit->clear();
+    emit selectionChanged(Region(mChromosomComboBox->currentText(),0,0));
 }
 }}

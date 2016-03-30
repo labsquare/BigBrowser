@@ -8,7 +8,7 @@
 
 namespace big {
 namespace gui {
-class TrackListWidget;
+class TracksWidget;
 
 
 class AbstractTrack : public QGraphicsObject
@@ -23,13 +23,13 @@ public:
      * \brief trackList
      * \return the parent trackList
      */
-    TrackListWidget * trackList() const ;
+    TracksWidget * trackList() const ;
     /*!
      * \brief setTrackList
      * Set the trackList parent of this Track Item
      * \param parent
      */
-    void setTrackList(TrackListWidget * parent);
+    void setTrackList(TracksWidget * parent);
 
     /*!
      * \brief height
@@ -180,7 +180,7 @@ protected:
     QImage mContentCache;
 
     //! The tracklist of which the track is the child
-    TrackListWidget * mTrackList;
+    TracksWidget * mTrackList;
 
     //! The position (in pixel) of the cursor
     int mCursorPosition;

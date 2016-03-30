@@ -97,6 +97,7 @@ class ChromosomViewer
   void setSelection(const Region& Region);
   void selectionChanged(const Region& Region);
   void setGenom(Genom* genom);
+  void reset();
 
 } ;
 
@@ -104,6 +105,8 @@ class StatusBar : public QStatusBar
 {
   void setSelection(const Region& Region);
   void selectionChanged(const Region& Region);
+  void reset();
+
   
 };
 
@@ -111,6 +114,7 @@ class SelectToolBar : public QToolBar
 {
   void setSelection(const Region& Region);
   void selectionChanged(const Region& Region);   
+  void reset();
 };
 
 
@@ -121,6 +125,7 @@ class TracksWidget :public QGraphicsView
   void                  setGenom(Genom * genom);
   void                  addTrack(AbstractTrack * track);
   void                  remTrack(AbstractTrack * track);
+  void                  reset();
   const Region&         selection();
   AbstractTrack *       track(int index);
   AbstractTrack *       track(QString title);

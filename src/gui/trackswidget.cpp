@@ -1,11 +1,11 @@
-#include "tracklistwidget.h"
+#include "trackswidget.h"
 
 namespace big {
 namespace gui {
 
 
 
-TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
+TracksWidget::TracksWidget(QWidget *parent) : QGraphicsView(parent)
 {
     mScene = new QGraphicsScene;
     setScene(mScene);
@@ -17,7 +17,7 @@ TrackListWidget::TrackListWidget(QWidget *parent) : QGraphicsView(parent)
     mSelectionP2B = C_BASE_MAX_PIXEL_WIDTH;
 }
 
-TrackListWidget::~TrackListWidget()
+TracksWidget::~TracksWidget()
 {
     qDeleteAll(mTracks);
 
@@ -27,61 +27,65 @@ TrackListWidget::~TrackListWidget()
 
 
 
-QList<AbstractTrack *> TrackListWidget::tracks()
+QList<AbstractTrack *> TracksWidget::tracks()
 {
     return mTracks;
 }
-const QString &TrackListWidget::chromosom() const
+const QString &TracksWidget::chromosom() const
 {
-    return mChromosom;
+    return selection().chromosom();
 }
-const quint64 TrackListWidget::start() const
+quint64 TracksWidget::start() const
 {
-    return mSelectionStartB;
+    return selection().start();
 }
-const quint64 TrackListWidget::end() const
+quint64 TracksWidget::end() const
 {
-    return mSelectionEndB;
+    return selection().end();
 }
 
 
-const int TrackListWidget::sharedCursorPosX() const
+int TracksWidget::sharedCursorPosX() const
 {
     return mSharedCursorPosX;
 }
-const quint64 TrackListWidget::sharedCursorPosB() const
+quint64 TracksWidget::sharedCursorPosB() const
 {
     return mSharedCursorPosB;
 }
-const int TrackListWidget::sharedCursorBaseX() const
+int TracksWidget::sharedCursorBaseX() const
 {
     return mSharedCursorBaseX;
 }
-const int TrackListWidget::sharedCursorBaseW() const
+int TracksWidget::sharedCursorBaseW() const
 {
     return mSharedCursorBaseW;
 }
-const int TrackListWidget::selectionW() const
+int TracksWidget::selectionW() const
 {
     return mSelectionW;
 }
-const quint64 TrackListWidget::selectionD() const
+quint64 TracksWidget::selectionD() const
 {
     return mSelectionD;
 }
-const double TrackListWidget::selectionScroll() const
+double TracksWidget::selectionScroll() const
 {
     return mSelectionScroll;
 }
-const int TrackListWidget::trackContentStartX() const
+int TracksWidget::trackContentStartX() const
 {
     return C_TRACK_HANDLE_PIXEL_WIDTH;
 }
-void TrackListWidget::setGenom(Genom *genom)
+void TracksWidget::setGenom(Genom *genom)
 {
     mGenom = genom;
 }
 
+Genom *TracksWidget::genom()
+{
+    return mGenom;
+}
 
 
 
@@ -90,7 +94,8 @@ void TrackListWidget::setGenom(Genom *genom)
 
 
 
-const int TrackListWidget::tracksHeight() const
+
+int TracksWidget::tracksHeight() const
 {
     int total = 0;
     foreach (AbstractTrack * track, mTracks)
@@ -100,7 +105,12 @@ const int TrackListWidget::tracksHeight() const
     return total;
 }
 
-void TrackListWidget::addTrack(AbstractTrack *track)
+const Region &TracksWidget::selection() const
+{
+    return mSeletionB;
+}
+
+void TracksWidget::addTrack(AbstractTrack *track)
 {
     track->setTrackList(this);
     track->setIndex(mTracks.count());
@@ -117,7 +127,7 @@ void TrackListWidget::addTrack(AbstractTrack *track)
             track,SLOT(updateCursor(int, quint64, int, int)));
 
 }
-void TrackListWidget::updateTracksHeight()
+void TracksWidget::updateTracksHeight()
 {
     int pos = 0;
     foreach ( AbstractTrack * track, mTracks)
@@ -135,7 +145,7 @@ void TrackListWidget::updateTracksHeight()
 // Slot Mode management : reordering tracks by drag&drop
 // ----------------------------------------------------------
 
-void TrackListWidget::switchSlotMode(bool slotModeON)
+void TracksWidget::switchSlotMode(bool slotModeON)
 {
     foreach (AbstractTrack * track, mTracks)
     {
@@ -144,7 +154,7 @@ void TrackListWidget::switchSlotMode(bool slotModeON)
     }
 }
 
-void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
+void TracksWidget::slotReordering(AbstractTrack * draggedTrack)
 {
     int yThreshold = draggedTrack->pos().y() + draggedTrack->height() / 2;
 
@@ -213,7 +223,7 @@ void TrackListWidget::slotReordering(AbstractTrack * draggedTrack)
 // and scrolling
 // ----------------------------------------------------------
 
-void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
+void TracksWidget::updateSharedCursor(QPoint cursorPosition)
 {
     // Update cursor data
     mSharedCursorPosX = cursorPosition.x() - C_TRACK_HANDLE_PIXEL_WIDTH;
@@ -225,10 +235,10 @@ void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
 }
 
 
-void TrackListWidget::setSelection(const Region &region)
+void TracksWidget::setSelection(const Region &region)
 {
-    mChromosom = region.chromosom();
-    mSelectionBaseMax = 249250710; //mGenom->chromosomLength(chromosom);
+    mSeletionB = region;
+   mSelectionBaseMax = 249250710; //mGenom->chromosomLength(chromosom);
     mSelectionStartB = qMin(region.start(),region.end());
     mSelectionEndB = qMax(region.start(),region.end());
     mSelectionD = mSelectionEndB - mSelectionStartB;
@@ -257,7 +267,7 @@ void TrackListWidget::setSelection(const Region &region)
     mSharedCursorBaseW = qRound(mSelectionP2B);
 
     // Need to notify all with the validated selection
-//    emit selectionValidated(chromosom, mSelectionStartB, mSelectionEndB);
+    //    emit selectionValidated(chromosom, mSelectionStartB, mSelectionEndB);
 
     foreach ( AbstractTrack * track, mTracks)
     {
@@ -265,7 +275,7 @@ void TrackListWidget::setSelection(const Region &region)
     }
 }
 
-void TrackListWidget::resizeEvent(QResizeEvent *event)
+void TracksWidget::resizeEvent(QResizeEvent *event)
 {
     // Compute the best height for the tracklist scene
     int height = qMax(event->size().height(), tracksHeight());
@@ -281,7 +291,7 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
 }
 
 
-void TrackListWidget::trackScroll(int deltaX)
+void TracksWidget::trackScroll(int deltaX)
 {
     // scroll by adding delta to the current scroll coeff
     mSelectionScroll += deltaX / (mSelectionBaseMax * mSelectionP2B);
@@ -302,7 +312,7 @@ void TrackListWidget::trackScroll(int deltaX)
         mSelectionStartB = newSelectionStartB;
         mSelectionEndB = newSelectionStartB + mSelectionD;
 
-        emit selectionValidated(mChromosom, mSelectionStartB, mSelectionEndB);
+        emit selectionChanged(Region(chromosom(), mSelectionStartB, mSelectionEndB));
         foreach ( AbstractTrack * track, mTracks)
         {
             track->updateSelection();
@@ -313,7 +323,7 @@ void TrackListWidget::trackScroll(int deltaX)
 
 
 
-const double TrackListWidget::base2Coeff(quint64 base) const
+double TracksWidget::base2Coeff(quint64 base) const
 {
     if (mSelectionBaseMax == 0)
     {
@@ -322,7 +332,7 @@ const double TrackListWidget::base2Coeff(quint64 base) const
     return ((double)base) / mSelectionBaseMax;
 }
 
-const double TrackListWidget::pixelFrame2Coeff(int pixel) const
+double TracksWidget::pixelFrame2Coeff(int pixel) const
 {
     if (mSelectionBaseMax == 0)
     {
@@ -334,12 +344,12 @@ const double TrackListWidget::pixelFrame2Coeff(int pixel) const
     return mSelectionScroll + frameDelta;
 }
 
-const quint64 TrackListWidget::pixelFrame2Base(int pixel) const
+quint64 TracksWidget::pixelFrame2Base(int pixel) const
 {
     return pixelFrame2Coeff(pixel) * mSelectionBaseMax;
 }
 
-const int TrackListWidget::base2PixelFrame(quint64 base) const
+int TracksWidget::base2PixelFrame(quint64 base) const
 {
     return (base2Coeff(base) - mSelectionScroll) * mSelectionBaseMax * mSelectionP2B;
 }

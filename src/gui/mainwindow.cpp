@@ -9,11 +9,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 
     mMenuBar         = new QMenuBar();
-    mSearchBar       = new SearchToolBar();
+    mSearchBar       = new SelectToolBar();
     mToolBar         = new QToolBar();
     mStatusBar       = new StatusBar();
     mchromosomWidget = new ChromosomWidget();
-    mTrackListWidget = new TrackListWidget();
+    mTrackListWidget = new TracksWidget();
     mGenom           = new Genom();
     mRouter          = new SelectionRouter();
 
@@ -66,6 +66,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 
 
+
+
 }
 
 MainWindow::~MainWindow()
@@ -84,7 +86,7 @@ void MainWindow::showSettings()
 {
     SettingsDialog dialog(this);
     if (dialog.exec()){
-        mSearchBar->loadAvaibleGenom();
+        mSearchBar->reset();
         // Load a genom if not exists
         if (!App::i()->avaibleGenoms().isEmpty())
             setGenom(App::i()->avaibleGenoms().first());
@@ -102,6 +104,7 @@ void MainWindow::setGenom(const QString &name)
     mchromosomWidget->setGenom(mGenom);
     mTrackListWidget->setGenom(mGenom);
     //    mStatusBar->setGenom(mGenom);
+
 }
 
 void MainWindow::setSelection(const QString &chromosom, quint64 start, quint64 end)

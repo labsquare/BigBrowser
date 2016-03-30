@@ -6,7 +6,7 @@
 #include "app.h"
 #include "rulertrack.h"
 #include "sequencetrack.h"
-#include "tracklistwidget.h"
+#include "trackswidget.h"
 
 namespace big {
 namespace gui {

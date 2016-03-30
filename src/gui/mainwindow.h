@@ -4,9 +4,9 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QSplitter>
-#include "searchtoolbar.h"
+#include "selecttoolbar.h"
 #include "statusbar.h"
-#include "tracklistwidget.h"
+#include "trackswidget.h"
 #include "chromosomwidget.h"
 #include "settingsdialog.h"
 #include "genom.h"
@@ -34,11 +34,11 @@ protected:
 
 private:
     QMenuBar * mMenuBar;
-    SearchToolBar * mSearchBar;
+    SelectToolBar * mSearchBar;
     QToolBar * mToolBar;
     StatusBar * mStatusBar;
     ChromosomWidget * mchromosomWidget;
-    TrackListWidget * mTrackListWidget;
+    TracksWidget * mTrackListWidget;
     Genom * mGenom;
     SelectionRouter * mRouter;
 

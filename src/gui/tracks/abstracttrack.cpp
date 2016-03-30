@@ -11,7 +11,7 @@
 #include <QGraphicsDropShadowEffect>
 
 #include "app.h"
-#include "tracklistwidget.h"
+#include "trackswidget.h"
 
 namespace big {
 namespace gui {
@@ -55,7 +55,7 @@ AbstractTrack::~AbstractTrack()
 
 
 
-void AbstractTrack::setTrackList(TrackListWidget *parent)
+void AbstractTrack::setTrackList(TracksWidget *parent)
 {
     // @IDK : If mTrackList != null, need to unconnect
     // @ikit : move connexion to tracklist
@@ -65,7 +65,7 @@ void AbstractTrack::setTrackList(TrackListWidget *parent)
 
 }
 
-TrackListWidget *AbstractTrack::trackList() const
+TracksWidget *AbstractTrack::trackList() const
 {
     return mTrackList;
 }

@@ -3,20 +3,20 @@ INCLUDEPATH += $$PWD
 HEADERS += \
     $$PWD/mainwindow.h \
     $$PWD/chromosomwidget.h \
-    $$PWD/tracklistwidget.h \
     $$PWD/statusbar.h \
-    $$PWD/searchtoolbar.h \
     $$PWD/app.h \
-    $$PWD/selectionrouter.h
+    $$PWD/selectionrouter.h \
+    $$PWD/selecttoolbar.h \
+    $$PWD/trackswidget.h
 
 SOURCES += \
     $$PWD/mainwindow.cpp \
     $$PWD/chromosomwidget.cpp \
-    $$PWD/tracklistwidget.cpp \
     $$PWD/statusbar.cpp \
-    $$PWD/searchtoolbar.cpp \
     $$PWD/app.cpp \
-    $$PWD/selectionrouter.cpp
+    $$PWD/selectionrouter.cpp \
+    $$PWD/selecttoolbar.cpp \
+    $$PWD/trackswidget.cpp
 
 
 include(settings/settings.pri)
