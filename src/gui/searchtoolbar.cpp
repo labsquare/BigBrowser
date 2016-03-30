@@ -80,7 +80,7 @@ void SearchToolBar::locationEditChanged()
 {
     Region region(mLocationEdit->text());
     mChromosomComboBox->setCurrentText(region.chromosom());
-    emit selectionChanged(region.chromosom(),region.start(),region.end());
+    emit selectionChanged(region);
 }
 
 void SearchToolBar::chromosomChanged()

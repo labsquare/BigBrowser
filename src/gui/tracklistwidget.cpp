@@ -225,14 +225,12 @@ void TrackListWidget::updateSharedCursor(QPoint cursorPosition)
 }
 
 
-
-
-void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quint64 end)
+void TrackListWidget::setSelection(const Region &region)
 {
-    mChromosom = chromosom;
+    mChromosom = region.chromosom();
     mSelectionBaseMax = 249250710; //mGenom->chromosomLength(chromosom);
-    mSelectionStartB = qMin(start, end);
-    mSelectionEndB = qMax(start, end);
+    mSelectionStartB = qMin(region.start(),region.end());
+    mSelectionEndB = qMax(region.start(),region.end());
     mSelectionD = mSelectionEndB - mSelectionStartB;
 
     if (mSelectionD > 0)
@@ -259,7 +257,7 @@ void TrackListWidget::setSelection(const QString &chromosom, quint64 start, quin
     mSharedCursorBaseW = qRound(mSelectionP2B);
 
     // Need to notify all with the validated selection
-    emit selectionValidated(chromosom, mSelectionStartB, mSelectionEndB);
+//    emit selectionValidated(chromosom, mSelectionStartB, mSelectionEndB);
 
     foreach ( AbstractTrack * track, mTracks)
     {
@@ -278,7 +276,7 @@ void TrackListWidget::resizeEvent(QResizeEvent *event)
     mSelectionW = mScene->width() - C_TRACK_HANDLE_PIXEL_WIDTH - (mHasScrollbar ? 20 : 0);
 
     // Need to redraw all
-    setSelection(chromosom(), start(), end());
+    setSelection(Region(chromosom(), start(), end()));
     QGraphicsView::resizeEvent(event);
 }
 

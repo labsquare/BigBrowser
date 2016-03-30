@@ -570,7 +570,7 @@ void ChromosomWidget::updateFrame(QRect newFrame, bool updateSelector)
     {
         mSelector.setStart(pixelToBase(mFrame.x()));
         mSelector.setEnd(pixelToBase(mFrame.x()+mFrame.width()));
-        emit selectionChanged(mSelector.chromosom(),mSelector.start(),mSelector.end());
+        emit selectionChanged(mSelector);
     }
 }
 
