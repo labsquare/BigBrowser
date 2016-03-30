@@ -28,8 +28,8 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
       mSlotModeON(false),
       mSlotIndex(0),
       mSlotTop(0),
-      mSlotGhostTop(0),
-      mCursorPosition(0)
+      mCursorPosition(0),
+      mSlotGhostTop(0)
 
 {
     setFlag(QGraphicsItem::ItemIsMovable);

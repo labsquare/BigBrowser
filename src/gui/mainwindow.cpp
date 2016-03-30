@@ -116,7 +116,7 @@ void MainWindow::setupMenuBar()
 
     QMenu * fileMenu = menuBar()->addMenu("File");
     QAction * preferenceAction = fileMenu->addAction(App::awesome()->icon(fa::wrench),"Preference",this,SLOT(showSettings()));
-    QAction * closeAction      = fileMenu->addAction(App::awesome()->icon(fa::times),"Close", this,SLOT(close()));
+//    QAction * closeAction      = fileMenu->addAction(App::awesome()->icon(fa::times),"Close", this,SLOT(close()));
 
 
     QAction * chromAction = mToolBar->addAction(App::awesome()->icon(fa::eye),"show chromosom",mchromosomWidget,SLOT(setVisible(bool)));
