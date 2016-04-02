@@ -307,7 +307,7 @@ void TracksWidget::resizeEvent(QResizeEvent *event)
 
 void TracksWidget::trackScroll(float deltaX)
 {
-    qDebug() << "trackScroll " << deltaX;
+    // qDebug() << "trackScroll " << deltaX;
 
     // scroll by adding delta to the current scroll coeff
     mSelectionScroll += deltaX / (mSelectionBaseMax * mSelectionP2B);
@@ -341,26 +341,70 @@ void TracksWidget::trackScroll(float deltaX)
 
 void TracksWidget::trackZoom(float deltaZ)
 {
+    double cursorOldPosition = pixelFrame2Coeff(mSharedCursorPosX);
+
+    // ---------------
+    // Apply the zoom
+    // ---------------
+
     // get coeff delta (as mouse wheel delta can be have different behavior according to the hardware
-    double zoomC = ( (deltaZ > 0) ? 1 : -1) * (1.0/10000);
-    qDebug() << "trackZoom " << zoomC << " mZoomLevelStep = " << mZoomLevelStep;
+    float zoomFactor = 1.25;
+    if (deltaZ > 0)
+    {
+        mSelectionP2B *= zoomFactor;
+    }
+    else
+    {
+        mSelectionP2B /= zoomFactor;
+    }
 
-    double cursorC = pixelFrame2Coeff(mSharedCursorPosX);
-    double startC = pixelFrame2Coeff(0);
-    double endC = pixelFrame2Coeff(mSelectionW);
-    double distanceC = endC - startC;
-    qDebug() << " - cursorC : " << cursorC << " startC : " << startC;
+    // Check zoom min/max boudaries
+    if (mSelectionP2B > C_BASE_MAX_PIXEL_WIDTH)
+    {
+        mSelectionP2B = C_BASE_MAX_PIXEL_WIDTH;
+    }
+    if (mSelectionP2B < mSelectionW / mSelectionBaseMax)
+    {
+        mSelectionP2B = mSelectionW / mSelectionBaseMax;
+    }
 
 
-    double newDistanceC = distanceC + zoomC;
-    double newP2B = mSelectionW / (newDistanceC * mSelectionBaseMax);
 
-    qDebug() << " - mSelectionP2B : " << mSelectionP2B << " -> newP2B : " << newP2B << " mSelectionScroll : " << mSelectionScroll;
-    mSelectionP2B = newP2B;
-    double globalPixelSize = mSelectionBaseMax * mSelectionP2B;
-    float newCursorX = (cursorC - mSelectionScroll) * globalPixelSize;
-    qDebug() << " - cursorC : " << cursorC << " scroll dX : " << mSharedCursorPosX - newCursorX;
-    trackScroll(mSharedCursorPosX - newCursorX);
+    // ---------------
+    // shift the frame in order to keep the cursor at the same position (zoom localized on the cursor position
+    // ---------------
+    double globalPixelWidth = mSelectionBaseMax * mSelectionP2B;
+
+    // the relative position ( 0 < pos < 1) of the cursor in the Frame
+    float cursorRelativeFramePositionX = mSharedCursorPosX / mSelectionW;
+
+    // global pixel position -> scroll
+    mSelectionScroll = cursorOldPosition - cursorRelativeFramePositionX * (mSelectionW / globalPixelWidth);
+
+
+    // check scroll min/max
+    mSelectionScroll = qMax(mSelectionScroll, 0.0);
+    mSelectionScroll = qMin(mSelectionScroll, base2Coeff(mSelectionBaseMax - mSelectionD));
+
+
+    // ---------------
+    // update data and notify all
+    // ---------------
+    mSharedCursorBaseW = qRound(mSelectionP2B);
+    mSelectionD = mSelectionW / mSelectionP2B;
+    mSelectionStartB = pixelFrame2Base(0);
+    mSelectionStartX = base2PixelFrame(mSelectionStartB);
+    mSelectionEndB = mSelectionStartB + mSelectionD;
+    mSelectionEndB = mSelectionStartB + mSelectionD;
+
+    mSeletion.setStart(mSelectionStartB);
+    mSeletion.setEnd(mSelectionEndB);
+
+    emit selectionChanged(Region(chromosom(), mSelectionStartB, mSelectionEndB));
+    foreach ( AbstractTrack * track, mTracks)
+    {
+        track->updateSelection();
+    }
 }
 
 
