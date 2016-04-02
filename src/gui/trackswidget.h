@@ -30,6 +30,7 @@ class TracksWidget : public QGraphicsView
 public:
     const float C_BASE_MAX_PIXEL_WIDTH = 10;
     const float C_TRACK_HANDLE_PIXEL_WIDTH = 30;
+    const float C_TRACK_ZOOM_FACTOR = 1.25;
 
 
     explicit TracksWidget(QWidget *parent = 0);
