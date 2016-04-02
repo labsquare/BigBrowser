@@ -155,7 +155,7 @@ public:
 
 public Q_SLOTS:
     //! To update the cursor position & redraw the track
-    void updateCursor(int posX,quint64 posB, int baseX, int baseW);
+    void updateCursor(float posX,quint64 posB, float baseX, float baseW);
 
 protected:
     void goToSlotPosition();
@@ -170,6 +170,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
+    void wheelEvent(QGraphicsSceneWheelEvent * event);
+
 
     void hoverEnterEvent(QGraphicsSceneHoverEvent * event);
     void hoverMoveEvent(QGraphicsSceneHoverEvent * event);

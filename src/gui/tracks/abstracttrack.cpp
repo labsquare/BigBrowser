@@ -57,12 +57,7 @@ AbstractTrack::~AbstractTrack()
 
 void AbstractTrack::setTrackList(TracksWidget *parent)
 {
-    // @IDK : If mTrackList != null, need to unconnect
-    // @ikit : move connexion to tracklist
-
     mTrackList = parent;
-
-
 }
 
 TracksWidget *AbstractTrack::trackList() const
@@ -223,12 +218,12 @@ QRectF AbstractTrack::boundingRectContent() const
 void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end)
 {
     // Cache management : we redraw content only if needed
-    if (!isUnderMouse() && mContentCache.rect() == boundingRect())
+    if (mContentCache.rect() == boundingRect())
     {
         return;
     }
 
-    // qDebug() << " - redraw content";
+    // qDebug() << " - redraw content " << start << " " << end;
 
     // Init painter for drawing in cache image
     mContentCache = QImage(QSize(boundingRect().width(), boundingRect().height()), QImage::Format_ARGB32_Premultiplied);
@@ -364,7 +359,7 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 }
 
 
-void AbstractTrack::updateCursor(int posX,quint64 posB, int baseX, int baseW)
+void AbstractTrack::updateCursor(float posX,quint64 posB, float baseX, float baseW)
 {
     update();
 }
@@ -466,6 +461,15 @@ void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     trackList()->switchSlotMode(false);
 
     //QGraphicsObject::mouseReleaseEvent(event);
+}
+
+
+void AbstractTrack::wheelEvent(QGraphicsSceneWheelEvent * event)
+{
+    if (event->modifiers() == Qt::ControlModifier)
+    {
+        mTrackList->trackZoom(event->delta());
+    }
 }
 
 void AbstractTrack::hoverMoveEvent(QGraphicsSceneHoverEvent *event)

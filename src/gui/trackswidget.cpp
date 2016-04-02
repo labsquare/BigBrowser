@@ -15,6 +15,7 @@ TracksWidget::TracksWidget(QWidget *parent) : QGraphicsView(parent)
     mSelectionBaseMax = 0;
     mSelectionScroll = 0;
     mSelectionP2B = C_BASE_MAX_PIXEL_WIDTH;
+    mZoomLevelStep = 1.0/100; // 100 levels of zoom
 }
 
 TracksWidget::~TracksWidget()
@@ -45,7 +46,7 @@ quint64 TracksWidget::end() const
 }
 
 
-int TracksWidget::sharedCursorPosX() const
+float TracksWidget::sharedCursorPosX() const
 {
     return mSharedCursorPosX;
 }
@@ -53,15 +54,15 @@ quint64 TracksWidget::sharedCursorPosB() const
 {
     return mSharedCursorPosB;
 }
-int TracksWidget::sharedCursorBaseX() const
+float TracksWidget::sharedCursorBaseX() const
 {
     return mSharedCursorBaseX;
 }
-int TracksWidget::sharedCursorBaseW() const
+float TracksWidget::sharedCursorBaseW() const
 {
     return mSharedCursorBaseW;
 }
-int TracksWidget::selectionW() const
+float TracksWidget::selectionW() const
 {
     return mSelectionW;
 }
@@ -73,13 +74,14 @@ double TracksWidget::selectionScroll() const
 {
     return mSelectionScroll;
 }
-int TracksWidget::trackContentStartX() const
+float TracksWidget::trackContentStartX() const
 {
     return C_TRACK_HANDLE_PIXEL_WIDTH;
 }
 void TracksWidget::setGenom(Genom *genom)
 {
     mGenom = genom;
+    mZoomLevelStep = 0;
 }
 
 Genom *TracksWidget::genom()
@@ -107,7 +109,7 @@ int TracksWidget::tracksHeight() const
 
 const Region &TracksWidget::selection() const
 {
-    return mSeletionB;
+    return mSeletion;
 }
 
 void TracksWidget::addTrack(AbstractTrack *track)
@@ -123,13 +125,13 @@ void TracksWidget::addTrack(AbstractTrack *track)
 
 
 
-    connect(this,SIGNAL(cursorChanged(int, quint64, int, int)),
-            track,SLOT(updateCursor(int, quint64, int, int)));
+    connect(this,SIGNAL(cursorChanged(float, quint64, float, float)),
+            track,SLOT(updateCursor(float, quint64, float, float)));
 
 }
 void TracksWidget::updateTracksHeight()
 {
-    int pos = 0;
+    float pos = 0;
     foreach ( AbstractTrack * track, mTracks)
     {
         track->updateSlotTop(pos);
@@ -156,7 +158,7 @@ void TracksWidget::switchSlotMode(bool slotModeON)
 
 void TracksWidget::slotReordering(AbstractTrack * draggedTrack)
 {
-    int yThreshold = draggedTrack->pos().y() + draggedTrack->height() / 2;
+    float yThreshold = draggedTrack->pos().y() + draggedTrack->height() / 2;
 
 
     int draggedTrackSlotIndex = -1;
@@ -203,7 +205,7 @@ void TracksWidget::slotReordering(AbstractTrack * draggedTrack)
 
     // Notify all tracks to update their positions
     int idx = 0;
-    int pos = 0;
+    float pos = 0;
     foreach (AbstractTrack * track, mTracks)
     {
         track->updateSlotPosition(idx, pos);
@@ -213,7 +215,15 @@ void TracksWidget::slotReordering(AbstractTrack * draggedTrack)
 }
 
 
+void TracksWidget::updateZoomLevelStep()
+{
+    // compute zoom level step step
+    double minP2B = mSelectionW / mSelectionBaseMax;
+    double maxP2B = C_BASE_MAX_PIXEL_WIDTH;
 
+    // Step for 100 zoom levels
+    mZoomLevelStep = (maxP2B - minP2B) / 100.0;
+}
 
 
 
@@ -237,11 +247,18 @@ void TracksWidget::updateSharedCursor(QPoint cursorPosition)
 
 void TracksWidget::setSelection(const Region &region)
 {
-    mSeletionB = region;
-   mSelectionBaseMax = 249250710; //mGenom->chromosomLength(chromosom);
+    mSeletion = region;
+    mSelectionBaseMax = 249250710; //mGenom->chromosomLength(chromosom);
     mSelectionStartB = qMin(region.start(),region.end());
     mSelectionEndB = qMax(region.start(),region.end());
     mSelectionD = mSelectionEndB - mSelectionStartB;
+
+    // Compute zoom level if needed
+    if (mZoomLevelStep == 0)
+    {
+        updateZoomLevelStep();
+    }
+
 
     if (mSelectionD > 0)
     {
@@ -266,9 +283,6 @@ void TracksWidget::setSelection(const Region &region)
     mSelectionScroll = base2Coeff(mSelectionStartB);
     mSharedCursorBaseW = qRound(mSelectionP2B);
 
-    // Need to notify all with the validated selection
-    //    emit selectionValidated(chromosom, mSelectionStartB, mSelectionEndB);
-
     foreach ( AbstractTrack * track, mTracks)
     {
         track->updateSelection();
@@ -278,7 +292,7 @@ void TracksWidget::setSelection(const Region &region)
 void TracksWidget::resizeEvent(QResizeEvent *event)
 {
     // Compute the best height for the tracklist scene
-    int height = qMax(event->size().height(), tracksHeight());
+    float height = qMax(event->size().height(), tracksHeight());
     mHasScrollbar = height > event->size().height();
     mScene->setSceneRect(QRectF(0,0,event->size().width(), height));
 
@@ -291,8 +305,10 @@ void TracksWidget::resizeEvent(QResizeEvent *event)
 }
 
 
-void TracksWidget::trackScroll(int deltaX)
+void TracksWidget::trackScroll(float deltaX)
 {
+    qDebug() << "trackScroll " << deltaX;
+
     // scroll by adding delta to the current scroll coeff
     mSelectionScroll += deltaX / (mSelectionBaseMax * mSelectionP2B);
 
@@ -312,12 +328,39 @@ void TracksWidget::trackScroll(int deltaX)
         mSelectionStartB = newSelectionStartB;
         mSelectionEndB = newSelectionStartB + mSelectionD;
 
+        mSeletion.setStart(mSelectionStartB);
+        mSeletion.setEnd(mSelectionEndB);
+
         emit selectionChanged(Region(chromosom(), mSelectionStartB, mSelectionEndB));
         foreach ( AbstractTrack * track, mTracks)
         {
             track->updateSelection();
         }
     }
+}
+
+void TracksWidget::trackZoom(float deltaZ)
+{
+    // get coeff delta (as mouse wheel delta can be have different behavior according to the hardware
+    double zoomC = ( (deltaZ > 0) ? 1 : -1) * (1.0/10000);
+    qDebug() << "trackZoom " << zoomC << " mZoomLevelStep = " << mZoomLevelStep;
+
+    double cursorC = pixelFrame2Coeff(mSharedCursorPosX);
+    double startC = pixelFrame2Coeff(0);
+    double endC = pixelFrame2Coeff(mSelectionW);
+    double distanceC = endC - startC;
+    qDebug() << " - cursorC : " << cursorC << " startC : " << startC;
+
+
+    double newDistanceC = distanceC + zoomC;
+    double newP2B = mSelectionW / (newDistanceC * mSelectionBaseMax);
+
+    qDebug() << " - mSelectionP2B : " << mSelectionP2B << " -> newP2B : " << newP2B << " mSelectionScroll : " << mSelectionScroll;
+    mSelectionP2B = newP2B;
+    double globalPixelSize = mSelectionBaseMax * mSelectionP2B;
+    float newCursorX = (cursorC - mSelectionScroll) * globalPixelSize;
+    qDebug() << " - cursorC : " << cursorC << " scroll dX : " << mSharedCursorPosX - newCursorX;
+    trackScroll(mSharedCursorPosX - newCursorX);
 }
 
 
@@ -332,7 +375,7 @@ double TracksWidget::base2Coeff(quint64 base) const
     return ((double)base) / mSelectionBaseMax;
 }
 
-double TracksWidget::pixelFrame2Coeff(int pixel) const
+double TracksWidget::pixelFrame2Coeff(float pixel) const
 {
     if (mSelectionBaseMax == 0)
     {
@@ -344,12 +387,12 @@ double TracksWidget::pixelFrame2Coeff(int pixel) const
     return mSelectionScroll + frameDelta;
 }
 
-quint64 TracksWidget::pixelFrame2Base(int pixel) const
+quint64 TracksWidget::pixelFrame2Base(float pixel) const
 {
     return pixelFrame2Coeff(pixel) * mSelectionBaseMax;
 }
 
-int TracksWidget::base2PixelFrame(quint64 base) const
+float TracksWidget::base2PixelFrame(quint64 base) const
 {
     return (base2Coeff(base) - mSelectionScroll) * mSelectionBaseMax * mSelectionP2B;
 }

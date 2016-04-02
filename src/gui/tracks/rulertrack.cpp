@@ -42,7 +42,7 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     // Taille de la règle en pixel
     float width = boundingRectContent().width();
     // Start et end en base
-    int startX = boundingRectContent().left();
+    float startX = boundingRectContent().left();
 
 
     // ---------------------
@@ -83,9 +83,9 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
 
 
     // Calcul de la position en pixel de la première graudation
-    int firstDivPixelStart = mTrackList->base2PixelFrame(firstDivBaseStart);
+    float firstDivPixelStart = mTrackList->base2PixelFrame(firstDivBaseStart);
     // Calcul de la taille en pixel des divisions
-    int divPixelSize = mTrackList->base2PixelFrame(firstDivBaseStart + divisionBaseBestStep) - firstDivPixelStart;
+    float divPixelSize = mTrackList->base2PixelFrame(firstDivBaseStart + divisionBaseBestStep) - firstDivPixelStart;
 
     /*
     if (mTrackList->sharedCursorBaseW() > 1)
@@ -100,7 +100,7 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     // ---------------------
     // Draw the ruler
     // ---------------------
-    int pos = firstDivPixelStart + mTrackList->trackContentStartX();
+    float pos = firstDivPixelStart + mTrackList->trackContentStartX();
     painter->setFont(QFont("Arial Sans", 6));
     while (pos < boundingRect().width())
     {
@@ -132,8 +132,8 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     legendText.replace(cLocale.groupSeparator(), ' ');
     legendText += " (pb)";
 
-    int legendWidth = fm.width(legendText);
-    int legendPosition = mTrackList->sharedCursorPosX() - legendWidth / 2 + mTrackList->trackContentStartX();
+    float legendWidth = fm.width(legendText);
+    float legendPosition = mTrackList->sharedCursorPosX() - legendWidth / 2 + mTrackList->trackContentStartX();
     legendPosition = qMax(mTrackList->trackContentStartX(), legendPosition);
     legendPosition = qMin(mTrackList->selectionW() + mTrackList->trackContentStartX() - legendWidth, legendPosition);
 
@@ -150,7 +150,7 @@ void RulerTrack::paintCursorLayer(QPainter * painter)
     QColor baseColor = qApp->style()->standardPalette().highlight().color();
     painter->setPen(baseColor);
 
-    int startCursor = mTrackList->sharedCursorBaseX() + mTrackList->trackContentStartX();
+    float startCursor = mTrackList->sharedCursorBaseX() + mTrackList->trackContentStartX();
     if (mTrackList->sharedCursorBaseW() > 2)
     {
         QColor bg = baseColor.lighter(150);
@@ -162,7 +162,6 @@ void RulerTrack::paintCursorLayer(QPainter * painter)
     {
         painter->drawLine(startCursor, 17, startCursor, boundingRectContent().height());
     }
-
 }
 
 }}

@@ -28,8 +28,8 @@ class TracksWidget : public QGraphicsView
     Q_PROPERTY(quint64 end READ end )
 
 public:
-    const int C_BASE_MAX_PIXEL_WIDTH = 10;
-    const int C_TRACK_HANDLE_PIXEL_WIDTH = 30;
+    const float C_BASE_MAX_PIXEL_WIDTH = 10;
+    const float C_TRACK_HANDLE_PIXEL_WIDTH = 30;
 
 
     explicit TracksWidget(QWidget *parent = 0);
@@ -66,17 +66,19 @@ public:
     //! Manage the update of the cursor on all tracks
     void updateSharedCursor(QPoint cursorPosition);
     //! Manage the update of the selection on all tracks when scrolling is done on a track
-    void trackScroll(int deltaX);
+    void trackScroll(float deltaX);
+    //! Manage the update of the selection on all tracks when ctrl+"wheel of the mouse" is done on a track
+    void trackZoom(float deltaZ);
 
 
     //! Return the base position of the given pixel in the Frame referential
-    quint64 pixelFrame2Base(int pixel) const;
+    quint64 pixelFrame2Base(float pixel) const;
     //! Return the pixel position in the Frame referential of the given base
-    int base2PixelFrame(quint64 base) const;
+    float base2PixelFrame(quint64 base) const;
     //! Return the position of the base as a coeff between 0 and 1
     double base2Coeff(quint64 base) const;
     //! Return the position of the pixel in the frame as a coeff between 0 and 1 indicating the position in the whole genom
-    double pixelFrame2Coeff(int pixel) const;
+    double pixelFrame2Coeff(float pixel) const;
 
 
 
@@ -121,7 +123,7 @@ public:
      */
     quint64 end() const;
 
-    int trackContentStartX() const;
+    float trackContentStartX() const;
 
     quint64 baseMax() const;
 
@@ -130,18 +132,18 @@ public:
     // Selection properties
     // ----------------------------------------------------------
     double selectionScroll() const;
-    int selectionW() const;
-    int selectionStartX();
+    float selectionW() const;
+    float selectionStartX();
     quint64 selectionD() const;
 
 
     // ----------------------------------------------------------
     // Shared cursor properties
     // ----------------------------------------------------------
-    int sharedCursorPosX() const;
+    float sharedCursorPosX() const;
     quint64 sharedCursorPosB() const;
-    int sharedCursorBaseX() const;
-    int sharedCursorBaseW() const;
+    float sharedCursorBaseX() const;
+    float sharedCursorBaseW() const;
 
 
 
@@ -165,13 +167,13 @@ Q_SIGNALS:
     void selectionChanged(const Region& region);
 
     //! To notify tracks that the cursor position changed
-    void cursorChanged(int posX, quint64 posB, int baseX, int baseW);
+    void cursorChanged(float posX, quint64 posB, float baseX, float baseW);
 
 
 
 protected:
     void resizeEvent(QResizeEvent * event);
-
+    void updateZoomLevelStep();
 
 
 private:
@@ -179,7 +181,7 @@ private:
     // ----------------------------------------------------------
     // Business Data
     // ----------------------------------------------------------
-    Region mSeletionB;
+    Region mSeletion;
 
     //! The name of the file where data are stored
     QString mChromosom;
@@ -191,6 +193,7 @@ private:
     quint64 mSelectionD;
     quint64 mSelectionBaseMax;
 
+    double mZoomLevelStep;
     Genom * mGenom;
 
 
@@ -204,23 +207,23 @@ private:
     double mSelectionP2B;
     double mSelectionScroll;
     float mSelectionW; // keep this width as a float as we do lot of division operation with it
-    int mSelectionStartX;
+    float mSelectionStartX;
 
 
     // ----------------------------------------------------------
     // SharedCursor properties
     // ----------------------------------------------------------
     //! The position (in pixel) of the cursor
-    int mSharedCursorPosX;
+    float mSharedCursorPosX;
 
     //! The position (in base) of the cursor
     quint64 mSharedCursorPosB;
 
     //! The width of the base in pixel
-    int mSharedCursorBaseW;
+    float mSharedCursorBaseW;
 
     //! The delta (in pixel) of the first base displayed (start).
-    int mSharedCursorBaseX;
+    float mSharedCursorBaseX;
 
 
 
