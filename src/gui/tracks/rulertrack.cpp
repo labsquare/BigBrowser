@@ -120,29 +120,6 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
         pos+=divPixelSize;
         deltaDivColor = !deltaDivColor;
     }
-
-    // Draw Current position
-    QColor baseColor = qApp->style()->standardPalette().highlight().color();
-    painter->setPen(baseColor);
-    QFont font = QFont("Arial Sans", 9, 63);
-    QFontMetrics fm(font);
-
-    const QLocale & cLocale = QLocale::c();
-    QString legendText = cLocale.toString(mTrackList->sharedCursorPosB());
-    legendText.replace(cLocale.groupSeparator(), ' ');
-    legendText += " (pb)";
-
-    float legendWidth = fm.width(legendText);
-    float legendPosition = mTrackList->sharedCursorPosX() - legendWidth / 2 + mTrackList->trackContentStartX();
-    legendPosition = qMax(mTrackList->trackContentStartX(), legendPosition);
-    legendPosition = qMin(mTrackList->selectionW() + mTrackList->trackContentStartX() - legendWidth, legendPosition);
-
-    painter->setBrush(Qt::white);
-    painter->setPen(Qt::NoPen);
-    painter->drawRect(legendPosition-3,1, legendWidth+6, 19);
-    painter->setFont(font);
-    painter->setPen(Qt::black);
-    painter->drawText(legendPosition, 15, legendText);
 }
 
 void RulerTrack::paintCursorLayer(QPainter * painter)
@@ -161,6 +138,32 @@ void RulerTrack::paintCursorLayer(QPainter * painter)
     else
     {
         painter->drawLine(startCursor, 17, startCursor, boundingRectContent().height());
+    }
+
+    // Draw Current position
+    baseColor = qApp->style()->standardPalette().highlight().color();
+    painter->setPen(baseColor);
+    QFont font = QFont("Arial Sans", 9, 63);
+    QFontMetrics fm(font);
+
+    if (mTrackList->sharedCursorPosB() < mTrackList->selection().end())
+    {
+        const QLocale & cLocale = QLocale::c();
+        QString legendText = cLocale.toString(mTrackList->sharedCursorPosB());
+        legendText.replace(cLocale.groupSeparator(), ' ');
+        legendText += " (pb)";
+
+        float legendWidth = fm.width(legendText);
+        float legendPosition = mTrackList->sharedCursorPosX() - legendWidth / 2 + mTrackList->trackContentStartX();
+        legendPosition = qMax(mTrackList->trackContentStartX(), legendPosition);
+        legendPosition = qMin(mTrackList->selectionW() + mTrackList->trackContentStartX() - legendWidth, legendPosition);
+
+        painter->setBrush(Qt::white);
+        painter->setPen(Qt::NoPen);
+        painter->drawRect(legendPosition-3,1, legendWidth+6, 19);
+        painter->setFont(font);
+        painter->setPen(Qt::black);
+        painter->drawText(legendPosition, 15, legendText);
     }
 }
 

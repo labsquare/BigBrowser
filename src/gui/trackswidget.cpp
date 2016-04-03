@@ -119,9 +119,9 @@ void TracksWidget::addTrack(AbstractTrack *track)
     mTracks.append(track);
     scene()->addItem(track);
 
-    int xPos = tracksHeight() - track->height();
-    track->setPos(0, xPos);
-    track->setTop(xPos);
+    int yPos = tracksHeight() - track->height();
+    track->setPos(0, yPos);
+    track->setTop(yPos);
 
 
 
@@ -247,6 +247,7 @@ void TracksWidget::updateSharedCursor(QPoint cursorPosition)
 
 void TracksWidget::setSelection(const Region &region)
 {
+    bool regionHasBeenReset = false;
     mSeletion = region;
     mSelectionBaseMax = 249250710; //mGenom->chromosomLength(chromosom);
     mSelectionStartB = qMin(region.start(),region.end());
@@ -269,6 +270,7 @@ void TracksWidget::setSelection(const Region &region)
     {
         // To force the calculation of the distance according to the max zoom level,
         mSelectionP2B = C_BASE_MAX_PIXEL_WIDTH + 1;
+        regionHasBeenReset = true;
     }
 
     // Check max zoom constraint : at max zoom level, base are drawn on C_MAX_BASE_PIXEL_WIDTH pixels
@@ -286,6 +288,11 @@ void TracksWidget::setSelection(const Region &region)
     foreach ( AbstractTrack * track, mTracks)
     {
         track->updateSelection();
+    }
+    if (regionHasBeenReset)
+    {
+        mSeletion = Region(chromosom(), mSelectionStartB, mSelectionEndB);
+        emit selectionChanged(mSeletion);
     }
 }
 
@@ -348,14 +355,13 @@ void TracksWidget::trackZoom(float deltaZ)
     // ---------------
 
     // get coeff delta (as mouse wheel delta can be have different behavior according to the hardware
-    float zoomFactor = 1.25;
     if (deltaZ > 0)
     {
-        mSelectionP2B *= zoomFactor;
+        mSelectionP2B *= C_TRACK_ZOOM_FACTOR;
     }
     else
     {
-        mSelectionP2B /= zoomFactor;
+        mSelectionP2B /= C_TRACK_ZOOM_FACTOR;
     }
 
     // Check zoom min/max boudaries

@@ -187,8 +187,8 @@ protected:
     //! The tracklist of which the track is the child
     TracksWidget * mTrackList;
 
-    //! The position (in pixel) of the cursor
-    int mCursorPosition;
+    //! The position (in pixel) of the cursor (in the track)
+    QPointF mCursorPosition;
 
 private:
     int mHeight;
