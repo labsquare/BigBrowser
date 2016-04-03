@@ -146,7 +146,7 @@ void RulerTrack::paintCursorLayer(QPainter * painter)
     QFont font = QFont("Arial Sans", 9, 63);
     QFontMetrics fm(font);
 
-    if (mTrackList->sharedCursorPosB() < mTrackList->selection().end())
+    if (mTrackList->sharedCursorPosB() <= mTrackList->selection().end())
     {
         const QLocale & cLocale = QLocale::c();
         QString legendText = cLocale.toString(mTrackList->sharedCursorPosB());
