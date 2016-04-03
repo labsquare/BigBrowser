@@ -28,11 +28,11 @@ AbstractTrack::AbstractTrack(QGraphicsItem *parent)
       mSlotModeON(false),
       mSlotIndex(0),
       mSlotTop(0),
-      mCursorPosition(0),
+      mCursorPosition(0,0),
       mSlotGhostTop(0)
 
 {
-    setFlag(QGraphicsItem::ItemIsMovable);
+    //setFlag(QGraphicsItem::ItemIsMovable);
     //setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     //setFlag(QGraphicsItem::ItemIsSelectable);
 
@@ -157,7 +157,6 @@ void AbstractTrack::updateSlotTop(int slotTop)
     mSlotGhostTop = slotTop;
     mSlotTop = slotTop;
 
-    // Todo @IDK : force the redraw of the track...
     setPos(0,slotTop);
     update();
 }
@@ -260,7 +259,7 @@ void AbstractTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
 
 void AbstractTrack::goToSlotPosition()
 {
-    if (isTrackSelected())
+    if (isTrackSelected() && mSlotModeON)
     {
         return;
     }
@@ -283,7 +282,7 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(widget);
 
 
-    //qDebug() << "paint track " << mSlotIndex;
+    //qDebug() << "paint track " << mSlotIndex << " " << pos();
 
 
 
@@ -395,12 +394,23 @@ void AbstractTrack::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    // Switch to selected/slot mode if start to drag the track directly
+    QRect trackHandle = boundingRect().toRect();
+    trackHandle.setWidth(mTrackList->trackContentStartX());
+    if (!isTrackSelected() && trackHandle.contains( event->pos().toPoint()))
+    {
+        setTrackSelected(true);
+        trackList()->switchSlotMode(true);
+    }
+
     // Manage track rearrangment
     if (isTrackSelected())
     {
-        if (mSlotModeON && isTrackSelected())
+        if (mSlotModeON)
         {
             trackList()->slotReordering(this);
+            QPointF newPos(event->scenePos().x() - mCursorPosition.x(), event->scenePos().y() - mCursorPosition.y());
+            setPos(newPos);
         }
 
         // Default
@@ -420,9 +430,9 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     // Manage scrolling
     QPoint newCursorPos = QPoint(event->pos().x(), event->pos().y());
-    int deltaX = mCursorPosition - newCursorPos.x();
+    int deltaX = mCursorPosition.x() - newCursorPos.x();
     mTrackList->trackScroll(deltaX);
-    mCursorPosition =  newCursorPos.x();
+    mCursorPosition =  newCursorPos;
 
     // Manage and share the position of the cursor
     mTrackList->updateSharedCursor(newCursorPos);
@@ -433,34 +443,18 @@ void AbstractTrack::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void AbstractTrack::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-
-    QRect trackHandle = boundingRect().toRect();
-    trackHandle.setWidth(40);
-
-    if (trackHandle.contains( event->pos().toPoint()))
-    {
-        setTrackSelected(true);
-        setFlag(QGraphicsItem::ItemIsMovable,true);
-        trackList()->switchSlotMode(true);
-    }
-    else
-    {
-        setFlag(QGraphicsItem::ItemIsMovable,false);
-        trackList()->switchSlotMode(false);
-        setTrackSelected(false);
-        mCursorPosition =  event->pos().x();
-    }
-
-    // Set movable only if cursor select the toolbar
-    //QGraphicsObject::mousePressEvent(event);
+    mCursorPosition =  event->pos();
 }
 
 void AbstractTrack::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    setTrackSelected(false);
-    trackList()->switchSlotMode(false);
-
-    //QGraphicsObject::mouseReleaseEvent(event);
+    QRect trackHandle = boundingRect().toRect();
+    trackHandle.setWidth(mTrackList->trackContentStartX());
+    if (trackHandle.contains( event->pos().toPoint()))
+    {
+        trackList()->switchSlotMode(!isTrackSelected());
+        setTrackSelected(!isTrackSelected());
+    }
 }
 
 
