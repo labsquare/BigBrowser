@@ -17,13 +17,19 @@ SequenceTrack::SequenceTrack(QGraphicsItem * parent)
     setHeight(37);
     setResizable(false);
 
+    mBaseColors = {
+        {'A',QColor(50,100,200)},
+        {'T',QColor(230,160,60)},
+        {'G',QColor(100,200,120)},
+        {'C',QColor(200,80,80)}
+    };
+
     // Generate fake sequence
     // ToDo : to replace by the true sequence retrieved asynch
     QString bases = "ACGT";
     for (int i=0; i<1000; i++)
     {
-
-        mFakeSequence += bases[qrand() % 4];
+        mFakeSequence.append(bases.toUtf8().at(qrand() % 4));
     }
 }
 
@@ -43,7 +49,7 @@ void SequenceTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
         float pxlEnd = mTrackList->selectionW() + mTrackList->trackContentStartX() + mTrackList->sharedCursorBaseW();
         while (pxlPos < pxlEnd)
         {
-            QChar letter = mFakeSequence[baseIdx];
+            char letter = mFakeSequence.at(baseIdx);
             baseIdx = baseIdx + 1 % mFakeSequence.length();
 
 
@@ -55,7 +61,7 @@ void SequenceTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
             if (mTrackList->sharedCursorBaseW() >= 8)
             {
                 painter->setPen(baseToColor(letter));
-                painter->drawText(pxlPos, 30, letter);
+                painter->drawText(pxlPos, 30, QChar(letter));
             }
 
             pxlPos += mTrackList->sharedCursorBaseW();
@@ -113,12 +119,12 @@ void SequenceTrack::paintCursorLayer(QPainter * painter)
 
         // Draw letter under magnifier
         int baseIdx = mTrackList->sharedCursorPosB() % mFakeSequence.length();
-        QChar letter = mFakeSequence[baseIdx];
+        char letter = mFakeSequence.at(baseIdx);
         QColor letterColor = baseToColor(letter);
         QFont font = QFont("Arial Sans", 9, 63);
         painter->setFont(font);
         painter->setPen(letterColor);
-        painter->drawText(magnifierRect, Qt::AlignHCenter | Qt::AlignVCenter, letter);
+        painter->drawText(magnifierRect, Qt::AlignHCenter | Qt::AlignVCenter, QChar(letter));
 
         QRectF letterArea = magnifierRect;
         letterArea.setWidth(mTrackList->C_BASE_MAX_PIXEL_WIDTH);
@@ -128,13 +134,13 @@ void SequenceTrack::paintCursorLayer(QPainter * painter)
         for (int i=1; i < magnifierDeltaStartB; i++)
         {
             baseIdx = (mTrackList->sharedCursorPosB() - i) % mFakeSequence.length();
-            QChar letter = mFakeSequence[baseIdx];
+            char letter = mFakeSequence.at(baseIdx);
             QColor letterColor = baseToColor(letter);
             QFont font = QFont("Arial Sans", 9, 63);
             letterColor.setAlpha(255 - i * alphaStep);
             painter->setFont(font);
             painter->setPen(letterColor);
-            painter->drawText(letterArea, Qt::AlignHCenter | Qt::AlignVCenter, letter);
+            painter->drawText(letterArea, Qt::AlignHCenter | Qt::AlignVCenter, QChar(letter));
             letterArea.translate(-mTrackList->C_BASE_MAX_PIXEL_WIDTH, 0);
         }
 
@@ -145,13 +151,13 @@ void SequenceTrack::paintCursorLayer(QPainter * painter)
         for (int i=1; i < magnifierDeltaStartB; i++)
         {
             baseIdx = (mTrackList->sharedCursorPosB() + i) % mFakeSequence.length();
-            QChar letter = mFakeSequence[baseIdx];
+            char letter = mFakeSequence.at(baseIdx);
             QColor letterColor = baseToColor(letter);
             QFont font = QFont("Arial Sans", 9, 63);
             letterColor.setAlpha(255 - i * alphaStep);
             painter->setFont(font);
             painter->setPen(letterColor);
-            painter->drawText(letterArea, Qt::AlignHCenter | Qt::AlignVCenter, letter);
+            painter->drawText(letterArea, Qt::AlignHCenter | Qt::AlignVCenter, QChar(letter));
             letterArea.translate(mTrackList->C_BASE_MAX_PIXEL_WIDTH, 0);
         }
         /*
@@ -222,25 +228,9 @@ void SequenceTrack::paintCursorLayer(QPainter * painter)
 
 
 
-QColor SequenceTrack::baseToColor(QChar base)
+QColor SequenceTrack::baseToColor(char base)
 {
-    if(base == 'A')
-    {
-            return C_COLOR_A;
-    }
-    else if(base == 'T')
-    {
-        return C_COLOR_T;
-    }
-    else if(base == 'G')
-    {
-        return C_COLOR_G;
-    }
-    else if(base == 'C')
-    {
-        return C_COLOR_C;
-    }
-    return Qt::black;
+    return mBaseColors.value(base, Qt::black);
 }
 
 void SequenceTrack::baseWidthToFont(float baseWidth, QFont * font)

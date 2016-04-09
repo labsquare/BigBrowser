@@ -1,9 +1,10 @@
 #ifndef SEQUENCETRACK_H
 #define SEQUENCETRACK_H
 #include "abstracttrack.h"
-
+#include "sequence.h"
 namespace big {
 namespace gui {
+using namespace core;
 
 class SequenceTrack : public AbstractTrack
 {
@@ -29,9 +30,11 @@ public:
 
 
 private:
-    QString mFakeSequence;
-    QColor baseToColor(QChar base);
+    Sequence mFakeSequence;
+    QColor baseToColor(char base);
     void baseWidthToFont(float baseWidth, QFont * font);
+
+    QMap<char, QColor> mBaseColors;
 };
 }}
 

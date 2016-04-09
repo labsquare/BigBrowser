@@ -48,6 +48,8 @@ namespace core {
 	    QString typeName();
 
 	    int count() const;
+        int length() const;
+        char at(int index) const;
 
 	    void setByteArray(const QByteArray& array);
 	    const QByteArray& byteArray() const;
@@ -56,6 +58,10 @@ namespace core {
 	    Sequence subSequence(int position, int n=-1) const;
 
 	    float gcPercent() const;
+
+        void append(char base);
+
+
 
 	private:
 	    // do not use pointer. Not virtual destructor
