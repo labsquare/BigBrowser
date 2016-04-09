@@ -30,8 +30,10 @@ SequenceTrack::SequenceTrack(QGraphicsItem * parent)
 
 void SequenceTrack::paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end)
 {
-    if (mTrackList->sharedCursorBaseW() >= 8)
+    // Display base if possible
+    if (mTrackList->sharedCursorBaseW() > 1)
     {
+        // Set font
         QFont font = QFont("Arial Sans", 8, 63);
         baseWidthToFont(mTrackList->sharedCursorBaseW(), &font);
         painter->setFont(font);
@@ -44,25 +46,18 @@ void SequenceTrack::paintRegion(QPainter *painter, const QString &chromosom, qui
             QChar letter = mFakeSequence[baseIdx];
             baseIdx = baseIdx + 1 % mFakeSequence.length();
 
-            painter->setPen(baseToColor(letter));
-            painter->drawText(pxlPos, 30, letter);
-            pxlPos += mTrackList->sharedCursorBaseW();
-        }
-    }
-
-    if (mTrackList->sharedCursorBaseW() > 1)
-    {
-        int baseIdx = start % mFakeSequence.length();
-        float pxlPos = mTrackList->base2PixelFrame(start) + mTrackList->trackContentStartX();
-        float pxlEnd = mTrackList->selectionW() + mTrackList->trackContentStartX() + mTrackList->sharedCursorBaseW();
-        while (pxlPos < pxlEnd)
-        {
-            QChar letter = mFakeSequence[baseIdx];
-            baseIdx = baseIdx + 1 % mFakeSequence.length();
 
             painter->setPen(baseToColor(letter));
             painter->setBrush(baseToColor(letter));
             painter->drawRect(pxlPos, 33, mTrackList->sharedCursorBaseW(), 3);
+
+            // Display base letter only if there is enough space
+            if (mTrackList->sharedCursorBaseW() >= 8)
+            {
+                painter->setPen(baseToColor(letter));
+                painter->drawText(pxlPos, 30, letter);
+            }
+
             pxlPos += mTrackList->sharedCursorBaseW();
         }
     }
@@ -76,68 +71,106 @@ void SequenceTrack::paintCursorLayer(QPainter * painter)
     QColor baseColor = qApp->style()->standardPalette().highlight().color();
 
     // Do we need to display the magnifier ?
-    if (C_MAGNIFIER_ENABLE && mTrackList->sharedCursorBaseW() < 8)
+    if (C_MAGNIFIER_ENABLE && mTrackList->sharedCursorBaseW() < 8 && mTrackList->sharedCursorBaseW() > 1)
     {
-        QFont font = QFont("Arial Sans", 8, 63);
-        baseWidthToFont(mTrackList->C_BASE_MAX_PIXEL_WIDTH, &font);
-        painter->setFont(font);
 
-        // Get start position of the magnifier
-        quint64 start = mTrackList->sharedCursorPosB() - C_MAGNIFIER_BASE_WIDTH;
-        start = start > mTrackList->sharedCursorPosB() ? 0 : start;
+        // Get start base position of the magnifier
+        quint64 magnifierStartB = mTrackList->sharedCursorPosB() - C_MAGNIFIER_BASE_WIDTH;
+        magnifierStartB = magnifierStartB > mTrackList->sharedCursorPosB() ? 0 : magnifierStartB;
+        int magnifierDeltaStartB = mTrackList->sharedCursorPosB() - magnifierStartB;
 
-        // Get end position of the magnifier
-        quint64 end = mTrackList->sharedCursorPosB() + C_MAGNIFIER_BASE_WIDTH;
-        end = qMin(end, mTrackList->selection().end());
+        // Get end base position of the magnifier
+        quint64 magnifierEndB = mTrackList->sharedCursorPosB() + C_MAGNIFIER_BASE_WIDTH;
+        magnifierEndB = qMin(magnifierEndB, mTrackList->selection().end());
+        int magnifierDeltaEndB = magnifierEndB - mTrackList->sharedCursorPosB();
 
-        // Get pxl position where magnifier start
-        float pxlPos = mTrackList->sharedCursorPosX() - C_MAGNIFIER_BASE_WIDTH / 2.0 - (mTrackList->sharedCursorPosB() - start) * C_MAGNIFIER_BASE_WIDTH;
-        pxlPos = qMax ((float)0, pxlPos);
+        // Compute pxl position where magnifier start
+        float magnifierCursorStartX = mTrackList->sharedCursorBaseX() + mTrackList->sharedCursorBaseW()/2.0 - mTrackList->C_BASE_MAX_PIXEL_WIDTH / 2.0;
+        float magnifierStartX = magnifierCursorStartX - magnifierDeltaStartB * C_MAGNIFIER_BASE_WIDTH;
+        magnifierStartX = qMax ((float)0, magnifierStartX);
+        QRectF magnifierRect(mTrackList->sharedCursorBaseX() + mTrackList->sharedCursorBaseW()/2.0 - mTrackList->C_BASE_MAX_PIXEL_WIDTH / 2 - 1
+                             , 10
+                             , mTrackList->C_BASE_MAX_PIXEL_WIDTH + 2
+                             , 17);
 
-        qDebug() << "start : " << start << " end : " << end << " -- : " << end - start;
-        float pxlEnd = pxlPos + (end - start) * mTrackList->C_BASE_MAX_PIXEL_WIDTH;
-        //pxlEnd = qMin (mTrackList->selectionW() - (end - start) * C_MAGNIFIER_BASE_WIDTH, pxlEnd);
 
+        // Shift referentiel : from frame pixel positions to track pixel position
+        magnifierCursorStartX +=  mTrackList->trackContentStartX();
+        magnifierRect.translate(mTrackList->trackContentStartX(), 0);
 
-/*
-        int baseIdx = start % mFakeSequence.length();
-        float pxlPos = mTrackList->base2PixelFrame(start) + mTrackList->trackContentStartX();
-        float pxlEnd = mTrackList->selectionW() + mTrackList->trackContentStartX() + mTrackList->sharedCursorBaseW();
-        while (pxlPos < pxlEnd)
-        {
-            QChar letter = mFakeSequence[baseIdx];
-            baseIdx = baseIdx + 1 % mFakeSequence.length();
-
-            painter->setPen(baseToColor(letter));
-            painter->drawText(pxlPos, 30, letter);
-            pxlPos += mTrackList->sharedCursorBaseW();
-        }
-*/
+        // Draw selection frame
         int startCursor = mTrackList->sharedCursorBaseX() + mTrackList->trackContentStartX();
         int endCursor = startCursor + mTrackList->sharedCursorBaseW();
-        QPointF points[12] = {
-            QPointF(startCursor, 0),
-            QPointF(startCursor, 5),
-            QPointF(pxlPos, 10),
-            QPointF(pxlPos, 25),
-            QPointF(startCursor, 30),
-            QPointF(startCursor, height()),
-
-            QPointF(endCursor, height()),
-            QPointF(endCursor, 30),
-            QPointF(pxlEnd, 25),
-            QPointF(pxlEnd, 10),
-            QPointF(endCursor, 5),
-            QPointF(endCursor, 0),
-        };
-
 
         painter->setPen(baseColor);
         QColor bg = baseColor.lighter(150);
         bg.setAlpha(100);
         painter->setBrush(bg);
-        painter->drawPolygon(points, 12);
 
+        painter->drawRect(startCursor, 0, mTrackList->sharedCursorBaseW(), 10);
+        painter->drawRect(startCursor, 27, mTrackList->sharedCursorBaseW(), height() - 27);
+        painter->drawEllipse(magnifierRect);
+
+        // Draw letter under magnifier
+        int baseIdx = mTrackList->sharedCursorPosB() % mFakeSequence.length();
+        QChar letter = mFakeSequence[baseIdx];
+        QColor letterColor = baseToColor(letter);
+        QFont font = QFont("Arial Sans", 9, 63);
+        painter->setFont(font);
+        painter->setPen(letterColor);
+        painter->drawText(magnifierRect, Qt::AlignHCenter | Qt::AlignVCenter, letter);
+
+        QRectF letterArea = magnifierRect;
+        letterArea.setWidth(mTrackList->C_BASE_MAX_PIXEL_WIDTH);
+        letterArea.translate(-magnifierRect.width(),0);
+        float alphaStep = 200.0 / magnifierDeltaStartB;
+        //qDebug() << alphaStep ;
+        for (int i=1; i < magnifierDeltaStartB; i++)
+        {
+            baseIdx = (mTrackList->sharedCursorPosB() - i) % mFakeSequence.length();
+            QChar letter = mFakeSequence[baseIdx];
+            QColor letterColor = baseToColor(letter);
+            QFont font = QFont("Arial Sans", 9, 63);
+            letterColor.setAlpha(255 - i * alphaStep);
+            painter->setFont(font);
+            painter->setPen(letterColor);
+            painter->drawText(letterArea, Qt::AlignHCenter | Qt::AlignVCenter, letter);
+            letterArea.translate(-mTrackList->C_BASE_MAX_PIXEL_WIDTH, 0);
+        }
+
+        letterArea = magnifierRect;
+        letterArea.setWidth(mTrackList->C_BASE_MAX_PIXEL_WIDTH);
+        letterArea.translate(magnifierRect.width(),0);
+        alphaStep = 200.0 / magnifierDeltaEndB;
+        for (int i=1; i < magnifierDeltaStartB; i++)
+        {
+            baseIdx = (mTrackList->sharedCursorPosB() + i) % mFakeSequence.length();
+            QChar letter = mFakeSequence[baseIdx];
+            QColor letterColor = baseToColor(letter);
+            QFont font = QFont("Arial Sans", 9, 63);
+            letterColor.setAlpha(255 - i * alphaStep);
+            painter->setFont(font);
+            painter->setPen(letterColor);
+            painter->drawText(letterArea, Qt::AlignHCenter | Qt::AlignVCenter, letter);
+            letterArea.translate(mTrackList->C_BASE_MAX_PIXEL_WIDTH, 0);
+        }
+        /*
+        if (baseIdx < magnifierDeltaStartB)
+        letterColor.setAlpha(255);
+
+        float letterPos = magnifierStartX;
+        for (int baseIdx = 0; baseIdx <= magnifierDeltaStartB + magnifierDeltaEndB; baseIdx++)
+        {
+
+
+            // Set color and opacity of the letter
+
+
+            // Display
+            painter->setPen(letterColor);
+            painter->drawText(letterPos, 23, letter);
+            letterPos += mTrackList->C_BASE_MAX_PIXEL_WIDTH;
+        }*/
         /*
         int baseIdx = start % mFakeSequence.length();
         float pxlPos = mTrackList->base2PixelFrame(start) + mTrackList->trackContentStartX();
