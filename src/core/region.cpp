@@ -162,9 +162,9 @@ void Region::translate(qint64 baseCount)
 }
 
 void Region::scale(qint64 baseCount)
-{
-    setStart(start() + baseCount);
-    setEnd(end()     - baseCount);
+{        
+    setStart(start() - baseCount);
+    setEnd(end()     + baseCount);
 }
 
 QString Region::toString() const

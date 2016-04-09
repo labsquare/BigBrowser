@@ -8,6 +8,7 @@ StatusBar::StatusBar(QWidget * parent):
     QFrame(parent),mGenom(0)
 {
     mSlider = new QSlider(Qt::Horizontal);
+    mCurrentRegion = Region();
 
     QWidget * leftWidget = new QWidget();
     leftWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -27,7 +28,7 @@ StatusBar::StatusBar(QWidget * parent):
 
     connect(mSlider,SIGNAL(sliderMoved(int)),this,SLOT(sliderChanged()));
 
-
+    setDisabled(true);
 
 }
 
@@ -39,16 +40,12 @@ void StatusBar::setGenom(Genom *genom)
 
 void StatusBar::sliderChanged()
 {
-    // WARNING
-    ///TODO warning.. conversion int to quint64
-    ///
-//    quint64 value= mSlider->value();
+    qDebug()<<mCurrentRegion.length();
 
-//    mCurrentRegion*=1000;
 
-//    emit selectionChanged(mCurrentRegion.chromosom(),
-//                          mCurrentRegion.start(),
-//                          mCurrentRegion.end());
+    quint64 value= mSlider->value();
+//    mCurrentRegion.scale(1000);
+//    emit selectionChanged(mCurrentRegion);
 
 
 
@@ -57,6 +54,8 @@ void StatusBar::sliderChanged()
 
 void StatusBar::setSelection(const Region &region)
 {
+    setDisabled(false);
+
     mCurrentRegion = region;
     if (mGenom)
     {
