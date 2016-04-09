@@ -348,12 +348,13 @@ void AbstractTrack::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
 
     // Icon "Track Options"
+    /*
     QVariantMap settingIcon;
     QColor settingIconColor = isTrackSelected() ? inactiveColor : base;
     settingIcon.insert( "color" , settingIconColor);
     QPoint settingIconPos = QPoint(toolbarRect.left() + 5, toolbarRect.top() + 5);
     painter->drawPixmap(settingIconPos, App::awesome()->icon(fa::wrench, settingIcon).pixmap(20,20));
-
+    */
 
 }
 

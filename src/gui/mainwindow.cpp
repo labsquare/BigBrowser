@@ -34,9 +34,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mTrackListWidget->addTrack(new RulerTrack());
     //mTrackListWidget->addTrack(new AsyncTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
-    mTrackListWidget->addTrack(new SequenceTrack());
-    //mTrackListWidget->addTrack(new SequenceTrack());
-    //mTrackListWidget->addTrack(new SequenceTrack());
+    mTrackListWidget->addTrack(new AbstractTrack());
+    //mTrackListWidget->addTrack(new AbstractTrack());
+    //mTrackListWidget->addTrack(new AbstractTrack());
 
 
     QVBoxLayout * centralLayout = new QVBoxLayout;

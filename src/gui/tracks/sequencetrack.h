@@ -9,7 +9,29 @@ class SequenceTrack : public AbstractTrack
 {
     Q_OBJECT
 public:
+    // Config parameter (could be set by enduser via track configs panel)
+    const QColor C_COLOR_A = QColor(50,100,200);
+    const QColor C_COLOR_T = QColor(230,160,60);
+    const QColor C_COLOR_G = QColor(100,200,120);
+    const QColor C_COLOR_C = QColor(200,80,80);
+    const bool C_MAGNIFIER_ENABLE = true;
+    const int C_MAGNIFIER_BASE_WIDTH = 5;
+
+
     SequenceTrack(QGraphicsItem * parent = 0);
+
+
+
+    //! Override the painter content method
+    virtual void paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end);
+    //! Override the painter cursor method
+    virtual void paintCursorLayer(QPainter * painter);
+
+
+private:
+    QString mFakeSequence;
+    QColor baseToColor(QChar base);
+    void baseWidthToFont(float baseWidth, QFont * font);
 };
 }}
 

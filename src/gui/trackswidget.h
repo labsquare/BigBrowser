@@ -134,7 +134,7 @@ public:
     // ----------------------------------------------------------
     double selectionScroll() const;
     float selectionW() const;
-    float selectionStartX();
+    float selectionStartX() const;
     quint64 selectionD() const;
 
 

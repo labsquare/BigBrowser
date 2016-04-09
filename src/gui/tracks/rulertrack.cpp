@@ -87,15 +87,6 @@ void RulerTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     // Calcul de la taille en pixel des divisions
     float divPixelSize = mTrackList->base2PixelFrame(firstDivBaseStart + divisionBaseBestStep) - firstDivPixelStart;
 
-    /*
-    if (mTrackList->sharedCursorBaseW() > 1)
-    {
-        divisionBaseBestStep++;
-        divPixelSize = mTrackList->sharedCursorBaseW() * divisionBaseBestStep;
-    }
-*/
-    //qDebug() << "firstDivPixelStart : " << firstDivPixelStart << " divPixelSize : " << divPixelSize << " divisionBaseBestStep : " << divisionBaseBestStep << " sharedCursorBaseW : " << mTrackList->sharedCursorBaseW();
-
 
     // ---------------------
     // Draw the ruler
