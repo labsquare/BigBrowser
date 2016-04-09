@@ -11,10 +11,6 @@ class SequenceTrack : public AbstractTrack
     Q_OBJECT
 public:
     // Config parameter (could be set by enduser via track configs panel)
-    const QColor C_COLOR_A = QColor(50,100,200);
-    const QColor C_COLOR_T = QColor(230,160,60);
-    const QColor C_COLOR_G = QColor(100,200,120);
-    const QColor C_COLOR_C = QColor(200,80,80);
     const bool C_MAGNIFIER_ENABLE = true;
     const int C_MAGNIFIER_BASE_WIDTH = 5;
 
