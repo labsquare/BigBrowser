@@ -18,10 +18,10 @@ SequenceTrack::SequenceTrack(QGraphicsItem * parent)
     setResizable(false);
 
     mBaseColors = {
-        {'A',QColor(50,100,200)},
-        {'T',QColor(230,160,60)},
-        {'G',QColor(100,200,120)},
-        {'C',QColor(200,80,80)}
+        {'A',QColor(100,200,120)},
+        {'T',QColor(200,80,80)},
+        {'G',QColor(20,20,20)},
+        {'C',QColor(50,100,200)}
     };
 
     // Generate fake sequence
