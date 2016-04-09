@@ -28,9 +28,9 @@ class TracksWidget : public QGraphicsView
     Q_PROPERTY(quint64 end READ end )
 
 public:
-    const float C_BASE_MAX_PIXEL_WIDTH = 10;
+    const float C_BASE_MAX_PIXEL_WIDTH     = 10;
     const float C_TRACK_HANDLE_PIXEL_WIDTH = 30;
-    const float C_TRACK_ZOOM_FACTOR = 1.25;
+    const float C_TRACK_ZOOM_FACTOR        = 1.25;
 
 
     explicit TracksWidget(QWidget *parent = 0);
@@ -145,6 +145,11 @@ public:
     quint64 sharedCursorPosB() const;
     float sharedCursorBaseX() const;
     float sharedCursorBaseW() const;
+
+    const Region& region() const;
+
+
+     int age() const;
 
 
 

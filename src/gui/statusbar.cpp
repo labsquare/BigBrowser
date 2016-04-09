@@ -44,8 +44,8 @@ void StatusBar::sliderChanged()
 
 
     quint64 value= mSlider->value();
-//    mCurrentRegion.scale(1000);
-//    emit selectionChanged(mCurrentRegion);
+    mCurrentRegion.scale(100000);
+    emit selectionChanged(mCurrentRegion);
 
 
 

@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/app.h \
     $$PWD/selectionrouter.h \
     $$PWD/selecttoolbar.h \
-    $$PWD/trackswidget.h
+    $$PWD/trackswidget.h \
+    $$PWD/unit.h
 
 SOURCES += \
     $$PWD/mainwindow.cpp \
@@ -16,7 +17,8 @@ SOURCES += \
     $$PWD/app.cpp \
     $$PWD/selectionrouter.cpp \
     $$PWD/selecttoolbar.cpp \
-    $$PWD/trackswidget.cpp
+    $$PWD/trackswidget.cpp \
+    $$PWD/unit.cpp
 
 
 include(settings/settings.pri)
