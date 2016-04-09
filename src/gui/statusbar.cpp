@@ -52,7 +52,6 @@ void StatusBar::sliderChanged()
 
 
 
-    emit zoomChanged(mSlider->value());
 
 }
 

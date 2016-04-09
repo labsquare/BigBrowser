@@ -18,7 +18,7 @@ public:
 public Q_SLOTS:
     void setSelection(const Region& region);
 Q_SIGNALS:
-    void zoomChanged(int value);
+    void selectionChanged(const Region& region);
 
 protected Q_SLOTS:
     void sliderChanged();

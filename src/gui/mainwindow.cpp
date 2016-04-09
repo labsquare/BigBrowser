@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mRouter->addComponent(mchromosomWidget);
     mRouter->addComponent(mTrackListWidget);
     mRouter->addComponent(mSearchBar);
+    mRouter->addComponent(mStatusBar);
 
 
 
@@ -103,7 +104,7 @@ void MainWindow::setGenom(const QString &name)
     mSearchBar->setGenom(mGenom);
     mchromosomWidget->setGenom(mGenom);
     mTrackListWidget->setGenom(mGenom);
-    //    mStatusBar->setGenom(mGenom);
+    mStatusBar->setGenom(mGenom);
 
 }
 
@@ -116,7 +117,7 @@ void MainWindow::setupMenuBar()
 
     QMenu * fileMenu = menuBar()->addMenu("File");
     QAction * preferenceAction = fileMenu->addAction(App::awesome()->icon(fa::wrench),"Preference",this,SLOT(showSettings()));
-//    QAction * closeAction      = fileMenu->addAction(App::awesome()->icon(fa::times),"Close", this,SLOT(close()));
+    //    QAction * closeAction      = fileMenu->addAction(App::awesome()->icon(fa::times),"Close", this,SLOT(close()));
 
 
     QAction * chromAction = mToolBar->addAction(App::awesome()->icon(fa::eye),"show chromosom",mchromosomWidget,SLOT(setVisible(bool)));
