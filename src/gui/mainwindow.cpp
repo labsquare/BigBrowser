@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralSplitter->addWidget(mTrackListWidget);
 
     mTrackListWidget->addTrack(new RulerTrack());
-    //mTrackListWidget->addTrack(new AsyncTrack());
+    mTrackListWidget->addTrack(new AsyncTrack());
     mTrackListWidget->addTrack(new SequenceTrack());
     mTrackListWidget->addTrack(new AbstractTrack());
     //mTrackListWidget->addTrack(new AbstractTrack());

@@ -407,10 +407,10 @@ void TracksWidget::trackZoom(float deltaZ)
     mSeletion.setEnd(mSelectionEndB);
 
     emit selectionChanged(Region(chromosom(), mSelectionStartB, mSelectionEndB));
-    foreach ( AbstractTrack * track, mTracks)
-    {
-        track->updateSelection();
-    }
+//    foreach ( AbstractTrack * track, mTracks)
+//    {
+//        track->updateSelection();
+//    }
 }
 
 

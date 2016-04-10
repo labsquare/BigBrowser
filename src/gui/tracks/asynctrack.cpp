@@ -2,22 +2,29 @@
 
 namespace big {
 namespace gui {
+
+
+
 AsyncTrack::AsyncTrack(QGraphicsItem * parent )
     :AbstractTrack(parent)
 {
-    mCancelThread = false;
-    mWatcher = new QFutureWatcher<QPixmap>(this);
-    connect(mWatcher,SIGNAL(finished()),this,SLOT(pixmapFinished()));
 
+
+    // Cache has factor=3 ... 1 visible and 2 hidden
+    mCache.append(QPixmap(200,200));
+    mCache.append(QPixmap(200,200));
+    mCache.append(QPixmap(200,200));
+
+    connect(&mWatcher,SIGNAL(finished()),
+               this,SLOT(cacheCreated()));
 
 }
 
 AsyncTrack::~AsyncTrack()
 {
-    qDebug()<<"delete track";
-    mCancelThread = true;
-    delete mWatcher;
+
 }
+
 
 void AsyncTrack::paintRegion(QPainter *painter, const QString &chromosom, quint64 start, quint64 end)
 {
@@ -26,10 +33,18 @@ void AsyncTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     Q_UNUSED(end);
 
 
-    if (mFuture.isRunning())
-        painter->drawText(boundingRect(), Qt::AlignHCenter|Qt::AlignVCenter, "LOADING.....");
-    else
-        painter->drawPixmap(0,0,mFuture.result());
+    if (!mCache.isEmpty()){
+        int x= 0;
+        foreach (QPixmap p, mCache)
+        {
+            x+=mCache.first().width();
+            painter->drawPixmap(x,0, p);
+
+        }
+
+
+    }
+
 
 
 }
@@ -37,54 +52,37 @@ void AsyncTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
 void AsyncTrack::updateSelection()
 {
 
-    if (mFuture.isRunning())
-        mFuture.cancel();
-
-        // Start thread
-        mFuture = QtConcurrent::run(this, &AsyncTrack::createPixmap, chromosom(), start(), end());
-        mWatcher->setFuture(mFuture);
-        update();
-
-
-
-
-}
-
-QPixmap AsyncTrack::createPixmap(const QString &chromosom, quint64 start, quint64 end)
-{
-    // Compute in thread... long process
-    double a = 0;
-    for ( double i = 0; i < 1000000000; ++i)
+    // Crash sinon...
+    if (!mWatcher.isRunning())
     {
-        a = i * i / i * i + sqrt(40000);
-
-        if (mCancelThread)
-            return QPixmap();
+        // Lambda function C++11 !!
+        future = QtConcurrent::map(mCache, [this](QPixmap& pix){this->createPixmap(pix);});
+        mWatcher.setFuture(future);
 
     }
 
-
-    QPixmap pix = QPixmap(400,height());
-    pix.fill(QColor(qrand()%200, qrand()%200, 250));
-
-
-    return pix;
-
-
 }
 
-bool AsyncTrack::isRunning() const
-{
-    return mFuture.isRunning();
-}
-
-void AsyncTrack::pixmapFinished()
+void AsyncTrack::createPixmap(QPixmap &pix)
 {
 
-    // @olivier : this doesnt call updateContent ! It should !
-    update(boundingRect());
+    QColor col (qrand()%255,qrand()%255, qrand()%255);
 
+    pix.fill(col);
 
+    qDebug()<<pix<<"create";
 }
+
+void AsyncTrack::cacheCreated()
+{
+
+    qDebug()<<"created";
+
+    update();
+}
+
+
+
+
 
 }}
