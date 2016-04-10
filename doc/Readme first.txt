@@ -1,10 +1,11 @@
 
 For UML diagrams :
  - Use the online tool : https://www.draw.io/
- - Save/Load UML diagram as XML local file and then push it on GIT in the "src" folder
+ - Save/Load UML diagram as XML local file and then push it on GIT in the "UML src" folder
  - Keep diagram as clean as possible (avoid crossing arrows or shapes hidden by another, and so on)
  	- If you need to focus on a particular point of the architecture, don't hesitate to create a dedicated diagram with all specifics details
  - Keep diagrams up to date
+ - All diagram shall have as header a yellow note block that describe the purpose of the schema
 
 Color scheme :
  - Black  : Core API classes
