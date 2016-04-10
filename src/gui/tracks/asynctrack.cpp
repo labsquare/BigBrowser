@@ -33,20 +33,15 @@ void AsyncTrack::paintRegion(QPainter *painter, const QString &chromosom, quint6
     Q_UNUSED(end);
 
 
-    if (!mCache.isEmpty()){
+    if (!mCache.isEmpty())
+    {
         int x= 0;
         foreach (QPixmap p, mCache)
         {
             x+=mCache.first().width();
             painter->drawPixmap(x,0, p);
-
         }
-
-
     }
-
-
-
 }
 
 void AsyncTrack::updateSelection()
